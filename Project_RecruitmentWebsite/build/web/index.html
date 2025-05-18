@@ -29,9 +29,48 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    
+    
+    <style>
+        
+        
+        /* Thêm vào cuối style.css */
+.btn-login-fixed {
+    position: fixed;
+    top: 7px;
+    right: 38px;
+    z-index: 1050;
+    background: linear-gradient(90deg, #7B42F6 0%, #B01EFF 100%);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 24px;
+    padding: 12px 32px;
+    font-size: 18px;
+    box-shadow: 0 2px 16px 0 rgba(123,66,246,0.11);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    text-decoration: none;
+    letter-spacing: 0.6px;
+}
+.btn-login-fixed:hover {
+    background: linear-gradient(90deg, #B01EFF 0%, #7B42F6 100%);
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 8px 24px 0 rgba(123,66,246,0.16);
+}
+@media (max-width: 576px) {
+  .btn-login-fixed {
+    top: 14px;
+    right: 7px;
+    padding: 8px 18px;
+    font-size: 15px;
+  }
+}
+    </style>
+    
 </head>
 
 <body>
+    <a href="login/login.jsp" class="btn-login-fixed">Đăng nhập</a>
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -727,5 +766,4 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
-
 </html>
