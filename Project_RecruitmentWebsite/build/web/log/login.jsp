@@ -77,7 +77,7 @@
             <!-- Đăng nhập -->
             <div class="flip-card-front">
                 <h2>Đăng nhập</h2>
-                <form action="${pageContext.request.contextPath}/RegisterAccount" method="get" autocomplete="off">
+                <form action="${pageContext.request.contextPath}/LoginAccount" method="post" autocomplete="off">
                     <div class="form-group">
                         <label for="user">Tên đăng nhập</label>
                         <input type="text" id="user" name="username" style="width: 400px" required value="${username}">

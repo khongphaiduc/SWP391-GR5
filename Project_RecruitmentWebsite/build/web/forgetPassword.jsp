@@ -33,7 +33,7 @@
         }
         .forgot-password-container h2 {
             margin-top: 0;
-            color: #2ecc71;
+            color: #eafbf1;
             text-align: center;
             letter-spacing: 1px;
         }
@@ -47,7 +47,7 @@
         }
         .input-group label {
             display: block;
-            color: #27ae60;
+            color: #d6f5e3;
             margin-bottom: 6px;
             font-weight: 500;
         }

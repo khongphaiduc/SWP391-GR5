@@ -34,38 +34,16 @@ public class RegisterAccount extends HttpServlet {
     }
     
   
-    
+  
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            
-          HttpSession session = request.getSession(); // Tạo session nếu chưa có
-            
-            
-            String status = " ";
-            String name = request.getParameter("username");
-            String password = request.getParameter("password");
-            
-            RegisterAccount_Database ok = new RegisterAccount_Database();
-              // đăng nhập
-            if (ok.LogInAccount(name, password)) {
-                // đăng nhập thành công quay lại trang chủ 
-                request.setAttribute("status", status);
-                session.setAttribute("username", name);
-                response.sendRedirect("index.jsp");
-            } else {
-                status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
-                request.setAttribute("status", status);
-                request.setAttribute("username", name);
-                request.getRequestDispatcher("log/login.jsp").forward(request, response);
-            }
-            
-        } catch (Exception s) {
-            request.getRequestDispatcher("log/login.jsp").forward(request, response);
-        }       
+          
     }
     
+    
+    // đăng ký 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
