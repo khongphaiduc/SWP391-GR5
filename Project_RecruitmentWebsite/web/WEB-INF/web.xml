@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <servlet>
+        <servlet-name>manageCreatedCVServlet</servlet-name>
+        <servlet-class>Controller_Log.manageCreatedCVServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>submitCVServlet</servlet-name>
+        <servlet-class>Controller_Log.submitCVServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>viewCVServlet</servlet-name>
+        <servlet-class>Controller_Log.viewCVServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>manageCreatedCVServlet</servlet-name>
+        <url-pattern>/manageCreatedCV</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>submitCVServlet</servlet-name>
+        <url-pattern>/submitCV</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewCVServlet</servlet-name>
+        <url-pattern>/viewCV</url-pattern>
+    </servlet-mapping>
+</web-app>

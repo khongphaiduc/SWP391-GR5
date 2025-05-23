@@ -3,7 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Project%20Webstie%20CV/SWP391-GR5/Project_RecruitmentWebsite/web/css/changePassword.css</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/SWP391/New%20folder%20(4)/SWP391-GR5/Project_RecruitmentWebsite/web/index.jsp</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/SWP391/New%20folder%20(4)/SWP391-GR5/Project_RecruitmentWebsite/web/navbar.jsp</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/SWP391/New%20folder%20(4)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/CVDAO.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/SWP391/New%20folder%20(4)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/manageCreatedCVServlet.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/SWP391/New%20folder%20(4)/SWP391-GR5/Project_RecruitmentWebsite/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/SWP391/New%20folder%20(4)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/RegisterAccount_Database.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/SWP391/New%20folder%20(4)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/CV.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/SWP391/New%20folder%20(4)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/submitCVServlet.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/SWP391/New%20folder%20(4)/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/SWP391/New%20folder%20(4)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/viewCVServlet.java</file>
         </group>
     </open-files>
 </project-private>

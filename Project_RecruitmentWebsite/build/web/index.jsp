@@ -134,6 +134,14 @@
                                 <a href="404.jsp" class="dropdown-item">404</a>
                             </div>
                         </div>
+                        <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Quản lý CV</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="fillCVInfo.jsp" class="dropdown-item">Tạo CV</a>
+                            <a href="${pageContext.request.contextPath}/manageCreatedCV" class="dropdown-item">Quản lý CV đã tạo</a>
+                            
+                        </div>
+                    </div>
                         <a href="contact.jsp" class="nav-item nav-link">Contact</a>
                     </div>
                     <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
