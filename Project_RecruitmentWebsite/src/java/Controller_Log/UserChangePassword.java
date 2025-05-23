@@ -17,7 +17,6 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "UserChangePassword", urlPatterns = {"/UserChangePassword"})
 public class UserChangePassword extends HttpServlet {
 
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -72,16 +71,27 @@ public class UserChangePassword extends HttpServlet {
                 request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
             } else {
 
-                o.changePassword(username, oldPassword, newPassword);  // đỏi mật khẩu theo client 
-                status = "Thay đổi mật khẩu thành công";
-                request.setAttribute("status", status);
-                request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
+                boolean checkOldPassword = o.changePassword(username, oldPassword, newPassword);  // đỏi mật khẩu theo client 
+                if (checkOldPassword) {
+                      
+                    status = "Thay đổi mật khẩu thành công";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
+           
+                } else {
+                    
+                    status = "Mật Khẩu Cũ Không Đúng";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
+                  
+                }
+
             }
 
         } catch (Exception s) {
             request.getRequestDispatcher("/log/ChangePassword.jsp").forward(request, response);
         }
-        
+
     }
 
     /**
