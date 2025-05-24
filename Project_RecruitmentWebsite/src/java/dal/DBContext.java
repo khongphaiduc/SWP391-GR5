@@ -7,9 +7,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DBContext {
+
     protected Connection connection;
-    public DBContext()
-    {
+
+    public DBContext() {
 
         try {
             String user = "sa";
@@ -21,13 +22,13 @@ public class DBContext {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public boolean check(){
-        return connection!=null?true:false;
+
+    public boolean check() {
+        return connection != null ? true : false;
     }
-    
+
     public static void main(String[] args) {
-        DBContext s =  new DBContext();
+        DBContext s = new DBContext();
         System.out.println(s.check());
     }
 }

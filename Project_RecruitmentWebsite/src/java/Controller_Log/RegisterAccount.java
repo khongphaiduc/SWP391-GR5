@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import DAO.*;
 import Validate.ValidationRegister;
-import jakarta.servlet.http.HttpSession;
 
 
 @WebServlet(name = "RegisterAccount", urlPatterns = {"/RegisterAccount"})
