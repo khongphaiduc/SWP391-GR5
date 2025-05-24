@@ -4,7 +4,10 @@
  */
 package Controller_Log;
 
+import DAO.AccountDAO;
 import DAO.CVDAO;
+import DAO.CandidateDAO;
+import Models.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -63,7 +66,16 @@ public class submitCVServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+        AccountDAO accountDAO = new AccountDAO();
+        Account account = accountDAO.getAccountByUserName(username);
+        if (username == null || !"Cadidate".equals(account.getRole())) {
+            request.getRequestDispatcher("log/login.jsp").forward(request, response);
+            return;
+        } else {
+            request.getRequestDispatcher("fillCVInfo.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -91,12 +103,18 @@ public class submitCVServlet extends HttpServlet {
 
         Part filePart = request.getPart("CVFile");
         InputStream inputStream = filePart.getInputStream();
-        String mimeType = filePart.getContentType(); 
-
+        String mimeType = filePart.getContentType();
+        
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+        CandidateDAO candidateDAO = new CandidateDAO();
+        Candidate candidate = candidateDAO.getCandidateByAccountName(username);
+        int candidateId = candidate.getCandidateId();
+        
 //        PrintWriter out = response.getWriter();
         CVDAO cvdao = new CVDAO();
-        if (cvdao.addCV(fullName, address, email, position, numberExp, education, 
-                field, currentSalary, birthday, nationality, gender, inputStream, mimeType)) {
+        if (cvdao.addCV(fullName, address, email, position, numberExp, education,
+                field, currentSalary, birthday, candidateId, nationality, gender, inputStream, mimeType)) {
             request.setAttribute("message", "Lưu CV thành công");
             request.getRequestDispatcher("fillCVInfo.jsp").forward(request, response);
         } else {

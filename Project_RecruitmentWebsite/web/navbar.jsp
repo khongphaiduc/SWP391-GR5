@@ -55,7 +55,7 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Quản lý CV</a>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a href="fillCVInfo.jsp" class="dropdown-item">Tạo CV</a>
+                            <a href="${pageContext.request.contextPath}/submitCV" class="dropdown-item">Tạo CV</a>
                             <a href="${pageContext.request.contextPath}/manageCreatedCV" class="dropdown-item">Quản lý CV đã tạo</a>
                             
                         </div>

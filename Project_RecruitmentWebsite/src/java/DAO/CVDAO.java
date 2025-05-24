@@ -20,7 +20,7 @@ public class CVDAO extends DBContext{
 
     public  boolean addCV(String fullName, String address, String email,
             String position, int numberExp, String education, String field,
-            Double currentSalary, Date birthday,
+            Double currentSalary, Date birthday, int candidateId,
             String nationality, String gender, InputStream inputStream, String mimeType) {
         try {
             String sql = "INSERT INTO CV (full_Name, address, email, position, number_Exp, education, field, current_Salary, birthday, nationality, gender, candidate_Id, FileData, MimeType) "
@@ -38,7 +38,7 @@ public class CVDAO extends DBContext{
             stmt.setDate(9, new java.sql.Date(birthday.getTime()));
             stmt.setString(10, nationality);
             stmt.setString(11, gender);
-            stmt.setInt(12, 1); // candidateId = 1 (test)
+            stmt.setInt(12, candidateId); // candidateId = 1 (test)
             stmt.setBlob(13, inputStream);
             stmt.setString(14, mimeType);
             int row = stmt.executeUpdate();

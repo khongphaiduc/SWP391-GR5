@@ -60,11 +60,24 @@ public class manageCreatedCVServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        CVDAO cvdao=new CVDAO();
-        List<CV> cvList = cvdao.getCVByCandidate(1);
-        request.setAttribute("cvList", cvList);
-        request.getRequestDispatcher("manageCreatedCV.jsp").forward(request, response);
-        
+        String username = (String) session.getAttribute("username");
+        AccountDAO accountDAO = new AccountDAO();
+        Account account = accountDAO.getAccountByUserName(username);
+
+        if (username == null || !"Cadidate".equals(account.getRole())) {
+            request.getRequestDispatcher("log/login.jsp").forward(request, response);
+            return;
+        } else {
+            CandidateDAO candidateDAO = new CandidateDAO();
+            Candidate candidate = candidateDAO.getCandidateByAccountName(username);
+            int candidateId = candidate.getCandidateId();
+
+            CVDAO cvdao = new CVDAO();
+            List<CV> cvList = cvdao.getCVByCandidate(candidateId);
+            request.setAttribute("cvList", cvList);
+            request.getRequestDispatcher("manageCreatedCV.jsp").forward(request, response);
+        }
+
     }
 
     /**
