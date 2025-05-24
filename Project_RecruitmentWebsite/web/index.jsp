@@ -1,8 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
-    <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
     <head>
         <title>Trang Chủ</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -11,38 +11,29 @@
 
         <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
-
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
-
         <!-- Icon Font Stylesheet -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
         <!-- Libraries Stylesheet -->
         <link href="lib/animate/animate.min.css" rel="stylesheet">
         <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
-
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
 
-
         <style>
-
-
-            /* Thêm vào cu?i style.css */
             .btn-login-fixed {
                 position: fixed;
                 top: 7px;
                 right: 38px;
                 z-index: 1050;
-                background: linear-gradient(90deg, #7B42F6 0%, #B01EFF 100%);
-                color: #fff;
+                background: linear-gradient(90deg, #33cc00 0%, #66ff66 100%);
+                color: #009e68;
                 font-weight: 600;
                 border-radius: 24px;
                 padding: 12px 32px;
@@ -53,10 +44,43 @@
                 letter-spacing: 0.6px;
             }
             .btn-login-fixed:hover {
-                background: linear-gradient(90deg, #B01EFF 0%, #7B42F6 100%);
-                color: #fff;
+                background: linear-gradient(90deg, #00cccc 0%, #99ffcc 100%);
+                color: #009e68;
                 transform: translateY(-2px) scale(1.04);
                 box-shadow: 0 8px 24px 0 rgba(123,66,246,0.16);
+            }
+            .avatar-fixed-container {
+                position: fixed;
+                top: 7px;
+                right: 38px;
+                z-index: 1050;
+                display: flex;
+                align-items: center;
+                flex-direction: row-reverse; /* Để avatar ở phải, chữ ở trái */
+                cursor: pointer;
+            }
+            .avatar-fixed-img {
+                border-radius: 50%;
+                transition: box- ease 0.2s;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.11);
+            }
+            .avatar-fixed-container .avatar-greeting {
+                display: none;
+                background: white;
+                color: #7B42F6;
+                border-radius: 14px;
+                box-shadow: 0 4px 24px rgba(123,66,246,0.13);
+                padding: 10px 18px;
+                margin-right: 14px; /* Đẩy chữ sang trái avatar */
+                font-size: 16px;
+                font-weight: 600;
+                white-space: nowrap;
+                border: 1px solid #eee;
+            }
+            .avatar-fixed-container:hover .avatar-greeting,
+            .avatar-fixed-container:focus-within .avatar-greeting {
+                display: block;
+                animation: fadeIn .23s;
             }
             @media (max-width: 576px) {
                 .btn-login-fixed {
@@ -65,35 +89,50 @@
                     padding: 8px 18px;
                     font-size: 15px;
                 }
+                .avatar-fixed-container {
+                    top: 14px;
+                    right: 7px;
+                }
+                .avatar-fixed-img {
+                    width: 38px !important;
+                    height: 38px !important;
+                }
+                .avatar-fixed-container .avatar-greeting {
+                    font-size: 14px;
+                    padding: 7px 10px;
+                }
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-6px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
         </style>
-
     </head>
 
     <body>
 
-        <!--           nếu đăng nhập thì sẽ mất nút đăng nhập-->
         <c:if test="${sessionScope.username == null}">
             <a href="${pageContext.request.contextPath}/log/login.jsp" class="btn-login-fixed">Đăng Nhập</a>
         </c:if>
 
 
         <c:if test="${sessionScope.username != null}">
-            
-            <select  id="user-action" class="btn-login-fixed" onchange="handleUserAction(this)">
-                <option value="greet">Xin chào ${sessionScope.username}</option>
-                <option style="background-color: #B01EFF" value="changePassword">Đổi Mật Khẩu</option>
-            </select>
-                
-            <script>
-                function handleUserAction(selectObj) {
-                    if (selectObj.value === "changePassword") {
-                        window.location.href = "${pageContext.request.contextPath}/UserChangePassword";
-                    }
-                }
-            </script>
+            <div class="avatar-fixed-container">
+                <a href="${pageContext.request.contextPath}/log/profile.jsp" target="target">
+                    <img src="img/sontung.jpg" width="50" height="50" alt="sontung" class="avatar-fixed-img"/>
+                </a>
+                <div class="avatar-greeting">
+                    Xin chào, <b>${sessionScope.username}</b>!
+                 
+                </div>
+            </div>
         </c:if>
-
 
 
         <div class="container-xxl bg-white p-0">
