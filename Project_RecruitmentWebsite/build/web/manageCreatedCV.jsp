@@ -2,6 +2,8 @@
 <%@ page import="java.util.*, Models.*" %>
 <html>
     <head>
+        <meta charset="UTF-8">
+     
         <title>Danh sách CV</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
         <style>
@@ -93,6 +95,8 @@
         </style>
     </head>
     <body>
+        <jsp:include page="navbar.jsp" />
+        </br>
         <h2>Danh sách CV của bạn</h2>
 
         <%
@@ -100,6 +104,7 @@
             if (cvList != null && !cvList.isEmpty()) {
                 for (CV cv : cvList) {
         %>
+        
         <div class="cv-card">
             <div class="cv-info">
                 <div class="cv-image">
