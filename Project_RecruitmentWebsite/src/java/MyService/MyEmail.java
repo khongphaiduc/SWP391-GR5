@@ -17,7 +17,7 @@ public class MyEmail {
     // gửi mail 
       public static void sendEmail(String toEmail, String title, String body) {
         final String fromEmail = "vietchobann@gmail.com"; // MyEmail gửi
-        final String password = "pmvj jlwe izxh qgou"; // App password
+        final String password = "qpqu grpb nngn hmyt"; // App password
 
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
