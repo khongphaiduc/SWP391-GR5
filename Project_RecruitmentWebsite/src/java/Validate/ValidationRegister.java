@@ -11,9 +11,11 @@ public class ValidationRegister {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         return now.format(formatter);
     }
-
+    
+    
+    // kiểm tra độ dài
     public boolean checkLength(String check) {
         return check.length() > 8;
     }
-
+     
 }

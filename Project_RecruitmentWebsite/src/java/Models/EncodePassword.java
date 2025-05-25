@@ -40,7 +40,7 @@ public class EncodePassword {
      // gửi Email
     public static void sendEmail(String toEmail, String title, String body) {
         final String fromEmail = "vietchobann@gmail.com"; // Email gửi
-        final String password = "pmvj jlwe izxh qgou"; // App password
+        final String password = "qpqu grpb nngn hmyt"; // App password
 
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -74,7 +74,7 @@ public class EncodePassword {
     public static void main(String[] args) throws MessagingException {
 
       //  sendEmail("anhkdhe186606@fpt.edu.vn", "VietChoBan.hihi", "Chào mừng bạn đã đăng ký tài khoản tại website vietchobann của chúng tôi. Nếu bạn không thực hiện hành động này, vui lòng bỏ qua email này \n Goodnight");
-        sendEmail("phucndhe187145@fpt.edu.vn", "Thông Báo", "Tài khoản của bạn đã được thêm vào BlackList của chúng tôi \n Trân Trọng Thông Báo Đến Bạn");
+        sendEmail("ptrungduc1011@gmail.com", "Thông Báo", "ỵdhzdfgzdfgzdfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
         System.out.println(encodePasswordbyHash("phamtrungduc"));
     }
 
