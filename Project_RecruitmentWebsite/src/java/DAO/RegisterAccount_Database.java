@@ -222,11 +222,9 @@ public class RegisterAccount_Database extends DBContext {
                 return false;
             }
 
-            //bắt đầu tạo mật khẩu mới do user đặt va thêm tí mắn tí muối
-         
-
+            //bắt đầu tạo mật khẩu mới do user đặt va thêm tí mắn tí muối        
             String passwordHash = myencoder.encodePasswordbyHash(newpasswordUser);  // encode password
-
+            
             String query = "UPDATE [dbo].[Account]\n"
                     + "   SET Password_hash = ? \n"
                     + " WHERE Account_Name = ? ";

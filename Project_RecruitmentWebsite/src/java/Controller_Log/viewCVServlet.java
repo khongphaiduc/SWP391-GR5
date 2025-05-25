@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import Models.*;
 import dal.*;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.Part;
 import java.sql.*;
 
@@ -22,6 +23,7 @@ import java.sql.*;
  *
  * @author PC
  */
+@MultipartConfig
 public class viewCVServlet extends HttpServlet {
 
     /**
@@ -120,9 +122,13 @@ public class viewCVServlet extends HttpServlet {
             InputStream inputStream = filePart.getInputStream();
             String mimeType = filePart.getContentType();
             CVDAO dao = new CVDAO();
-            boolean updated = dao.editCVById(cvId, fullName, address, email, position, numberExp, education,
-                    field, currentSalary, birthday, nationality, gender, inputStream,mimeType);
-
+            boolean updated = dao.editCVById(cvId, fullName, address, email,
+                    position, numberExp, education,
+                    field, currentSalary, birthday, nationality, gender, 
+                    inputStream,mimeType);
+            
+//            PrintWriter out = response.getWriter();
+//            out.print(updated);
             if (updated) {
                 response.sendRedirect("manageCreatedCV"); 
             } else {
@@ -133,7 +139,7 @@ public class viewCVServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Có lỗi xảy ra khi cập nhật.");
-            request.getRequestDispatcher("editCV.jsp").forward(request, response);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
 

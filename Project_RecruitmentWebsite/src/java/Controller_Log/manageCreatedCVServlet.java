@@ -14,11 +14,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import Models.*;
+import jakarta.servlet.annotation.MultipartConfig;
 
 /**
  *
  * @author PC
  */
+@MultipartConfig
 public class manageCreatedCVServlet extends HttpServlet {
 
     /**
@@ -94,16 +96,16 @@ public class manageCreatedCVServlet extends HttpServlet {
         String action = request.getParameter("action");
         int cvId = Integer.parseInt(request.getParameter("cvId"));
         CVDAO cvdao = new CVDAO();
-        CV cv=cvdao.getCVById(cvId);
+        CV cv = cvdao.getCVById(cvId);
         if ("edit".equals(action)) {
-           
+
             request.setAttribute("editedCV", cv);
             request.getRequestDispatcher("editCV.jsp").forward(request, response);
-                    
+
         } else if ("delete".equals(action)) {
-            
-            cvdao.deleteCVById(cvId); 
-            response.sendRedirect("manageCreatedCV.jsp"); 
+
+            cvdao.deleteCVById(cvId);
+            response.sendRedirect(request.getContextPath() + "/manageCreatedCV");
         }
     }
 

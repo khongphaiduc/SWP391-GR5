@@ -59,7 +59,7 @@
         </style>
     </head>
     <body>
-        <form action="viewCV" method="post">
+        <form action="viewCV" method="post" enctype="multipart/form-data">
             <h2>Chỉnh sửa CV</h2>
 
             <input type="hidden" name="action" value="edit">
@@ -106,7 +106,7 @@
 
                 <div class="mb-3">
                     <label for="image" class="form-label">Chọn file</label>
-                    <input type="file" class="form-control" id="image" name="CVFile" accept="image/*" required>
+                    <input type="file" class="form-control" id="image" name="CVFile" accept="image/*" >
                 </div>
 
             </div>
