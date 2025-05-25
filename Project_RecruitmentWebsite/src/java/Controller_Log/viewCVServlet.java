@@ -15,6 +15,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import Models.*;
 import dal.*;
+import jakarta.servlet.http.Part;
+import java.sql.*;
 
 /**
  *
@@ -70,9 +72,8 @@ public class viewCVServlet extends HttpServlet {
 //            response.setContentType("application/pdf");
 
             // Nếu là ảnh, dùng:
-            response.setContentType("image/png");
+//            response.setContentType("image/png");
             //hoặc "image/jpeg" tùy loại
-
             response.setContentType(cv.getMimeType());
 
             InputStream inputStream = cv.getFileData();
@@ -102,16 +103,48 @@ public class viewCVServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            int cvId = Integer.parseInt(request.getParameter("cvId"));
+            String fullName = request.getParameter("fullName");
+            String address = request.getParameter("address");
+            String email = request.getParameter("email");
+            String position = request.getParameter("position");
+            int numberExp = Integer.parseInt(request.getParameter("numberExp"));
+            String education = request.getParameter("education");
+            String field = request.getParameter("field");
+            double currentSalary = Double.parseDouble(request.getParameter("currentSalary"));
+            Date birthday = Date.valueOf(request.getParameter("birthday"));
+            String nationality = request.getParameter("nationality");
+            String gender = request.getParameter("gender");
+            Part filePart = request.getPart("CVFile");
+            InputStream inputStream = filePart.getInputStream();
+            String mimeType = filePart.getContentType();
+            CVDAO dao = new CVDAO();
+            boolean updated = dao.editCVById(cvId, fullName, address, email, position, numberExp, education,
+                    field, currentSalary, birthday, nationality, gender, inputStream,mimeType);
+
+            if (updated) {
+                response.sendRedirect("manageCreatedCV"); 
+            } else {
+                request.setAttribute("error", "Không thể cập nhật CV.");
+                request.getRequestDispatcher("editCV.jsp").forward(request, response);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Có lỗi xảy ra khi cập nhật.");
+            request.getRequestDispatcher("editCV.jsp").forward(request, response);
+        }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
+
+/**
+ * Returns a short description of the servlet.
+ *
+ * @return a String containing servlet description
+ */
+@Override
+public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

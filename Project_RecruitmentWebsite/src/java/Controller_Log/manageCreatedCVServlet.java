@@ -91,7 +91,20 @@ public class manageCreatedCVServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+        int cvId = Integer.parseInt(request.getParameter("cvId"));
+        CVDAO cvdao = new CVDAO();
+        CV cv=cvdao.getCVById(cvId);
+        if ("edit".equals(action)) {
+           
+            request.setAttribute("editedCV", cv);
+            request.getRequestDispatcher("editCV.jsp").forward(request, response);
+                    
+        } else if ("delete".equals(action)) {
+            
+            cvdao.deleteCVById(cvId); 
+            response.sendRedirect("manageCreatedCV.jsp"); 
+        }
     }
 
     /**

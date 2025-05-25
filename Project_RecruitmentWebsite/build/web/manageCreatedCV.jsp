@@ -3,7 +3,6 @@
 <html>
     <head>
         <meta charset="UTF-8">
-     
         <title>Danh sách CV</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
         <style>
@@ -68,18 +67,50 @@
                 color: #666;
             }
 
-            .apply-btn {
-                background-color: #00b386;
-                color: white;
-                padding: 10px 16px;
-                text-decoration: none;
-                border-radius: 6px;
-                font-weight: bold;
-                transition: background-color 0.3s;
+            .cv-actions {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-end;
             }
 
-            .apply-btn:hover {
+            .btn {
+                padding: 10px 16px;
+                border-radius: 6px;
+                font-weight: bold;
+                text-decoration: none;
+                color: white;
+                transition: background-color 0.3s;
+                display: inline-block;
+                text-align: center;
+                min-width: 90px;
+            }
+
+            .btn.view {
+                background-color: #00b386;
+                color: white;
+            }
+
+            .btn.view:hover {
                 background-color: #009e75;
+            }
+
+            .btn.edit {
+                background-color: #007bff;
+                color: white;
+            }
+
+            .btn.edit:hover {
+                background-color: #0056b3;
+            }
+
+            .btn.delete {
+                background-color: #dc3545;
+                color: white;
+            }
+
+            .btn.delete:hover {
+                background-color: #c82333;
             }
 
             .no-cv {
@@ -91,6 +122,20 @@
             .icon {
                 margin-right: 6px;
                 color: #00b386;
+            }
+
+            @media (max-width: 768px) {
+                .cv-card {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .cv-actions {
+                    flex-direction: row;
+                    justify-content: center;
+                    width: 100%;
+                    margin-top: 10px;
+                }
             }
         </style>
     </head>
@@ -104,7 +149,6 @@
             if (cvList != null && !cvList.isEmpty()) {
                 for (CV cv : cvList) {
         %>
-        
         <div class="cv-card">
             <div class="cv-info">
                 <div class="cv-image">
@@ -119,9 +163,20 @@
                     <span><i class="fas fa-venus-mars icon"></i>Giới tính: <%= cv.getGender() %></span>
                 </div>
             </div>
-            <a href="viewCV?cvId=<%= cv.getCvId() %>" class="apply-btn" target="_blank">
-                Xem CV
-            </a>
+            <div class="cv-actions">
+                <a href="viewCV?cvId=<%= cv.getCvId() %>" class="btn view" target="_blank">Xem CV</a>
+                <form method="post" action="manageCreatedCV" style="margin: 0;">
+                    <input type="hidden" name="action" value="edit" />
+                    <input type="hidden" name="cvId" value="<%= cv.getCvId() %>" />
+                    <button type="submit" class="btn edit">Chỉnh sửa</button>
+                </form>
+
+                <form method="post" action="manageCreatedCV" style="margin: 0;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa CV này?');">
+                    <input type="hidden" name="action" value="delete" />
+                    <input type="hidden" name="cvId" value="<%= cv.getCvId() %>" />
+                    <button type="submit" class="btn delete">Xóa</button>
+                </form>
+            </div>
         </div>
         <%
                 }
@@ -129,5 +184,6 @@
         %>
         <p class="no-cv">Không có CV nào được tìm thấy.</p>
         <% } %>
+
     </body>
 </html>

@@ -103,7 +103,7 @@
                         <input type="file" class="form-control" id="image" name="CVFile" accept="image/*" required>
                     </div>
 
-                </div
+                </div>
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-success px-5">Lưu CV</button>

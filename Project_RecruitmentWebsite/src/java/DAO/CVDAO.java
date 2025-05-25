@@ -15,10 +15,9 @@ import dal.DBContext;
  *
  * @author PC
  */
-public class CVDAO extends DBContext{
-    
+public class CVDAO extends DBContext {
 
-    public  boolean addCV(String fullName, String address, String email,
+    public boolean addCV(String fullName, String address, String email,
             String position, int numberExp, String education, String field,
             Double currentSalary, Date birthday, int candidateId,
             String nationality, String gender, InputStream inputStream, String mimeType) {
@@ -49,7 +48,7 @@ public class CVDAO extends DBContext{
         }
     }
 
-    public  List<CV> getCVByCandidate(int candidateId) {
+    public List<CV> getCVByCandidate(int candidateId) {
         List<CV> cvList = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -97,8 +96,8 @@ public class CVDAO extends DBContext{
         ResultSet rs = null;
 
         try {
-             DBContext dBContext=new DBContext();
-            
+            DBContext dBContext = new DBContext();
+
             String sql = "SELECT * FROM CV WHERE CV_ID = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, CVId);
@@ -131,6 +130,64 @@ public class CVDAO extends DBContext{
         }
 
         return cvList.get(0);
+    }
+
+    public boolean deleteCVById(int cvId) {
+        try {
+            String sql = "DELETE FROM CV WHERE CV_ID = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, cvId);
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean editCVById(int cvId, String fullName, String address, String email,
+            String position, int numberExp, String education, String field,
+            Double currentSalary, Date birthday, String nationality, String gender,
+            InputStream inputStream, String mimeType) {
+        try {
+            StringBuilder sql = new StringBuilder("UPDATE CV SET full_Name=?, address=?, email=?,"
+                    + " position=?, number_Exp=?, education=?, field=?,"
+                    + " current_Salary=?, birthday=?, nationality=?, gender=?");
+
+            if (inputStream != null) {
+                sql.append(", FileData = ?, MimeType = ?");
+            }
+
+            sql.append(" WHERE CV_ID=?");
+
+            PreparedStatement stmt = connection.prepareStatement(sql.toString());
+
+            stmt.setString(1, fullName);
+            stmt.setString(2, address);
+            stmt.setString(3, email);
+            stmt.setString(4, position);
+            stmt.setInt(5, numberExp);
+            stmt.setString(6, education);
+            stmt.setString(7, field);
+            stmt.setDouble(8, currentSalary);
+            stmt.setDate(9, new java.sql.Date(birthday.getTime()));
+            stmt.setString(10, nationality);
+            stmt.setString(11, gender);
+
+            int index = 12;
+            if (inputStream != null) {
+                stmt.setBlob(index++, inputStream);
+                stmt.setString(index++, mimeType);
+            }
+
+            stmt.setInt(index, cvId); 
+
+            int updatedRows = stmt.executeUpdate();
+            return updatedRows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
