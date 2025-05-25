@@ -74,8 +74,11 @@ public class EncodePassword {
     public static void main(String[] args) throws MessagingException {
 
       //  sendEmail("anhkdhe186606@fpt.edu.vn", "VietChoBan.hihi", "Chào mừng bạn đã đăng ký tài khoản tại website vietchobann của chúng tôi. Nếu bạn không thực hiện hành động này, vui lòng bỏ qua email này \n Goodnight");
-        sendEmail("ptrungduc1011@gmail.com", "Thông Báo", "ỵdhzdfgzdfgzdfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
-        System.out.println(encodePasswordbyHash("phamtrungduc"));
+//        sendEmail("ptrungduc1011@gmail.com", "Thông Báo", "ỵdhzdfgzdfgzdfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+//        System.out.println(encodePasswordbyHash("phamtrungduc"));
+
+
+        System.out.println(encodePasswordbyHash("12345"));
     }
 
 }
