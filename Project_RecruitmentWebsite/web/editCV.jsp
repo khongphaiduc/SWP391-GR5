@@ -106,7 +106,7 @@
 
                 <div class="mb-3">
                     <label for="image" class="form-label">Chọn file</label>
-                    <input type="file" class="form-control" id="image" name="CVFile" accept="image/*" >
+                    <input type="file" class="form-control" id="image" name="CVFile" >
                 </div>
 
             </div>

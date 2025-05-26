@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import Models.*;
 import dal.*;
 import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.sql.*;
 
@@ -106,6 +107,8 @@ public class viewCVServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            HttpSession session=request.getSession();
+            
             int cvId = Integer.parseInt(request.getParameter("cvId"));
             String fullName = request.getParameter("fullName");
             String address = request.getParameter("address");
@@ -122,15 +125,25 @@ public class viewCVServlet extends HttpServlet {
             InputStream inputStream = filePart.getInputStream();
             String mimeType = filePart.getContentType();
             CVDAO dao = new CVDAO();
-            boolean updated = dao.editCVById(cvId, fullName, address, email,
-                    position, numberExp, education,
-                    field, currentSalary, birthday, nationality, gender, 
-                    inputStream,mimeType);
-            
-//            PrintWriter out = response.getWriter();
-//            out.print(updated);
+            boolean updated = false;
+            if (filePart != null && filePart.getSize() > 0) {
+                updated = dao.editCVById(cvId, fullName, address, email,
+                        position, numberExp, education,
+                        field, currentSalary, birthday, nationality, gender,
+                        inputStream, mimeType);
+
+            } else {
+                updated = dao.editCVWithoutFile(cvId, fullName, address, email,
+                        position, numberExp, education,
+                        field, currentSalary, birthday, nationality, gender);
+
+            }
+
+            PrintWriter out = response.getWriter();
+            out.print(inputStream);
+            out.print(updated);
             if (updated) {
-                response.sendRedirect("manageCreatedCV"); 
+                response.sendRedirect("manageCreatedCV");
             } else {
                 request.setAttribute("error", "Không thể cập nhật CV.");
                 request.getRequestDispatcher("editCV.jsp").forward(request, response);
@@ -143,14 +156,13 @@ public class viewCVServlet extends HttpServlet {
         }
     }
 
-
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */
-@Override
-public String getServletInfo() {
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

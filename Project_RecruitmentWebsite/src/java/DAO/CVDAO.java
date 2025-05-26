@@ -180,10 +180,38 @@ public class CVDAO extends DBContext {
                 stmt.setString(index++, mimeType);
             }
 
-            stmt.setInt(index, cvId); 
+            stmt.setInt(index, cvId);
 
             int updatedRows = stmt.executeUpdate();
             return updatedRows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean editCVWithoutFile(int cvId, String fullName, String address, String email,
+            String position, int numberExp, String education, String field,
+            double currentSalary, Date birthday, String nationality, String gender) {
+        try {
+            String sql = "UPDATE CV SET full_Name=?, address=?, email=?, position=?, number_Exp=?, education=?, field=?, "
+                    + "current_Salary=?, birthday=?, nationality=?, gender=? WHERE CV_ID=?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            stmt.setString(1, fullName);
+            stmt.setString(2, address);
+            stmt.setString(3, email);
+            stmt.setString(4, position);
+            stmt.setInt(5, numberExp);
+            stmt.setString(6, education);
+            stmt.setString(7, field);
+            stmt.setDouble(8, currentSalary);
+            stmt.setDate(9, new java.sql.Date(birthday.getTime()));
+            stmt.setString(10, nationality);
+            stmt.setString(11, gender);
+            stmt.setInt(12, cvId);
+
+            return stmt.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

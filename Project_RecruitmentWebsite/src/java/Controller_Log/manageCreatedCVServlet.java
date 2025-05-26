@@ -98,7 +98,7 @@ public class manageCreatedCVServlet extends HttpServlet {
         CVDAO cvdao = new CVDAO();
         CV cv = cvdao.getCVById(cvId);
         if ("edit".equals(action)) {
-
+          
             request.setAttribute("editedCV", cv);
             request.getRequestDispatcher("editCV.jsp").forward(request, response);
 
