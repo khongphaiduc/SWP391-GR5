@@ -116,7 +116,7 @@
                     <div class="form-group">
                         <label for="reg-pass">Hãy Cho Chúng Tôi Biết Bạn Là Ai ?</label>
                         <br>
-                        <input style="margin-left: 20px" type="radio" name="role" value="Cadidate" />Candidate 
+                        <input style="margin-left: 20px" type="radio" name="role" value="Candidate" />Candidate 
                         <input style="margin-left: 180px" type="radio" name="role" value="Employer" />Employer
                     </div>
                     <button type="submit">Đăng ký</button>
