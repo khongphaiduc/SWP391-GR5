@@ -10,11 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import DAO.*;
 import Validate.ValidationRegister;
 
-
 @WebServlet(name = "RegisterAccount", urlPatterns = {"/RegisterAccount"})
 public class RegisterAccount extends HttpServlet {
-    
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -31,71 +29,79 @@ public class RegisterAccount extends HttpServlet {
             out.println("</html>");
         }
     }
-    
-  
-  
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          
+        try {
+            request.getRequestDispatcher("/log/login.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.getRequestDispatcher("/log/login.jsp").forward(request, response);
+        }
     }
-    
-    
+
     // đăng ký 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         try {
-            
+
             String status = " ";
             String name = request.getParameter("username");
             String email = request.getParameter("email");
             String passwordFist = request.getParameter("password1");
             String passwordSecond = request.getParameter("Password2");
             String role = request.getParameter("role");
-            
+
             RegisterAccount_Database rgt = new RegisterAccount_Database();
             ValidationRegister validation = new ValidationRegister();
             boolean checkAccountName = rgt.isAccountUser(name);
             if (passwordFist.equals(passwordSecond)) {
-                request.getRequestDispatcher("login/login.jsp").forward(request, response);
+                request.getRequestDispatcher("log/login.jsp").forward(request, response);
                 // check accountName xem nó tồn tại hay chưa
-            } else if (checkAccountName) {               
-                status = "Tài Khoản đã tồn tại !";                
-                request.setAttribute("status", status);
-                request.getRequestDispatcher("login/login.jsp").forward(request, response);
-
-                // check Email đã được đăng ký hay chưa
-            } else if (rgt.isEmailUser(email)) {                
-                status = "Email đã tồn tại !";              
+            } else if (checkAccountName) {
+                status = "Tài Khoản đã tồn tại !";
                 request.setAttribute("status", status);
                 request.getRequestDispatcher("log/login.jsp").forward(request, response);
-                
+                 // checsk độ dài tối thiểu của Account
+            } else if (!validation.checkLength(name)) {
+                status = "Tài Khoản đã tồn tại !";
+                request.setAttribute("status", status);
+                request.getRequestDispatcher("log/login.jsp").forward(request, response);
+            } // check Email đã được đăng ký hay chưa
+            else if (rgt.isEmailUser(email)) {
+                status = "Email đã tồn tại !";
+                request.setAttribute("status", status);
+                request.getRequestDispatcher("log/login.jsp").forward(request, response);
+
+                // kiểm tra hợp lệ của password
+            } else if (!validation.checkLength(passwordFist)) {
+                status = "Mật khẩu tối thiểu lớn hơn 8 ký tự !";
+                request.setAttribute("status", status);
+                request.getRequestDispatcher("log/login.jsp").forward(request, response);
             } else {
                 // đăng ký tài khoản
 
                 boolean result = rgt.registerAccount(name, email, validation.getTimeNow(), passwordFist, role);
-                
+
                 if (result) {
                     status = "Đăng ký tài khoản thành công ! >3";
                     request.setAttribute("status", status);
                     request.getRequestDispatcher("log/login.jsp").forward(request, response);
-                    
                 } else {
                     status = "Đăng ký tài khoản không  thành công ! >3";
                 }
             }
-            
+
         } catch (Exception s) {
             request.getRequestDispatcher("/log/login.jsp").forward(request, response);
         }
     }
-    
+
     @Override
     public String getServletInfo() {
         return "Short description";
     }
-    
+
 }

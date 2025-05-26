@@ -149,7 +149,7 @@
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
                 <a href="index.jsp" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
-                    <h1 class="m-0 text-primary">ViecChoBan</h1>
+                    <h1 class="m-0 text-primary">GenZTimViec.VN</h1>
                 </a>
                 <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
@@ -221,11 +221,15 @@
                             <option value="cantho">Cần Thơ</option>
                             <option value="other">Khác</option>
                         </select>
-                        <!-- Search Button -->
-                        <button style="background: #06DC74; color: #fff; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; padding: 0 32px; height: 38px; display: flex; align-items: center; gap: 8px; cursor:pointer; transition: background 0.17s;">
+                        <!-- Search Button -->               
+                        <!--                         run vào servler khi ấn tìm kiếm ở trang chủ -->
+                        <button onclick="window.open('getListJobPost', '_blank')" 
+                                style="background: #06DC74; color: #fff; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; padding: 0 32px; height: 38px; display: flex; align-items: center; gap: 8px; cursor:pointer; transition: background 0.17s;">
                             <i class="fas fa-search"></i>
                             Tìm kiếm
                         </button>
+
+
                     </div>
 
                     <!-- Main Carousel & Category Section -->
@@ -241,6 +245,7 @@
                             <div id="auoCarousel" style="width:100%; height:100%; position:relative; display:flex; align-items:center; justify-content:center;">
                                 <img src="img/songtung1.jpg" class="auo-carousel-img" style="width:100%; height:100%; object-fit:cover; border-radius:32px; position:absolute; left:0; top:0; opacity:1; transition:opacity 0.5s;">
                                 <img src="img/mtp.jpg" class="auo-carousel-img" style="width:100%; height:100%; object-fit:cover; border-radius:32px; position:absolute; left:0; top:0; opacity:0; transition:opacity 0.5s;">
+                                <img src="img/sontungspeak.jpg" class="auo-carousel-img" style="width:100%; height:100%; object-fit:cover; border-radius:32px; position:absolute; left:0; top:0; opacity:0; transition:opacity 0.5s;">
                                 <img src="img/songtung4.png" class="auo-carousel-img" style="width:100%; height:100%; object-fit:cover; border-radius:32px; position:absolute; left:0; top:0; opacity:0; transition:opacity 0.5s;">
 
                             </div>
@@ -330,24 +335,7 @@
                 <div class="container">
                     <h1 style="color: #009e68" class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Việc làm hấp dẫn</h1>
                     <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
-                        <!--                        Đang thử nghiệm đoạn này nhé mọ người -->
-                        <!--                        <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
-                                                    <li class="nav-item">
-                                                        <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
-                                                            <h6 class="mt-n1 mb-0">Featured</h6>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
-                                                            <h6 class="mt-n1 mb-0">Full Time</h6>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
-                                                            <h6 class="mt-n1 mb-0">Part Time</h6>
-                                                        </a>
-                                                    </li>
-                                                </ul>-->
+
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane fade show p-0 active">
 
@@ -452,7 +440,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a style="border-radius: 20px" class="btn btn-primary py-3 px-5" href="">Xem Thêm</a>
+                                <a style="border-radius: 20px" class="btn btn-primary py-3 px-5" href="getListJobPost">Xem Thêm</a>
+                                
                             </div>
 
                         </div>
