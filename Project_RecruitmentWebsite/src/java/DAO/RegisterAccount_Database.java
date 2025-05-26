@@ -58,7 +58,7 @@ public class RegisterAccount_Database extends DBContext {
             push.setString(1, account);
             ResultSet rs = push.executeQuery();
 
-            while (true) {
+            while (rs.next()) {
                 String result = rs.getString("Account_Name");
                 if (result.equals(account)) {
                     return true;
@@ -134,7 +134,9 @@ public class RegisterAccount_Database extends DBContext {
 
     public static void main(String[] args) {
         RegisterAccount_Database o = new RegisterAccount_Database();
-        System.out.println(o.changePassword("admin", "123", "1234"));
+        
+         System.out.println( o.isAccountUser("a"));
+               
     }
 
     //lấy lại mật khẩu  bằng Mail  (tested)
