@@ -74,28 +74,55 @@ public class getListJobPost extends HttpServlet {
 
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+
+            String status =null;
+
+            String salary = request.getParameter("salary");
+            String location = request.getParameter("location");
+            String career = request.getParameter("career");
+            String experience = request.getParameter("exp");
+            String typeJob = request.getParameter("typeJob");
+            String searchKey = request.getParameter("searchKey");
+            SearchAnDisplayJob o = new SearchAnDisplayJob();
+            var listJobPost = o.getListJobPost();
+            if (salary != null && location != null) {
+                listJobPost = o.getListJobPostByLocation(salary, location);
+                request.setAttribute("ListJobPost", listJobPost);
+            } else if (salary != null) {
+                listJobPost = o.getListJobPostBySalary(salary);
+                request.setAttribute("ListJobPost", listJobPost);
+            }
+
+            if (listJobPost.size() == 0) {
+                status = "ối rồi ôi";
+                request.setAttribute("status", status);
+                request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
+               return ;
+            }
+
+            // các thuộc tính chuyền lại
+            request.setAttribute("selectedSalary", salary);
+            request.setAttribute("location", location);
+            request.setAttribute("career", career);
+            request.setAttribute("exp", experience);
+            request.setAttribute("typeJob", typeJob);
+            request.setAttribute("searchKey", searchKey);
+            // list
+            request.setAttribute("ListJobPost", listJobPost);
+            request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
+        }
+
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

@@ -149,7 +149,7 @@
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
                 <a href="index.jsp" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
-                    <h1 class="m-0 text-primary">ViecChoBan</h1>
+                    <h1 class="m-0 text-primary">GenZTimViec.VN</h1>
                 </a>
                 <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
@@ -222,11 +222,13 @@
                             <option value="other">Khác</option>
                         </select>
                         <!-- Search Button -->               
-<!--                         run vào servler khi ấn tìm kiếm ở trang chủ -->
-                        <button onclick="window.location.href = 'getListJobPost'" style="background: #06DC74; color: #fff; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; padding: 0 32px; height: 38px; display: flex; align-items: center; gap: 8px; cursor:pointer; transition: background 0.17s;">
+                        <!--                         run vào servler khi ấn tìm kiếm ở trang chủ -->
+                        <button onclick="window.open('getListJobPost', '_blank')" 
+                                style="background: #06DC74; color: #fff; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; padding: 0 32px; height: 38px; display: flex; align-items: center; gap: 8px; cursor:pointer; transition: background 0.17s;">
                             <i class="fas fa-search"></i>
                             Tìm kiếm
                         </button>
+
 
                     </div>
 
@@ -438,7 +440,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a style="border-radius: 20px" class="btn btn-primary py-3 px-5" href="">Xem Thêm</a>
+                                <a style="border-radius: 20px" class="btn btn-primary py-3 px-5" href="getListJobPost">Xem Thêm</a>
+                                
                             </div>
 
                         </div>

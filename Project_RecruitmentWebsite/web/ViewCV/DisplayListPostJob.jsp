@@ -193,20 +193,15 @@
                 transform: translateY(-1px) scale(1.03);
             }
         </style>
-
-
-
     </head>
     <body>
-
-
         <div class="container py-4">
-            <!--      chèn chỗ này -->
+            <!-- Chèn chỗ này -->
             <div class="w-100 d-flex align-items-center justify-content-center" 
                  style="min-height:60px; background: linear-gradient(90deg, #045943 90%, #097969 100%); border-radius: 14px; margin-bottom: 12px; border:1px solid #034634;">
                 <div class="d-flex align-items-center" style="gap:12px;">
-
                     <div class="flex-grow-1 text-center">
+                        <h5 style="color:  #e0f7fa">GenZTimViec.VN</h5>
                         <div id="quote-rotate"
                              style="color:#fff;font-size:1.02rem;font-weight:700;letter-spacing:0.02em;line-height:1.2;min-height:24px;transition:opacity .5s;">
                             Sơn Tùng-MTP :  Muốn ngồi một vị trí không ai ngồi được thì bạn phải chịu cảm giác mà không ai chịu được    .
@@ -215,197 +210,231 @@
                 </div>
             </div>
             <!-- Horizontal Filter Bar -->
-            <form class="filter-bar mb-4">
+
+
+            <div class="filter-bar mb-4">
                 <!-- Lương -->
-                <div class="filter-group">
-                    <label for="salary" class="form-label">Lương</label>
-                    <select class="form-select" id="salary" name="salary">
-                        <option value="">Tất cả</option>
-                        <option value="duoi10">Dưới 10 triệu</option>
-                        <option value="10-15">10-15 triệu</option>
-                        <option value="15-20">15-20 triệu</option>
-                        <option value="20-30">20-30 triệu</option>
-                        <option value="tren30">Trên 30 triệu</option>
-                    </select>
-                </div>
-                <!-- Vị trí -->
-                <div class="filter-group">
-                    <label for="location" class="form-label">Vị trí</label>
-                    <select class="form-select" id="location" name="location">
-                        <option value="">Tất cả</option>
-                        <option value="hanoi">Hà Nội</option>
-                        <option value="hcm">TP.HCM</option>
-                        <option value="danang">Đà Nẵng</option>
-                        <option value="khac">Khác</option>
-                    </select>
-                </div>
-                <!-- Ngành nghề -->
-                <div class="filter-group">
-                    <label for="career" class="form-label">Ngành nghề</label>
-                    <select class="form-select" id="career" name="career">
-                        <option value="">Tất cả</option>
-                        <option value="it">IT</option>
-                        <option value="marketing">Marketing</option>
-                        <option value="ketoan">Kế toán</option>
-                        <option value="sale">Kinh doanh/Bán hàng</option>
-                        <option value="other">Khác</option>
-                    </select>
-                </div>
-                <!-- Kinh nghiệm -->
-                <div class="filter-group">
-                    <label for="exp" class="form-label">Kinh nghiệm</label>
-                    <select class="form-select" id="exp" name="exp">
-                        <option value="">Tất cả</option>
-                        <option value="0">0 năm</option>
-                        <option value="1">1 năm</option>
-                        <option value="2">2 năm</option>
-                        <option value="3">3 năm+</option>
-                    </select>
-                </div>
-                <!-- Lĩnh vực -->
-                <div class="filter-group">
-                    <label for="field" class="form-label">Hình Thức</label>
-                    <select class="form-select" id="field" name="field">
-                        <option value="">Tất cả</option>
-                        <option value="phanmem">Tất Cả</option>
-                        <option value="thietke">Bán Thời Gian</option>
-                        <option value="giaoduc">Toàn Thời Gian</option>
-                        <option value="taichinh">Thực Tập</option>
-                        <option value="khac">Khác</option>
-                    </select>
-                </div>
+                <form action="getListJobPost" method="post">                 
+                    <div class="filter-group">
+                        <label for="salary" class="form-label">Lương</label>
+                        <select class="form-select" id="salary" name="salary" onchange="this.form.submit()">
+                            <option value="0" ${selectedSalary == '0' ? 'selected' : ''}>Tất cả</option>
+                            <option value="1" ${selectedSalary == '1' ? 'selected' : ''}>Dưới 10 triệu</option>
+                            <option value="2" ${selectedSalary == '2' ? 'selected' : ''}>10-15 triệu</option>
+                            <option value="3" ${selectedSalary == '3' ? 'selected' : ''}>15-20 triệu</option>
+                            <option value="4" ${selectedSalary == '4' ? 'selected' : ''}>20-30 triệu</option>
+                            <option value="5" ${selectedSalary == '5' ? 'selected' : ''}>Trên 30 triệu</option>
+                        </select>
+                    </div>
+                </form>
+
+
+
+                <!--              form vị trí-->
+                <form action="getListJobPost" method="post">
+
+                    <div class="filter-group">
+                        <label for="location" class="form-label">Vị trí</label>
+                        <select class="form-select" id="location" name="location" onchange="this.form.submit()">
+                            <option value="0" ${empty location ? 'selected' : ''}>Tất cả</option>
+                            <option value="HN" ${location == 'HN' ? 'selected' : ''}>Hà Nội</option>
+                            <option value="HCM" ${location == 'HCM' ? 'selected' : ''}>TP.HCM</option>
+                            <option value="DN" ${location == 'DN' ? 'selected' : ''}>Đà Nẵng</option>
+
+                        </select>
+                        <input type="hidden" name="salary" value="${selectedSalary}" />
+                    </div>
+                </form>
+
+
+                <!--             form ngành nghề -->
+                <form action="getListJobPost" method="post"> 
+                    <div class="filter-group">
+                        <label for="career" class="form-label">Ngành nghề</label>
+                        <select class="form-select" id="career" name="career" onchange="this.form.submit()">
+                            <option value="">Tất cả</option>
+                            <option value="it">IT</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="ketoan">Kế toán</option>
+                            <option value="sale">Kinh doanh/Bán hàng</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+                </form>
+
+                <!--                      form  kinh nghiệm-->
+                <form action="getListJobPost" method="post">
+                    <div class="filter-group">
+                        <label for="exp" class="form-label">Kinh nghiệm</label>
+                        <select class="form-select" id="exp" name="exp" onchange="this.form.submit()">
+                            <option value="">Tất cả</option>
+                            <option value="0">0 năm</option>
+                            <option value="1">1 năm</option>
+                            <option value="2">2 năm</option>
+                            <option value="3">3 năm+</option>
+                        </select>
+                    </div>
+                </form>
+
+                <!--                   form hình thức-->
+                <form action="getListJobPost" method="post">
+
+                    <div class="filter-group">
+                        <label for="field" class="form-label">Hình Thức</label>
+                        <select class="form-select" id="field" name="typeJob" onchange="this.form.submit()">
+                            <option value="">Tất cả</option>
+                            <option value="phanmem">Tất Cả</option>
+                            <option value="thietke">Bán Thời Gian</option>
+                            <option value="giaoduc">Toàn Thời Gian</option>
+                            <option value="taichinh">Thực Tập</option>
+                            <option value="khac">Khác</option>
+                        </select>
+                    </div>
+                </form>
+
                 <!-- Từ khoá -->
-                <div class="filter-group flex-grow-1">
-                    <label for="keyword" class="form-label">Từ khoá</label>
-                    <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Nhập từ khoá (vd: ReactJS, kế toán, ...)">
+                <form action="getListJobPost" method="post">
+                    <div class="filter-group flex-grow-1">
+                        <label for="keyword" class="form-label">Từ khoá</label>
+                        <input type="text" class="form-control" id="keyword" name="searchKey" placeholder="Nhập từ khoá và Enter">
+                    </div>        
+                    <input style="display:none" type="submit" name="name">
+                </form>
+
+
+            </div>
+            <!--            <div class="row justify-content-center">
+                             Job 1 
+                            <div class="col-12">
+                                <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
+                                    <img src="../img/carousel-1.jpg" alt="ABC Corp Logo" class="company-logo">
+                                    <div class="flex-grow-1">
+                                        <a href="#" class="job-title">Nhân Viên Lập Trình Web (Frontend)</a>
+                                        <div class="company-name">ABC Corporation</div>
+                                        <div class="job-meta">
+                                            <span class="job-location">📍 Hà Nội</span>
+                                            <span class="salary-badge">15-25 triệu</span>
+                                            <span class="job-type">Toàn thời gian</span>
+                                            <span class="job-deadline">🕑 Hạn nộp: 30/06/2025</span>
+                                        </div>
+                                        <div class="job-desc">
+                                            Tham gia phát triển giao diện web cho khách hàng Nhật Bản, sử dụng <b>ReactJS, HTML5, CSS3</b>, làm việc trong môi trường trẻ trung, năng động.
+                                        </div>
+                                        <button class="apply-btn">Ứng tuyển ngay</button>
+                                    </div>
+                                </div>
+                            </div>
+                             Job 2 
+                            <div class="col-12">
+                                <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
+                                    <img src="https://static.topcv.vn/company_logos/viettech.png" alt="VietTech Logo" class="company-logo">
+                                    <div class="flex-grow-1">
+                                        <a href="#" class="job-title">Chuyên Viên Marketing Online</a>
+                                        <div class="company-name">VietTech Solutions</div>
+                                        <div class="job-meta">
+                                            <span class="job-location">📍 TP.HCM</span>
+                                            <span class="salary-badge">12-18 triệu</span>
+                                            <span class="job-type">Toàn thời gian</span>
+                                            <span class="job-deadline">🕑 Hạn nộp: 15/06/2025</span>
+                                        </div>
+                                        <div class="job-desc">
+                                            Lên kế hoạch và triển khai các chiến dịch <b>marketing online</b>, tối ưu quảng cáo Facebook, Google. Ưu tiên ứng viên có kinh nghiệm từ 1 năm trở lên.
+                                        </div>
+                                        <button class="apply-btn">Ứng tuyển ngay</button>
+                                    </div>
+                                </div>
+                            </div>
+                             Job 3 
+                            <div class="col-12">
+                                <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
+                                    <img src="https://static.topcv.vn/company_logos/greenfood.png" alt="GreenFood Logo" class="company-logo">
+                                    <div class="flex-grow-1">
+                                        <a href="#" class="job-title">Kế Toán Tổng Hợp</a>
+                                        <div class="company-name">GreenFood JSC</div>
+                                        <div class="job-meta">
+                                            <span class="job-location">📍 Đà Nẵng</span>
+                                            <span class="salary-badge">10-14 triệu</span>
+                                            <span class="job-type">Toàn thời gian</span>
+                                            <span class="job-deadline">🕑 Hạn nộp: 20/06/2025</span>
+                                        </div>
+                                        <div class="job-desc">
+                                            Thực hiện các nghiệp vụ <b>kế toán tổng hợp</b>, báo cáo thuế định kỳ, đối chiếu số liệu và kiểm tra chứng từ kế toán.
+                                        </div>
+                                        <button class="apply-btn">Ứng tuyển ngay</button>
+                                    </div>
+                                </div>
+                            </div>-->
+            <!-- End Job List -->
+            
+
+            <c:if test="${status != null}">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; text-align: center;">
+                    <h1 style="color: #9446e6; font-family: 'Poppins', cursive; font-size: 48px;">
+                        Ối Rồi Ôi!!!!
+                    </h1>
+
+                    <h3 style="font-family: 'Poppins', sans-serif;">
+                        Hiện tại không có công việc phù hợp với nhu cầu của bạn!
+                    </h3>
+
+                    <img src="<%= request.getContextPath() %>/img/meme1.jpg" alt="meme" style="max-width: 100%; height: auto; margin-top: 20px;border-radius:80px" />
+
                 </div>
-                <div class="filter-group" style="min-width:110px;flex:0 0 110px;">
-                    <button type="submit" class="btn btn-primary w-100">Search</button>
-                </div>
-            </form>
-            <div class="row justify-content-center">
-
-                
+            </c:if>
 
 
-                <!-- Job 1 -->
+            <!-- Hiển thị job động từ ListJobPost -->
+            <c:forEach var="s" items="${ListJobPost}">
                 <div class="col-12">
                     <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
                         <img src="../img/carousel-1.jpg" alt="ABC Corp Logo" class="company-logo">
                         <div class="flex-grow-1">
-                            <a href="#" class="job-title">Nhân Viên Lập Trình Web (Frontend)</a>
-                            <div class="company-name">ABC Corporation</div>
+                            <a href="#" class="job-title">${s.title}</a>
+                            <div class="company-name"> ${s.compapy} </div>
                             <div class="job-meta">
-                                <span class="job-location">📍 Hà Nội</span>
-                                <span class="salary-badge">15-25 triệu</span>
-                                <span class="job-type">Toàn thời gian</span>
-                                <span class="job-deadline">🕑 Hạn nộp: 30/06/2025</span>
+                                <span class="job-location">📍 ${s.location}</span>
+                                <span class="salary-badge">${s.offer_Min} - ${s.offer_Max} triệu</span>
+                                <span class="job-type">${s.typeJob}</span>
+                                <span class="job-deadline"> Ngày đăng ${s.dayCre}</span>
                             </div>
                             <div class="job-desc">
-                                Tham gia phát triển giao diện web cho khách hàng Nhật Bản, sử dụng <b>ReactJS, HTML5, CSS3</b>, làm việc trong môi trường trẻ trung, năng động.
+                                ${s.description}
                             </div>
                             <button class="apply-btn">Ứng tuyển ngay</button>
                         </div>
                     </div>
                 </div>
-                <!-- Job 2 -->
-                <div class="col-12">
-                    <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
-                        <img src="https://static.topcv.vn/company_logos/viettech.png" alt="VietTech Logo" class="company-logo">
-                        <div class="flex-grow-1">
-                            <a href="#" class="job-title">Chuyên Viên Marketing Online</a>
-                            <div class="company-name">VietTech Solutions</div>
-                            <div class="job-meta">
-                                <span class="job-location">📍 TP.HCM</span>
-                                <span class="salary-badge">12-18 triệu</span>
-                                <span class="job-type">Toàn thời gian</span>
-                                <span class="job-deadline">🕑 Hạn nộp: 15/06/2025</span>
-                            </div>
-                            <div class="job-desc">
-                                Lên kế hoạch và triển khai các chiến dịch <b>marketing online</b>, tối ưu quảng cáo Facebook, Google. Ưu tiên ứng viên có kinh nghiệm từ 1 năm trở lên.
-                            </div>
-                            <button class="apply-btn">Ứng tuyển ngay</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Job 3 -->
-                <div class="col-12">
-                    <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
-                        <img src="https://static.topcv.vn/company_logos/greenfood.png" alt="GreenFood Logo" class="company-logo">
-                        <div class="flex-grow-1">
-                            <a href="#" class="job-title">Kế Toán Tổng Hợp</a>
-                            <div class="company-name">GreenFood JSC</div>
-                            <div class="job-meta">
-                                <span class="job-location">📍 Đà Nẵng</span>
-                                <span class="salary-badge">10-14 triệu</span>
-                                <span class="job-type">Toàn thời gian</span>
-                                <span class="job-deadline">🕑 Hạn nộp: 20/06/2025</span>
-                            </div>
-                            <div class="job-desc">
-                                Thực hiện các nghiệp vụ <b>kế toán tổng hợp</b>, báo cáo thuế định kỳ, đối chiếu số liệu và kiểm tra chứng từ kế toán.
-                            </div>
-                            
-                            <button class="apply-btn">Ứng tuyển ngay</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Job List -->                 
-                
-<!--                hiển thị job-->
-                <c:forEach var="s" items="${ListJobPost}">
-                    
-                    <div class="col-12">
-                        <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
-                            <img src="../img/carousel-1.jpg" alt="ABC Corp Logo" class="company-logo">
-                            <div class="flex-grow-1">
-                                <a href="#" class="job-title">${s.title}</a>
-                                <div class="company-name">ABC Corporation</div>
-                                <div class="job-meta">
-                                    <span class="job-location">📍 ${s.location}</span>
-                                    <span class="salary-badge">${s.offer_Min} - ${s.offer_Max} triệu</span>
-                                    <span class="job-type">${s.typeJob}</span>
-                                    <span class="job-deadline"> Ngày đăng ${s.dayCre}</span>
-                                </div>
-                                <div class="job-desc">
-                                 ${s.description}
-                                </div>
-                                <button class="apply-btn">Ứng tuyển ngay</button>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
 
-<!--                   end hiển thị job-->
 
-                
-                
-                
-            </div>
+
+            </c:forEach>
+            <!-- End hiển thị job -->
         </div>
+
         <!-- Bootstrap 5 JS (for modal/tooltips if needed) -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const quotes = [
-                    "Cơ hội luôn ở đó – bạn chỉ cần một nơi để bắt đầu hành trình.",
-                    "Chúng tôi không đưa bạn việc làm, chúng tôi trao bạn tương lai.",
-                    "Công việc không chỉ là nguồn sống, mà là nơi ta viết nên câu chuyện cuộc đời.",
-                    "Đừng tìm việc chỉ để làm, hãy tìm việc để sống đúng với giá trị của mình.",
-                    "Sơn Tùng-MTP :  Muốn ngồi một vị trí không ai ngồi được thì bạn phải chịu cảm giác mà không ai chịu được    .",
-                    "Thành công không chờ ai, nhưng luôn mở cửa cho người biết tìm đúng lối đi.",
-                    "Không chỉ là tìm việc, mà là tìm thấy chính mình trong sự nghiệp mơ ước"
-                ];
-                let idx = 0;
-                const quoteElem = document.getElementById('quote-rotate');
-                setInterval(() => {
-                    quoteElem.style.opacity = 0;
-                    setTimeout(() => {
-                        idx = (idx + 1) % quotes.length;
-                        quoteElem.textContent = quotes[idx];
-                        quoteElem.style.opacity = 1;
-                    }, 500);
-                }, 5000);
-            });
+                            document.addEventListener("DOMContentLoaded", function () {
+                                const quotes = [
+                                    "Cơ hội luôn ở đó – bạn chỉ cần một nơi để bắt đầu hành trình.",
+                                    "Chúng tôi không đưa bạn việc làm, chúng tôi trao bạn tương lai.",
+                                    "Công việc không chỉ là nguồn sống, mà là nơi ta viết nên câu chuyện cuộc đời.",
+                                    "Đừng tìm việc chỉ để làm, hãy tìm việc để sống đúng với giá trị của mình.",
+                                    "Sơn Tùng-MTP :  Muốn ngồi một vị trí không ai ngồi được thì bạn phải chịu cảm giác mà không ai chịu được    .",
+                                    "Thành công không chờ ai, nhưng luôn mở cửa cho người biết tìm đúng lối đi.",
+                                    "Không chỉ là tìm việc, mà là tìm thấy chính mình trong sự nghiệp mơ ước"
+                                ];
+                                let idx = 0;
+                                const quoteElem = document.getElementById('quote-rotate');
+                                setInterval(() => {
+                                    quoteElem.style.opacity = 0;
+                                    setTimeout(() => {
+                                        idx = (idx + 1) % quotes.length;
+                                        quoteElem.textContent = quotes[idx];
+                                        quoteElem.style.opacity = 1;
+                                    }, 500);
+                                }, 5000);
+                            });
         </script>
     </body>
 </html>
