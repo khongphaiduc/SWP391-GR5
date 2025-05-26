@@ -1,2 +1,1 @@
-![image](https://github.com/user-attachments/assets/ad3b6bd9-1b6f-43fd-85b0-4664d7f7f5b7)
-
+![ai-khong-lamduoc](https://github.com/user-attachments/assets/a5ded17b-7b31-4f2d-9e2e-4812393ed2ca)
