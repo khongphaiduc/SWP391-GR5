@@ -70,7 +70,7 @@ public class submitCVServlet extends HttpServlet {
         String username = (String) session.getAttribute("username");
         AccountDAO accountDAO = new AccountDAO();
         Account account = accountDAO.getAccountByUserName(username);
-        if (username == null || !"Cadidate".equals(account.getRole())) {
+        if (username == null || !"Candidate".equals(account.getRole())) {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
