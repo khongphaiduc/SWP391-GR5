@@ -14,7 +14,7 @@
             <!-- Đăng nhập -->
             <div class="flip-card-front">
                 <h2>Đăng nhập</h2>
-                <form action="loginServlet" method="post" autocomplete="off">
+                <form action="${pageContext.request.contextPath}/loginServlet" method="post" autocomplete="off">
                     <div class="form-group">
                         <label for="user">Tên đăng nhập</label>
                         <input type="text" id="user" name="username"  style="width: 400px" required>

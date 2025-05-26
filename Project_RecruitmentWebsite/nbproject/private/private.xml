@@ -2,6 +2,21 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/controller/ViewAccountServlet.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/login/LoginServlet.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/controller/ListAccountServlet.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/login/login.jsp</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/controller/EditAccountServlet.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/testimonial.jsp</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/adduser.jsp</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/viewuser.jsp</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/viewaccount.jsp</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/AccountDAO.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/controller/AddAccountServlet.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/controller/DeleteAccountServlet.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/edituser.jsp</file>
+        </group>
     </open-files>
 </project-private>
