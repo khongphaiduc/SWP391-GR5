@@ -158,7 +158,7 @@ public class SearchAnDisplayJob extends DBContext {
             System.out.println(s);
         }
 
-        return new ArrayList<>();  // Trả list rỗng thay vì null
+        return new ArrayList<>();  // Trả list rỗng 
     }
 
     public static void main(String[] args) {

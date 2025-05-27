@@ -1,3 +1,4 @@
+// pham trung duc
 package Models;
 
 public class JobPost {

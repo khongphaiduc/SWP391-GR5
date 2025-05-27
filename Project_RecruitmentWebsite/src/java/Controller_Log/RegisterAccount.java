@@ -67,7 +67,7 @@ public class RegisterAccount extends HttpServlet {
                 request.getRequestDispatcher("log/login.jsp").forward(request, response);
                  // checsk độ dài tối thiểu của Account
             } else if (!validation.checkLength(name)) {
-                status = "Tài Khoản đã tồn tại !";
+                status = "Độ dài của tài khoản tối thiếu 8 ký tự  !";
                 request.setAttribute("status", status);
                 request.getRequestDispatcher("log/login.jsp").forward(request, response);
             } // check Email đã được đăng ký hay chưa

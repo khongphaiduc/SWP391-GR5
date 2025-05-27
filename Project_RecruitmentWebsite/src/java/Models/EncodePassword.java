@@ -5,7 +5,7 @@ import java.util.Base64;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
 import java.util.Properties;
-import jakarta.activation.*;
+
 
 public class EncodePassword {
 
@@ -18,7 +18,7 @@ public class EncodePassword {
 
         try {
 
-            byte[] databyte = password.getBytes("UTF-8");    // chuyển về thành mảng byte , mỗi ký tự sẽ có 1 byte (8 bit)
+            byte[] databyte = password.getBytes("UTF-8");    // chuyển về thành mảng byte 
 
             MessageDigest md = MessageDigest.getInstance("MD5"); //   MessageDigest 1 lớp để sử dụng các thuật toán  băm
 
