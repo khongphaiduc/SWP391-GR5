@@ -178,9 +178,34 @@
                 </form>
             </div>
         </div>
+
         <%
                 }
-            } else {
+        %>
+        <% Integer currentPage = (Integer) request.getAttribute("currentPage");
+           Integer totalPages = (Integer) request.getAttribute("totalPages");
+           if (totalPages != null && totalPages > 1) {
+        %>
+        <div style="text-align: center; margin-top: 30px;">
+            <nav>
+                <ul style="list-style: none; padding: 0; display: inline-flex; gap: 6px;">
+                    <% for (int i = 1; i <= totalPages; i++) { %>
+                    <li>
+                        <a href="manageCreatedCV?page=<%= i %>" style="padding: 8px 14px; border-radius: 6px;
+                           background-color: <%= (i == currentPage) ? "#007bff" : "#e0e0e0" %>;
+                           color: <%= (i == currentPage) ? "white" : "#333" %>;
+                           text-decoration: none; font-weight: bold;">
+                            <%= i %>
+                        </a>
+                    </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+        <% } %>
+
+
+        <%    } else {
         %>
         <p class="no-cv">Không có CV nào được tìm thấy.</p>
         <% } %>
