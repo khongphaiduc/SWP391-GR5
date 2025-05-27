@@ -70,13 +70,35 @@ public class manageCreatedCVServlet extends HttpServlet {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
+
             CandidateDAO candidateDAO = new CandidateDAO();
             Candidate candidate = candidateDAO.getCandidateByAccountName(username);
             int candidateId = candidate.getCandidateId();
 
             CVDAO cvdao = new CVDAO();
             List<CV> cvList = cvdao.getCVByCandidate(candidateId);
-            request.setAttribute("cvList", cvList);
+
+            // Phân trang
+            String pageParam = request.getParameter("page");
+            int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
+            int pageSize = 5;
+            int totalCV = cvList.size();
+            int totalPages = (int) Math.ceil((double) totalCV / pageSize);
+            int fromIndex = (page - 1) * pageSize;
+            int toIndex = Math.min(fromIndex + pageSize, totalCV);
+
+            if (fromIndex >= totalCV) {
+                fromIndex = 0;
+                toIndex = Math.min(pageSize, totalCV);
+                page = 1;
+            }
+
+            List<CV> paginatedList = cvList.subList(fromIndex, toIndex);
+
+            request.setAttribute("cvList", paginatedList);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("totalPages", totalPages);
+
             request.getRequestDispatcher("manageCreatedCV.jsp").forward(request, response);
         }
 
@@ -98,7 +120,7 @@ public class manageCreatedCVServlet extends HttpServlet {
         CVDAO cvdao = new CVDAO();
         CV cv = cvdao.getCVById(cvId);
         if ("edit".equals(action)) {
-          
+
             request.setAttribute("editedCV", cv);
             request.getRequestDispatcher("editCV.jsp").forward(request, response);
 
