@@ -2,6 +2,8 @@
 <%@ page import="java.util.*, Models.*" %>
 <html>
     <head>
+        <jsp:include page="navbar.jsp" />
+
         <meta charset="UTF-8">
         <title>Danh sách CV</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -10,7 +12,7 @@
                 font-family: 'Segoe UI', sans-serif;
                 background-color: #f9f9f9;
                 margin: 0;
-                padding: 20px;
+                
             }
 
             h2 {
@@ -140,7 +142,6 @@
         </style>
     </head>
     <body>
-        <jsp:include page="navbar.jsp" />
         </br>
         <h2>Danh sách CV của bạn</h2>
 
@@ -178,9 +179,34 @@
                 </form>
             </div>
         </div>
+
         <%
                 }
-            } else {
+        %>
+        <% Integer currentPage = (Integer) request.getAttribute("currentPage");
+           Integer totalPages = (Integer) request.getAttribute("totalPages");
+           if (totalPages != null && totalPages > 1) {
+        %>
+        <div style="text-align: center; margin-top: 30px;">
+            <nav>
+                <ul style="list-style: none; padding: 0; display: inline-flex; gap: 6px;">
+                    <% for (int i = 1; i <= totalPages; i++) { %>
+                    <li>
+                        <a href="manageCreatedCV?page=<%= i %>" style="padding: 8px 14px; border-radius: 6px;
+                           background-color: <%= (i == currentPage) ? "#007bff" : "#e0e0e0" %>;
+                           color: <%= (i == currentPage) ? "white" : "#333" %>;
+                           text-decoration: none; font-weight: bold;">
+                            <%= i %>
+                        </a>
+                    </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+        <% } %>
+
+
+        <%    } else {
         %>
         <p class="no-cv">Không có CV nào được tìm thấy.</p>
         <% } %>

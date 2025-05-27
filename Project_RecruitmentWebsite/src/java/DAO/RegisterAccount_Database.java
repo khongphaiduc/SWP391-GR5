@@ -3,7 +3,7 @@ package DAO;
 
 import Models.EncodePassword;
 import MyService.MyEmail;
-import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
+
 import java.sql.*;
 import dal.*;
 import java.util.Random;
@@ -123,7 +123,7 @@ public class RegisterAccount_Database extends DBContext {
                 o.addRoleInCandidate(idAccount, mail, account);         // thêm phân role vào đúng với bảng 
             }
             {
-
+                 o.addRoleInEmployer(idAccount, account);                  // thêm phân role vào đúng với bảng 
             }
 
             return row != 0;
@@ -160,19 +160,36 @@ public class RegisterAccount_Database extends DBContext {
     }
 
     // add role vào table Employers
-    public boolean addRoleInEmployer(int idAccount) {
+    public boolean addRoleInEmployer(int idAccount, String acountName) {
+        int check = 0;
         try {
-            String query = "INSERT INTO [dbo].[Candidate \n"
-                    + "           [Account_ID]           \n"
-                    + "     VALUES  (?)";
+
+            String query = "INSERT INTO [dbo].[Employers]\n"
+                    + "           ([Name_Employer]\n"
+                    + "           ,[Account_ID]\n"
+                    + "           ,[Company_Name]\n"
+                    + "           ,[Description]\n"
+                    + "           ,[Location]\n"
+                    + "           ,[URL_Website]\n"
+                    + "           ,[CompanySize]\n"
+                    + "           ,[imgLogo])\n"
+                    + "     VALUES\n"
+                    + "          \n"
+                    + "		  (?,?,'CompapyName',null,null,null,null,null)";
             PreparedStatement push = connection.prepareStatement(query);
-            push.setString(1, query);
-            boolean check = push.execute();
+            push.setString(1, acountName);
+            push.setInt(2, idAccount);
+            check = push.executeUpdate();
             System.out.println(check + "chèn thành công");
         } catch (Exception s) {
             System.out.println("Hệ Thông có Bug Hẹ Hẹ :" + s.getMessage());
         }
-        return false;
+        return check != 0 ? true : false;
+    }
+
+    public static void main(String[] args) {
+        RegisterAccount_Database o = new RegisterAccount_Database();
+        System.out.println(o.addRoleInEmployer(26, "Pham Trung Duc"));
     }
 
     // đăng nhập  (tested)
@@ -208,13 +225,12 @@ public class RegisterAccount_Database extends DBContext {
         return false;
     }
 
-    public static void main(String[] args) {
-        RegisterAccount_Database o = new RegisterAccount_Database();
-
-        System.out.println(o.getIdAccountByAcconntName("duc"));
-
-    }
-
+//    public static void main(String[] args) {
+//        RegisterAccount_Database o = new RegisterAccount_Database();
+//
+//        System.out.println(o.getIdAccountByAcconntName("duc"));
+//
+//    }
     //lấy lại mật khẩu  bằng Mail  (tested)
     public void getPasswordCaseForget(String mail) {
         try {

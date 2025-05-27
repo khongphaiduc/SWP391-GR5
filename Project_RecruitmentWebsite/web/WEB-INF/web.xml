@@ -12,6 +12,10 @@
         <servlet-name>viewCVServlet</servlet-name>
         <servlet-class>Controller_Log.viewCVServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>createJobServlet</servlet-name>
+        <servlet-class>Controller_Log.createJobServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -23,5 +27,9 @@
     <servlet-mapping>
         <servlet-name>viewCVServlet</servlet-name>
         <url-pattern>/viewCV</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>createJobServlet</servlet-name>
+        <url-pattern>/createJob</url-pattern>
     </servlet-mapping>
 </web-app>

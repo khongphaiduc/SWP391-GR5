@@ -36,7 +36,7 @@ public class SearchAnDisplayJob extends DBContext {
             ResultSet rs = push.executeQuery();
 
             while (rs.next()) {
-                list.add(new JobPost(rs.getString("JobPost_ID"), rs.getString("Title"), rs.getString("Description"), rs.getString("Category"), rs.getString("Location"), rs.getDouble("Offer_Min"), rs.getDouble("Offer_Max"), rs.getString("Number_exp"), rs.getString("Visible"), rs.getString("TypeJob"), rs.getString("DayCreate"), rs.getString("Company_Name")));
+                list.add(new JobPost(rs.getInt("JobPost_ID"), rs.getString("Title"), rs.getString("Description"), rs.getString("Category"), rs.getString("Location"), rs.getDouble("Offer_Min"), rs.getDouble("Offer_Max"), rs.getInt("Number_exp"), rs.getBoolean("Visible"), rs.getString("TypeJob"), rs.getString("DayCreate"), rs.getString("Company_Name")));
             }
 
             return list;
@@ -92,7 +92,7 @@ public class SearchAnDisplayJob extends DBContext {
             ResultSet rs = push.executeQuery();
 
             while (rs.next()) {
-                list.add(new JobPost(rs.getString("JobPost_ID"), rs.getString("Title"), rs.getString("Description"), rs.getString("Category"), rs.getString("Location"), rs.getDouble("Offer_Min"), rs.getDouble("Offer_Max"), rs.getString("Number_exp"), rs.getString("Visible"), rs.getString("TypeJob"), rs.getString("DayCreate"), rs.getString("Company_Name")));
+                list.add(new JobPost(rs.getInt("JobPost_ID"), rs.getString("Title"), rs.getString("Description"), rs.getString("Category"), rs.getString("Location"), rs.getDouble("Offer_Min"), rs.getDouble("Offer_Max"), rs.getInt("Number_exp"), rs.getBoolean("Visible"), rs.getString("TypeJob"), rs.getString("DayCreate"), rs.getString("Company_Name")));
             }
             return list;
 
@@ -138,15 +138,15 @@ public class SearchAnDisplayJob extends DBContext {
 
             while (rs.next()) {
                 list.add(new JobPost(
-                        rs.getString("JobPost_ID"),
+                        rs.getInt("JobPost_ID"),
                         rs.getString("Title"),
                         rs.getString("Description"),
                         rs.getString("Category"),
                         rs.getString("Location"),
                         rs.getDouble("Offer_Min"),
                         rs.getDouble("Offer_Max"),
-                        rs.getString("Number_exp"),
-                        rs.getString("Visible"),
+                        rs.getInt("Number_exp"),
+                        rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
                         rs.getString("DayCreate"),
                         rs.getString("Company_Name")
