@@ -1,3 +1,4 @@
+// pham trung duc
 package Models;
 
 public class JobPost {
@@ -21,10 +22,8 @@ public class JobPost {
         return visible;
     }
 
-   
-
     public JobPost(int jobPost_ID, String title, String description,
-            String position, String location, double offer_Min, double offer_Max, 
+            String position, String location, double offer_Min, double offer_Max,
             int number_exp, boolean visible, String typeJob, String dayCre, String compapy) {
         this.jobPost_ID = jobPost_ID;
         this.title = title;
@@ -42,7 +41,6 @@ public class JobPost {
 
     public JobPost() {
     }
-    
 
     public int getJobPost_ID() {
         return jobPost_ID;
@@ -139,15 +137,14 @@ public class JobPost {
     public void setCompapy(String compapy) {
         this.compapy = compapy;
     }
-     public String getTypeJob() {
+
+    public String getTypeJob() {
         return typeJob;
     }
 
     public void setTypeJob(String typeJob) {
         this.typeJob = typeJob;
     }
-    
-    
 
     public void setEmployer_ID(int employer_ID) {
         this.employer_ID = employer_ID;
@@ -156,7 +153,7 @@ public class JobPost {
     public int getEmployer_ID() {
         return employer_ID;
     }
-    
+
     @Override
     public String toString() {
         return "JobPost{" + "jobPost_ID=" + jobPost_ID + ", title=" + title + ", description=" + description + ", position=" + position + ", location=" + location + ", offer_Min=" + offer_Min + ", offer_Max=" + offer_Max + ", number_exp=" + number_exp + ", visible=" + visible + ", category=" + category + ", dayCre=" + dayCre + ", compapy=" + compapy + '}';
