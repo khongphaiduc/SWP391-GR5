@@ -2,6 +2,8 @@
 <%@ page import="java.util.*, Models.*" %>
 <html>
     <head>
+        <jsp:include page="navbar.jsp" />
+
         <meta charset="UTF-8">
         <title>Danh sách CV</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -10,7 +12,7 @@
                 font-family: 'Segoe UI', sans-serif;
                 background-color: #f9f9f9;
                 margin: 0;
-                padding: 20px;
+                
             }
 
             h2 {
@@ -140,7 +142,6 @@
         </style>
     </head>
     <body>
-        <jsp:include page="navbar.jsp" />
         </br>
         <h2>Danh sách CV của bạn</h2>
 
