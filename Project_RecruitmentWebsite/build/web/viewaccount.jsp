@@ -26,10 +26,7 @@
                     <th>Username</th>
                     <td>${account.accountName}</td>
                 </tr>
-                <tr>
-                    <th>Password Hash</th>
-                    <td>${account.passwordHash}</td>
-                </tr>
+           
                 <tr>
                     <th>Email</th>
                     <td>${account.email}</td>

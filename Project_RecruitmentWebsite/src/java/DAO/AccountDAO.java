@@ -62,7 +62,7 @@ public class AccountDAO extends DBContext {
     }
 // READ by ID
 
-    public model.Account getAccountById(int id) {
+    public Account getAccountById(int id) {
         String sql = "SELECT * FROM Account WHERE Account_ID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -77,8 +77,8 @@ public class AccountDAO extends DBContext {
     }
 
     // READ all
-    public List<model.Account> getAllAccounts() {
-        List<model.Account> accounts = new ArrayList<>();
+    public List<Account> getAllAccounts() {
+        List<Models.Account> accounts = new ArrayList<>();
         String sql = "SELECT * FROM Account";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
@@ -92,7 +92,7 @@ public class AccountDAO extends DBContext {
     }
 
     // UPDATE
-    public boolean updateAccount(model.Account acc) {
+    public boolean updateAccount(Account acc) {
         String sql = "UPDATE Account SET Account_Name=?, Password_hash=?, Email=?, Role=? WHERE Account_ID=?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, acc.getAccountName());
@@ -130,18 +130,24 @@ public class AccountDAO extends DBContext {
     }
 
     // Helper: convert ResultSet to Account object
-    private model.Account mapResultSetToAccount(ResultSet rs) throws SQLException {
-        model.Account acc = new model.Account();
+    private Account mapResultSetToAccount(ResultSet rs) throws SQLException {
+        Account acc = new Account();
         acc.setAccountId(rs.getInt("Account_ID"));
         acc.setAccountName(rs.getString("Account_Name"));
         acc.setPasswordHash(rs.getString("Password_hash"));
         acc.setEmail(rs.getString("Email"));
-        acc.setDateCreated(rs.getTimestamp("date_cr").toLocalDateTime().toLocalDate());
+      Timestamp ts = rs.getTimestamp("date_cr");
+if (ts != null) {
+    acc.setDateCreated(ts.toLocalDateTime());
+} else {
+    acc.setDateCreated(null); // nếu muốn hỗ trợ giá trị null
+}
+
         acc.setRole(rs.getString("Role"));
         return acc;
     }
 
-    public model.Account check(String username, String password) {
+    public Account check(String username, String password) {
         String sql = "SELECT * FROM Account WHERE Account_Name = ? AND Password_hash = ?";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, username);
@@ -155,15 +161,15 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
-    public List<model.Account> getAccountsByPage(int start, int count) {
-    List<model.Account> list = new ArrayList<>();
+    public List<Account> getAccountsByPage(int start, int count) {
+    List<Account> list = new ArrayList<>();
     String sql = "SELECT * FROM Account ORDER BY Account_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
         ps.setInt(1, start);
         ps.setInt(2, count);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            model.Account acc = new model.Account();
+            Account acc = new Account();
             acc.setAccountId(rs.getInt("Account_ID"));
             acc.setAccountName(rs.getString("Account_Name"));
             acc.setPasswordHash(rs.getString("Password_hash"));

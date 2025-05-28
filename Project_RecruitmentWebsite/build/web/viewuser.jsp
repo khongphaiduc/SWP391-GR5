@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
-<%@ page import="model.Account" %>
+<%@ page import="Models.Account" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     List<Account> accounts = (List<Account>) request.getAttribute("accounts");
@@ -430,11 +430,7 @@
                         <h3><i class="fas fa-users me-2"></i>User Management</h3>
                         <div class="d-flex gap-2">
 
-                            <form action="adduser.jsp" method="get">
-                                <button class="btn btn-primary btn-sm">
-                                    <i class="fas fa-plus me-1"></i>Add User
-                                </button>
-                            </form>
+                
                         </div>
                     </div>
                 </div>
