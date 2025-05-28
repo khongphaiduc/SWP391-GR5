@@ -15,8 +15,13 @@ public class ValidationRegister {
     
     // kiểm tra độ dài
     public boolean checkLength(String check) {
-        return check.length() > 8;
+        return check.length() >= 8;
     }
-       
+      
+    
+    public static void main(String[] args) {
+        ValidationRegister o = new ValidationRegister();
+        System.out.println(o.checkLength("12345678"));
+    }
     
 }
