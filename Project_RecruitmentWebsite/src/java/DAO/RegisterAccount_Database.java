@@ -1,7 +1,9 @@
+// phamtrunduc
 package DAO;
 
 import Models.EncodePassword;
 import MyService.MyEmail;
+
 import java.sql.*;
 import dal.*;
 import java.util.Random;
@@ -72,6 +74,26 @@ public class RegisterAccount_Database extends DBContext {
         return false;
     }
 
+    // lấy idAccount bằng AccountName 
+    public int getIdAccountByAcconntName(String accountName) {
+        try {
+            String query = "SELECT [Account_ID]\n"
+                    + "\n"
+                    + "  FROM [dbo].[Account]\n"
+                    + " where Account_Name =?";
+            PreparedStatement push = connection.prepareStatement(query);
+            push.setString(1, accountName);
+            ResultSet rs = push.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("Account_ID");
+            }
+
+        } catch (Exception s) {
+            System.out.println("Hệ Thống Có Bug :" + s.getMessage());
+        }
+        return -1;
+    }
+
     // đăng ký tài khoản 
     public boolean registerAccount(String account, String mail, String dateCreate, String password, String role) {
         try {
@@ -90,13 +112,84 @@ public class RegisterAccount_Database extends DBContext {
             int row = push.executeUpdate();
             System.out.println(row + " dòng đã được thêm");
             MyEmail mymail = new MyEmail();
+            RegisterAccount_Database o = new RegisterAccount_Database();
             // gửi mail cho client thông báo là thành công
             mymail.sendEmail(mail, "Đăng Ký Thành Công ", "Chào mừng bạn đến với vietchobann \n hihihihiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiih");
+
+            int idAccount = o.getIdAccountByAcconntName(account);           // lấy account vừa đăng ký 
+
+            // add account vào bảng với đúng role 
+            if (role.equals("Candidate")) {
+                o.addRoleInCandidate(idAccount, mail, account);         // thêm phân role vào đúng với bảng 
+            }
+            {
+                 o.addRoleInEmployer(idAccount, account);                  // thêm phân role vào đúng với bảng 
+            }
+
             return row != 0;
         } catch (SQLException s) {
             System.out.println("Lỗi SQL: " + s.getMessage());
         }
         return false;
+    }
+
+    // add role vào table candidate
+    public boolean addRoleInCandidate(int idAccount, String email, String accountName) {
+        try {
+
+            String query = "INSERT INTO [dbo].[Candidate]\n"
+                    + "           ([CandidateName]\n"
+                    + "           ,[Address]\n"
+                    + "           ,[Email]\n"
+                    + "           ,[Birthday]\n"
+                    + "           ,[Nationality]\n"
+                    + "           ,[Account_ID]\n"
+                    + "           ,[avata])\n"
+                    + "     VALUES  (?,null,?,null,null,?,null)";
+            PreparedStatement push = connection.prepareStatement(query);
+
+            push.setString(1, accountName);
+            push.setString(2, email);
+            push.setInt(3, idAccount);
+            push.executeUpdate();
+            System.out.println(" chèn thành công vào thệ thông");
+        } catch (Exception s) {
+            System.out.println("Hệ Thông có Bug Hẹ Hẹ :" + s.getMessage());
+        }
+        return false;
+    }
+
+    // add role vào table Employers
+    public boolean addRoleInEmployer(int idAccount, String acountName) {
+        int check = 0;
+        try {
+
+            String query = "INSERT INTO [dbo].[Employers]\n"
+                    + "           ([Name_Employer]\n"
+                    + "           ,[Account_ID]\n"
+                    + "           ,[Company_Name]\n"
+                    + "           ,[Description]\n"
+                    + "           ,[Location]\n"
+                    + "           ,[URL_Website]\n"
+                    + "           ,[CompanySize]\n"
+                    + "           ,[imgLogo])\n"
+                    + "     VALUES\n"
+                    + "          \n"
+                    + "		  (?,?,'CompapyName',null,null,null,null,null)";
+            PreparedStatement push = connection.prepareStatement(query);
+            push.setString(1, acountName);
+            push.setInt(2, idAccount);
+            check = push.executeUpdate();
+            System.out.println(check + "chèn thành công");
+        } catch (Exception s) {
+            System.out.println("Hệ Thông có Bug Hẹ Hẹ :" + s.getMessage());
+        }
+        return check != 0 ? true : false;
+    }
+
+    public static void main(String[] args) {
+        RegisterAccount_Database o = new RegisterAccount_Database();
+        System.out.println(o.addRoleInEmployer(26, "Pham Trung Duc"));
     }
 
     // đăng nhập  (tested)
@@ -132,13 +225,12 @@ public class RegisterAccount_Database extends DBContext {
         return false;
     }
 
-    public static void main(String[] args) {
-        RegisterAccount_Database o = new RegisterAccount_Database();
-        
-         System.out.println( o.isAccountUser("a"));
-               
-    }
-
+//    public static void main(String[] args) {
+//        RegisterAccount_Database o = new RegisterAccount_Database();
+//
+//        System.out.println(o.getIdAccountByAcconntName("duc"));
+//
+//    }
     //lấy lại mật khẩu  bằng Mail  (tested)
     public void getPasswordCaseForget(String mail) {
         try {
@@ -226,7 +318,7 @@ public class RegisterAccount_Database extends DBContext {
 
             //bắt đầu tạo mật khẩu mới do user đặt va thêm tí mắn tí muối        
             String passwordHash = myencoder.encodePasswordbyHash(newpasswordUser);  // encode password
-            
+
             String query = "UPDATE [dbo].[Account]\n"
                     + "   SET Password_hash = ? \n"
                     + " WHERE Account_Name = ? ";

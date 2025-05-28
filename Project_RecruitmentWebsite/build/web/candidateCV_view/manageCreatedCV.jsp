@@ -2,6 +2,8 @@
 <%@ page import="java.util.*, Models.*" %>
 <html>
     <head>
+        <jsp:include page="/navbar.jsp" />
+
         <meta charset="UTF-8">
         <title>Danh sách CV</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -10,7 +12,7 @@
                 font-family: 'Segoe UI', sans-serif;
                 background-color: #f9f9f9;
                 margin: 0;
-                padding: 20px;
+                
             }
 
             h2 {
@@ -37,8 +39,8 @@
             }
 
             .cv-image {
-                width: 100px;
-                height: 100px;
+                width: 150px;
+                height: 150px;
                 border-radius: 8px;
                 overflow: hidden;
                 border: 1px solid #ddd;
@@ -140,7 +142,6 @@
         </style>
     </head>
     <body>
-        <jsp:include page="navbar.jsp" />
         </br>
         <h2>Danh sách CV của bạn</h2>
 
@@ -152,7 +153,7 @@
         <div class="cv-card">
             <div class="cv-info">
                 <div class="cv-image">
-                    <img src="viewCV?cvId=<%= cv.getCvId() %>" alt="CV Image">
+                    <img src="viewCV?cvId=<%= cv.getCvId() %>" alt="File không thể preview. Click vào xem CV ">
                 </div>
                 <div class="cv-details">
                     <h3><i class="fas fa-user icon"></i><%= cv.getFullName() %></h3>

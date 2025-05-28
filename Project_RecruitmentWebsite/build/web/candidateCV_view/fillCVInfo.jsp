@@ -3,7 +3,7 @@
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
-        <jsp:include page="navbar.jsp" />
+        <jsp:include page="/navbar.jsp" />
 
         <title>Điền thông tin CV</title>
         <!-- Bootstrap -->

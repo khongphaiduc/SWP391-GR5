@@ -253,11 +253,13 @@
                         <label for="career" class="form-label">Ngành nghề</label>
                         <select class="form-select" id="career" name="career" onchange="this.form.submit()">
                             <option value="">Tất cả</option>
-                            <option value="it">IT</option>
+                            <option value="it">CNTT</option>
                             <option value="marketing">Marketing</option>
                             <option value="ketoan">Kế toán</option>
                             <option value="sale">Kinh doanh/Bán hàng</option>
-                            <option value="other">Khác</option>
+                            <option value="other">Ý Tế</option>
+                            <option value="other">Pháp Lý</option>
+                            <option value="other">Nhận Sự</option>
                         </select>
                     </div>
                 </form>
@@ -365,7 +367,7 @@
                                 </div>
                             </div>-->
             <!-- End Job List -->
-            
+
 
             <c:if test="${status != null}">
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; text-align: center;">
@@ -436,5 +438,30 @@
                                 }, 5000);
                             });
         </script>
+
+        
+<!--         thêm phân trang -->
+        <div class="d-flex justify-content-center mt-4">
+            <nav>
+                <ul class="pagination">
+                    <c:if test="${currentPage > 1}">
+                        <li class="page-item">
+                            <a class="page-link" href="getListJobPost?page=${currentPage - 1}">&laquo; Trước</a>
+                        </li>
+                    </c:if>
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                        <li class="page-item ${i == currentPage ? 'active' : ''}">
+                            <a class="page-link" href="getListJobPost?page=${i}"> ${i} </a>
+                        </li>
+                    </c:forEach>
+                    <c:if test="${currentPage < totalPages}">
+                        <li class="page-item">
+                            <a class="page-link" href="getListJobPost?page=${currentPage + 1}">Sau &raquo;</a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
+        </div>
+<!--         kết thúc phân trang-->
     </body>
 </html>

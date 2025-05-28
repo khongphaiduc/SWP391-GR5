@@ -161,7 +161,7 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="job-list.jsp" class="dropdown-item">Job List</a>
+                                <a href="getListJobPost" class="dropdown-item">Job List</a>
                                 <a href="job-detail.jsp" class="dropdown-item">Job Detail</a>
                             </div>
                         </div>
@@ -183,7 +183,7 @@
                     </div>
                         <a href="contact.jsp" class="nav-item nav-link">Contact</a>
                     </div>
-                    <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
+                    <a href="${pageContext.request.contextPath}/createJob" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
                 </div>
             </nav>
             <!-- Navbar End -->

@@ -2,15 +2,19 @@
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <servlet>
         <servlet-name>manageCreatedCVServlet</servlet-name>
-        <servlet-class>Controller_Log.manageCreatedCVServlet</servlet-class>
+        <servlet-class>Controller_CV.manageCreatedCVServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>submitCVServlet</servlet-name>
-        <servlet-class>Controller_Log.submitCVServlet</servlet-class>
+        <servlet-class>Controller_CV.submitCVServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>viewCVServlet</servlet-name>
-        <servlet-class>Controller_Log.viewCVServlet</servlet-class>
+        <servlet-class>Controller_CV.viewCVServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>createJobServlet</servlet-name>
+        <servlet-class>Controller_Job.createJobServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
@@ -23,5 +27,9 @@
     <servlet-mapping>
         <servlet-name>viewCVServlet</servlet-name>
         <url-pattern>/viewCV</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>createJobServlet</servlet-name>
+        <url-pattern>/createJob</url-pattern>
     </servlet-mapping>
 </web-app>

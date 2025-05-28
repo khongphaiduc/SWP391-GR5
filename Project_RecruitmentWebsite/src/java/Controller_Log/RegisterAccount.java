@@ -1,3 +1,4 @@
+// pham truung duc lần cuối test 10:07  28/5/2025
 package Controller_Log;
 
 import java.io.IOException;
@@ -48,50 +49,96 @@ public class RegisterAccount extends HttpServlet {
         try {
 
             String status = " ";
-            String name = request.getParameter("username");
+            String nameAccount = request.getParameter("username");
             String email = request.getParameter("email");
             String passwordFist = request.getParameter("password1");
-            String passwordSecond = request.getParameter("Password2");
+            String passwordSecond = request.getParameter("password2");
             String role = request.getParameter("role");
 
-            RegisterAccount_Database rgt = new RegisterAccount_Database();
+           
             ValidationRegister validation = new ValidationRegister();
-            boolean checkAccountName = rgt.isAccountUser(name);
-            if (passwordFist.equals(passwordSecond)) {
-                request.getRequestDispatcher("log/login.jsp").forward(request, response);
-                // check accountName xem nó tồn tại hay chưa
-            } else if (checkAccountName) {
-                status = "Tài Khoản đã tồn tại !";
-                request.setAttribute("status", status);
-                request.getRequestDispatcher("log/login.jsp").forward(request, response);
-                 // checsk độ dài tối thiểu của Account
-            } else if (!validation.checkLength(name)) {
-                status = "Tài Khoản đã tồn tại !";
-                request.setAttribute("status", status);
-                request.getRequestDispatcher("log/login.jsp").forward(request, response);
-            } // check Email đã được đăng ký hay chưa
-            else if (rgt.isEmailUser(email)) {
-                status = "Email đã tồn tại !";
-                request.setAttribute("status", status);
-                request.getRequestDispatcher("log/login.jsp").forward(request, response);
 
-                // kiểm tra hợp lệ của password
-            } else if (!validation.checkLength(passwordFist)) {
-                status = "Mật khẩu tối thiểu lớn hơn 8 ký tự !";
-                request.setAttribute("status", status);
-                request.getRequestDispatcher("log/login.jsp").forward(request, response);
-            } else {
-                // đăng ký tài khoản
+            RegisterCandidateUser candidateDAO = new RegisterCandidateUser();
+            RegisterEmployerUser employersDAO = new RegisterEmployerUser();
 
-                boolean result = rgt.registerAccount(name, email, validation.getTimeNow(), passwordFist, role);
+            // xử lý nếu user chọn Candidate  (đã test)
+            if (role.equals("Candidate")) {
 
-                if (result) {
-                    status = "Đăng ký tài khoản thành công ! >3";
+                // kiểm tra xem email đã tồn tại chưa 
+                if (candidateDAO.isEmaiCandidateUser(email)) {
+                    status = "Email của bạn đã được đăng ký với một tài khoản khác";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+
+                    // kiểm tra tài khoản 
+                } else if (candidateDAO.isCandidatetNameUser(nameAccount)) {
+                    status = "Tài khoản của bạn đã tồn tại ";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+
+                    // kiểm tra độ dài của password
+                } else if (!validation.checkLength(passwordFist)) {
+                    status = "Mật khẩu yêu cầu tối thiểu là 8 ký tự !";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                } else if (!passwordFist.equals(passwordSecond)) {
+                    status = "Mật khẩu xác nhận không khớp với mật khẩu ban đầu bạn nhập !" + passwordFist + " và " + passwordSecond;
                     request.setAttribute("status", status);
                     request.getRequestDispatcher("log/login.jsp").forward(request, response);
                 } else {
-                    status = "Đăng ký tài khoản không  thành công ! >3";
+                    // đăng ký
+
+                    boolean result = candidateDAO.registerCandidate(nameAccount, email, passwordFist);
+
+                    if (result) {
+                        status = "Đăng ký thành công,mời bạn quay lại để đăng nhập !";
+                        request.setAttribute("status", status);
+                        request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                    } else {
+                        status = "ối rồi ồi , đã có dác rồi nên không đăng ký thành công";
+                        request.setAttribute("status", status);
+                        request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                    }
+
                 }
+                // xử lý nếu user chọn Candidate
+            } else {
+
+                // kiểm tra email đã tồn tại hay chưa    (đã test)
+                if (employersDAO.isEmaiEmployerUser(email)) {
+                    status = "Tài khoản Email này đã được đăng ký với 1 tài khoản khác !";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                    // kiểm tra tài khoản đã tồn tại chưa
+                } else if (employersDAO.isEmployertUser(nameAccount)) {
+                    status = "Tài khoản đã được sử dụng !";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                } else if (!validation.checkLength(passwordFist)) {
+                    status = "Mật khẩu yêu cầu tối thiểu là 8 ký tự !";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                } else if (!passwordFist.equals(passwordSecond)) {
+                    status = "Mật khẩu xác nhận không khớp với mật khẩu đầu tiên bạn nhập !";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                } else {
+                    // đăng ký 
+
+                    boolean result = employersDAO.registerEmployers(nameAccount, email, passwordFist);
+                    
+                    if (result) {
+                        status = "Đăng ký thành công,mời bạn quay lại để đăng nhập !";
+                        request.setAttribute("status", status);
+                        request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                    } else {
+                        status = "ối rồi ồi , đã có dác rồi nên không đăng ký thành công";
+                        request.setAttribute("status", status);
+                        request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                    }
+
+                }
+
             }
 
         } catch (Exception s) {
