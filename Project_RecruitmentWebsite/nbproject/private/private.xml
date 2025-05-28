@@ -2,6 +2,20 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_CV/submitCVServlet.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/CandidateDAO.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/editCV.jsp</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/RegisterAccount_Database.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/manageCreatedCVServlet.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/SearchAnDisplayJob.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/viewCVServlet.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/index.jsp</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/RegisterAccount.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/manageCreatedCV.jsp</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/CVDAO.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/log/login.jsp</file>
+        </group>
     </open-files>
 </project-private>

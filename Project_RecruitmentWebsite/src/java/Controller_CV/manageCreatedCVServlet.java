@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller_Log;
+package Controller_CV;
 
 import DAO.*;
-import Models.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,12 +12,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import Models.*;
+import jakarta.servlet.annotation.MultipartConfig;
 
 /**
  *
  * @author PC
  */
-public class createJobServlet extends HttpServlet {
+@MultipartConfig
+public class manageCreatedCVServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +40,10 @@ public class createJobServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet createJobServlet</title>");
+            out.println("<title>Servlet manageCreatedCVServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet createJobServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet manageCreatedCVServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,12 +65,43 @@ public class createJobServlet extends HttpServlet {
         String username = (String) session.getAttribute("username");
         AccountDAO accountDAO = new AccountDAO();
         Account account = accountDAO.getAccountByUserName(username);
-        if (username == null || !"Employer".equals(account.getRole())) {
+
+        if (username == null || !"Candidate".equals(account.getRole())) {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
-            request.getRequestDispatcher("createJob.jsp").forward(request, response);
+
+            CandidateDAO candidateDAO = new CandidateDAO();
+            Candidate candidate = candidateDAO.getCandidateByAccountName(username);
+            int candidateId = candidate.getCandidateId();
+
+            CVDAO cvdao = new CVDAO();
+            List<CV> cvList = cvdao.getCVByCandidate(candidateId);
+
+          
+            String pageParam = request.getParameter("page");
+            int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
+            int pageSize = 5;
+            int totalCV = cvList.size();
+            int totalPages = (int) Math.ceil((double) totalCV / pageSize);
+            int fromIndex = (page - 1) * pageSize;
+            int toIndex = Math.min(fromIndex + pageSize, totalCV);
+
+            if (fromIndex >= totalCV) {
+                fromIndex = 0;
+                toIndex = Math.min(pageSize, totalCV);
+                page = 1;
+            }
+
+            List<CV> paginatedList = cvList.subList(fromIndex, toIndex);
+
+            request.setAttribute("cvList", paginatedList);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("totalPages", totalPages);
+
+            request.getRequestDispatcher("candidateCV_view/manageCreatedCV.jsp").forward(request, response);
         }
+
     }
 
     /**
@@ -81,63 +115,19 @@ public class createJobServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String title = request.getParameter("title");
-        String description = request.getParameter("description");
-        String category = request.getParameter("category");
-        String position = request.getParameter("position");
-        String location = request.getParameter("location");
+        String action = request.getParameter("action");
+        int cvId = Integer.parseInt(request.getParameter("cvId"));
+        CVDAO cvdao = new CVDAO();
+        CV cv = cvdao.getCVById(cvId);
+        if ("edit".equals(action)) {
 
-        double offerMin = parseDoubleSafe(request.getParameter("offerMin"));
-        double offerMax = parseDoubleSafe(request.getParameter("offerMax"));
-        int numberExp = parseIntSafe(request.getParameter("numberExp"));
-        String typeJob = request.getParameter("typeJob");
-        boolean visible = "1".equals(request.getParameter("visible"));
+            request.setAttribute("editedCV", cv);
+            request.getRequestDispatcher("candidateCV_view/editCV.jsp").forward(request, response);
 
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
-        EmployerDAO employerDAO = new EmployerDAO();
-        Employer employer = employerDAO.getEmployerByAccountName(username);
-        int employerId = employer.getEmployerId();
+        } else if ("delete".equals(action)) {
 
-        JobPost job = new JobPost();
-        job.setEmployer_ID(employerId);
-        job.setTitle(title);
-        job.setDescription(description);
-        job.setCategory(category);
-        job.setPosition(position);
-        job.setLocation(location);
-        job.setOffer_Min(offerMin);
-        job.setOffer_Max(offerMax);
-        job.setNumber_exp(numberExp);
-        job.setTypeJob(typeJob);
-        job.setVisible(visible);
-
-        JobPostDAO jobPostDAO = new JobPostDAO();
-        boolean success = jobPostDAO.addJobPost(job);
-
-        if (success) {
-            request.setAttribute("message", "Đăng tin thành công!");
-            request.getRequestDispatcher("createJob.jsp").forward(request, response);
-        } else {
-            request.setAttribute("message", "Đăng tin thất bại!");
-            request.getRequestDispatcher("createJob.jsp").forward(request, response);
-        }
-
-    }
-
-    private double parseDoubleSafe(String value) {
-        try {
-            return Double.parseDouble(value);
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
-    private int parseIntSafe(String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (Exception e) {
-            return 0;
+            cvdao.deleteCVById(cvId);
+            response.sendRedirect(request.getContextPath() + "/manageCreatedCV");
         }
     }
 
