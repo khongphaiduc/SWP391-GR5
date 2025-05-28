@@ -2,7 +2,7 @@
 <%@ page import="java.util.*, Models.*" %>
 <html>
     <head>
-        <jsp:include page="navbar.jsp" />
+        <jsp:include page="/navbar.jsp" />
 
         <meta charset="UTF-8">
         <title>Danh sách CV</title>
@@ -39,8 +39,8 @@
             }
 
             .cv-image {
-                width: 100px;
-                height: 100px;
+                width: 150px;
+                height: 150px;
                 border-radius: 8px;
                 overflow: hidden;
                 border: 1px solid #ddd;
@@ -153,7 +153,7 @@
         <div class="cv-card">
             <div class="cv-info">
                 <div class="cv-image">
-                    <img src="viewCV?cvId=<%= cv.getCvId() %>" alt="CV Image">
+                    <img src="viewCV?cvId=<%= cv.getCvId() %>" alt="File không thể preview. Click vào xem CV ">
                 </div>
                 <div class="cv-details">
                     <h3><i class="fas fa-user icon"></i><%= cv.getFullName() %></h3>
