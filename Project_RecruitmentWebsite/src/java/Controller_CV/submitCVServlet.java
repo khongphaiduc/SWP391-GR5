@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller_Log;
+package Controller_CV;
 
 import DAO.AccountDAO;
 import DAO.CVDAO;
@@ -74,7 +74,7 @@ public class submitCVServlet extends HttpServlet {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
-            request.getRequestDispatcher("fillCVInfo.jsp").forward(request, response);
+            request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
         }
     }
 
@@ -116,10 +116,10 @@ public class submitCVServlet extends HttpServlet {
         if (cvdao.addCV(fullName, address, email, position, numberExp, education,
                 field, currentSalary, birthday, candidateId, nationality, gender, inputStream, mimeType)) {
             request.setAttribute("message", "Lưu CV thành công");
-            request.getRequestDispatcher("fillCVInfo.jsp").forward(request, response);
+            request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
         } else {
             request.setAttribute("message", "Lưu CV thất bại");
-            request.getRequestDispatcher("fillCVInfo.jsp").forward(request, response);
+            request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
         }
 
     }

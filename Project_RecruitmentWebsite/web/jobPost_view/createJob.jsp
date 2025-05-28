@@ -3,7 +3,7 @@
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
-        <jsp:include page="navbar.jsp" />
+        <jsp:include page="/navbar.jsp" />
 
         <title>Đăng tin tuyển dụng</title>
         <!-- Font giống ảnh: Roboto -->
@@ -94,10 +94,10 @@
                 <input type="text" name="location" placeholder="Nhập địa điểm">
 
                 <label>Lương tối thiểu (VNĐ)</label>
-                <input type="number" name="offerMin" placeholder="Nhập lương tối thiểu">
+                <input type="number" name="offerMin" step="1000" placeholder="Nhập lương tối thiểu">
 
                 <label>Lương tối đa (VNĐ)</label>
-                <input type="number" name="offerMax" placeholder="Nhập lương tối đa">
+                <input type="number" name="offerMax" step="1000" placeholder="Nhập lương tối đa">
 
                 <label>Số năm kinh nghiệm yêu cầu</label>
                 <input type="number" name="numberExp" min="0" placeholder="Nhập số năm kinh nghiệm">

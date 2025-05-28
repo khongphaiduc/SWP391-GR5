@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller_Log;
+package Controller_CV;
 
 import DAO.*;
 import java.io.IOException;
@@ -71,13 +71,12 @@ public class viewCVServlet extends HttpServlet {
         CV cv = cvdao.getCVById(cvId);
 
         if (cv != null && cv.getFileData() != null) {
-            // Nếu là PDF
-//            response.setContentType("application/pdf");
+            String mimeType = cv.getMimeType();
+            response.setContentType(mimeType);
 
-            // Nếu là ảnh, dùng:
-//            response.setContentType("image/png");
-            //hoặc "image/jpeg" tùy loại
-            response.setContentType(cv.getMimeType());
+//            if (!mimeType.startsWith("image/")) {
+//                response.setHeader("Content-Disposition", "inline; filename=\"cv." + getExtensionFromMimeType(mimeType) + "\"");
+//            }
 
             InputStream inputStream = cv.getFileData();
             OutputStream out = response.getOutputStream();
@@ -107,8 +106,8 @@ public class viewCVServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            HttpSession session=request.getSession();
-            
+            HttpSession session = request.getSession();
+
             int cvId = Integer.parseInt(request.getParameter("cvId"));
             String fullName = request.getParameter("fullName");
             String address = request.getParameter("address");
@@ -146,13 +145,28 @@ public class viewCVServlet extends HttpServlet {
                 response.sendRedirect("manageCreatedCV");
             } else {
                 request.setAttribute("error", "Không thể cập nhật CV.");
-                request.getRequestDispatcher("editCV.jsp").forward(request, response);
+                request.getRequestDispatcher("candidateCV_view/editCV.jsp").forward(request, response);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Có lỗi xảy ra khi cập nhật.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+    }
+
+    private String getExtensionFromMimeType(String mimeType) {
+        switch (mimeType) {
+            case "application/pdf":
+                return "pdf";
+            case "image/jpeg":
+                return "jpg";
+            case "image/png":
+                return "png";
+            case "image/gif":
+                return "gif";
+            default:
+                return "bin";
         }
     }
 
