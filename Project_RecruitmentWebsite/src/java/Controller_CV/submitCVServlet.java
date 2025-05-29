@@ -68,9 +68,9 @@ public class submitCVServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
-        AccountDAO accountDAO = new AccountDAO();
-        Account account = accountDAO.getAccountByUserName(username);
-        if (username == null || !"Candidate".equals(account.getRole())) {
+        String role = (String) session.getAttribute("role");
+        
+        if (username == null || !"Candidate".equals(role)) {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
@@ -108,7 +108,7 @@ public class submitCVServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         CandidateDAO candidateDAO = new CandidateDAO();
-        Candidate candidate = candidateDAO.getCandidateByAccountName(username);
+        Candidate candidate = candidateDAO.getCandidateByName(username);
         int candidateId = candidate.getCandidateId();
         
 //        PrintWriter out = response.getWriter();

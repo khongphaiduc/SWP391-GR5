@@ -60,9 +60,8 @@ public class createJobServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
-        AccountDAO accountDAO = new AccountDAO();
-        Account account = accountDAO.getAccountByUserName(username);
-        if (username == null || !"Employer".equals(account.getRole())) {
+        String role = (String) session.getAttribute("role");
+        if (username == null || !"Employer".equals(role)) {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
@@ -96,7 +95,7 @@ public class createJobServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         EmployerDAO employerDAO = new EmployerDAO();
-        Employer employer = employerDAO.getEmployerByAccountName(username);
+        Employer employer = employerDAO.getEmployerByName(username);
         int employerId = employer.getEmployerId();
 
         JobPost job = new JobPost();

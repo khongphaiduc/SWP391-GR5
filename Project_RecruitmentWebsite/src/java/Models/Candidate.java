@@ -3,35 +3,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Models;
-
-import java.util.Date;
-
-/**
- *
- * @author PC
- */
 public class Candidate {
 
     private int candidateId;
     private String candidateName;
     private String address;
     private String email;
-    private Date birthday;
+    private java.sql.Date birthday;
     private String nationality;
-    private int accountId;
+    private String passwordHash;
+    private byte[] avatar;
 
     // Constructors
     public Candidate() {
     }
 
-    public Candidate(int candidateId, String candidateName, String address, String email, Date birthday, String nationality, int accountId) {
+    public Candidate(int candidateId, String candidateName, String address, String email,
+            java.sql.Date birthday, String nationality, String passwordHash, byte[] avatar) {
         this.candidateId = candidateId;
         this.candidateName = candidateName;
         this.address = address;
         this.email = email;
         this.birthday = birthday;
         this.nationality = nationality;
-        this.accountId = accountId;
+        this.passwordHash = passwordHash;
+        this.avatar = avatar;
     }
 
     // Getters and Setters
@@ -67,11 +63,11 @@ public class Candidate {
         this.email = email;
     }
 
-    public Date getBirthday() {
+    public java.sql.Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(java.sql.Date birthday) {
         this.birthday = birthday;
     }
 
@@ -83,13 +79,19 @@ public class Candidate {
         this.nationality = nationality;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
-   
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
 }

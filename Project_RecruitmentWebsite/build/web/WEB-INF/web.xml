@@ -16,6 +16,14 @@
         <servlet-name>createJobServlet</servlet-name>
         <servlet-class>Controller_Job.createJobServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>manageCreatedJobServlet</servlet-name>
+        <servlet-class>Controller_Job.manageCreatedJobServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateJobPostServlet</servlet-name>
+        <servlet-class>Controller_Job.updateJobServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -31,5 +39,13 @@
     <servlet-mapping>
         <servlet-name>createJobServlet</servlet-name>
         <url-pattern>/createJob</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>manageCreatedJobServlet</servlet-name>
+        <url-pattern>/manageCreatedJob</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateJobPostServlet</servlet-name>
+        <url-pattern>/updateJobPost</url-pattern>
     </servlet-mapping>
 </web-app>

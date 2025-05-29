@@ -1,34 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Models.*;
 import java.sql.*;
-
 import dal.DBContext;
 
-/**
- *
- * @author PC
- */
 public class CandidateDAO extends DBContext {
 
-    public Candidate getCandidateByAccountName(String username) {
+    public Candidate getCandidateByName(String candidateName) {
         Candidate candidate = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            DBContext dBContext = new DBContext();
-
-            String sql = "SELECT c.*, a.Account_Name, a.Email AS AccountEmail "
-                    + "FROM Candidate c "
-                    + "JOIN Account a ON c.Account_ID = a.Account_ID "
-                    + "WHERE a.Account_Name = ?";
+            String sql = "SELECT * FROM Candidate WHERE CandidateName = ?";
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, username);
+            stmt.setString(1, candidateName);
             rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -36,19 +22,24 @@ public class CandidateDAO extends DBContext {
                 candidate.setCandidateId(rs.getInt("Candidate_ID"));
                 candidate.setCandidateName(rs.getString("CandidateName"));
                 candidate.setAddress(rs.getString("Address"));
-                candidate.setEmail(rs.getString("Email")); 
+                candidate.setEmail(rs.getString("Email"));
                 candidate.setBirthday(rs.getDate("Birthday"));
                 candidate.setNationality(rs.getString("Nationality"));
-                candidate.setAccountId(rs.getInt("Account_ID"));
-                
+                candidate.setPasswordHash(rs.getString("Password_hash"));
+                candidate.setAvatar(rs.getBytes("avata"));
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-        
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
 
         return candidate;
     }
-
 }
