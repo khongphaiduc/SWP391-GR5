@@ -1,39 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Models.Employer;
 import dal.DBContext;
 import java.sql.*;
 
-/**
- *
- * @author PC
- */
 public class EmployerDAO extends DBContext {
 
-    public Employer getEmployerByAccountName(String username) {
+    public Employer getEmployerByName(String nameEmployer) {
         Employer employer = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            String sql = "SELECT e.*, a.Account_Name, a.Email AS AccountEmail "
-                    + "FROM Employers e "
-                    + "JOIN Account a ON e.Account_ID = a.Account_ID "
-                    + "WHERE a.Account_Name = ?";
+            String sql = "SELECT * FROM Employers WHERE Name_Employer = ?";
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, username);
+            stmt.setString(1, nameEmployer);
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-
                 employer = new Employer();
                 employer.setEmployerId(rs.getInt("Employer_ID"));
                 employer.setNameEmployer(rs.getString("Name_Employer"));
-                employer.setAccountId(rs.getInt("Account_ID"));
+                employer.setEmail(rs.getString("Email"));
+                employer.setPasswordHash(rs.getString("Password_hash"));
                 employer.setCompanyName(rs.getString("Company_Name"));
                 employer.setDescription(rs.getString("Description"));
                 employer.setLocation(rs.getString("Location"));
@@ -44,9 +33,19 @@ public class EmployerDAO extends DBContext {
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
 
         return employer;
     }
-
 }

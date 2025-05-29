@@ -37,10 +37,24 @@ public class getListJobPost extends HttpServlet {
         try {
 
             SearchAnDisplayJob o = new SearchAnDisplayJob();
+            var listJobPost = o.getListJobPost();
 
-            var listJobPost = o.getListJobPost();  // lấy list từ database lên nhe
+            int totalJobs = listJobPost.size();    // lấy số lượng jobpost có hiện tại
 
-            request.setAttribute("ListJobPost", listJobPost);
+            String pageStr = request.getParameter("page");
+            int currentpage = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
+            int numberJobOfPage = 10; // dẳte số job mỗi trang
+
+            int totalPages = (int) Math.ceil((double) totalJobs / numberJobOfPage); // tính  tổng số trang cần có 
+
+            int start = (currentpage - 1) * numberJobOfPage;
+            int end = Math.min(start + numberJobOfPage, totalJobs);
+
+            var jobsOnPage = listJobPost.subList(start, end);
+
+            request.setAttribute("ListJobPost", jobsOnPage);
+            request.setAttribute("currentPage", currentpage);
+            request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
 
         } catch (Exception e) {

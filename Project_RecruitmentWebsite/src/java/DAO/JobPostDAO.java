@@ -69,4 +69,56 @@ public class JobPostDAO extends DBContext {
         return false;
     }
 
+    public void updateJobPost(JobPost job) {
+        String sql = "UPDATE JobPost SET title=?, description=?, offer_Min=?, offer_Max=? WHERE jobPost_ID=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, job.getTitle());
+            ps.setString(2, job.getDescription());
+            ps.setDouble(3, job.getOffer_Min());
+            ps.setDouble(4, job.getOffer_Max());
+            ps.setInt(5, job.getJobPost_ID());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteJobPost(int id) {
+        String sql = "DELETE FROM JobPost WHERE jobPost_ID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public JobPost getJobPostById(int id) {
+        String sql = "SELECT * FROM JobPost WHERE jobPost_ID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                JobPost job = new JobPost();
+                job.setJobPost_ID(rs.getInt("jobPost_ID"));
+                job.setTitle(rs.getString("title"));
+                job.setDescription(rs.getString("description"));
+                job.setPosition(rs.getString("position"));
+                job.setLocation(rs.getString("location"));
+                job.setOffer_Min(rs.getDouble("offer_Min"));
+                job.setOffer_Max(rs.getDouble("offer_Max"));
+                job.setNumber_exp(rs.getInt("number_exp"));
+                job.setVisible(rs.getBoolean("visible"));
+                job.setTypeJob(rs.getString("typeJob"));
+                job.setDayCre(rs.getString("dayCre"));
+                job.setCompapy(rs.getString("compapy"));
+                job.setEmployer_ID(rs.getInt("employer_ID"));
+                return job;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

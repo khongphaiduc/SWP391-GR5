@@ -15,7 +15,7 @@
                 margin: 0;
                 padding: 0;
             }
-             .form-title {
+            .form-title {
                 font-size: 24px;
                 font-weight: 700;
                 margin-bottom: 30px;
@@ -113,7 +113,7 @@
                 <label>Hiển thị tin tuyển dụng?</label>
                 <select name="visible">
                     <option value="1">Có</option>
-                    <!--            <option value="0">Không</option>-->
+                    <option value="0">Không</option>
                 </select>
 
                 <input type="submit" value="Đăng tuyển">
