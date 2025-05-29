@@ -43,7 +43,7 @@ public class getListJobPost extends HttpServlet {
 
             String pageStr = request.getParameter("page");
             int currentpage = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
-            int numberJobOfPage = 10; // dẳte số job mỗi trang
+            int numberJobOfPage = 8; // dẳte số job mỗi trang
 
             int totalPages = (int) Math.ceil((double) totalJobs / numberJobOfPage); // tính  tổng số trang cần có 
 
@@ -67,26 +67,36 @@ public class getListJobPost extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+
             HttpSession session = request.getSession();
-
             String status = null;
-
             String salary = request.getParameter("salary");
             String location = request.getParameter("location");
             String career = request.getParameter("career");
             String experience = request.getParameter("exp");
             String typeJob = request.getParameter("typeJob");
-            String searchKey = request.getParameter("searchKey");
+            String searchKey = request.getParameter("search");
             SearchAnDisplayJob o = new SearchAnDisplayJob();
             var listJobPost = o.getListJobPost();
-            if (salary != null && location != null) {
-                listJobPost = o.getListJobPostByLocation(salary, location);
+
+            if (location != null) {
+                listJobPost = o.getListJobPostByOnlyLocation(location);
                 request.setAttribute("ListJobPost", listJobPost);
-            } else if (salary != null) {
-                listJobPost = o.getListJobPostBySalary(salary);
+            } else if (career != null) {
+                listJobPost = o.getListJobPostByOnlyField(career);
+                request.setAttribute("ListJobPost", listJobPost);
+            } else if (searchKey != null) {
+                listJobPost = o.getListJobPostByOnlyNameCompany(searchKey);
                 request.setAttribute("ListJobPost", listJobPost);
             }
 
+//            if (salary != null && location != null) {
+//                listJobPost = o.getListJobPostByLocation(salary, location);
+//                request.setAttribute("ListJobPost", listJobPost);
+//            } else if (salary != null) {
+//                listJobPost = o.getListJobPostBySalary(salary);
+//                request.setAttribute("ListJobPost", listJobPost);
+//            }
             if (listJobPost.size() == 0) {
                 status = "ối rồi ôi";
                 request.setAttribute("status", status);

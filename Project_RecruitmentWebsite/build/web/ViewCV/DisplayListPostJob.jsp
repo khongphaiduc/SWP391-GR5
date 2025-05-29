@@ -232,15 +232,13 @@
 
                 <!--              form vị trí-->
                 <form action="getListJobPost" method="post">
-
                     <div class="filter-group">
                         <label for="location" class="form-label">Vị trí</label>
                         <select class="form-select" id="location" name="location" onchange="this.form.submit()">
                             <option value="0" ${empty location ? 'selected' : ''}>Tất cả</option>
-                            <option value="HN" ${location == 'HN' ? 'selected' : ''}>Hà Nội</option>
-                            <option value="HCM" ${location == 'HCM' ? 'selected' : ''}>TP.HCM</option>
-                            <option value="DN" ${location == 'DN' ? 'selected' : ''}>Đà Nẵng</option>
-
+                            <option value="Hà Nội" ${location == 'HN' ? 'selected' : ''}>Hà Nội</option>
+                            <option value="Hồ Chí Minh" ${location == 'HCM' ? 'selected' : ''}>TP.HCM</option>
+                            <option value="Đà Năng" ${location == 'DN' ? 'selected' : ''}>Đà Nẵng</option>
                         </select>
                         <input type="hidden" name="salary" value="${selectedSalary}" />
                     </div>
@@ -253,10 +251,10 @@
                         <label for="career" class="form-label">Ngành nghề</label>
                         <select class="form-select" id="career" name="career" onchange="this.form.submit()">
                             <option value="">Tất cả</option>
-                            <option value="it">CNTT</option>
+                            <option value="it">IT</option>
                             <option value="marketing">Marketing</option>
-                            <option value="ketoan">Kế toán</option>
-                            <option value="sale">Kinh doanh/Bán hàng</option>
+                            <option value="ketoan">Design</option>
+                            <option value="sale">Sales</option>
                             <option value="other">Ý Tế</option>
                             <option value="other">Pháp Lý</option>
                             <option value="other">Nhận Sự</option>
@@ -295,79 +293,21 @@
                 </form>
 
                 <!-- Từ khoá -->
-                <form action="getListJobPost" method="post">
-                    <div class="filter-group flex-grow-1">
+                <form action="getListJobPost" method="post" class="filter-group flex-grow-1 d-flex align-items-end" style="gap:10px;">
+                    <div style="flex:2;">
                         <label for="keyword" class="form-label">Từ khoá</label>
                         <input type="text" class="form-control" id="keyword" name="searchKey" placeholder="Nhập từ khoá và Enter">
-                    </div>        
-                    <input style="display:none" type="submit" name="name">
+                    </div>
+                    <div style="flex:1; min-width: 110px;">
+                        <label for="keywordType" class="form-label">Tìm theo</label>
+                        <select class="form-select" id="keywordType" name="keywordType">
+                            <option value="all">Công Ty</option>
+                            <option value="title">Vị trí</option>                                              
+                        </select>
+                    </div>
+                    <input type="submit" style="display:none">
                 </form>
-
-
             </div>
-            <!--            <div class="row justify-content-center">
-                             Job 1 
-                            <div class="col-12">
-                                <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
-                                    <img src="../img/carousel-1.jpg" alt="ABC Corp Logo" class="company-logo">
-                                    <div class="flex-grow-1">
-                                        <a href="#" class="job-title">Nhân Viên Lập Trình Web (Frontend)</a>
-                                        <div class="company-name">ABC Corporation</div>
-                                        <div class="job-meta">
-                                            <span class="job-location">📍 Hà Nội</span>
-                                            <span class="salary-badge">15-25 triệu</span>
-                                            <span class="job-type">Toàn thời gian</span>
-                                            <span class="job-deadline">🕑 Hạn nộp: 30/06/2025</span>
-                                        </div>
-                                        <div class="job-desc">
-                                            Tham gia phát triển giao diện web cho khách hàng Nhật Bản, sử dụng <b>ReactJS, HTML5, CSS3</b>, làm việc trong môi trường trẻ trung, năng động.
-                                        </div>
-                                        <button class="apply-btn">Ứng tuyển ngay</button>
-                                    </div>
-                                </div>
-                            </div>
-                             Job 2 
-                            <div class="col-12">
-                                <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
-                                    <img src="https://static.topcv.vn/company_logos/viettech.png" alt="VietTech Logo" class="company-logo">
-                                    <div class="flex-grow-1">
-                                        <a href="#" class="job-title">Chuyên Viên Marketing Online</a>
-                                        <div class="company-name">VietTech Solutions</div>
-                                        <div class="job-meta">
-                                            <span class="job-location">📍 TP.HCM</span>
-                                            <span class="salary-badge">12-18 triệu</span>
-                                            <span class="job-type">Toàn thời gian</span>
-                                            <span class="job-deadline">🕑 Hạn nộp: 15/06/2025</span>
-                                        </div>
-                                        <div class="job-desc">
-                                            Lên kế hoạch và triển khai các chiến dịch <b>marketing online</b>, tối ưu quảng cáo Facebook, Google. Ưu tiên ứng viên có kinh nghiệm từ 1 năm trở lên.
-                                        </div>
-                                        <button class="apply-btn">Ứng tuyển ngay</button>
-                                    </div>
-                                </div>
-                            </div>
-                             Job 3 
-                            <div class="col-12">
-                                <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
-                                    <img src="https://static.topcv.vn/company_logos/greenfood.png" alt="GreenFood Logo" class="company-logo">
-                                    <div class="flex-grow-1">
-                                        <a href="#" class="job-title">Kế Toán Tổng Hợp</a>
-                                        <div class="company-name">GreenFood JSC</div>
-                                        <div class="job-meta">
-                                            <span class="job-location">📍 Đà Nẵng</span>
-                                            <span class="salary-badge">10-14 triệu</span>
-                                            <span class="job-type">Toàn thời gian</span>
-                                            <span class="job-deadline">🕑 Hạn nộp: 20/06/2025</span>
-                                        </div>
-                                        <div class="job-desc">
-                                            Thực hiện các nghiệp vụ <b>kế toán tổng hợp</b>, báo cáo thuế định kỳ, đối chiếu số liệu và kiểm tra chứng từ kế toán.
-                                        </div>
-                                        <button class="apply-btn">Ứng tuyển ngay</button>
-                                    </div>
-                                </div>
-                            </div>-->
-            <!-- End Job List -->
-
 
             <c:if test="${status != null}">
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; text-align: center;">
@@ -439,8 +379,8 @@
                             });
         </script>
 
-        
-<!--         thêm phân trang -->
+
+        <!--         thêm phân trang -->
         <div class="d-flex justify-content-center mt-4">
             <nav>
                 <ul class="pagination">
@@ -462,6 +402,6 @@
                 </ul>
             </nav>
         </div>
-<!--         kết thúc phân trang-->
+        <!--         kết thúc phân trang-->
     </body>
 </html>

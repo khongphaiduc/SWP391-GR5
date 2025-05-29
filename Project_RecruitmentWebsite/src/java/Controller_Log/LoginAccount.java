@@ -13,10 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
 @WebServlet(name = "LoginAccount", urlPatterns = {"/LoginAccount"})
 public class LoginAccount extends HttpServlet {
-
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -35,26 +33,22 @@ public class LoginAccount extends HttpServlet {
         }
     }
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
 
-            HttpSession session = request.getSession(); // Tạo session nếu chưa có
+            HttpSession session = request.getSession(); 
 
             String status = " ";
             String nameAccount = request.getParameter("username");
             String password = request.getParameter("password");
-
-            RegisterAccount_Database ok = new RegisterAccount_Database();
 
             RegisterCandidateUser candidateDAO = new RegisterCandidateUser();
             RegisterEmployerUser employerDAO = new RegisterEmployerUser();
@@ -64,7 +58,7 @@ public class LoginAccount extends HttpServlet {
 
                 boolean result = candidateDAO.LogInAccountCandidate(nameAccount, password);
 
-                if (result) {
+                if (result) { 
                     session.setAttribute("username", nameAccount);
                     session.setAttribute("role", "Candidate");
                     response.sendRedirect("index.jsp");
@@ -74,25 +68,27 @@ public class LoginAccount extends HttpServlet {
                     request.setAttribute("username", nameAccount);
                     request.getRequestDispatcher("log/login.jsp").forward(request, response);
                 }
+              // Kiểm tra xem trong employerr
+            } else if (employerDAO.isEmployertUser(nameAccount)) {
 
-            } else {
-                // check trong table Employers
-                if (employerDAO.isEmployertUser(nameAccount)) {
-
-                    boolean result = employerDAO.LogInAccountEmployers(nameAccount, password);
-                    if (result) {
-                        session.setAttribute("username", nameAccount);
-                        session.setAttribute("role", "Employer");
-                        response.sendRedirect("index.jsp");
-                    } else {
-                        status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
-                        request.setAttribute("username", nameAccount);
-                        request.setAttribute("status", status);
-                        request.getRequestDispatcher("log/login.jsp").forward(request, response);
-                    }
-
+                boolean result = employerDAO.LogInAccountEmployers(nameAccount, password);
+                if (result) {
+                    session.setAttribute("username", nameAccount);
+                    session.setAttribute("role", "Employer");
+                    response.sendRedirect("index.jsp");
+                } else {
+                    status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
+                    request.setAttribute("username", nameAccount);
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
                 }
-
+               
+                // nếu không có 2 thằng thì báo lỗi 
+            } else {
+                status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
+                request.setAttribute("username", nameAccount);
+                request.setAttribute("status", status);
+                request.getRequestDispatcher("log/login.jsp").forward(request, response);
             }
 
         } catch (Exception s) {
