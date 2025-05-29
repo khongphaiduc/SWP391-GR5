@@ -5,6 +5,7 @@
 %>
 <html>
     <head>
+        <jsp:include page="/navbar.jsp" />
         <meta charset="UTF-8">
         <title>Chỉnh sửa CV</title>
         <style>
@@ -59,6 +60,7 @@
         </style>
     </head>
     <body>
+        
         <form action="viewCV" method="post" enctype="multipart/form-data">
             <h2>Chỉnh sửa CV</h2>
 
