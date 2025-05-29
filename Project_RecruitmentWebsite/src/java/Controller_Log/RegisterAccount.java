@@ -47,7 +47,6 @@ public class RegisterAccount extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-
             String status = " ";
             String nameAccount = request.getParameter("username");
             String email = request.getParameter("email");
@@ -55,13 +54,18 @@ public class RegisterAccount extends HttpServlet {
             String passwordSecond = request.getParameter("password2");
             String role = request.getParameter("role");
 
-           
-            ValidationRegister validation = new ValidationRegister();
+            if (nameAccount.contains(" ")) {
+                status = "Tên đăng nhập không được chứa  khoảng trắng  !";
+                request.setAttribute("status", status);
+                request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                return;
+            }
 
+            ValidationRegister validation = new ValidationRegister();
             RegisterCandidateUser candidateDAO = new RegisterCandidateUser();
             RegisterEmployerUser employersDAO = new RegisterEmployerUser();
 
-            // xử lý nếu user chọn Candidate  (đã test)
+            // `1.xử lý nếu user chọn Candidate  (đã test)
             if (role.equals("Candidate")) {
 
                 // kiểm tra xem email đã tồn tại chưa 
@@ -85,6 +89,12 @@ public class RegisterAccount extends HttpServlet {
                     status = "Mật khẩu xác nhận không khớp với mật khẩu ban đầu bạn nhập !" + passwordFist + " và " + passwordSecond;
                     request.setAttribute("status", status);
                     request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                } else if (!validation.checkChar(passwordFist)) {
+
+                    status = "Mật khẩu cần 8 ký tự và các ký tự đặc biệt";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+
                 } else {
                     // đăng ký
 
@@ -94,14 +104,15 @@ public class RegisterAccount extends HttpServlet {
                         status = "Đăng ký thành công,mời bạn quay lại để đăng nhập !";
                         request.setAttribute("status", status);
                         request.getRequestDispatcher("log/login.jsp").forward(request, response);
-                    } else {
+                    } 
+                    else {
                         status = "ối rồi ồi , đã có dác rồi nên không đăng ký thành công";
                         request.setAttribute("status", status);
                         request.getRequestDispatcher("log/login.jsp").forward(request, response);
                     }
 
                 }
-                // xử lý nếu user chọn Candidate
+                // 2 xử lý nếu user chọn Candidate
             } else {
 
                 // kiểm tra email đã tồn tại hay chưa    (đã test)
@@ -122,11 +133,19 @@ public class RegisterAccount extends HttpServlet {
                     status = "Mật khẩu xác nhận không khớp với mật khẩu đầu tiên bạn nhập !";
                     request.setAttribute("status", status);
                     request.getRequestDispatcher("log/login.jsp").forward(request, response);
-                } else {
+                } else if (!validation.checkChar(passwordFist)) {
+
+                    status = "Mật khẩu cần 8 ký tự và các ký tự đặc biệt";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                
+                }
+                
+                 else {
                     // đăng ký 
 
                     boolean result = employersDAO.registerEmployers(nameAccount, email, passwordFist);
-                    
+
                     if (result) {
                         status = "Đăng ký thành công,mời bạn quay lại để đăng nhập !";
                         request.setAttribute("status", status);
