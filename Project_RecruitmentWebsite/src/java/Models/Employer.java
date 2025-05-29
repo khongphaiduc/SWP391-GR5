@@ -12,7 +12,8 @@ public class Employer {
 
     private int employerId;
     private String nameEmployer;
-    private int accountId;
+    private String email;
+    private String passwordHash;
     private String companyName;
     private String description;
     private String location;
@@ -20,13 +21,17 @@ public class Employer {
     private String companySize;
     private byte[] imgLogo;
 
+    // Constructors
     public Employer() {
     }
 
-    public Employer(int employerId, String nameEmployer, int accountId, String companyName, String description, String location, String urlWebsite, String companySize, byte[] imgLogo) {
+    public Employer(int employerId, String nameEmployer, String email, String passwordHash,
+            String companyName, String description, String location,
+            String urlWebsite, String companySize, byte[] imgLogo) {
         this.employerId = employerId;
         this.nameEmployer = nameEmployer;
-        this.accountId = accountId;
+        this.email = email;
+        this.passwordHash = passwordHash;
         this.companyName = companyName;
         this.description = description;
         this.location = location;
@@ -35,77 +40,84 @@ public class Employer {
         this.imgLogo = imgLogo;
     }
 
+    // Getters and Setters
     public int getEmployerId() {
         return employerId;
-    }
-
-    public String getNameEmployer() {
-        return nameEmployer;
-    }
-
-    public int getAccountId() {
-        return accountId;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public String getUrlWebsite() {
-        return urlWebsite;
-    }
-
-    public String getCompanySize() {
-        return companySize;
-    }
-
-    public byte[] getImgLogo() {
-        return imgLogo;
     }
 
     public void setEmployerId(int employerId) {
         this.employerId = employerId;
     }
 
+    public String getNameEmployer() {
+        return nameEmployer;
+    }
+
     public void setNameEmployer(String nameEmployer) {
         this.nameEmployer = nameEmployer;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public String getCompanyName() {
+        return companyName;
     }
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
     }
 
+    public String getUrlWebsite() {
+        return urlWebsite;
+    }
+
     public void setUrlWebsite(String urlWebsite) {
         this.urlWebsite = urlWebsite;
+    }
+
+    public String getCompanySize() {
+        return companySize;
     }
 
     public void setCompanySize(String companySize) {
         this.companySize = companySize;
     }
 
+    public byte[] getImgLogo() {
+        return imgLogo;
+    }
+
     public void setImgLogo(byte[] imgLogo) {
         this.imgLogo = imgLogo;
     }
-
-    
 }

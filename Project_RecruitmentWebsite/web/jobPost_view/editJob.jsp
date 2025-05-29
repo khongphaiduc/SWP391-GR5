@@ -1,13 +1,19 @@
+<%-- 
+    Document   : editJob
+    Created on : May 29, 2025, 10:55:58 AM
+    Author     : PC
+--%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="vi">
+<%@ page import="Models.*" %>
+<%
+    JobPost job = (JobPost) request.getAttribute("job");
+%>
+<html>
     <head>
-        <meta charset="UTF-8">
         <jsp:include page="/navbar.jsp" />
 
-        <title>Đăng tin tuyển dụng</title>
-        <!-- Font giống ảnh: Roboto -->
-        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <title>Chỉnh sửa JobPost</title>
         <style>
             body {
                 font-family: 'Roboto', sans-serif;
@@ -65,42 +71,57 @@
             input[type="submit"]:hover {
                 background-color: #2f855a;
             }
+            button {
+                margin-top: 20px;
+                padding: 10px;
+                width: 100%;
+                background-color: #00b386;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+
+            button:hover {
+                background-color: #009e75;
+            }
         </style>
     </head>
     <body>
-
         <div class="container">
             <div class="text-center">
-                <div class="form-title">Đăng tin tuyển dụng</div>
+                <div class="form-title">Chỉnh sửa tin tuyển dụng</div>
                 <% String message = (String) request.getAttribute("message");
                 if (message != null) { %>
                 <p><%= message %></p>
                 <% } %>
             </div>
-            <form action="createJob" method="post">
+            <form action="updateJobPost" method="post">
+                <input type="hidden" name="jobPost_ID" value="<%= job.getJobPost_ID() %>">
+
                 <label>Tiêu đề công việc</label>
-                <input type="text" name="title" placeholder="Nhập tiêu đề" required>
+                <input type="text" name="title" placeholder="Nhập tiêu đề" value="<%= job.getTitle()%>">
 
                 <label>Mô tả công việc</label>
-                <textarea name="description" rows="3" placeholder="Nhập mô tả" required></textarea>
+                <textarea name="description" rows="3" placeholder="Nhập mô tả" value="<%= job.getDescription()%>"></textarea>
 
                 <label>Danh mục</label>
-                <input type="text" name="category" placeholder="Nhập danh mục" required>
+                <input type="text" name="category" placeholder="Nhập danh mục" value="<%= job.getCategory()%>">
 
                 <label>Vị trí</label>
-                <input type="text" name="position" placeholder="Nhập vị trí">
+                <input type="text" name="position" placeholder="Nhập vị trí" value="<%= job.getPosition()%>">
 
                 <label>Địa điểm</label>
-                <input type="text" name="location" placeholder="Nhập địa điểm">
+                <input type="text" name="location" placeholder="Nhập địa điểm" value="<%= job.getLocation()%>">
 
                 <label>Lương tối thiểu (VNĐ)</label>
-                <input type="number" name="offerMin" step="1000" placeholder="Nhập lương tối thiểu">
+                <input type="number" name="offerMin" step="1000" placeholder="Nhập lương tối thiểu" value="<%= job.getOffer_Min() %>">
 
                 <label>Lương tối đa (VNĐ)</label>
-                <input type="number" name="offerMax" step="1000" placeholder="Nhập lương tối đa">
+                <input type="number" name="offerMax" step="1000" placeholder="Nhập lương tối đa" value="<%= job.getOffer_Max() %>"> 
 
                 <label>Số năm kinh nghiệm yêu cầu</label>
-                <input type="number" name="numberExp" min="0" placeholder="Nhập số năm kinh nghiệm">
+                <input type="number" name="numberExp" min="0" placeholder="Nhập số năm kinh nghiệm" value="<%= job.getNumber_exp() %>">
                 <label>Loại hình công việc</label>
                 <select name="typeJob" required>
                     <option value="Full time">Full time</option>
@@ -115,10 +136,8 @@
                     <option value="1">Có</option>
                     <option value="0">Không</option>
                 </select>
-
-                <input type="submit" value="Đăng tuyển">
+                <button type="submit">Cập nhật</button>
             </form>
         </div>
-
     </body>
 </html>
