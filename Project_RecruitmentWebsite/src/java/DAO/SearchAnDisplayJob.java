@@ -3,9 +3,9 @@ package DAO;
 
 import java.sql.*;
 import Models.JobPost;
+import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
 import dal.DBContext;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 
 public class SearchAnDisplayJob extends DBContext {
@@ -63,21 +63,21 @@ public class SearchAnDisplayJob extends DBContext {
     }
 
     // tìm theo lương   (đã test)
-    public List<JobPost> getListJobPostBySalary(String option) {
+    public List<JobPost> getListJobPostByOnlySalary(String option) {
         String t = "";
 
         if (option.equals("1")) {
-            t = "s1.Offer_Min>0 and s1.Offer_Max<=1000";
+            t = "s1.Offer_Min>=0 and s1.Offer_Max<=10";
         } else if (option.equals("2")) {
-            t = "s1.Offer_Min>=1000 and s1.Offer_Max<=1500";
+            t = "s1.Offer_Min>=10 and s1.Offer_Max<=20";
         } else if (option.equals("3")) {
-            t = "s1.Offer_Min>=1500 and s1.Offer_Max<=2000";
+            t = "s1.Offer_Min>=20 and s1.Offer_Max<=30";
         } else if (option.equals("4")) {
-            t = "s1.Offer_Min>=2000 and s1.Offer_Max<=3000";
+            t = "s1.Offer_Min>=30 and s1.Offer_Max<=40";
         } else if (option.equals("0")) {
-            t = "s1.Offer_Min>0";
+            t = "s1.Offer_Min>=0";
         } else {
-            t = "s1.Offer_Min>=3000";
+            t = "s1.Offer_Min>40";
         }
 
         List<JobPost> list = new ArrayList<>();
@@ -129,6 +129,12 @@ public class SearchAnDisplayJob extends DBContext {
         }
 
         return null;
+    }
+
+    public static void main(String[] args) {
+        SearchAnDisplayJob o = new SearchAnDisplayJob();
+
+        o.getListJobPostByOnlySalary("6").forEach(a -> System.out.println(a));
     }
 
     // tìm theo vị trí  với các option kèm theo   (đã test)
@@ -446,12 +452,6 @@ public class SearchAnDisplayJob extends DBContext {
         }
 
         return new ArrayList<>();  // Trả list rỗng 
-    }
-
-    public static void main(String[] args) {
-        SearchAnDisplayJob o = new SearchAnDisplayJob();
-        o.getListJobPostByOnlyNameCompany("ABC Co.").forEach(a->System.out.println(a));
-        
     }
 
 }

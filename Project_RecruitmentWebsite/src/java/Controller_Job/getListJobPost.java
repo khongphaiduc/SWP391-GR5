@@ -40,7 +40,6 @@ public class getListJobPost extends HttpServlet {
             var listJobPost = o.getListJobPost();
 
             int totalJobs = listJobPost.size();    // lấy số lượng jobpost có hiện tại
-
             String pageStr = request.getParameter("page");
             int currentpage = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
             int numberJobOfPage = 8; // dẳte số job mỗi trang
@@ -55,10 +54,10 @@ public class getListJobPost extends HttpServlet {
             request.setAttribute("ListJobPost", jobsOnPage);
             request.setAttribute("currentPage", currentpage);
             request.setAttribute("totalPages", totalPages);
-            request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
+            request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
 
         } catch (Exception e) {
-            request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
+            request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
         }
 
     }
@@ -79,28 +78,29 @@ public class getListJobPost extends HttpServlet {
             SearchAnDisplayJob o = new SearchAnDisplayJob();
             var listJobPost = o.getListJobPost();
 
+            // tìm bên ngoài index
             if (location != null) {
                 listJobPost = o.getListJobPostByOnlyLocation(location);
                 request.setAttribute("ListJobPost", listJobPost);
+                session.setAttribute("location", location);
             } else if (career != null) {
                 listJobPost = o.getListJobPostByOnlyField(career);
+                session.setAttribute("career", career);
                 request.setAttribute("ListJobPost", listJobPost);
             } else if (searchKey != null) {
                 listJobPost = o.getListJobPostByOnlyNameCompany(searchKey);
                 request.setAttribute("ListJobPost", listJobPost);
+                 session.setAttribute("searchKey", searchKey);
+            } else if (salary != null && !salary.isEmpty()) {
+                listJobPost = o.getListJobPostByOnlySalary(salary);
+                request.setAttribute("ListJobPost", listJobPost);
+                session.setAttribute("selectedSalary", salary);
             }
 
-//            if (salary != null && location != null) {
-//                listJobPost = o.getListJobPostByLocation(salary, location);
-//                request.setAttribute("ListJobPost", listJobPost);
-//            } else if (salary != null) {
-//                listJobPost = o.getListJobPostBySalary(salary);
-//                request.setAttribute("ListJobPost", listJobPost);
-//            }
             if (listJobPost.size() == 0) {
                 status = "ối rồi ôi";
                 request.setAttribute("status", status);
-                request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
+                request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
                 return;
             }
 
@@ -113,9 +113,9 @@ public class getListJobPost extends HttpServlet {
             session.setAttribute("searchKey", searchKey);
             // list
             request.setAttribute("ListJobPost", listJobPost);
-            request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
+            request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
         } catch (Exception e) {
-            request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
+            request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
         }
 
     }
