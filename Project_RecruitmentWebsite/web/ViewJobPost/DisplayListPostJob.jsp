@@ -220,10 +220,10 @@
                         <select class="form-select" id="salary" name="salary" onchange="this.form.submit()">
                             <option value="0" ${selectedSalary == '0' ? 'selected' : ''}>Tất cả</option>
                             <option value="1" ${selectedSalary == '1' ? 'selected' : ''}>Dưới 10 triệu</option>
-                            <option value="2" ${selectedSalary == '2' ? 'selected' : ''}>10-15 triệu</option>
-                            <option value="3" ${selectedSalary == '3' ? 'selected' : ''}>15-20 triệu</option>
-                            <option value="4" ${selectedSalary == '4' ? 'selected' : ''}>20-30 triệu</option>
-                            <option value="5" ${selectedSalary == '5' ? 'selected' : ''}>Trên 30 triệu</option>
+                            <option value="2" ${selectedSalary == '2' ? 'selected' : ''}>10-20 triệu</option>
+                            <option value="3" ${selectedSalary == '3' ? 'selected' : ''}>20-30 triệu</option>
+                            <option value="4" ${selectedSalary == '4' ? 'selected' : ''}>30-40 triệu</option>
+                            <option value="5" ${selectedSalary == '5' ? 'selected' : ''}>Trên 40 triệu</option>
                         </select>
                     </div>
                 </form>
@@ -235,10 +235,10 @@
                     <div class="filter-group">
                         <label for="location" class="form-label">Vị trí</label>
                         <select class="form-select" id="location" name="location" onchange="this.form.submit()">
-                            <option value="0" ${empty location ? 'selected' : ''}>Tất cả</option>
-                            <option value="Hà Nội" ${location == 'HN' ? 'selected' : ''}>Hà Nội</option>
-                            <option value="Hồ Chí Minh" ${location == 'HCM' ? 'selected' : ''}>TP.HCM</option>
-                            <option value="Đà Năng" ${location == 'DN' ? 'selected' : ''}>Đà Nẵng</option>
+                            <option value="0" ${ location == '0' ? 'selected' : ''}>Tất cả</option>
+                            <option value="HN" ${location == 'HN' ? 'selected' : ''}>Hà Nội</option>
+                            <option value="HCM" ${location == 'HCM' ? 'selected' : ''}>TP.HCM</option>
+                            <option value="DN" ${location == 'DN' ? 'selected' : ''}>Đà Nẵng</option>
                         </select>
                         <input type="hidden" name="salary" value="${selectedSalary}" />
                     </div>

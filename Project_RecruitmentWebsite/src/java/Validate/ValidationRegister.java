@@ -23,7 +23,7 @@ public class ValidationRegister {
 
     public static void main(String[] args) {
         ValidationRegister o = new ValidationRegister();
-        System.out.println(checkChar("Test123!"));
+        System.out.println(checkChar("123456789@Aa"));
     }
 
 }
