@@ -1,9 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Models.JobCategory" %>
+
 <!DOCTYPE html>
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
         <jsp:include page="/navbar.jsp" />
+
+        <!-- Select2 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Select2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
         <title>Đăng tin tuyển dụng</title>
         <!-- Font giống ảnh: Roboto -->
@@ -66,6 +77,15 @@
                 background-color: #2f855a;
             }
         </style>
+
+        <script>
+            $(document).ready(function () {
+                $('#jobCategory').select2({
+                    placeholder: "Chọn danh mục nghề",
+                    allowClear: true
+                });
+            });
+        </script>
     </head>
     <body>
 
@@ -84,8 +104,19 @@
                 <label>Mô tả công việc</label>
                 <textarea name="description" rows="3" placeholder="Nhập mô tả" required></textarea>
 
-                <label>Danh mục</label>
-                <input type="text" name="category" placeholder="Nhập danh mục" required>
+                <!--                <label>Danh mục</label>
+                                <input type="text" name="category" placeholder="Nhập danh mục" required>-->
+                <select id="jobCategory" name="category" >
+                    <option value="">-- Chọn ngành nghề --</option>
+                    <%
+                        ArrayList<JobCategory> jobCategories = (ArrayList<JobCategory>) request.getAttribute("jobCategories");
+                        for (JobCategory category : jobCategories) {
+                    %>
+                    <option value="<%= category.getId() %>"><%= category.getName() %></option>
+                    <%
+                        }
+                    %>
+                </select>
 
                 <label>Vị trí</label>
                 <input type="text" name="position" placeholder="Nhập vị trí">

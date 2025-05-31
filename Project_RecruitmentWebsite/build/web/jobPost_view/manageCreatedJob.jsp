@@ -30,6 +30,8 @@
                 border-radius: 10px;
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
                 margin-bottom: 20px;
+                margin-left: 20px;
+                margin-right: 20px;
                 padding: 20px;
                 display: flex;
                 justify-content: space-between;
@@ -132,7 +134,7 @@
                 <span><i class="fas fa-map-marker-alt icon"></i> Địa điểm: <%= job.getLocation() %></span>
                 <span><i class="fas fa-money-bill-wave icon"></i> Mức lương: <%= job.getOffer_Min() %> - <%= job.getOffer_Max() %></span>
                 <span><i class="fas fa-user-tie icon"></i> Vị trí: <%= job.getPosition() %></span>
-                <span><i class="fas fa-calendar icon"></i> Ngày đăng: <%= job.getDayCre() %></span>
+<!--                <span><i class="fas fa-calendar icon"></i> Ngày đăng: <%= job.getDayCre() %></span>-->
                 <span><i class="fas fa-eye icon"></i> Trạng thái: <%= job.isVisible() ? "Hiển thị" : "Ẩn" %></span>
             </div>
             <div class="job-actions">

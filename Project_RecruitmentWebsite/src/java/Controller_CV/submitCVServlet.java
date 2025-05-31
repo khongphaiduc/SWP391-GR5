@@ -69,7 +69,7 @@ public class submitCVServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
-        
+
         if (username == null || !"Candidate".equals(role)) {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
@@ -104,22 +104,32 @@ public class submitCVServlet extends HttpServlet {
         Part filePart = request.getPart("CVFile");
         InputStream inputStream = filePart.getInputStream();
         String mimeType = filePart.getContentType();
-        
+
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         CandidateDAO candidateDAO = new CandidateDAO();
         Candidate candidate = candidateDAO.getCandidateByName(username);
         int candidateId = candidate.getCandidateId();
-        
-//        PrintWriter out = response.getWriter();
+
+        PrintWriter out = response.getWriter();
         CVDAO cvdao = new CVDAO();
-        if (cvdao.addCV(fullName, address, email, position, numberExp, education,
-                field, currentSalary, birthday, candidateId, nationality, gender, inputStream, mimeType)) {
-            request.setAttribute("message", "Lưu CV thành công");
-            request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
-        } else {
-            request.setAttribute("message", "Lưu CV thất bại");
-            request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
+        
+      
+        
+        if (mimeType.startsWith("image/")&& filePart.getSize()<1000000) {
+            boolean success = cvdao.addCV(fullName, address, email, position, numberExp, education,
+                    field, currentSalary, birthday, candidateId, nationality, gender, inputStream, mimeType);
+
+            if (success) {
+                request.setAttribute("message", "Lưu CV thành công");
+                request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
+            } else {
+                request.setAttribute("message", "Lưu CV thất bại");
+                request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
+            }
+        }else{
+            request.setAttribute("message", "Bạn cần chọn file ảnh(.png, jpg) nhỏ hơn 500kb để đăng lên");
+                request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
         }
 
     }
