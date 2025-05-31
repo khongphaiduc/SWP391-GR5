@@ -19,7 +19,7 @@
 </head>
 <body>
 <div class="container">
-    <h2>Đổi mật khẩu</h2>
+    <h2 style="color: #00b386" >Đổi mật khẩu</h2>
     <form action="<%= request.getContextPath() %>/UserChangePassword" method="post">
         <label for="oldPassword">Mật khẩu cũ:</label>
         <input type="password" id="oldPassword" name="oldPassword" required>

@@ -167,7 +167,7 @@
 
     
     <div class="forgot-password-container">
-        <h2>Quên mật khẩu?</h2>
+        <h2 style="color: #34e89e">Quên mật khẩu?</h2>
         <p>Nhập email bạn đã đăng ký để reset lại mật khẩu từ hệ thống</p>
         <div class="message" id="message"></div>
         <form action="GetForgetPassword"  method="post" id="forgotForm" autocomplete="off">
@@ -198,5 +198,6 @@
         <% } %>
         <a class="back-login" href="log/login.jsp">Quay lại đăng nhập</a>
     </div>
+        
 </body>
 </html>

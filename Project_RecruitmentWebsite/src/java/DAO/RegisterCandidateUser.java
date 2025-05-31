@@ -98,7 +98,7 @@ public class RegisterCandidateUser extends DBContext {
 
             while (rs.next()) {
                 String getpasswordEncodeInBase = rs.getString("Password_hash");
-                if (passwordHash.equals(getpasswordEncodeInBase)) {
+                if (passwordHash.equals(getpasswordEncodeInBase)) {              // so sánh code hash của 2 thàngqư 
                     return true;
                 }
             }

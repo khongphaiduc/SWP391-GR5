@@ -22,7 +22,7 @@ public class JobPost {
         return visible;
     }
 
-    public JobPost(int jobPost_ID, String title, String description,
+    public JobPost(int jobPost_ID, String title, String description,String category,
             String position, String location, double offer_Min, double offer_Max,
             int number_exp, boolean visible, String typeJob, String dayCre, String compapy) {
         this.jobPost_ID = jobPost_ID;
@@ -36,7 +36,11 @@ public class JobPost {
         this.visible = visible;
         this.typeJob = typeJob;
         this.dayCre = dayCre;
+
+        this.category=category;
+
         this.company = compapy;
+
     }
 
     public JobPost() {

@@ -6,6 +6,7 @@ package Controller_Job;
 
 import DAO.*;
 import Models.*;
+import MyService.JobCategoryProvider;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 /**
  *
@@ -65,6 +67,9 @@ public class createJobServlet extends HttpServlet {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
+            ArrayList<JobCategory> jobCategories = JobCategoryProvider.getJobCategories();
+
+            request.setAttribute("jobCategories", jobCategories);
             request.getRequestDispatcher("jobPost_view/createJob.jsp").forward(request, response);
         }
     }
@@ -113,8 +118,11 @@ public class createJobServlet extends HttpServlet {
 
         JobPostDAO jobPostDAO = new JobPostDAO();
         boolean success = jobPostDAO.addJobPost(job);
+        ArrayList<JobCategory> jobCategories = JobCategoryProvider.getJobCategories();
 
+        request.setAttribute("jobCategories", jobCategories);
         if (success) {
+
             request.setAttribute("message", "Đăng tin thành công!");
             request.getRequestDispatcher("jobPost_view/createJob.jsp").forward(request, response);
         } else {

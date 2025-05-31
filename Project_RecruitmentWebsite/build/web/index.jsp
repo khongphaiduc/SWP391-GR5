@@ -176,6 +176,8 @@
                         <%String role = (String) session.getAttribute("role");%>
                         <%if("Candidate".equals(role)){%>
                         <div class="nav-item dropdown">
+
+
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Quản lý CV</a>
                         <div class="dropdown-menu rounded-0 m-0">
                             <a href="${pageContext.request.contextPath}/submitCV" class="dropdown-item">Tạo CV</a>
@@ -185,6 +187,7 @@
                         <%}else if("Employer".equals(role)){%>
                             <a href="${pageContext.request.contextPath}/manageCreatedJob" class="nav-item nav-link">Quản lý tin</a>
                         <%}%>
+
                         <a href="contact.jsp" class="nav-item nav-link">Contact</a>
                     </div>
                     <a href="${pageContext.request.contextPath}/createJob" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Đăng tin tuyển dụng<i class="fa fa-arrow-right ms-3"></i></a>
@@ -211,35 +214,51 @@
 
                     <div style="display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); margin-top: 28px; padding: 0 24px; height: 54px;">
                         <!-- Select - Danh mục Nghề -->
-                        <select style="flex: 0 0 200px; height: 36px; border-radius: 8px; border: 1px solid #ececec; background: #f5f6fa; font-size: 1rem; font-weight: 500; padding: 0 10px; margin-right:8px; color: #18191F;">
-                            <option value="">Danh mục Nghề</option>
-                            <option value="it">IT phần mềm</option>
-                            <option value="marketing">Marketing</option>
-                            <option value="sale">Kinh doanh/Bán hàng</option>
-                            <option value="customer">Chăm sóc khách hàng</option>
-                            <option value="hr">Nhân sự/Hành chính</option>
-                            <option value="taichinh">Tài chính/Kế toán</option>
-                            <option value="laodong">Lao động phổ thông</option>
-                        </select>
+
+                        <form action="getListJobPost" method="post">                            
+                            <select name="career" onchange="this.form.submit()" style="flex: 0 0 200px; height: 36px; border-radius: 8px; border: 1px solid #ececec; background: #f5f6fa; font-size: 1rem; font-weight: 500; padding: 0 10px; margin-right:8px; color: #18191F;">
+                                <option value="">Danh mục Nghề</option>
+                                <option value="1">IT phần mềm</option>
+                                <option value="3">Marketing</option>
+                                <option value="7">Kinh doanh/Bán hàng</option>                          
+                                <option value="2">Nhân sự/Hành chính</option>
+                                <option value="4">Tài chính/Kế toán</option>
+                                <option value="5">Mỹ Thuật</option>
+                                <option value="6">Kiểm Toán</option>
+                                <option value="8">Design</option>
+                                <option value="9">Finance</option>
+                            </select>
+
+                        </form>
+
+
                         <!-- Input - Vị trí tuyển dụng -->
-                        <input type="text" placeholder="Vị trí tuyển dụng, tên công ty" style="flex: 1; border: none; outline: none; background: transparent; font-size: 1rem; color: #555; padding: 0 10px; height: 36px;" />
+
                         <!-- Select - Địa điểm -->
-                        <select style="flex: 0 0 170px; height: 36px; border-radius: 8px; border: 1px solid #ececec; background: #f5f6fa; font-size: 1rem; font-weight: 500; padding: 0 10px; margin-right:8px; color: #18191F;">
-                            <option value="">Địa điểm</option>
-                            <option value="hanoi">Hà Nội</option>
-                            <option value="hcm">TP Hồ Chí Minh</option>
-                            <option value="danang">Đà Nẵng</option>
-                            <option value="haiphong">Hải Phòng</option>
-                            <option value="cantho">Cần Thơ</option>
-                            <option value="other">Khác</option>
-                        </select>
-                        <!-- Search Button -->               
-                        <!--                         run vào servler khi ấn tìm kiếm ở trang chủ -->
-                        <button onclick="window.open('getListJobPost', '_blank')" 
-                                style="background: #06DC74; color: #fff; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; padding: 0 32px; height: 38px; display: flex; align-items: center; gap: 8px; cursor:pointer; transition: background 0.17s;">
-                            <i class="fas fa-search"></i>
-                            Tìm kiếm
-                        </button>
+
+                        <form action="getListJobPost" method="post" >                         
+                            <select  name="location" onchange="this.form.submit()" style="flex: 0 0 170px; height: 36px; border-radius: 8px; border: 1px solid #ececec; background: #f5f6fa; font-size: 1rem; font-weight: 500; padding: 0 10px; margin-right:8px; color: #18191F;margin-left: 580px">
+                                <option value="">Địa điểm</option>
+                                <option value="2">Hà Nội</option>
+                                <option value="1">TP Hồ Chí Minh</option>
+                                <option value="3">Đà Nẵng</option>
+                                <option value="haiphong">Hải Phòng</option>
+                                <option value="cantho">Cần Thơ</option>
+                                <option value="other">Khác</option>
+                            </select>
+
+                        </form>
+
+
+                        <!-- Search -->                         
+                        <form  action="getListJobPost" method="post" >
+                            <input name="search" type="text" placeholder="Search Tên Công Ty " style="flex: 1; border: none; outline: none; background: transparent; font-size: 1rem; color: #555; padding: 0 10px; height: 36px;margin-left: -750px ;" />
+                            <input type="submit" name="name" value="Tìm Kiếm" style="background-color: #33cc00;color: #ffffff;border-radius: 10px;border: #ffffff;margin-left: 577px;width: 120px ;height: 40px">
+                        </form>
+
+                        <!-- FontAwesome nếu chưa có -->
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+
 
 
                     </div>
@@ -301,45 +320,6 @@
                     </script>
                 </div>
             </div>
-
-
-            <!--             Search Start 
-                        <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
-                            <div class="container">
-                                <div class="row g-2">
-                                    <div class="col-md-10">
-                                        <div class="row g-2">
-                                            <div class="col-md-4">
-                                                <input type="text" class="form-control border-0" placeholder="Keyword" />
-                                            </div>
-                                            <div class="col-md-4">
-                                                <select class="form-select border-0">
-                                                    <option selected>Category</option>
-                                                    <option value="1">Category 1</option>
-                                                    <option value="2">Category 2</option>
-                                                    <option value="3">Category 3</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <select class="form-select border-0">
-                                                    <option selected>Location</option>
-                                                    <option value="1">Location 1</option>
-                                                    <option value="2">Location 2</option>
-                                                    <option value="3">Location 3</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button class="btn btn-dark border-0 w-100">Search</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                         Search End -->
-
-
-
 
 
             <!-- Jobs Start -->
@@ -453,7 +433,7 @@
                                     </div>
                                 </div>
                                 <a style="border-radius: 20px" class="btn btn-primary py-3 px-5" href="getListJobPost">Xem Thêm</a>
-                                
+
                             </div>
 
                         </div>
