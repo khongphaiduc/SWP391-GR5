@@ -131,14 +131,20 @@
         <div class="job-card">
             <div class="job-details">
                 <h3><i class="fas fa-briefcase icon"></i> <%= job.getTitle() %></h3>
+                <span><i class="fas fa-building icon"></i> Công ty: <%= job.getCompapy() %></span>
+
+                <span><i class="fas fa-sitemap icon"></i> Ngành nghề: <%= job.getCategory() %></span>
+
                 <span><i class="fas fa-map-marker-alt icon"></i> Địa điểm: <%= job.getLocation() %></span>
                 <span><i class="fas fa-money-bill-wave icon"></i> Mức lương: <%= job.getOffer_Min() %> - <%= job.getOffer_Max() %></span>
                 <span><i class="fas fa-user-tie icon"></i> Vị trí: <%= job.getPosition() %></span>
 <!--                <span><i class="fas fa-calendar icon"></i> Ngày đăng: <%= job.getDayCre() %></span>-->
+                <span><i class="fas fa-hourglass icon"></i> Kinh nghiệm yêu cầu: <%= job.getNumber_exp() %> năm</span>
+
                 <span><i class="fas fa-eye icon"></i> Trạng thái: <%= job.isVisible() ? "Hiển thị" : "Ẩn" %></span>
             </div>
             <div class="job-actions">
-                
+
                 <form method="post" action="manageCreatedJob" style="margin: 0;">
                     <input type="hidden" name="action" value="edit" />
                     <input type="hidden" name="jobId" value="<%= job.getJobPost_ID() %>" />
