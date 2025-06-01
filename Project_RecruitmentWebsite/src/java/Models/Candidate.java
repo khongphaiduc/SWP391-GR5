@@ -18,23 +18,23 @@ public class Candidate {
     private String email;
     private Date birthday;
     private String nationality;
-    private int accountId;
+    private String passwordHash;
+    private byte[] avatar;
 
-    // Constructors
     public Candidate() {
     }
 
-    public Candidate(int candidateId, String candidateName, String address, String email, Date birthday, String nationality, int accountId) {
+    public Candidate(int candidateId, String candidateName, String address, String email, Date birthday, String nationality, String passwordHash, byte[] avatar) {
         this.candidateId = candidateId;
         this.candidateName = candidateName;
         this.address = address;
         this.email = email;
         this.birthday = birthday;
         this.nationality = nationality;
-        this.accountId = accountId;
+        this.passwordHash = passwordHash;
+        this.avatar = avatar;
     }
 
-    // Getters and Setters
     public int getCandidateId() {
         return candidateId;
     }
@@ -83,13 +83,29 @@ public class Candidate {
         this.nationality = nationality;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
+
+    @Override
+    public String toString() {
+        return "Candidate{" + "candidateId=" + candidateId + ", candidateName=" + candidateName + ", address=" + address + ", email=" + email + ", birthday=" + birthday + ", nationality=" + nationality + ", password_hash=" + passwordHash + ", avatar=" + avatar + '}';
     }
 
    
+   
+    
+
 }
