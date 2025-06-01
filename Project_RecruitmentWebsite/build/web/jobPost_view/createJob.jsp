@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Models.JobCategory" %>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -106,18 +105,19 @@
 
                 <!--                <label>Danh mục</label>
                                 <input type="text" name="category" placeholder="Nhập danh mục" required>-->
-                <select id="jobCategory" name="category" >
+                <select id="jobCategory" name="category">
                     <option value="">-- Chọn ngành nghề --</option>
                     <%
-                        ArrayList<JobCategory> jobCategories = (ArrayList<JobCategory>) request.getAttribute("jobCategories");
-                        for (JobCategory category : jobCategories) {
+                        ArrayList<String> jobCategories = (ArrayList<String>) request.getAttribute("jobCategories");
+                        if (jobCategories != null) {
+                            for (String category : jobCategories) {
                     %>
-                    <option value="<%= category.getId() %>"><%= category.getName() %></option>
+                    <option value="<%= category %>"><%= category %></option>
                     <%
+                            }
                         }
                     %>
                 </select>
-
                 <label>Vị trí</label>
                 <input type="text" name="position" placeholder="Nhập vị trí">
 

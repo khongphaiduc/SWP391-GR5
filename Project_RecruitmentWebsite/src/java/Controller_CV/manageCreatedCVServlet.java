@@ -81,6 +81,7 @@ public class manageCreatedCVServlet extends HttpServlet {
             int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
             if(request.getParameter("pageSize")!=null){
                  pageSize = Integer.parseInt(request.getParameter("pageSize"));
+                 request.setAttribute("pageSize", pageSize);
             }
             
             int totalCV = cvList.size();
