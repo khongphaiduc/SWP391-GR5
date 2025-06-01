@@ -3,9 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package Controller_Dashboard;
 
-import DAO.AccountDAO;
+import DAO.CandidateDAO;
+import DAO.EmployerDAO;
+import Models.Candidate;
+import Models.Employer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +16,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import Models.Account;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="ViewAccountServlet", urlPatterns={"/viewAccount"})
-public class ViewAccountServlet extends HttpServlet {
+@WebServlet(name="ViewServlet", urlPatterns={"/viewAccount"})
+public class ViewServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +39,10 @@ public class ViewAccountServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewAccountServlet</title>");  
+            out.println("<title>Servlet ViewServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewAccountServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ViewServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,22 +59,20 @@ public class ViewAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String id_raw = request.getParameter("id");
-        try {
-            int id = Integer.parseInt(id_raw);
-            AccountDAO dao = new AccountDAO();
-            Account acc = dao.getAccountById(id);
-            if (acc != null) {
-                request.setAttribute("account", acc);
-                request.getRequestDispatcher("viewaccount.jsp").forward(request, response);
-            } else {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Account not found");
-            }
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID");
+      String type = request.getParameter("type"); // "employer" hoặc "candidate"
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        if ("employer".equals(type)) {
+            Employer emp = new EmployerDAO().getEmployerById(id);
+            request.setAttribute("user", emp);
+        } else if ("candidate".equals(type)) {
+            Candidate can = new CandidateDAO().getCandidateById(id);
+            request.setAttribute("user", can);
         }
 
-    } 
+        request.setAttribute("type", type);
+        request.getRequestDispatcher("account_detail.jsp").forward(request, response);
+        } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.

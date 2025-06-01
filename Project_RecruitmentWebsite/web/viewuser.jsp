@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Models.Account" %>
+<%@ page import="Models.Employer" %>
+<%@ page import="Models.Candidate" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    List<Account> accounts = (List<Account>) request.getAttribute("accounts");
+    List<Employer> employers = (List<Employer>) request.getAttribute("employers");
+    List<Candidate> candidates = (List<Candidate>) request.getAttribute("candidates");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,9 +19,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <style>
             :root {
-               --primary-color: #16a34a;  
+                --primary-color: #16a34a;
                 --secondary-color: #f8fafc;
-                --accent-color: #22c55e; 
+                --accent-color: #22c55e;
                 --success-color: #10b981;
                 --warning-color: #f59e0b;
                 --danger-color: #ef4444;
@@ -73,7 +75,7 @@
 
             /* Header Section */
             .admin-header {
-              background: linear-gradient(135deg, var(--primary-color) 0%, #22c55e 100%);
+                background: linear-gradient(135deg, var(--primary-color) 0%, #22c55e 100%);
                 color: white;
                 padding: 3rem 0;
                 position: relative;
@@ -142,8 +144,8 @@
             }
 
             .stats-icon.primary {
-               background: linear-gradient(135deg, var(--primary-color), #22c55e);
-    color: white;
+                background: linear-gradient(135deg, var(--primary-color), #22c55e);
+                color: white;
             }
             .stats-icon.success {
                 background: linear-gradient(135deg, var(--success-color), #059669);
@@ -277,7 +279,7 @@
             }
 
             .btn-view {
-             background: linear-gradient(135deg, var(--accent-color), #22c55e);
+                background: linear-gradient(135deg, var(--accent-color), #22c55e);
                 color: white;
             }
 
@@ -397,7 +399,7 @@
         <!-- Stats Section -->
         <div class="container stats-section">
             <div class="row g-4">
-                <div class="col-lg-6 col-md-6">
+                <div class="col-lg-4 col-md-4">
                     <div class="stats-card fade-in-up">
                         <div class="stats-icon primary">
                             <i class="fas fa-users"></i>
@@ -406,16 +408,27 @@
                         <div class="stats-label">Total Users</div>
                     </div>
                 </div>
-
-                <div class="col-lg-6 col-md-6">
+                                  <div class="col-lg-4 col-md-4">
                     <div class="stats-card fade-in-up">
                         <div class="stats-icon warning">
                             <i class="fas fa-user-shield"></i>
                         </div>
                         <div class="stats-number">
-                            ${totalAdmins}
+                            ${totalCan}
                         </div>
-                        <div class="stats-label">Administrators</div>
+                        <div class="stats-label">Candidates</div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4">
+                    <div class="stats-card fade-in-up">
+                        <div class="stats-icon warning">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="stats-number">
+                            ${totalEmp}
+                        </div>
+                        <div class="stats-label">Employers</div>
                     </div>
                 </div>
 
@@ -430,10 +443,17 @@
                         <h3><i class="fas fa-users me-2"></i>User Management</h3>
                         <div class="d-flex gap-2">
 
-                
                         </div>
                     </div>
                 </div>
+                <form method="get" action="list" class="mb-3 d-flex justify-content-end">
+                    <select name="type" onchange="this.form.submit()" class="form-select w-auto">
+                        <option value="">-- Select User Type --</option>
+                        <option value="employer" ${type == 'employer' ? 'selected' : ''}>Employer</option>
+                        <option value="candidate" ${type == 'candidate' ? 'selected' : ''}>Candidate</option>
+                    </select>
+                </form>
+
                 <div class="table-container">
                     <table class="table modern-table">
                         <thead>
@@ -441,24 +461,25 @@
                                 <th><i class="fas fa-hashtag me-2"></i>ID</th>
                                 <th><i class="fas fa-user me-2"></i>Account Name</th>
                                 <th><i class="fas fa-envelope me-2"></i>Email</th>
-                                <th><i class="fas fa-shield-alt me-2"></i>Role</th>
                                 <th><i class="fas fa-cogs me-2"></i>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="acc" items="${accounts}">
+                            <c:forEach var="emp" items="${employers}">
                                 <tr>
                                     <td>
-                                        <span class="fw-bold text-primary">#${acc.accountId}</span>
+                                        <span class="fw-bold text-primary">#${emp.employerId}</span>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
                                                  style="width: 40px; height: 40px; font-size: 0.9rem; color: white; font-weight: 600;">
-                                                ${acc.accountName.substring(0, 1).toUpperCase()}
+                                                ${emp.employerName.substring(0, 1).toUpperCase()}
+
+
                                             </div>
                                             <div>
-                                                <div class="fw-bold">${acc.accountName}</div>
+                                                <div class="fw-bold">${emp.employerName}</div>
                                                 <small class="text-muted">Member since 2024</small>
                                             </div>
                                         </div>
@@ -466,38 +487,64 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-envelope text-muted me-2"></i>
-                                            ${acc.email}
+                                            ${emp.email}
                                         </div>
                                     </td>
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${acc.role == 'Admin'}">
-                                                <span class="role-badge role-admin">
-                                                    <i class="fas fa-crown me-1"></i>Admin
-                                                </span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <span class="role-badge role-user">
-                                                    <i class="fas fa-user me-1"></i>User
-                                                </span>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
+
                                     <td>
                                         <div class="action-buttons">
-                                            <a class="action-btn btn-view" href="viewAccount?id=${acc.accountId}" 
+                                            <a class="action-btn btn-view" href="viewAccount?id=${emp.employerId}&type=employer" 
                                                title="View Details">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a class="action-btn btn-edit" href="editAccount?id=${acc.accountId}" 
-                                               title="Edit Account">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a class="action-btn btn-delete" href="deleteAccount?id=${acc.accountId}" 
-                                               onclick="return confirm('Are you sure you want to delete this account? This action cannot be undone.');"
+                       
+                                            <a class="action-btn btn-delete" href="deleteAccount?id=${emp.employerId}&type=employer" 
+                                               onclick="return confirm('Are you sure you want to delete this account?');"
                                                title="Delete Account">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            <c:forEach var="can" items="${candidates}">
+                                <tr>
+                                    <td>
+                                        <span class="fw-bold text-primary">#${can.candidateId}</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                                 style="width: 40px; height: 40px; font-size: 0.9rem; color: white; font-weight: 600;">
+                                                ${can.candidateName.substring(0, 1).toUpperCase()}
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">${can.candidateName}</div>
+                                                <small class="text-muted">Member since 2024</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-envelope text-muted me-2"></i>
+                                            ${can.email}
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="action-buttons">
+                                            <a class="action-btn btn-view" href="viewAccount?id=${can.candidateId}&type=candidate" 
+                                               title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                       
+                                            <a class="action-btn btn-delete" href="deleteAccount?id=${can.candidateId}&type=candidate" 
+                                               onclick="return confirm('Are you sure you want to delete this account?');"
+                                               title="Delete Account">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+
                                         </div>
                                     </td>
                                 </tr>
@@ -509,24 +556,25 @@
                             <ul class="pagination">
                                 <c:if test="${currentPage > 1}">
                                     <li class="page-item">
-                                        <a class="page-link" href="list?page=${currentPage - 1}">Previous</a>
+                                        <a class="page-link" href="list?page=${currentPage - 1}&type=${type}">Previous</a>
                                     </li>
                                 </c:if>
 
                                 <c:forEach begin="1" end="${totalPages}" var="i">
                                     <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                        <a class="page-link" href="list?page=${i}">${i}</a>
+                                        <a class="page-link" href="list?page=${i}&type=${type}">${i}</a>
                                     </li>
                                 </c:forEach>
 
                                 <c:if test="${currentPage < totalPages}">
                                     <li class="page-item">
-                                        <a class="page-link" href="list?page=${currentPage + 1}">Next</a>
+                                        <a class="page-link" href="list?page=${currentPage + 1}&type=${type}">Next</a>
                                     </li>
                                 </c:if>
                             </ul>
                         </nav>
                     </div>
+
 
                 </div>
             </div>

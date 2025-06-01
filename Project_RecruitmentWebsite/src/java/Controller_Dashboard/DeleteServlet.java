@@ -1,12 +1,12 @@
-package controller;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
+package Controller_Dashboard;
 
-import DAO.AccountDAO;
+import DAO.CandidateDAO;
+import DAO.EmployerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,8 +19,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-@WebServlet(urlPatterns={"/deleteAccount"})
-public class DeleteAccountServlet extends HttpServlet {
+@WebServlet(name="DeleteServlet", urlPatterns={"/deleteAccount"})
+public class DeleteServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +37,10 @@ public class DeleteAccountServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteAccountServlet</title>");  
+            out.println("<title>Servlet DeleteServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DeleteAccountServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DeleteServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,14 +57,18 @@ public class DeleteAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-          String id_raw = request.getParameter("id");
-         AccountDAO d = new AccountDAO();
-         if(id_raw!=null){
-             int id = Integer.parseInt(id_raw);
-             d.deleteAccount(id);
-             response.sendRedirect("list");
-         }
-    } 
+          String type = request.getParameter("type");
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        if ("employer".equals(type)) {
+            new EmployerDAO().deleteEmployer(id);
+        } else if ("candidate".equals(type)) {
+            new CandidateDAO().deleteCandidate(id);
+        }
+
+        response.sendRedirect("list?type=" + type);
+    }
+    
 
     /** 
      * Handles the HTTP <code>POST</code> method.
