@@ -7,6 +7,7 @@ package Controller_Job;
 import DAO.*;
 import Models.*;
 import MyService.JobCategoryProvider;
+import MyService.LocationProvider;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -68,8 +69,11 @@ public class createJobServlet extends HttpServlet {
             return;
         } else {
             ArrayList<String> jobCategories = JobCategoryProvider.getJobCategories();
-
             request.setAttribute("jobCategories", jobCategories);
+            
+            ArrayList<String> locations  = LocationProvider.getLocations();
+            request.setAttribute("locations", locations);
+            
             request.getRequestDispatcher("jobPost_view/createJob.jsp").forward(request, response);
         }
     }
