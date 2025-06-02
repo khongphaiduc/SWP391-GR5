@@ -162,7 +162,9 @@
 
             Integer currentPage = (Integer) request.getAttribute("currentPage");
             Integer totalPages = (Integer) request.getAttribute("totalPages");
-            if (totalPages != null && totalPages > 1) {
+            Integer pageSize = (Integer) request.getAttribute("pageSize");
+
+            if (totalPages != null) {
         %>
         <div style="text-align: center; margin-top: 30px;">
             <nav>
@@ -179,6 +181,13 @@
                     <% } %>
                 </ul>
             </nav>
+        </div>
+        <div class="page-size-control">
+            <span>Hiển thị:</span>
+            <form action="manageCreatedCV" style="display: flex; align-items: center; gap: 8px;">
+                <input type="number" name="pageSize" value="<%=pageSize%>" min="1" max="20">
+                <button type="submit">OK</button>
+            </form>
         </div>
         <% } %>
         <%

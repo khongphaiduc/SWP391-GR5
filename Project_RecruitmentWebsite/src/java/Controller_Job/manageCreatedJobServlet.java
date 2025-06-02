@@ -6,6 +6,8 @@ package Controller_Job;
 
 import DAO.*;
 import Models.*;
+import MyService.JobCategoryProvider;
+import MyService.LocationProvider;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,6 +81,10 @@ public class manageCreatedJobServlet extends HttpServlet {
             String pageParam = request.getParameter("page");
             int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
             int pageSize = 5;
+            if (request.getParameter("pageSize") != null) {
+                pageSize = Integer.parseInt(request.getParameter("pageSize"));
+                request.setAttribute("pageSize", pageSize);
+            }
             int totalJob = jobList.size();
             int totalPages = (int) Math.ceil((double) totalJob / pageSize);
             int fromIndex = (page - 1) * pageSize;
@@ -113,18 +120,25 @@ public class manageCreatedJobServlet extends HttpServlet {
         String action = request.getParameter("action");
         int jobId = Integer.parseInt(request.getParameter("jobId"));
         PrintWriter out = response.getWriter();
-     
-        JobPostDAO jobPostDAO= new JobPostDAO();
-        JobPost jobPost=jobPostDAO.getJobPostById(jobId);
-        out.print(jobPost);
+
+        JobPostDAO jobPostDAO = new JobPostDAO();
+        JobPost jobPost = jobPostDAO.getJobPostById(jobId);
+
         switch (action) {
             case "edit":
                 request.setAttribute("job", jobPost);
+                ArrayList<String> jobCategories = JobCategoryProvider.getJobCategories();
+                request.setAttribute("jobCategories", jobCategories);
+
+                ArrayList<String> locations = LocationProvider.getLocations();
+                request.setAttribute("locations", locations);
+
                 request.getRequestDispatcher("jobPost_view/editJob.jsp").forward(request, response);
 
                 break;
+
             case "delete":
-                
+
                 jobPostDAO.deleteJobPost(jobId);
                 response.sendRedirect("manageCreatedJob");
                 break;
