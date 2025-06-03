@@ -1,9 +1,7 @@
 package Controller_Job;
 
-import DAO.AccountDAO;
 import DAO.CVDAO;
 import DAO.EmployerDAO;
-import Models.Account;
 import Models.CV;
 import Models.Employer;
 import jakarta.servlet.ServletException;

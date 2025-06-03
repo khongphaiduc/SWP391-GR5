@@ -4,7 +4,6 @@
  */
 package Controller_CV;
 
-import DAO.AccountDAO;
 import DAO.CVDAO;
 import DAO.CandidateDAO;
 import Models.*;
@@ -17,7 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Date;
 
