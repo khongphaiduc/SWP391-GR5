@@ -190,7 +190,7 @@
 
                         <a href="contact.jsp" class="nav-item nav-link">Contact</a>
                     </div>
-                    <a href="${pageContext.request.contextPath}/createJob" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
+                    <a href="${pageContext.request.contextPath}/createJob" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Đăng tin tuyển dụng<i class="fa fa-arrow-right ms-3"></i></a>
                 </div>
             </nav>
             <!-- Navbar End -->
@@ -215,7 +215,7 @@
                     <div style="display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); margin-top: 28px; padding: 0 24px; height: 54px;">
                         <!-- Select - Danh mục Nghề -->
 
-                        <form action="getListJobPost" method="post">                            
+                        <form action="getListJobPost" method="get">                            
                             <select name="career" onchange="this.form.submit()" style="flex: 0 0 200px; height: 36px; border-radius: 8px; border: 1px solid #ececec; background: #f5f6fa; font-size: 1rem; font-weight: 500; padding: 0 10px; margin-right:8px; color: #18191F;">
                                 <option value="">Danh mục Nghề</option>
                                 <option value="1">IT phần mềm</option>
@@ -228,7 +228,6 @@
                                 <option value="8">Design</option>
                                 <option value="9">Finance</option>
                             </select>
-
                         </form>
 
 
@@ -236,7 +235,7 @@
 
                         <!-- Select - Địa điểm -->
 
-                        <form action="getListJobPost" method="post" >                         
+                        <form action="getListJobPost" method="get" >                         
                             <select  name="location" onchange="this.form.submit()" style="flex: 0 0 170px; height: 36px; border-radius: 8px; border: 1px solid #ececec; background: #f5f6fa; font-size: 1rem; font-weight: 500; padding: 0 10px; margin-right:8px; color: #18191F;margin-left: 580px">
                                 <option value="">Địa điểm</option>
                                 <option value="2">Hà Nội</option>
@@ -251,7 +250,7 @@
 
 
                         <!-- Search -->                         
-                        <form  action="getListJobPost" method="post" >
+                        <form  action="getListJobPost" method="get" >
                             <input name="search" type="text" placeholder="Search Tên Công Ty " style="flex: 1; border: none; outline: none; background: transparent; font-size: 1rem; color: #555; padding: 0 10px; height: 36px;margin-left: -750px ;" />
                             <input type="submit" name="name" value="Tìm Kiếm" style="background-color: #33cc00;color: #ffffff;border-radius: 10px;border: #ffffff;margin-left: 577px;width: 120px ;height: 40px">
                         </form>

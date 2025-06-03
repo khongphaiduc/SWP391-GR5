@@ -18,9 +18,7 @@ public class JobPost {
     private int employer_ID;
     private String typeJob;
 
-    public boolean isVisible() {
-        return visible;
-    }
+
 
     public JobPost(int jobPost_ID, String title, String description,String category,
             String position, String location, double offer_Min, double offer_Max,
@@ -42,7 +40,11 @@ public class JobPost {
         this.company = compapy;
 
     }
-
+    
+    public boolean isVisible() {
+        return visible;
+    }
+    
     public JobPost() {
     }
 

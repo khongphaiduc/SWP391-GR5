@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page import="java.util.Date" %>
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
@@ -214,86 +216,138 @@
 
             <div class="filter-bar mb-4">
                 <!-- Lương -->
-                <form action="getListJobPost" method="post">                 
+                <form action="searchListJobPost" method="get">                 
                     <div class="filter-group">
                         <label for="salary" class="form-label">Lương</label>
                         <select class="form-select" id="salary" name="salary" onchange="this.form.submit()">
-                            <option value="0" ${selectedSalary == '0' ? 'selected' : ''}>Tất cả</option>
-                            <option value="1" ${selectedSalary == '1' ? 'selected' : ''}>Dưới 10 triệu</option>
-                            <option value="2" ${selectedSalary == '2' ? 'selected' : ''}>10-20 triệu</option>
-                            <option value="3" ${selectedSalary == '3' ? 'selected' : ''}>20-30 triệu</option>
-                            <option value="4" ${selectedSalary == '4' ? 'selected' : ''}>30-40 triệu</option>
-                            <option value="5" ${selectedSalary == '5' ? 'selected' : ''}>Trên 40 triệu</option>
+                            <option value="0" ${sessionScope.selectedSalary == '0' ? 'selected' : ''}>Tất cả</option>
+                            <option value="1" ${sessionScope.selectedSalary == '1' ? 'selected' : ''}>Dưới 10 triệu</option>
+                            <option value="2" ${sessionScope.selectedSalary == '2' ? 'selected' : ''}>10-20 triệu</option>
+                            <option value="3" ${sessionScope.selectedSalary == '3' ? 'selected' : ''}>20-30 triệu</option>
+                            <option value="4" ${sessionScope.selectedSalary == '4' ? 'selected' : ''}>30-40 triệu</option>
+                            <option value="5" ${sessionScope.selectedSalary == '5' ? 'selected' : ''}>Trên 40 triệu</option>
                         </select>
+                        <input type="hidden" name="location" value="${sessionScope.location}" />
+
+                        <input type="hidden" name="career" value="${sessionScope.career}" />
+                        <input type="hidden" name="exp" value="${sessionScope.exp}" />
+                        <input type="hidden" name="typeJob" value="${sessionScope.typeJob}" />
                     </div>
                 </form>
 
 
 
                 <!--              form vị trí-->
-                <form action="getListJobPost" method="post">
+                <form action="searchListJobPost" method="get">
                     <div class="filter-group">
                         <label for="location" class="form-label">Vị trí</label>
                         <select class="form-select" id="location" name="location" onchange="this.form.submit()">
-                            <option value="0" ${ location == '0' ? 'selected' : ''}>Tất cả</option>
-                            <option value="HN" ${location == 'HN' ? 'selected' : ''}>Hà Nội</option>
-                            <option value="HCM" ${location == 'HCM' ? 'selected' : ''}>TP.HCM</option>
-                            <option value="DN" ${location == 'DN' ? 'selected' : ''}>Đà Nẵng</option>
+                            <option value="0" ${sessionScope.location == '0' ? 'selected' : ''}>Tất cả</option>
+                            <option value="Hà Nội" ${sessionScope.location == 'Hà Nội' ? 'selected' : ''}>Hà Nội</option>
+                            <option value="HCM" ${sessionScope.location == 'HCM' ? 'selected' : ''}>TP.HCM</option>
+                            <option value="Đà Nẵng" ${sessionScope.location == 'Đà Nẵng' ? 'selected' : ''}>Đà Nẵng</option>
+                            <option value="Cần Thơ" ${sessionScope.location == 'Cần Thơ' ? 'selected' : ''}>Cần Thơ</option>
                         </select>
-                        <input type="hidden" name="salary" value="${selectedSalary}" />
+
+                        <input type="hidden" name="salary" value="${sessionScope.selectedSalary}" />
+                        <input type="hidden" name="career" value="${sessionScope.career}" />
+                        <input type="hidden" name="exp" value="${sessionScope.exp}" />
+                        <input type="hidden" name="typeJob" value="${sessionScope.typeJob}" />
                     </div>
+
                 </form>
 
 
                 <!--             form ngành nghề -->
-                <form action="getListJobPost" method="post"> 
+                <form action="searchListJobPost" method="get"> 
                     <div class="filter-group">
                         <label for="career" class="form-label">Ngành nghề</label>
                         <select class="form-select" id="career" name="career" onchange="this.form.submit()">
-                            <option value="">Tất cả</option>
-                            <option value="it">IT</option>
-                            <option value="marketing">Marketing</option>
-                            <option value="ketoan">Design</option>
-                            <option value="sale">Sales</option>
-                            <option value="other">Ý Tế</option>
-                            <option value="other">Pháp Lý</option>
-                            <option value="other">Nhận Sự</option>
+                            <option value="0" ${sessionScope.career == '0' ?'selected' : ''}>Tất cả</option>
+                            <option value="IT" ${sessionScope.career=='IT' ? 'selected' : ''}>IT</option>
+                            <option value="Marketing" ${sessionScope.career=='Marketing' ?'selected' : ''}>Marketing</option>
+                            <option value="Kế toán" ${sessionScope.career=='Kế toán' ?'selected' : ''}>Kế toán - Tài chính</option>
+                            <option value="Kinh doanh" ${sessionScope.career== 'Kinh doanh' ?'selected' : ''}>Bán hàng - Kinh doanh</option>
+
+                            <!--hihi-->
+
+                            <option value="CNTT - IT" ${sessionScope.career== 'CNTT-IT' ?'selected' : ''}>CNTT - IT</option>
+                            <option value="Kế toán - Tài chính" ${sessionScope.career== 'Kế toán - Tài chính' ?'selected' : ''}>Kế toán - Tài chính</option>
+                            <option value="Marketing - Truyền thông" ${sessionScope.career== 'Marketing - Truyền thông' ?'selected' : ''}>Marketing - Truyền thông</option>
+                            <option value="Giáo dục - Đào tạo" ${sessionScope.career== 'Giáo dục - Đào tạo' ?'selected' : ''}>Giáo dục - Đào tạo</option>
+                            <option value="Xây dựng - Kiến trúc" ${sessionScope.career== 'Xây dựng - Kiến trúc' ?'selected' : ''}>Xây dựng - Kiến trúc</option>
+                            <option value="Bán hàng - Kinh doanh" ${sessionScope.career== 'Bán hàng - Kinh doanh' ?'selected' : ''}>Bán hàng - Kinh doanh</option>
+                            <option value="Nhân sự - Hành chính" ${sessionScope.career== 'Nhân sự - Hành chính' ?'selected' : ''}>Nhân sự - Hành chính</option>
+                            <option value="Chăm sóc khách hàng" ${sessionScope.career== 'Chăm sóc khách hàng' ?'selected' : ''}>Chăm sóc khách hàng</option>
+                            <option value="Sản xuất - Vận hành" ${sessionScope.career== 'Sản xuất - Vận hành' ?'selected' : ''}>Sản xuất - Vận hành</option>
+                            <option value="Thiết kế - Mỹ thuật" ${sessionScope.career== 'Thiết kế - Mỹ thuật' ?'selected' : ''}>Thiết kế - Mỹ thuật</option>
+                            <option value="Điện - Điện tử - Điện lạnh" ${sessionScope.career== 'Điện - Điện tử - Điện lạnh' ?'selected' : ''}>Điện - Điện tử - Điện lạnh</option>
+                            <option value="Cơ khí - Ô tô - Tự động hóa" ${sessionScope.career== 'Cơ khí - Ô tô - Tự động hóa' ?'selected' : ''}>Cơ khí - Ô tô - Tự động hóa</option>
+                            <option value="Ngân hàng - Chứng khoán - Bảo hiểm" ${sessionScope.career== 'Ngân hàng - Chứng khoán - Bảo hiểm' ?'selected' :''}>Ngân hàng/CK/BH</option>
+                            <option value="Logistics - Xuất nhập khẩu" ${sessionScope.career== 'Logistics - Xuất nhập khẩu' ?'selected' : ''}>Logistics - Xuất nhập khẩu</option>
+                            <option value="Du lịch - Nhà hàng - Khách sạn" ${sessionScope.career== 'Du lịch - Nhà hàng - Khách sạn' ?'selected' : ''}>Dịch Vụ</option>
+                            <option value="Y tế - Dược phẩm" ${sessionScope.career== 'Y tế - Dược phẩm' ?'selected' : ''}>Y tế - Dược phẩm</option>
+                            <option value="Pháp lý - Luật" ${sessionScope.career== 'Pháp lý - Luật' ?'selected' : ''}>Pháp lý - Luật</option>
+                            <option value="Báo chí - Biên tập - Xuất bản" ${sessionScope.career== 'Báo chí - Biên tập - Xuất bản' ?'selected' : ''}>Truyền thông</option>
+                            <option value="Bảo trì - Sửa chữa" ${sessionScope.career== 'Bảo trì - Sửa chữa' ?'selected' : ''}>Bảo trì - Sửa chữa</option>
+                            <option value="An ninh - Bảo vệ" ${sessionScope.career== 'An ninh - Bảo vệ' ?'selected' : ''}>An ninh - Bảo vệ</option>
+
+
+
+
+
+
                         </select>
+                        <input type="hidden" name="location" value="${sessionScope.location}" />
+                        <input type="hidden" name="salary" value="${sessionScope.selectedSalary}" />
+
+                        <input type="hidden" name="exp" value="${sessionScope.exp}" />
+                        <input type="hidden" name="typeJob" value="${sessionScope.typeJob}" />
                     </div>
                 </form>
 
                 <!--                      form  kinh nghiệm-->
-                <form action="getListJobPost" method="post">
+                <form action="searchListJobPost" method="get">
                     <div class="filter-group">
                         <label for="exp" class="form-label">Kinh nghiệm</label>
                         <select class="form-select" id="exp" name="exp" onchange="this.form.submit()">
-                            <option value="">Tất cả</option>
-                            <option value="0">0 năm</option>
-                            <option value="1">1 năm</option>
-                            <option value="2">2 năm</option>
-                            <option value="3">3 năm+</option>
+                            <option value="" ${sessionScope.exp  == '' ? 'selected':''}>Tất cả</option>
+                            <option value="0" ${sessionScope.exp  == '0' ? 'selected':''}>0 năm</option>
+                            <option value="1" ${sessionScope.exp  == '1'? 'selected':''}>1 năm</option>
+                            <option value="2" ${sessionScope.exp  =='2' ? 'selected':''}>2 năm</option>
+                            <option value="3" ${sessionScope.exp  == '3' ? 'selected':''}>3 năm+</option>
                         </select>
+                        <input type="hidden" name="location" value="${sessionScope.location}" />
+                        <input type="hidden" name="salary" value="${sessionScope.selectedSalary}" />
+                        <input type="hidden" name="career" value="${sessionScope.career}" />
+
+                        <input type="hidden" name="typeJob" value="${sessionScope.typeJob}" />
                     </div>
+
                 </form>
 
                 <!--                   form hình thức-->
-                <form action="getListJobPost" method="post">
+                <form action="searchListJobPost" method="get">
 
                     <div class="filter-group">
                         <label for="field" class="form-label">Hình Thức</label>
-                        <select class="form-select" id="field" name="typeJob" onchange="this.form.submit()">
-                            <option value="">Tất cả</option>
-                            <option value="phanmem">Tất Cả</option>
-                            <option value="thietke">Bán Thời Gian</option>
-                            <option value="giaoduc">Toàn Thời Gian</option>
-                            <option value="taichinh">Thực Tập</option>
-                            <option value="khac">Khác</option>
+                        <select class="form-select" id="field" name="typeJob" onchange="this.form.submit()">                          
+                            <option value="0">Tất Cả</option>
+                            <option value="Part time">Bán Thời Gian</option>
+                            <option value="Full time">Full Time </option>
+                            <option value="Internship">Thực Tập</option>
+                            <option value="Remote">Remote</option>
                         </select>
+                        <input type="hidden" name="location" value="${sessionScope.location}" />
+                        <input type="hidden" name="salary" value="${sessionScope.selectedSalary}" />
+                        <input type="hidden" name="career" value="${sessionScope.career}" />
+                        <input type="hidden" name="exp" value="${sessionScope.exp}" />
                     </div>
+
                 </form>
 
                 <!-- Từ khoá -->
-                <form action="getListJobPost" method="post" class="filter-group flex-grow-1 d-flex align-items-end" style="gap:10px;">
+                <form action="searchListJobPost" method="get" class="filter-group flex-grow-1 d-flex align-items-end" style="gap:10px;">
                     <div style="flex:2;">
                         <label for="keyword" class="form-label">Từ khoá</label>
                         <input type="text" class="form-control" id="keyword" name="searchKey" placeholder="Nhập từ khoá và Enter">
@@ -302,7 +356,7 @@
                         <label for="keywordType" class="form-label">Tìm theo</label>
                         <select class="form-select" id="keywordType" name="keywordType">
                             <option value="all">Công Ty</option>
-                            <option value="title">Vị trí</option>                                              
+                            <option value="position">Vị trí</option>                                              
                         </select>
                     </div>
                     <input type="submit" style="display:none">
@@ -312,11 +366,11 @@
             <c:if test="${status != null}">
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; text-align: center;">
                     <h1 style="color: #9446e6; font-family: 'Poppins', cursive; font-size: 48px;">
-                        Ối Rồi Ôi!!!!
+                        Ối Rồi Ôi  !!!!
                     </h1>
 
-                    <h3 style="font-family: 'Poppins', sans-serif;">
-                        Hiện tại không có công việc phù hợp với nhu cầu của bạn!
+                    <h3 style="font-family: 'Poppins', sans-serif; color: #146c43">
+                        Hiện tại không có công việc phù hợp với nhu cầu của bạn !
                     </h3>
 
                     <img src="<%= request.getContextPath() %>/img/meme1.jpg" alt="meme" style="max-width: 100%; height: auto; margin-top: 20px;border-radius:80px" />
@@ -337,8 +391,10 @@
                                 <span class="job-location">📍 ${s.location}</span>
                                 <span class="salary-badge">${s.offer_Min} - ${s.offer_Max} triệu</span>
                                 <span class="job-type">${s.typeJob}</span>
-                                <span class="job-deadline"> Ngày đăng ${s.dayCre}</span>
+                                <span style="background-color: #ccffff ;color: #6699ff" class="job-deadline"> Kinh Nghiệm ${s.number_exp} Năm</span>
+                                <span style="background-color: #fff" class="job-deadline"> Ngày Đăng  ${s. dayCre} </span>
                             </div>
+
                             <div class="job-desc">
                                 ${s.description}
                             </div>
@@ -346,9 +402,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
             </c:forEach>
             <!-- End hiển thị job -->
         </div>

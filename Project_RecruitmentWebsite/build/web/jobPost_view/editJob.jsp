@@ -50,6 +50,7 @@
                 width: 100%;
                 padding: 10px 12px;
                 margin-bottom: 18px;
+                
                 border: 1px solid #cbd5e0;
                 border-radius: 6px;
                 font-size: 14px;

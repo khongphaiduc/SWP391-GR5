@@ -8,23 +8,23 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-
-@WebServlet(name = "getListJobPost", urlPatterns = {"/getListJobPost"})
-public class getListJobPost extends HttpServlet {
+@WebServlet(name = "searchListJobPost", urlPatterns = {"/searchListJobPost"})
+public class searchListJobPost extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet getListJobPost</title>");
+            out.println("<title>Servlet searchListJobPost</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet getListJobPost at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet searchListJobPost at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -33,21 +33,24 @@ public class getListJobPost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         try {
-            String status = " ";
-            String fields = request.getParameter("career");
+
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html;charset=UTF-8");
+
+            HttpSession session = request.getSession();
+            String status = null;
+            String salary = request.getParameter("salary");
             String location = request.getParameter("location");
-            String nameCompany = request.getParameter("search");
+            String career = request.getParameter("career");
+            String experience = request.getParameter("exp");
+            String typeJob = request.getParameter("typeJob");
+            String searchKey = request.getParameter("searchKey");
             SearchAnDisplayJob o = new SearchAnDisplayJob();
-            var listJobPost = o.getListJobPost();
-            if (fields != null) {                   // tìm kiếm theo lĩnh vực
-                listJobPost = o.getListJobPostByOnlyField(fields);
-            } else if (location != null) {  // tìm kiếm theo vị trí 
-                listJobPost = o.getListJobPostByOnlyLocation(location);
-            } else if (nameCompany != null) {  //  tìm kiếm theo tên công ty
-                listJobPost = o.getListJobPostByOnlyNameCompany(nameCompany);
-            }
+         
+       
+            var listJobPost = o.BuildTest(salary, location, career, experience, typeJob);
 
             int totalJobs = listJobPost.size();    // lấy số lượng jobpost có hiện tại
             String pageStr = request.getParameter("page");
@@ -61,33 +64,41 @@ public class getListJobPost extends HttpServlet {
 
             var jobsOnPage = listJobPost.subList(start, end);
 
-            // nếu list = 0S
+            request.setAttribute("ListJobPost", jobsOnPage);
+            request.setAttribute("currentPage", currentpage);
+            request.setAttribute("totalPages", totalPages);
+
+            // tìm kiếm bên trong 
+            session.setAttribute("selectedSalary", salary);
+            session.setAttribute("location", location);
+            session.setAttribute("career", career);
+            session.setAttribute("exp", experience);
+            session.setAttribute("typeJob", typeJob);
+            session.setAttribute("searchKey", searchKey);
+            request.setAttribute("ListJobPost", listJobPost);
+
             if (listJobPost.size() == 0) {
+                status = "ối rồi ôi";
                 request.setAttribute("status", status);
                 request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
                 return;
             }
 
-            request.setAttribute("ListJobPost", jobsOnPage);
-            request.setAttribute("currentPage", currentpage);
-            request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
-
         } catch (Exception e) {
             request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
         }
-
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-   
+        processRequest(request, response);
     }
 
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
+    }// </editor-fold>
 
 }

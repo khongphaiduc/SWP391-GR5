@@ -3,7 +3,6 @@ package DAO;
 
 import java.sql.*;
 import Models.JobPost;
-import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
 import dal.DBContext;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                        rs.getString("DayCreate"),
+                        Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
                         rs.getString("Company_Name")));
             }
 
@@ -118,7 +117,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                        rs.getString("DayCreate"),
+                     Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
                         rs.getString("Company_Name")));
             }
 
@@ -131,28 +130,22 @@ public class SearchAnDisplayJob extends DBContext {
         return null;
     }
 
-    public static void main(String[] args) {
-        SearchAnDisplayJob o = new SearchAnDisplayJob();
-
-        o.getListJobPostByOnlySalary("6").forEach(a -> System.out.println(a));
-    }
-
     // tìm theo vị trí  với các option kèm theo   (đã test)
-    public List<JobPost> getListJobPostByLocation(String option, String location) {
+    public List<JobPost> getListJobPostByLocationWithSalary(String salary, String location) {
         String t = "s1.Offer_Min > 0";
 
-        if (option.equals("1")) {
-            t = "s1.Offer_Min>0 and s1.Offer_Max<=1000";
-        } else if (option.equals("2")) {
-            t = "s1.Offer_Min>=1000 and s1.Offer_Max<=1500";
-        } else if (option.equals("3")) {
-            t = "s1.Offer_Min>=1500 and s1.Offer_Max<=2000";
-        } else if (option.equals("4")) {
-            t = "s1.Offer_Min>=2000 and s1.Offer_Max<=3000";
-        } else if (option.equals("0")) {
-            t = "s1.Offer_Min>0";
+        if (salary.equals("1")) {
+            t = "s1.Offer_Min>0 and s1.Offer_Max<=10";
+        } else if (salary.equals("2")) {
+            t = "s1.Offer_Min>=10 and s1.Offer_Max<=20";
+        } else if (salary.equals("3")) {
+            t = "s1.Offer_Min>=20 and s1.Offer_Max<=30";
+        } else if (salary.equals("4")) {
+            t = "s1.Offer_Min>=30 and s1.Offer_Max<=40";
+        } else if (salary.equals("5")) {
+            t = "s1.Offer_Min>40";
         } else {
-            t = "s1.Offer_Min>=3000";
+            t = "s1.Offer_Min>=0";
         }
 
         List<JobPost> list = new ArrayList<>();
@@ -183,7 +176,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                        rs.getString("DayCreate"),
+                         Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
                         rs.getString("Company_Name")));
             }
             return list;
@@ -248,7 +241,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                        rs.getString("DayCreate"),
+                       Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
                         rs.getString("Company_Name")));
             }
             return list;
@@ -316,7 +309,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                        rs.getString("DayCreate"),
+                       Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
                         rs.getString("Company_Name")));
             }
             return list;
@@ -390,7 +383,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                        rs.getString("DayCreate"),
+                         Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
                         rs.getString("Company_Name")));
             }
             return list;
@@ -442,7 +435,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                        rs.getString("DayCreate"),
+                       Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
                         rs.getString("Company_Name")));
             }
             return list;
@@ -454,4 +447,96 @@ public class SearchAnDisplayJob extends DBContext {
         return new ArrayList<>();  // Trả list rỗng 
     }
 
+    // đã test
+    public List<JobPost> BuildTest(String salary, String location, String category, String number, String type) {
+
+        if(salary==null){
+            salary="0";
+        }
+        
+        String min = null;
+        String max = null;
+
+        if (salary.equals("1")) {
+            min = "0";
+            max = "10";
+        } else if (salary.equals("2")) {
+            min = "10";
+            max = "20";
+        } else if (salary.equals("3")) {
+            min = "20";
+            max = "30";
+        } else if (salary.equals("4")) {
+            min = "30";
+            max = "40";
+        } else if (salary.equals("5")) {
+            min = "400";
+            max = "100000";
+        } else if (salary.equals("0")) {
+            min = "0";
+            max = "100000000";
+        }
+
+        List<JobPost> list = new ArrayList<>();
+
+        try {
+            String query = "SELECT [JobPost_ID], s1.[Employer_ID], [Title], s1.[Description],\n"
+                    + "       [Category], [Position], s1.[Location], [Offer_Min], [Offer_Max],\n"
+                    + "       [Number_exp], [Visible], [TypeJob], [DayCreate], s2.Company_Name\n"
+                    + "FROM [dbo].[JobPost] s1\n"
+                    + "JOIN [dbo].[Employers] s2 ON s1.Employer_ID = s2.Employer_ID\n"
+                    + "WHERE (s1.Offer_Min >= ?) AND (s1.Offer_Max <= ?)\n"
+                    + "  AND (? IS NULL OR s1.Location LIKE ?)\n"
+                    + "  AND (? IS NULL OR s1.Category like ?)\n"
+                    + "  AND (? IS NULL OR s1.Number_exp like ?)\n"
+                    + "  AND (? IS NULL OR s1.TypeJob like ?)";
+            PreparedStatement push = connection.prepareStatement(query);
+            push.setString(1, min);
+            push.setString(2, max);
+
+            push.setString(3, location);
+            push.setString(4, location != null ? "%" + location + "%" : null);
+
+            push.setString(5, category != null ? "%" + category + "%" : null);
+            push.setString(6, category != null ? "%" + category + "%" : null);
+
+            push.setString(7, number != null ? "%" + number + "%" : null);
+            push.setString(8, number != null ? "%" + number + "%" : null);
+
+            push.setString(9, type != null ? "%" + type + "%" : null);
+            push.setString(10, type != null ? "%" + type + "%" : null);
+
+            ResultSet rs = push.executeQuery();
+
+            while (rs.next()) {
+                list.add(new JobPost(
+                        rs.getInt("JobPost_ID"),
+                        rs.getString("Title"),
+                        rs.getString("Description"),
+                        rs.getString("Category"),
+                        rs.getString("Position"),
+                        rs.getString("Location"),
+                        rs.getDouble("Offer_Min"),
+                        rs.getDouble("Offer_Max"),
+                        rs.getInt("Number_exp"),
+                        rs.getBoolean("Visible"),
+                        rs.getString("TypeJob"),
+                         Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
+                        rs.getString("Company_Name")));
+            }
+            return list;
+
+        } catch (Exception s) {
+            System.out.println(s);
+        }
+
+        return new ArrayList<>();  // Trả list rỗng 
+    }
+
+    public static void main(String[] args) {
+        SearchAnDisplayJob o = new SearchAnDisplayJob();
+        o.BuildTest(null, null, "IT", null, null).forEach(a -> System.out.println(a));
+    //    o.getListJobPost() .forEach(a -> System.out.println(a));
+       
+    }
 }
