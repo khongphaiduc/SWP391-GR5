@@ -6,14 +6,12 @@
             <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/candidateCV_view/manageCreatedCV.jsp</file>
             <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/jobPost_view/manageCreatedJob.jsp</file>
             <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/jobPost_view/editJob.jsp</file>
             <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_CV/manageCreatedCVServlet.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/navbar.jsp</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Employer.java</file>
             <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Job/createJobServlet.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Job/updateJobServlet.java</file>
             <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/jobPost_view/createJob.jsp</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/WEB-INF/sontung.jpg</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Job/manageCreatedJobServlet.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/candidateCV_view/fillCVInfo.jsp</file>
         </group>
     </open-files>
 </project-private>
