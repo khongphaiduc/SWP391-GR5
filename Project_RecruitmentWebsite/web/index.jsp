@@ -178,14 +178,21 @@
                         <div class="nav-item dropdown">
 
 
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Quản lý CV</a>
-                        <div class="dropdown-menu rounded-0 m-0">
-                            <a href="${pageContext.request.contextPath}/submitCV" class="dropdown-item">Tạo CV</a>
-                            <a href="${pageContext.request.contextPath}/manageCreatedCV" class="dropdown-item">Quản lý CV đã tạo</a> 
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Quản lý CV</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                <a href="${pageContext.request.contextPath}/submitCV" class="dropdown-item">Tạo CV</a>
+                                <a href="${pageContext.request.contextPath}/manageCreatedCV" class="dropdown-item">Quản lý CV đã tạo</a> 
+                            </div>
                         </div>
+
+                        <%}else if("Employer".equals(role)){%>                      
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">For Employer</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                       
+                                <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
+                            </div>
                         </div>
-                        <%}else if("Employer".equals(role)){%>
-                            <a href="${pageContext.request.contextPath}/manageCreatedJob" class="nav-item nav-link">Quản lý tin</a>
                         <%}%>
 
                         <a href="contact.jsp" class="nav-item nav-link">Contact</a>

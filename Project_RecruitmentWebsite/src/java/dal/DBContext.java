@@ -1,3 +1,4 @@
+
 package dal;
 
 import java.sql.Connection;
@@ -22,7 +23,6 @@ public class DBContext {
             String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=TOPCV13";
 
 
-
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {
@@ -39,3 +39,4 @@ public class DBContext {
         System.out.println(s.check());
     }
 }
+
