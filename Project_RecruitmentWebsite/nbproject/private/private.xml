@@ -6,6 +6,8 @@
             <file>file:/E:/Project%20Webstie%20CV/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Job/searchListJobPost.java</file>
             <file>file:/E:/Project%20Webstie%20CV/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/SearchAnDisplayJob.java</file>
             <file>file:/E:/Project%20Webstie%20CV/SWP391-GR5/Project_RecruitmentWebsite/web/ViewJobPost/DisplayListPostJob.jsp</file>
+            <file>file:/E:/Project%20Webstie%20CV/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
+            <file>file:/E:/Project%20Webstie%20CV/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Job/getListJobPost.java</file>
         </group>
     </open-files>
 </project-private>

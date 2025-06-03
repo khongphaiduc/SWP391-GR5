@@ -217,16 +217,16 @@
 
                         <form action="getListJobPost" method="get">                            
                             <select name="career" onchange="this.form.submit()" style="flex: 0 0 200px; height: 36px; border-radius: 8px; border: 1px solid #ececec; background: #f5f6fa; font-size: 1rem; font-weight: 500; padding: 0 10px; margin-right:8px; color: #18191F;">
-                                <option value="">Danh mục Nghề</option>
-                                <option value="1">IT phần mềm</option>
-                                <option value="3">Marketing</option>
-                                <option value="7">Kinh doanh/Bán hàng</option>                          
-                                <option value="2">Nhân sự/Hành chính</option>
-                                <option value="4">Tài chính/Kế toán</option>
-                                <option value="5">Mỹ Thuật</option>
-                                <option value="6">Kiểm Toán</option>
-                                <option value="8">Design</option>
-                                <option value="9">Finance</option>
+                                <option value=""> Danh mục Lĩnh Vực Nổi Bật </option>
+                                <option value="IT">IT phần mềm</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Kinh doanh">Kinh doanh</option>                          
+                                <option value="Nhân sự">Nhân sự</option>
+                                <option value="Tài chính">Tài chính</option>
+                                <option value="Mỹ Thuật">Mỹ Thuật</option>
+                                <option value="Kiểm Toán">Kiểm Toán</option>
+                                <option value="Design">Design</option>
+                                <option value="Finance">Finance</option>
                             </select>
                         </form>
 
@@ -238,12 +238,12 @@
                         <form action="getListJobPost" method="get" >                         
                             <select  name="location" onchange="this.form.submit()" style="flex: 0 0 170px; height: 36px; border-radius: 8px; border: 1px solid #ececec; background: #f5f6fa; font-size: 1rem; font-weight: 500; padding: 0 10px; margin-right:8px; color: #18191F;margin-left: 580px">
                                 <option value="">Địa điểm</option>
-                                <option value="2">Hà Nội</option>
-                                <option value="1">TP Hồ Chí Minh</option>
-                                <option value="3">Đà Nẵng</option>
-                                <option value="haiphong">Hải Phòng</option>
-                                <option value="cantho">Cần Thơ</option>
-                                <option value="other">Khác</option>
+                                <option value="Hà Nội">Hà Nội</option>
+                                <option value="TP Hồ Chí Minh">TP Hồ Chí Minh</option>
+                                <option value="Đã Nẵng">Đà Nẵng</option>
+                                <option value="Hải Phòng">Hải Phòng</option>
+                                <option value="Ninh Bình">Cần Thơ</option>
+                          
                             </select>
 
                         </form>
@@ -252,7 +252,7 @@
                         <!-- Search -->                         
                         <form  action="getListJobPost" method="get" >
                             <input name="search" type="text" placeholder="Search Tên Công Ty " style="flex: 1; border: none; outline: none; background: transparent; font-size: 1rem; color: #555; padding: 0 10px; height: 36px;margin-left: -750px ;" />
-                            <input type="submit" name="name" value="Tìm Kiếm" style="background-color: #33cc00;color: #ffffff;border-radius: 10px;border: #ffffff;margin-left: 577px;width: 120px ;height: 40px">
+                            <input type="submit" name="name" value="Tìm Kiếm" style="background-color: #33cc00;color: #ffffff;border-radius: 10px;border: #ffffff;margin-left: 550px;width: 120px ;height: 40px">
                         </form>
 
                         <!-- FontAwesome nếu chưa có -->

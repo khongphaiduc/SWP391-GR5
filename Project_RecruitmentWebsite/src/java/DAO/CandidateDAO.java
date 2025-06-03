@@ -26,7 +26,7 @@ public class CandidateDAO extends DBContext {
                 candidate.setBirthday(rs.getDate("Birthday"));
                 candidate.setNationality(rs.getString("Nationality"));
                 candidate.setPasswordHash(rs.getString("Password_hash"));
-                candidate.setAvatar(rs.getBytes("avata"));
+                candidate.setAvatar(rs.getBytes("avatar"));
             }
 
         } catch (Exception e) {

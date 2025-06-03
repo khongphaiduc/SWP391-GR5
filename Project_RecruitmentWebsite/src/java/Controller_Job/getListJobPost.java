@@ -39,21 +39,14 @@ public class getListJobPost extends HttpServlet {
             String location = request.getParameter("location");
             String nameCompany = request.getParameter("search");
             SearchAnDisplayJob o = new SearchAnDisplayJob();
-            var listJobPost = o.getListJobPost();
+            
+            var listJobPost = o.BuildTest("0", location,fields, null, null,nameCompany);
             
             listJobPost.sort((a, b) -> {
                 var s = b.getDayCre().compareTo(a.getDayCre());
                 return s;
             });
-
-            if (fields != null) {                   // tìm kiếm theo lĩnh vực
-                listJobPost = o.getListJobPostByOnlyField(fields);
-            } else if (location != null) {  // tìm kiếm theo vị trí 
-                listJobPost = o.getListJobPostByOnlyLocation(location);
-            } else if (nameCompany != null) {  //  tìm kiếm theo tên công ty
-                listJobPost = o.getListJobPostByOnlyNameCompany(nameCompany);
-            }
-
+         
             int totalJobs = listJobPost.size();    // lấy số lượng jobpost có hiện tại
             
         

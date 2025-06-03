@@ -1,6 +1,7 @@
 package Controller_Job;
 
 import DAO.SearchAnDisplayJob;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -48,9 +49,9 @@ public class searchListJobPost extends HttpServlet {
             String typeJob = request.getParameter("typeJob");
             String searchKey = request.getParameter("searchKey");
             SearchAnDisplayJob o = new SearchAnDisplayJob();
-         
+             
        
-            var listJobPost = o.BuildTest(salary, location, career, experience, typeJob);
+            var listJobPost = o.BuildTest(salary, location, career, experience, typeJob,searchKey);
             // thằng mới đăng tin hiển  thị lên đầu
             listJobPost.sort((a, b) -> {
               var s =  b.getDayCre().compareTo(a.getDayCre());
