@@ -1,7 +1,9 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package DAO;
 
 import Models.Employer;
@@ -10,31 +12,42 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  *
  * @author PC
  */
 public class EmployerDAO extends DBContext {
 
-    public Employer getEmployerByAccountName(String username) {
+
+
+    public Employer getEmployerByName(String nameEmployer) {
+
         Employer employer = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            String sql = "SELECT e.*, a.Account_Name, a.Email AS AccountEmail " +
-                         "FROM Employer e " +
-                         "JOIN Account a ON e.Account_ID = a.Account_ID " +
-                         "WHERE a.Account_Name = ?";
+
+
+            String sql = "SELECT * FROM Employers WHERE Name_Employer = ?";
+
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, username);
+            stmt.setString(1, nameEmployer);
+
             rs = stmt.executeQuery();
 
             if (rs.next()) {
                 employer = new Employer();
                 employer.setEmployerId(rs.getInt("Employer_ID"));
+
+
+
                 employer.setEmployerName(rs.getString("EmployerName"));
                 employer.setEmail(rs.getString("AccountEmail")); // Từ bảng Account
+
+
+
                 employer.setPasswordHash(rs.getString("Password_hash"));
                 employer.setCompanyName(rs.getString("Company_Name"));
                 employer.setDescription(rs.getString("Description"));
@@ -47,12 +60,29 @@ public class EmployerDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try { if (rs != null) rs.close(); } catch (Exception e) {}
-            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
+
+
+
+
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+
         }
 
         return employer;
     }
+
+
+
 
   public List<Employer> getEmployersByPage(int offset, int recordsPerPage) {
     List<Employer> list = new ArrayList<>();
@@ -190,6 +220,7 @@ public int countEmployers() {
     }
     return list;
 }
+
 
 
 }

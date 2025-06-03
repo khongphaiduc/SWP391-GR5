@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package Controller_Job;
 
 import DAO.SearchAnDisplayJob;
@@ -12,23 +8,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-/**
- *
- * @author Admin
- */
 @WebServlet(name = "getListJobPost", urlPatterns = {"/getListJobPost"})
 public class getListJobPost extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -46,15 +30,6 @@ public class getListJobPost extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -62,14 +37,27 @@ public class getListJobPost extends HttpServlet {
         try {
 
             SearchAnDisplayJob o = new SearchAnDisplayJob();
+            var listJobPost = o.getListJobPost();
 
-            var listJobPost = o.getListJobPost();  // lấy list từ database lên nhe
+            int totalJobs = listJobPost.size();    // lấy số lượng jobpost có hiện tại
+            String pageStr = request.getParameter("page");
+            int currentpage = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
+            int numberJobOfPage = 8; // dẳte số job mỗi trang
 
-            request.setAttribute("ListJobPost", listJobPost);
-            request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
+            int totalPages = (int) Math.ceil((double) totalJobs / numberJobOfPage); // tính  tổng số trang cần có 
+
+            int start = (currentpage - 1) * numberJobOfPage;
+            int end = Math.min(start + numberJobOfPage, totalJobs);
+
+            var jobsOnPage = listJobPost.subList(start, end);
+
+            request.setAttribute("ListJobPost", jobsOnPage);
+            request.setAttribute("currentPage", currentpage);
+            request.setAttribute("totalPages", totalPages);
+            request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
 
         } catch (Exception e) {
-            request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
+            request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
         }
 
     }
@@ -79,43 +67,55 @@ public class getListJobPost extends HttpServlet {
             throws ServletException, IOException {
         try {
 
-            String status =null;
-
+            HttpSession session = request.getSession();
+            String status = null;
             String salary = request.getParameter("salary");
             String location = request.getParameter("location");
             String career = request.getParameter("career");
             String experience = request.getParameter("exp");
             String typeJob = request.getParameter("typeJob");
-            String searchKey = request.getParameter("searchKey");
+            String searchKey = request.getParameter("search");
             SearchAnDisplayJob o = new SearchAnDisplayJob();
             var listJobPost = o.getListJobPost();
-            if (salary != null && location != null) {
-                listJobPost = o.getListJobPostByLocation(salary, location);
+
+            // tìm bên ngoài index
+            if (location != null) {
+                listJobPost = o.getListJobPostByOnlyLocation(location);
                 request.setAttribute("ListJobPost", listJobPost);
-            } else if (salary != null) {
-                listJobPost = o.getListJobPostBySalary(salary);
+                session.setAttribute("location", location);
+            } else if (career != null) {
+                listJobPost = o.getListJobPostByOnlyField(career);
+                session.setAttribute("career", career);
                 request.setAttribute("ListJobPost", listJobPost);
+            } else if (searchKey != null) {
+                listJobPost = o.getListJobPostByOnlyNameCompany(searchKey);
+                request.setAttribute("ListJobPost", listJobPost);
+                 session.setAttribute("searchKey", searchKey);
+            } else if (salary != null && !salary.isEmpty()) {
+                listJobPost = o.getListJobPostByOnlySalary(salary);
+                request.setAttribute("ListJobPost", listJobPost);
+                session.setAttribute("selectedSalary", salary);
             }
 
             if (listJobPost.size() == 0) {
                 status = "ối rồi ôi";
                 request.setAttribute("status", status);
-                request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
-               return ;
+                request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
+                return;
             }
 
-            // các thuộc tính chuyền lại
-            request.setAttribute("selectedSalary", salary);
-            request.setAttribute("location", location);
-            request.setAttribute("career", career);
-            request.setAttribute("exp", experience);
-            request.setAttribute("typeJob", typeJob);
-            request.setAttribute("searchKey", searchKey);
+            // lưu các option của user vào session
+            session.setAttribute("selectedSalary", salary);
+            session.setAttribute("location", location);
+            session.setAttribute("career", career);
+            session.setAttribute("exp", experience);
+            session.setAttribute("typeJob", typeJob);
+            session.setAttribute("searchKey", searchKey);
             // list
             request.setAttribute("ListJobPost", listJobPost);
-            request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
+            request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
         } catch (Exception e) {
-            request.getRequestDispatcher("ViewCV/DisplayListPostJob.jsp").forward(request, response);
+            request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
         }
 
     }

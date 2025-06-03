@@ -1,22 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Models;
 
 import java.util.Date;
 
-/**
- *
- * @author PC
- */
 public class Candidate {
 
     private int candidateId;
     private String candidateName;
     private String address;
     private String email;
-    private Date birthday;
+    private java.sql.Date birthday;
     private String nationality;
     private String passwordHash;
     private byte[] avatar;
@@ -24,12 +16,16 @@ public class Candidate {
     public Candidate() {
     }
 
+
+
     public Candidate(int candidateId, String candidateName, String address, String email, Date birthday, String nationality, String passwordHash, byte[] avatar) {
+
+
         this.candidateId = candidateId;
         this.candidateName = candidateName;
         this.address = address;
         this.email = email;
-        this.birthday = birthday;
+        this.birthday = (java.sql.Date) birthday;
         this.nationality = nationality;
         this.passwordHash = passwordHash;
         this.avatar = avatar;
@@ -67,11 +63,11 @@ public class Candidate {
         this.email = email;
     }
 
-    public Date getBirthday() {
+    public java.sql.Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(java.sql.Date birthday) {
         this.birthday = birthday;
     }
 
@@ -89,6 +85,7 @@ public class Candidate {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+
     }
 
     public byte[] getAvatar() {
@@ -108,4 +105,8 @@ public class Candidate {
    
     
 
+
+
+
 }
+

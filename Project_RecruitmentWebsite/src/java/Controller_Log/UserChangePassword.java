@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
+// pham trung duc
 package Controller_Log;
 
 import java.io.IOException;
@@ -40,21 +37,14 @@ public class UserChangePassword extends HttpServlet {
         request.getRequestDispatcher("/log/ChangePassword.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         try {
-            RegisterAccount_Database o = new RegisterAccount_Database();
-
+           
+            RegisterCandidateUser candidateDAO = new RegisterCandidateUser();
+            RegisterEmployerUser employerDAO = new RegisterEmployerUser();
             String status = " ";
             String oldPassword = request.getParameter("oldPassword");
             String newPassword = request.getParameter("newPassword");
@@ -71,19 +61,37 @@ public class UserChangePassword extends HttpServlet {
                 request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
             } else {
 
-                boolean checkOldPassword = o.changePassword(username, oldPassword, newPassword);  // đỏi mật khẩu theo client 
-                if (checkOldPassword) {
-                      
-                    status = "Thay đổi mật khẩu thành công";
-                    request.setAttribute("status", status);
-                    request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
-           
+                // kiểm tra accountName nằm bên nào 
+                if (candidateDAO.isCandidatetNameUser(username)) {
+
+                    boolean result = candidateDAO.changePasswordCandidate(username, oldPassword, newPassword);
+
+                    if (result) {
+                        status = "Thay đổi mật khẩu thành công";
+                        request.setAttribute("status", status);
+                        request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
+                    } else {
+                        status = "Mật Khẩu Cũ Không Đúng";
+                        request.setAttribute("status", status);
+                        request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
+                    }
+
+                } else if (employerDAO.isEmaiEmployerUser(username)) {
+                    boolean result = employerDAO.changePasswordEmployer(username, oldPassword, newPassword);
+
+                    if (result) {
+                        status = "Thay đổi mật khẩu thành công";
+                        request.setAttribute("status", status);
+                        request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
+                    } else {
+                        status = "Mật Khẩu Cũ Không Đúng";
+                        request.setAttribute("status", status);
+                        request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
+                    }
                 } else {
-                    
-                    status = "Mật Khẩu Cũ Không Đúng";
+                    status = "Ối rồi ôi đã có rắc rối \n Vui lòng thử lại sau khi hệ thông của chúng tôi hoạt động trở lại !";
                     request.setAttribute("status", status);
                     request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
-                  
                 }
 
             }
@@ -94,11 +102,6 @@ public class UserChangePassword extends HttpServlet {
 
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";

@@ -1,5 +1,12 @@
 package DAO;
+
 import Models.Candidate;
+
+
+
+
+
+
 import dal.DBContext;
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,18 +14,19 @@ import java.util.List;
 
 public class CandidateDAO extends DBContext {
 
-    public Candidate getCandidateByAccountName(String username) {
+    public Candidate getCandidateByName(String candidateName) {
         Candidate candidate = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            String sql = "SELECT c.*, a.Account_Name, a.Email AS AccountEmail "
-                       + "FROM Candidate c "
-                       + "JOIN Account a ON c.Account_ID = a.Account_ID "
-                       + "WHERE a.Account_Name = ?";
+
+
+            String sql = "SELECT * FROM Candidate WHERE CandidateName = ?";
+
+
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, username);
+            stmt.setString(1, candidateName);
             rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -29,8 +37,13 @@ public class CandidateDAO extends DBContext {
                 candidate.setEmail(rs.getString("Email"));
                 candidate.setBirthday(rs.getDate("Birthday"));
                 candidate.setNationality(rs.getString("Nationality"));
+
+
                 candidate.setPasswordHash(rs.getString("Password_hash")); // nếu có
                 candidate.setAvatar(rs.getBytes("Avatar")); // nếu có
+
+   
+
             }
 
         } catch (Exception e) {
@@ -39,13 +52,20 @@ public class CandidateDAO extends DBContext {
             try {
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
-            } catch (Exception e2) {
-                e2.printStackTrace();
+
+        
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+
+
             }
         }
 
         return candidate;
     }
+
+
 
    public List<Candidate> getCandidatesByPage(int offset, int recordsPerPage) {
     List<Candidate> list = new ArrayList<>();
@@ -145,22 +165,5 @@ public int countCandidates() {
     return list;
 }
 
-      public static void main(String[] args) {
-        CandidateDAO dao = new CandidateDAO();
-        int testId = 1; // thay bằng ID cần kiểm thử
 
-        Candidate candidate = dao.getCandidateById(testId);
-
-        if (candidate != null) {
-            System.out.println("Candidate Found:");
-            System.out.println("ID: " + candidate.getCandidateId());
-            System.out.println("Name: " + candidate.getCandidateName());
-            System.out.println("Email: " + candidate.getEmail());
-            System.out.println("Address: " + candidate.getAddress());
-            System.out.println("Birthday: " + candidate.getBirthday());
-            System.out.println("Nationality: " + candidate.getNationality());
-        } else {
-            System.out.println("No candidate found with ID: " + testId);
-        }
-    }
 }
