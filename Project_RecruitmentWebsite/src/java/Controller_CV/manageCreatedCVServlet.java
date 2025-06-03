@@ -76,13 +76,17 @@ public class manageCreatedCVServlet extends HttpServlet {
             CVDAO cvdao = new CVDAO();
             List<CV> cvList = cvdao.getCVByCandidate(candidateId);
 
-            int pageSize=5;
             String pageParam = request.getParameter("page");
             int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
-            if(request.getParameter("pageSize")!=null){
-                 pageSize = Integer.parseInt(request.getParameter("pageSize"));
-                 request.setAttribute("pageSize", pageSize);
+            // Set pagesize
+            int pageSize = 5;
+            if (session.getAttribute("pageSize") != null) {
+                pageSize = (int) (session.getAttribute("pageSize"));
             }
+            if (request.getParameter("pageSize") != null) {
+                pageSize = Integer.parseInt(request.getParameter("pageSize"));
+            }
+            session.setAttribute("pageSize", pageSize);
             
             int totalCV = cvList.size();
             int totalPages = (int) Math.ceil((double) totalCV / pageSize);
