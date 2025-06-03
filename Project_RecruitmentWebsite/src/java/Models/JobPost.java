@@ -1,6 +1,7 @@
 // pham trung duc
 package Models;
-
+import  java.time.LocalDateTime;
+import java.util.Date;
 public class JobPost {
 
     private int jobPost_ID;
@@ -13,7 +14,7 @@ public class JobPost {
     private int number_exp;
     private boolean visible;
     private String category;
-    private String dayCre;
+    private Date dayCre;
     private String company;
     private int employer_ID;
     private String typeJob;
@@ -22,7 +23,7 @@ public class JobPost {
 
     public JobPost(int jobPost_ID, String title, String description,String category,
             String position, String location, double offer_Min, double offer_Max,
-            int number_exp, boolean visible, String typeJob, String dayCre, String compapy) {
+            int number_exp, boolean visible, String typeJob, Date dayCre, String compapy) {
         this.jobPost_ID = jobPost_ID;
         this.title = title;
         this.description = description;
@@ -88,10 +89,23 @@ public class JobPost {
         return category;
     }
 
-    public String getDayCre() {
+    public void setDayCre(Date dayCre) {
+        this.dayCre = dayCre;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public Date getDayCre() {
         return dayCre;
     }
 
+    public String getCompany() {
+        return company;
+    }
+
+    
     public String getCompapy() {
         return company;
     }
@@ -136,9 +150,7 @@ public class JobPost {
         this.category = category;
     }
 
-    public void setDayCre(String dayCre) {
-        this.dayCre = dayCre;
-    }
+
 
     public void setCompapy(String compapy) {
         this.company = compapy;
@@ -162,7 +174,9 @@ public class JobPost {
 
     @Override
     public String toString() {
-        return "JobPost{" + "jobPost_ID=" + jobPost_ID + ", title=" + title + ", description=" + description + ", position=" + position + ", location=" + location + ", offer_Min=" + offer_Min + ", offer_Max=" + offer_Max + ", number_exp=" + number_exp + ", visible=" + visible + ", category=" + category + ", dayCre=" + dayCre + ", compapy=" + company + '}';
+        return "JobPost{" + "jobPost_ID=" + jobPost_ID + ", title=" + title + ", description=" + description + ", position=" + position + ", location=" + location + ", offer_Min=" + offer_Min + ", offer_Max=" + offer_Max + ", number_exp=" + number_exp + ", visible=" + visible + ", category=" + category + ", dayCre=" + dayCre + ", company=" + company + ", employer_ID=" + employer_ID + ", typeJob=" + typeJob + '}';
     }
+
+
 
 }

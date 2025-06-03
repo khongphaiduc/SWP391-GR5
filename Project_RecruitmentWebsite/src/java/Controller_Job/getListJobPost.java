@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
 @WebServlet(name = "getListJobPost", urlPatterns = {"/getListJobPost"})
 public class getListJobPost extends HttpServlet {
 
@@ -41,6 +40,12 @@ public class getListJobPost extends HttpServlet {
             String nameCompany = request.getParameter("search");
             SearchAnDisplayJob o = new SearchAnDisplayJob();
             var listJobPost = o.getListJobPost();
+            
+            listJobPost.sort((a, b) -> {
+                var s = b.getDayCre().compareTo(a.getDayCre());
+                return s;
+            });
+
             if (fields != null) {                   // tìm kiếm theo lĩnh vực
                 listJobPost = o.getListJobPostByOnlyField(fields);
             } else if (location != null) {  // tìm kiếm theo vị trí 
@@ -50,6 +55,8 @@ public class getListJobPost extends HttpServlet {
             }
 
             int totalJobs = listJobPost.size();    // lấy số lượng jobpost có hiện tại
+            
+        
             String pageStr = request.getParameter("page");
             int currentpage = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
             int numberJobOfPage = 8; // dẳte số job mỗi trang
@@ -58,7 +65,7 @@ public class getListJobPost extends HttpServlet {
 
             int start = (currentpage - 1) * numberJobOfPage;
             int end = Math.min(start + numberJobOfPage, totalJobs);
-
+        
             var jobsOnPage = listJobPost.subList(start, end);
 
             // nếu list = 0S
@@ -82,7 +89,7 @@ public class getListJobPost extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-   
+
     }
 
     @Override

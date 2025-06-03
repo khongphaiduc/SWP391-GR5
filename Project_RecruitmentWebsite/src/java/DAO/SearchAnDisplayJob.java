@@ -48,7 +48,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                        Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
+                        rs.getDate("DayCreate"),
                         rs.getString("Company_Name")));
             }
 
@@ -117,7 +117,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                     Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
+                       rs.getDate("DayCreate"),
                         rs.getString("Company_Name")));
             }
 
@@ -176,7 +176,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                         Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
+                      rs.getDate("DayCreate"),
                         rs.getString("Company_Name")));
             }
             return list;
@@ -241,7 +241,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                       Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
+                       rs.getDate("DayCreate"),
                         rs.getString("Company_Name")));
             }
             return list;
@@ -309,7 +309,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                       Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
+                       rs.getDate("DayCreate"),
                         rs.getString("Company_Name")));
             }
             return list;
@@ -383,7 +383,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                         Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
+         rs.getDate("DayCreate"),
                         rs.getString("Company_Name")));
             }
             return list;
@@ -435,7 +435,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                       Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
+                 rs.getDate("DayCreate"),
                         rs.getString("Company_Name")));
             }
             return list;
@@ -448,12 +448,12 @@ public class SearchAnDisplayJob extends DBContext {
     }
 
     // đã test
-    public List<JobPost> BuildTest(String salary, String location, String category, String number, String type) {
+    public List<JobPost> BuildTest(String salary, String location, String category, String number, String typeJob) {
 
-        if(salary==null){
-            salary="0";
+        if (salary == null) {
+            salary = "0";
         }
-        
+
         String min = null;
         String max = null;
 
@@ -470,12 +470,13 @@ public class SearchAnDisplayJob extends DBContext {
             min = "30";
             max = "40";
         } else if (salary.equals("5")) {
-            min = "400";
+            min = "40";
             max = "100000";
         } else if (salary.equals("0")) {
             min = "0";
             max = "100000000";
         }
+      
 
         List<JobPost> list = new ArrayList<>();
 
@@ -494,7 +495,7 @@ public class SearchAnDisplayJob extends DBContext {
             push.setString(1, min);
             push.setString(2, max);
 
-            push.setString(3, location);
+            push.setString(3, location != null ? "%" + location + "%" : null);
             push.setString(4, location != null ? "%" + location + "%" : null);
 
             push.setString(5, category != null ? "%" + category + "%" : null);
@@ -503,8 +504,8 @@ public class SearchAnDisplayJob extends DBContext {
             push.setString(7, number != null ? "%" + number + "%" : null);
             push.setString(8, number != null ? "%" + number + "%" : null);
 
-            push.setString(9, type != null ? "%" + type + "%" : null);
-            push.setString(10, type != null ? "%" + type + "%" : null);
+            push.setString(9, typeJob != null ? "%" + typeJob + "%" : null);
+            push.setString(10, typeJob != null ? "%" + typeJob + "%" : null);
 
             ResultSet rs = push.executeQuery();
 
@@ -521,7 +522,7 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getInt("Number_exp"),
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
-                         Validate.ValidationRegister.convertDateTimeToDate(rs.getString("DayCreate")),
+                      rs.getDate("DayCreate"),
                         rs.getString("Company_Name")));
             }
             return list;
@@ -535,8 +536,8 @@ public class SearchAnDisplayJob extends DBContext {
 
     public static void main(String[] args) {
         SearchAnDisplayJob o = new SearchAnDisplayJob();
-        o.BuildTest(null, null, "IT", null, null).forEach(a -> System.out.println(a));
-    //    o.getListJobPost() .forEach(a -> System.out.println(a));
-       
+        o.BuildTest("2", null, null, null, null).forEach(a -> System.out.println(a));
+        //    o.getListJobPost() .forEach(a -> System.out.println(a));
+
     }
 }

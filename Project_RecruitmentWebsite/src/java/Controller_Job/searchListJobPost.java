@@ -51,7 +51,12 @@ public class searchListJobPost extends HttpServlet {
          
        
             var listJobPost = o.BuildTest(salary, location, career, experience, typeJob);
-
+            // thằng mới đăng tin hiển  thị lên đầu
+            listJobPost.sort((a, b) -> {
+              var s =  b.getDayCre().compareTo(a.getDayCre());
+                     return s; 
+              });
+              
             int totalJobs = listJobPost.size();    // lấy số lượng jobpost có hiện tại
             String pageStr = request.getParameter("page");
             int currentpage = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
