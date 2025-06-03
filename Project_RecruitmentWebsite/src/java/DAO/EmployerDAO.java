@@ -12,7 +12,7 @@ public class EmployerDAO extends DBContext {
         ResultSet rs = null;
 
         try {
-            String sql = "SELECT * FROM Employers WHERE Name_Employer = ?";
+            String sql = "SELECT * FROM Employer WHERE EmployerName = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, nameEmployer);
             rs = stmt.executeQuery();
@@ -20,7 +20,7 @@ public class EmployerDAO extends DBContext {
             if (rs.next()) {
                 employer = new Employer();
                 employer.setEmployerId(rs.getInt("Employer_ID"));
-                employer.setNameEmployer(rs.getString("Name_Employer"));
+                employer.setNameEmployer(rs.getString("EmployerName"));
                 employer.setEmail(rs.getString("Email"));
                 employer.setPasswordHash(rs.getString("Password_hash"));
                 employer.setCompanyName(rs.getString("Company_Name"));
