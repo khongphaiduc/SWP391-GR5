@@ -7,6 +7,7 @@ package Controller_Job;
 import DAO.*;
 import Models.*;
 import MyService.JobCategoryProvider;
+import MyService.LocationProvider;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -67,9 +68,12 @@ public class createJobServlet extends HttpServlet {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
-            ArrayList<JobCategory> jobCategories = JobCategoryProvider.getJobCategories();
-
+            ArrayList<String> jobCategories = JobCategoryProvider.getJobCategories();
             request.setAttribute("jobCategories", jobCategories);
+            
+            ArrayList<String> locations  = LocationProvider.getLocations();
+            request.setAttribute("locations", locations);
+            
             request.getRequestDispatcher("jobPost_view/createJob.jsp").forward(request, response);
         }
     }
@@ -91,8 +95,16 @@ public class createJobServlet extends HttpServlet {
         String position = request.getParameter("position");
         String location = request.getParameter("location");
 
-        double offerMin = parseDoubleSafe(request.getParameter("offerMin"));
-        double offerMax = parseDoubleSafe(request.getParameter("offerMax"));
+        
+        String offerMinStr = request.getParameter("offerMin");
+        offerMinStr = offerMinStr.replace(".", "").replace(",", ""); 
+        double offerMin = Double.parseDouble(offerMinStr);
+        
+        String offerMaxStr = request.getParameter("offerMax");
+        offerMaxStr = offerMaxStr.replace(".", "").replace(",", ""); 
+        double offerMax = Double.parseDouble(offerMaxStr);
+        
+        
         int numberExp = parseIntSafe(request.getParameter("numberExp"));
         String typeJob = request.getParameter("typeJob");
         boolean visible = "1".equals(request.getParameter("visible"));
@@ -118,7 +130,7 @@ public class createJobServlet extends HttpServlet {
 
         JobPostDAO jobPostDAO = new JobPostDAO();
         boolean success = jobPostDAO.addJobPost(job);
-        ArrayList<JobCategory> jobCategories = JobCategoryProvider.getJobCategories();
+        ArrayList<String> jobCategories = JobCategoryProvider.getJobCategories();
 
         request.setAttribute("jobCategories", jobCategories);
         if (success) {

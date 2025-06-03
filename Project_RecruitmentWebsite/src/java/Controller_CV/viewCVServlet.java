@@ -77,7 +77,6 @@ public class viewCVServlet extends HttpServlet {
 //            if (!mimeType.startsWith("image/")) {
 //                response.setHeader("Content-Disposition", "inline; filename=\"cv." + getExtensionFromMimeType(mimeType) + "\"");
 //            }
-
             InputStream inputStream = cv.getFileData();
             OutputStream out = response.getOutputStream();
             byte[] buffer = new byte[4096];
@@ -126,11 +125,15 @@ public class viewCVServlet extends HttpServlet {
             CVDAO dao = new CVDAO();
             boolean updated = false;
             if (filePart != null && filePart.getSize() > 0) {
-                updated = dao.editCVById(cvId, fullName, address, email,
-                        position, numberExp, education,
-                        field, currentSalary, birthday, nationality, gender,
-                        inputStream, mimeType);
-
+                if (mimeType.startsWith("image/") && filePart.getSize() < 1000000) {
+                    updated = dao.editCVById(cvId, fullName, address, email,
+                            position, numberExp, education,
+                            field, currentSalary, birthday, nationality, gender,
+                            inputStream, mimeType);
+                } else {
+                    request.setAttribute("error", "Bạn cần chọn file ảnh(.png, jpg) nhỏ hơn 1MB để đăng lên");
+                    request.getRequestDispatcher("candidateCV_view/editCV.jsp").forward(request, response);
+                }
             } else {
                 updated = dao.editCVWithoutFile(cvId, fullName, address, email,
                         position, numberExp, education,
