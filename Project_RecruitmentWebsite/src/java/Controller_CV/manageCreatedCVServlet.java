@@ -63,25 +63,27 @@ public class manageCreatedCVServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
-        AccountDAO accountDAO = new AccountDAO();
-        Account account = accountDAO.getAccountByUserName(username);
-
-        if (username == null || !"Candidate".equals(account.getRole())) {
+        String role = (String) session.getAttribute("role");
+        if (username == null || !"Candidate".equals(role)) {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
 
             CandidateDAO candidateDAO = new CandidateDAO();
-            Candidate candidate = candidateDAO.getCandidateByAccountName(username);
+            Candidate candidate = candidateDAO.getCandidateByName(username);
             int candidateId = candidate.getCandidateId();
 
             CVDAO cvdao = new CVDAO();
             List<CV> cvList = cvdao.getCVByCandidate(candidateId);
 
-          
+            int pageSize=5;
             String pageParam = request.getParameter("page");
             int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
-            int pageSize = 5;
+            if(request.getParameter("pageSize")!=null){
+                 pageSize = Integer.parseInt(request.getParameter("pageSize"));
+                 request.setAttribute("pageSize", pageSize);
+            }
+            
             int totalCV = cvList.size();
             int totalPages = (int) Math.ceil((double) totalCV / pageSize);
             int fromIndex = (page - 1) * pageSize;

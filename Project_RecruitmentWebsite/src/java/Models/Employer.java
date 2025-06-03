@@ -11,9 +11,11 @@ package Models;
 public class Employer {
 
     private int employerId;
+
     private String EmployerName;
     private String email;
      private String passwordHash;
+
     private String companyName;
     private String description;
     private String location;
@@ -21,12 +23,15 @@ public class Employer {
     private String companySize;
     private byte[] imgLogo;
 
+    // Constructors
     public Employer() {
     }
+
 
     public Employer(int employerId, String EmployerName, String email, String passwordHash, String companyName, String description, String location, String urlWebsite, String companySize, byte[] imgLogo) {
         this.employerId = employerId;
         this.EmployerName = EmployerName;
+
         this.email = email;
         this.passwordHash = passwordHash;
         this.companyName = companyName;
@@ -37,6 +42,7 @@ public class Employer {
         this.imgLogo = imgLogo;
     }
 
+    // Getters and Setters
     public int getEmployerId() {
         return employerId;
     }
@@ -45,12 +51,14 @@ public class Employer {
         this.employerId = employerId;
     }
 
+
     public String getEmployerName() {
         return EmployerName;
     }
 
     public void setEmployerName(String EmployerName) {
         this.EmployerName = EmployerName;
+
     }
 
     public String getEmail() {
@@ -117,12 +125,11 @@ public class Employer {
         this.imgLogo = imgLogo;
     }
 
-    @Override
-    public String toString() {
-        return "Employer{" + "employerId=" + employerId + ", EmployerName=" + EmployerName + ", email=" + email + ", passwordHash=" + passwordHash + ", companyName=" + companyName + ", description=" + description + ", location=" + location + ", urlWebsite=" + urlWebsite + ", companySize=" + companySize + ", imgLogo=" + imgLogo + '}';
-    }
+
 
     
 
     
 }
+
+

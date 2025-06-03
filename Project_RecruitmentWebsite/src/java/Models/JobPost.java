@@ -14,7 +14,7 @@ public class JobPost {
     private boolean visible;
     private String category;
     private String dayCre;
-    private String compapy;
+    private String company;
     private int employer_ID;
     private String typeJob;
 
@@ -22,7 +22,7 @@ public class JobPost {
         return visible;
     }
 
-    public JobPost(int jobPost_ID, String title, String description,
+    public JobPost(int jobPost_ID, String title, String description,String category,
             String position, String location, double offer_Min, double offer_Max,
             int number_exp, boolean visible, String typeJob, String dayCre, String compapy) {
         this.jobPost_ID = jobPost_ID;
@@ -36,7 +36,11 @@ public class JobPost {
         this.visible = visible;
         this.typeJob = typeJob;
         this.dayCre = dayCre;
-        this.compapy = compapy;
+
+        this.category=category;
+
+        this.company = compapy;
+
     }
 
     public JobPost() {
@@ -87,7 +91,7 @@ public class JobPost {
     }
 
     public String getCompapy() {
-        return compapy;
+        return company;
     }
 
     public void setJobPost_ID(int jobPost_ID) {
@@ -135,7 +139,7 @@ public class JobPost {
     }
 
     public void setCompapy(String compapy) {
-        this.compapy = compapy;
+        this.company = compapy;
     }
 
     public String getTypeJob() {
@@ -156,7 +160,7 @@ public class JobPost {
 
     @Override
     public String toString() {
-        return "JobPost{" + "jobPost_ID=" + jobPost_ID + ", title=" + title + ", description=" + description + ", position=" + position + ", location=" + location + ", offer_Min=" + offer_Min + ", offer_Max=" + offer_Max + ", number_exp=" + number_exp + ", visible=" + visible + ", category=" + category + ", dayCre=" + dayCre + ", compapy=" + compapy + '}';
+        return "JobPost{" + "jobPost_ID=" + jobPost_ID + ", title=" + title + ", description=" + description + ", position=" + position + ", location=" + location + ", offer_Min=" + offer_Min + ", offer_Max=" + offer_Max + ", number_exp=" + number_exp + ", visible=" + visible + ", category=" + category + ", dayCre=" + dayCre + ", compapy=" + company + '}';
     }
 
 }

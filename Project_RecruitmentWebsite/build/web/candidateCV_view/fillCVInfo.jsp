@@ -4,115 +4,190 @@
     <head>
         <meta charset="UTF-8">
         <jsp:include page="/navbar.jsp" />
-
         <title>Điền thông tin CV</title>
-        <!-- Bootstrap -->
-        <!--        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
         <style>
             body {
-                background-color: #f8f9fa;
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
             }
-            .cv-form {
-                max-width: 700px;
-                margin: 80px auto;
-                background: #ffffff;
-                padding: 40px;
-                border-radius: 12px;
-                box-shadow: 0px 4px 20px rgba(0,0,0,0.1);
+            .cv-container {
+                display: flex;
+                max-width: 900px;
+                margin: 40px auto;
+                background: #fff;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             }
-            .form-title {
+            .sidebar {
+                width: 30%;
+                background-color: #2e4f4f;
+                color: #fff;
+                padding: 20px;
+            }
+            .sidebar h2 {
                 font-size: 24px;
-                font-weight: 700;
-                margin-bottom: 30px;
-                color: #198754;
+                margin-bottom: 20px;
+                border-bottom: 2px solid #fff;
+                padding-bottom: 10px;
             }
-            img {
-                max-width: 150px;
-                border-radius: 12px;
+            .main-content {
+                width: 70%;
+                padding: 20px;
+            }
+            .section-title {
+                font-size: 18px;
+                font-weight: bold;
+                color: #2e4f4f;
+                border-bottom: 2px solid #2e4f4f;
+                padding-bottom: 5px;
+                margin-bottom: 15px;
+            }
+            .form-section {
                 margin-bottom: 20px;
             }
+            .form-section label {
+                font-weight: bold;
+                color: #333;
+                display: block;
+                margin-bottom: 5px;
+            }
+            .form-section input, .form-section select {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+            .submit-btn {
+                background-color: #2e4f4f;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                display: block;
+                margin: 20px auto;
+            }
+            .submit-btn:hover {
+                background-color: #1a3c3c;
+            }
+            .upload-section {
+                margin-bottom: 20px;
+            }
+            .sidebar .form-section label {
+                color: #fff;
+            }
+            .sidebar .form-section input, .sidebar .form-section select {
+                border: 1px solid #ccc;
+            }
+            .message-box {
+            background-color: #e7f3e7;
+            border: 1px solid #2e4f4f;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 20px;
+            color: #2e4f4f;
+            font-size: 14px;
+            text-align: center;
+        }
         </style>
     </head>
     <body>
 
-        <div class="container cv-form">
-            <div class="text-center">
-                <div class="form-title">Điền thông tin CV của bạn</div>
-                <% String message = (String) request.getAttribute("message");
-                if (message != null) { %>
-                <p><%= message %></p>
-                <% } %>
-            </div>
-
-            <form action="submitCV" method="post" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="fullName" class="form-label">Họ và tên</label>
-                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Nhập họ và tên" required>
-                </div>
-                <div class="mb-3">
-                    <label for="address" class="form-label">Địa chỉ</label>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="Nhập địa chỉ của bạn">
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email của bạn">
-                </div>
-                <div class="mb-3">
-                    <label for="position" class="form-label">Vị trí mong muốn</label>
-                    <input type="text" class="form-control" id="position" name="position" placeholder="Nhập vị trí ứng tuyển">
-                </div>
-                <div class="mb-3">
-                    <label for="numberExp" class="form-label">Số năm kinh nghiệm</label>
-                    <input type="number" class="form-control" id="numberExp" name="numberExp" placeholder="Nhập số năm kinh nghiệm">
-                </div>
-                <div class="mb-3">
-                    <label for="education" class="form-label">Trình độ học vấn</label>
-                    <input type="text" class="form-control" id="education" name="education" placeholder="Nhập trình độ học vấn">
-                </div>
-                <div class="mb-3">
-                    <label for="field" class="form-label">Lĩnh vực chuyên môn</label>
-                    <input type="text" class="form-control" id="field" name="field" placeholder="Nhập lĩnh vực chuyên môn">
-                </div>
-                <div class="mb-3">
-                    <label for="currentSalary" class="form-label">Mức lương hiện tại (VND)</label>
-                    <input type="number" step="0.01" class="form-control" id="currentSalary" name="currentSalary" placeholder="Nhập mức lương hiện tại">
-                </div>
-                <div class="mb-3">
-                    <label for="birthday" class="form-label">Ngày sinh</label>
-                    <input type="date" class="form-control" id="birthday" name="birthday">
-                </div>
-                <div class="mb-3">
-                    <label for="nationality" class="form-label">Quốc tịch</label>
-                    <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Nhập quốc tịch">
-                </div>
-                <div class="mb-3">
-                    <label for="gender" class="form-label">Giới tính</label>
-                    <select class="form-control" id="gender" name="gender">
-                        <option value="">-- Chọn giới tính --</option>
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
-                        <option value="Khác">Khác</option>
-                    </select>
-                </div>
-
-                <div class="container upload-form">
-                    <div class="form-title text-center text-success">Tải lên các file</div>
-
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Chọn file</label>
+        <form action="submitCV" method="post" enctype="multipart/form-data">
+            <div class="cv-container">
+                <!-- Sidebar for Personal Information -->
+                <div class="sidebar">
+                    <!-- Profile Picture Upload at Top -->
+                    <div class="form-section upload-section">
+                        <label for="image">Ảnh đại diện</label>
                         <input type="file" class="form-control" id="image" name="CVFile" accept="image/*" required>
                     </div>
-
+                    <h2>----------------</h2>
+                    <div class="form-section">
+                        <label for="birthday" class="form-label">Ngày sinh</label>
+                        <input type="date" class="form-control" id="birthday" name="birthday" required>
+                    </div>
+                    <div class="form-section">
+                        <label for="gender" class="form-label">Giới tính</label>
+                        <select class="form-control" id="gender" name="gender" required>
+                            <option value="">-- Chọn giới tính --</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-section">
+                        <label for="nationality" class="form-label">Quốc tịch</label>
+                        <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Nhập quốc tịch" required>
+                    </div>
+                    <div class="form-section">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email của bạn" required>
+                    </div>
+                    <div class="form-section">
+                        <label for="address" class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Nhập địa chỉ của bạn" required>
+                    </div>
                 </div>
 
-                <div class="text-center">
-                    <button type="submit" class="btn btn-success px-5">Lưu CV</button>
-                </div>
+                <!-- Main Content -->
+                <div class="main-content">
 
-            </form>
-        </div>
-        <%@ include file="footer.jsp" %>
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                    <% String message = (String) request.getAttribute("message");
+            if (message != null) { %>
+                    <div class="message-box"><%= message %></div>
+                    <% } %>
+
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <div class="section-title">THÔNG TIN CÁ NHÂN</div>
+                        <label for="fullName" class="form-label">Họ và tên</label>
+                        <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Nhập họ và tên" required>
+                    </div>
+
+                    <!-- Career Objective -->
+                    <div class="form-section">
+                        <div class="section-title">MỤC TIÊU NGHỀ NGHIỆP</div>
+                        <label for="position" class="form-label">Vị trí mong muốn</label>
+                        <input type="text" class="form-control" id="position" name="position" placeholder="Nhập vị trí ứng tuyển" required>
+                    </div>
+
+                    <!-- Work Experience -->
+                    <div class="form-section">
+                        <div class="section-title">KINH NGHIỆM LÀM VIỆC</div>
+                        <label for="numberExp" class="form-label">Số năm kinh nghiệm</label>
+                        <input type="number" class="form-control" id="numberExp" name="numberExp" placeholder="Nhập số năm kinh nghiệm" required>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="form-section">
+                        <div class="section-title">HỌC VẤN</div>
+                        <label for="education" class="form-label">Trình độ học vấn</label>
+                        <input type="text" class="form-control" id="education" name="education" placeholder="Nhập trình độ học vấn" required>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="form-section">
+                        <div class="section-title">KỸ NĂNG</div>
+                        <label for="field" class="form-label">Lĩnh vực chuyên môn</label>
+                        <input type="text" class="form-control" id="field" name="field" placeholder="Nhập lĩnh vực chuyên môn" required>
+                    </div>
+
+                    <!-- Salary -->
+                    <div class="form-section">
+                        <div class="section-title">MỨC LƯƠNG HIỆN TẠI</div>
+                        <label for="currentSalary" class="form-label">Mức lương hiện tại (VND)</label>
+                        <input type="number" step="0.01" class="form-control" id="currentSalary" name="currentSalary" placeholder="Nhập mức lương hiện tại" required>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-btn">Lưu CV</button>
+                    </form>
+                </div>
+            </div>
+            <%@ include file="footer.jsp" %>
     </body>
 </html>

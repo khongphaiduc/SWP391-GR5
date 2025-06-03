@@ -4,8 +4,8 @@
  */
 package Controller_Job;
 
-import DAO.*;
-import Models.*;
+import DAO.JobPostDAO;
+import Models.JobPost;
 import MyService.JobCategoryProvider;
 import MyService.LocationProvider;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
  *
  * @author PC
  */
-public class createJobServlet extends HttpServlet {
+public class updateJobServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class createJobServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet createJobServlet</title>");
+            out.println("<title>Servlet updateJobServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet createJobServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet updateJobServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,21 +61,7 @@ public class createJobServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
-        String role = (String) session.getAttribute("role");
-        if (username == null || !"Employer".equals(role)) {
-            request.getRequestDispatcher("log/login.jsp").forward(request, response);
-            return;
-        } else {
-            ArrayList<String> jobCategories = JobCategoryProvider.getJobCategories();
-            request.setAttribute("jobCategories", jobCategories);
-            
-            ArrayList<String> locations  = LocationProvider.getLocations();
-            request.setAttribute("locations", locations);
-            
-            request.getRequestDispatcher("jobPost_view/createJob.jsp").forward(request, response);
-        }
+        
     }
 
     /**
@@ -89,6 +75,7 @@ public class createJobServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int jobId = Integer.parseInt(request.getParameter("jobPost_ID"));
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         String category = request.getParameter("category");
@@ -101,39 +88,10 @@ public class createJobServlet extends HttpServlet {
         String typeJob = request.getParameter("typeJob");
         boolean visible = "1".equals(request.getParameter("visible"));
 
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
-        EmployerDAO employerDAO = new EmployerDAO();
-        Employer employer = employerDAO.getEmployerByName(username);
-        int employerId = employer.getEmployerId();
-
-        JobPost job = new JobPost();
-        job.setEmployer_ID(employerId);
-        job.setTitle(title);
-        job.setDescription(description);
-        job.setCategory(category);
-        job.setPosition(position);
-        job.setLocation(location);
-        job.setOffer_Min(offerMin);
-        job.setOffer_Max(offerMax);
-        job.setNumber_exp(numberExp);
-        job.setTypeJob(typeJob);
-        job.setVisible(visible);
-
         JobPostDAO jobPostDAO = new JobPostDAO();
-        boolean success = jobPostDAO.addJobPost(job);
-        ArrayList<String> jobCategories = JobCategoryProvider.getJobCategories();
+        jobPostDAO.updateJobPost(title, description, category, position, location, offerMin, offerMax, numberExp, visible, typeJob, jobId);
 
-        request.setAttribute("jobCategories", jobCategories);
-        if (success) {
-
-            request.setAttribute("message", "Đăng tin thành công!");
-            request.getRequestDispatcher("jobPost_view/createJob.jsp").forward(request, response);
-        } else {
-            request.setAttribute("message", "Đăng tin thất bại!");
-            request.getRequestDispatcher("jobPost_view/createJob.jsp").forward(request, response);
-        }
-
+        response.sendRedirect("manageCreatedJob");
     }
 
     private double parseDoubleSafe(String value) {
