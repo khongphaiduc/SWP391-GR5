@@ -113,6 +113,159 @@
                 }
             }
         </style>
+
+        <!--        Style Action Menu-->
+
+
+        <style>
+            .floating-actions-v2 {
+                position: fixed;
+                bottom: 32px;
+                left: 24px;
+                z-index: 9999;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+            .fab-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background: rgba(255,255,255,0.97);
+                border-radius: 18px;
+                box-shadow: 0 8px 32px 0 rgba(20,184,102,0.10), 0 1.5px 8px #1976d211;
+                padding: 3px 8px 3px 3px;
+                transition: box-shadow 0.18s, transform 0.14s;
+            }
+            .fab-item:hover {
+                box-shadow: 0 12px 32px 0 rgba(20,184,102,0.22), 0 3px 16px #1976d222;
+                transform: translateY(-3px) scale(1.03);
+            }
+            .fab-btn {
+                background: linear-gradient(135deg, #38ef7d 60%, #11998e 100%);
+                border: none;
+                border-radius: 50%;
+                box-shadow: 0 2px 12px #14b86633;
+                width: 48px;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                cursor: pointer;
+                transition: background 0.13s, box-shadow 0.13s, transform 0.13s;
+                outline: none;
+            }
+            .fab-btn:active {
+                transform: scale(0.95);
+            }
+            .fab-btn i {
+                font-size: 1.45rem;
+                color: #fff;
+                transition: color .17s;
+            }
+            .fab-label {
+                color: #11998e;
+                font-size: 1.04rem;
+                font-weight: 600;
+                letter-spacing: 0.03em;
+                padding: 0 10px;
+                border-radius: 10px;
+                background: linear-gradient(90deg, #e2fdeb 60%, #e0f7fa 100%);
+                margin-left: 2px;
+            }
+            .fab-heart .fab-btn {
+                background: linear-gradient(135deg, #ff4d6d 70%, #14b866 100%);
+                box-shadow: 0 2px 14px #ff4d6d22;
+            }
+            .fab-heart .fab-btn.filled i {
+                color: #ff4d6d;
+                text-shadow: 0 2px 8px #ff4d6d22, 0 0px 2px #fff;
+            }
+            .fab-badge {
+                position: absolute;
+                top: -7px;
+                right: -7px;
+                background: #14b866;
+                color: #fff;
+                font-size: 0.93rem;
+                font-weight: 700;
+                border-radius: 50%;
+                min-width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid #fff;
+                box-shadow: 0 1.5px 5px #14b86622;
+                z-index: 2;
+            }
+            .fab-heart .fab-badge {
+                background: #ff4d6d;
+            }
+            @media (max-width: 600px) {
+                .floating-actions-v2 {
+                    left: 7px;
+                    bottom: 10px;
+                    gap: 12px;
+                }
+                .fab-btn {
+                    width: 42px;
+                    height: 42px;
+                }
+                .fab-label {
+                    font-size: 0.95rem;
+                    padding: 0 6px;
+                }
+                .fab-badge {
+                    min-width: 20px;
+                    height: 20px;
+                    font-size: 0.87rem;
+                }
+            }
+        </style>
+        <style>
+            .fab-item {
+                position: relative;
+            }
+            .fab-hover-label {
+                display: none;
+                position: absolute;
+                left: 60px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: #fff;
+                color: #11998e;
+                font-weight: 600;
+                font-size: 1.02rem;
+                padding: 5px 16px;
+                border-radius: 9px;
+                box-shadow: 0 3px 16px #1976d211;
+                white-space: nowrap;
+                z-index: 10000;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.17s, left 0.17s;
+            }
+            .fab-item:hover .fab-hover-label,
+            .fab-item:focus-within .fab-hover-label {
+                display: block;
+                opacity: 1;
+                left: 60px;
+            }
+            @media (max-width: 600px) {
+                .fab-hover-label {
+                    left: 45px;
+                    font-size: 0.95rem;
+                    padding: 4px 10px;
+                }
+            }
+        </style>
+
+
+
+
     </head>
 
     <body>
@@ -189,7 +342,7 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">For Employer</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                       
+
                                 <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
                             </div>
                         </div>
@@ -250,7 +403,7 @@
                                 <option value="Đã Nẵng">Đà Nẵng</option>
                                 <option value="Hải Phòng">Hải Phòng</option>
                                 <option value="Ninh Bình">Cần Thơ</option>
-                          
+
                             </select>
 
                         </form>
@@ -667,7 +820,39 @@
             </div>
             <!-- Footer End -->
 
+            
+<!--            hiển thị Action Menu-->
+            <div class="floating-actions-v2">
+                <div class="fab-item fab-heart" title="Việc làm yêu thích">
+                    <a href="<%= request.getContextPath() %>/getListJobPostSaveOfCandidate" target="_blank" id="favorite-btn-v2" class="fab-btn" >
+                        <i class="bi bi-heart-fill"></i>
+                        <span class="fab-badge" id="favorite-count-v2">0</span>
+                    </a>
+                    <span class="fab-hover-label">Danh sách việc làm đã lưu</span>
+                </div>
+                <div class="fab-item" title="Bảo mật">
+                    <a  href="<%= request.getContextPath() %>/getListJobPostSaveOfCandidate" target="_blank" class="fab-btn">
+                        <i class="bi bi-shield-check"></i>
+                    </a>
+                    <span class="fab-hover-label">Tìm việc an toàn</span>
+                </div>
+                <div class="fab-item" title="Góp ý">
+                    <a  href="<%= request.getContextPath() %>/giveComments" target="_blank" class="fab-btn">
+                        <i class="bi bi-chat-dots"></i>
+                    </a>
+                    <span class="fab-hover-label">Góp ý GenZTimViec</span>
+                </div>
+                <div class="fab-item" title="Hỗ trợ">
+                    <a  href="<%= request.getContextPath() %>/SupportUser" target="_blank" class="fab-btn">
+                        <i class="bi bi-headset"></i>
+                    </a>
+                    <span class="fab-hover-label">Hỗ trợ</span>
+                </div>
+            </div>
 
+<!--                        end Action Menu-->
+                        
+                        
             <!-- Back to Top -->
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>

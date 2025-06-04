@@ -11,6 +11,7 @@
         <!-- Bootstrap 5 CDN -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
         <style>
             body {
                 background: linear-gradient(135deg, #e3f2fd 0%, #fffde7 100%);
@@ -195,7 +196,160 @@
                 background: linear-gradient(90deg, #1976d2 70%, #40c057 100%);
                 transform: translateY(-1px) scale(1.03);
             }
+            .heart-svg.filled {
+                fill: #ff4d6d;
+                stroke: #ff4d6d;
+                transition: fill 0.2s;
+            }
         </style>
+
+
+        <style>
+            .floating-actions-v2 {
+                position: fixed;
+                bottom: 32px;
+                left: 24px;
+                z-index: 9999;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+            .fab-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background: rgba(255,255,255,0.97);
+                border-radius: 18px;
+                box-shadow: 0 8px 32px 0 rgba(20,184,102,0.10), 0 1.5px 8px #1976d211;
+                padding: 3px 8px 3px 3px;
+                transition: box-shadow 0.18s, transform 0.14s;
+            }
+            .fab-item:hover {
+                box-shadow: 0 12px 32px 0 rgba(20,184,102,0.22), 0 3px 16px #1976d222;
+                transform: translateY(-3px) scale(1.03);
+            }
+            .fab-btn {
+                background: linear-gradient(135deg, #38ef7d 60%, #11998e 100%);
+                border: none;
+                border-radius: 50%;
+                box-shadow: 0 2px 12px #14b86633;
+                width: 48px;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                cursor: pointer;
+                transition: background 0.13s, box-shadow 0.13s, transform 0.13s;
+                outline: none;
+            }
+            .fab-btn:active {
+                transform: scale(0.95);
+            }
+            .fab-btn i {
+                font-size: 1.45rem;
+                color: #fff;
+                transition: color .17s;
+            }
+            .fab-label {
+                color: #11998e;
+                font-size: 1.04rem;
+                font-weight: 600;
+                letter-spacing: 0.03em;
+                padding: 0 10px;
+                border-radius: 10px;
+                background: linear-gradient(90deg, #e2fdeb 60%, #e0f7fa 100%);
+                margin-left: 2px;
+            }
+            .fab-heart .fab-btn {
+                background: linear-gradient(135deg, #ff4d6d 70%, #14b866 100%);
+                box-shadow: 0 2px 14px #ff4d6d22;
+            }
+            .fab-heart .fab-btn.filled i {
+                color: #ff4d6d;
+                text-shadow: 0 2px 8px #ff4d6d22, 0 0px 2px #fff;
+            }
+            .fab-badge {
+                position: absolute;
+                top: -7px;
+                right: -7px;
+                background: #14b866;
+                color: #fff;
+                font-size: 0.93rem;
+                font-weight: 700;
+                border-radius: 50%;
+                min-width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid #fff;
+                box-shadow: 0 1.5px 5px #14b86622;
+                z-index: 2;
+            }
+            .fab-heart .fab-badge {
+                background: #ff4d6d;
+            }
+            @media (max-width: 600px) {
+                .floating-actions-v2 {
+                    left: 7px;
+                    bottom: 10px;
+                    gap: 12px;
+                }
+                .fab-btn {
+                    width: 42px;
+                    height: 42px;
+                }
+                .fab-label {
+                    font-size: 0.95rem;
+                    padding: 0 6px;
+                }
+                .fab-badge {
+                    min-width: 20px;
+                    height: 20px;
+                    font-size: 0.87rem;
+                }
+            }
+        </style>
+        <style>
+            .fab-item {
+                position: relative;
+            }
+            .fab-hover-label {
+                display: none;
+                position: absolute;
+                left: 60px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: #fff;
+                color: #11998e;
+                font-weight: 600;
+                font-size: 1.02rem;
+                padding: 5px 16px;
+                border-radius: 9px;
+                box-shadow: 0 3px 16px #1976d211;
+                white-space: nowrap;
+                z-index: 10000;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.17s, left 0.17s;
+            }
+            .fab-item:hover .fab-hover-label,
+            .fab-item:focus-within .fab-hover-label {
+                display: block;
+                opacity: 1;
+                left: 60px;
+            }
+            @media (max-width: 600px) {
+                .fab-hover-label {
+                    left: 45px;
+                    font-size: 0.95rem;
+                    padding: 4px 10px;
+                }
+            }
+        </style>
+
     </head>
     <body>
         <div class="container py-4">
@@ -219,7 +373,7 @@
                 <!-- Lương -->
                 <form action="searchListJobPost" method="get">                 
                     <div class="filter-group">
-                        <label for="salary" class="form-label">Lương</label>
+                        <label for="salary" class="form-label"> <i class="bi bi-cash-stack"></i>  Lương</label>
                         <select class="form-select" id="salary" name="salary" onchange="this.form.submit()">
                             <option value="0" ${sessionScope.selectedSalary == '0' ? 'selected' : ''}>Tất cả</option>
                             <option value="1" ${sessionScope.selectedSalary == '1' ? 'selected' : ''}>Dưới 10 triệu</option>
@@ -241,7 +395,7 @@
                 <!--              form vị trí-->
                 <form action="searchListJobPost" method="get">
                     <div class="filter-group">
-                        <label for="location" class="form-label">Vị trí</label>
+                        <label for="location" class="form-label"><i class="bi bi-geo-alt"></i> Vị trí</label>
 
                         <!--                        đang chạy thì đừng động vào -->
 
@@ -294,7 +448,7 @@
                 <!--             form ngành nghề -->
                 <form action="searchListJobPost" method="get"> 
                     <div class="filter-group">
-                        <label for="career" class="form-label">Ngành nghề</label>
+                        <label for="career" class="form-label"><i class="bi bi-briefcase"></i> Ngành nghề</label>
                         <select class="form-select" id="career" name="career" onchange="this.form.submit()">
                             <option value="" ${sessionScope.career == '' ?'selected' : ''}>Tất cả</option>
                             <option value="IT" ${sessionScope.career=='IT' ? 'selected' : ''}>IT - CNTT</option>
@@ -322,7 +476,7 @@
                 <!--                      form  kinh nghiệm-->
                 <form action="searchListJobPost" method="get">
                     <div class="filter-group">
-                        <label for="exp" class="form-label">Kinh nghiệm</label>
+                        <label for="exp" class="form-label"><i class="bi bi-award"></i> Kinh nghiệm</label>
                         <select class="form-select" id="exp" name="exp" onchange="this.form.submit()">
                             <option value="" ${sessionScope.exp  == '' ? 'selected':''}>Tất cả</option>                           
                             <option value="1" ${sessionScope.exp  == '1' ? 'selected':''}>1 năm</option>
@@ -342,7 +496,7 @@
                 <form action="searchListJobPost" method="get">
 
                     <div class="filter-group">
-                        <label for="field" class="form-label">Hình Thức</label>
+                        <label for="field" class="form-label"><i class="bi bi-clock-history"></i> Hình Thức</label>
                         <select class="form-select" id="field" name="typeJob" onchange="this.form.submit()">                          
                             <option value="" ${typeJob=='' ? 'selected' : '' }>Tất Cả</option>
                             <option value="Part time" ${typeJob=='Part time' ? 'selected' : '' }>Bán Thời Gian</option>
@@ -361,7 +515,7 @@
                 <!-- Từ khoá -->
                 <form action="searchListJobPost" method="get" class="filter-group flex-grow-1 d-flex align-items-end" style="gap:10px;">
                     <div style="flex:2;">
-                        <label for="keyword" class="form-label">Tìm Theo Tên Công Ty</label>
+                        <label for="keyword" class="form-label"> <i class="bi bi-search"></i> Tìm Theo Tên Công Ty</label>
                         <input type="text" class="form-control" id="keyword" name="searchKey" placeholder="Nhập từ khoá và Enter">
                     </div>
                     <input type="hidden" name="location" value="${sessionScope.location}" />
@@ -396,24 +550,73 @@
                         <img src="../img/carousel-1.jpg" alt="ABC Corp Logo" class="company-logo">
                         <div class="flex-grow-1">
                             <a href="#" class="job-title">${s.title}</a>
-                            <div class="company-name"> ${s.compapy}  </div>
+                            <div class="company-name"> <i class="bi bi-building"></i> ${s.compapy}  </div>
                             <div class="job-meta">
                                 <span class="job-location">📍 ${s.location}</span>
-                                <span class="salary-badge">${s.offer_Min} - ${s.offer_Max} triệu</span>
-                                <span class="job-type">${s.typeJob}</span>
-                                <span style="background-color: #ccffff ;color: #6699ff" class="job-deadline"> Kinh Nghiệm ${s.number_exp} Năm</span>
-                                <span style="background-color: #fff" class="job-deadline"> Ngày Đăng  ${s. dayCre} </span>
+                                <span class="salary-badge"><i class="bi bi-cash-stack"></i> ${s.offer_Min} - ${s.offer_Max} triệu</span>
+                                <span class="job-type"> <i class="bi bi-clock-history"></i> ${s.typeJob}</span>
+                                <span style="background-color: #ccffff ;color: #6699ff" class="job-deadline"> <i class="bi bi-award"></i> Kinh Nghiệm ${s.number_exp} Năm</span>
+                                <span style="background-color: #fff" class="job-deadline"><i class="bi bi-calendar-event"></i> Ngày Đăng  ${s. dayCre} </span>
                             </div>
 
                             <div class="job-desc">
-                                ${s.description}
+                                <i class="bi bi-card-text"></i>   ${s.description}
                             </div>
-                            <button class="apply-btn">Ứng tuyển ngay</button>
+                            <!-- Nút ứng tuyển với icon trái tim cùng dòng -->
+
+                            <div class="d-flex align-items-center justify-content-between mt-2">
+                                <button class="apply-btn">
+                                    <i class="bi bi-send-fill"></i> Ứng tuyển ngay
+                                </button>
+                                <a href="javascript:void(0)" class="ms-3 heart-btn" style="text-decoration:none;">
+                                    <svg class="heart-svg" width="38" height="28" viewBox="0 0 60 54" fill="none" stroke="#ff4d6d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle">
+                                    <path 
+                                        d="M30 50 
+                                        C 28 47, 8 33, 8 18
+                                        A 10 10 0 0 1 30 15
+                                        A 10 10 0 0 1 52 18
+                                        C 52 33, 32 47, 30 50 Z"/>
+                                    </svg>
+                                </a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </c:forEach>
             <!-- End hiển thị job -->
+
+
+            <!--              hiển thị support-->
+            <div class="floating-actions-v2">
+                <div class="fab-item fab-heart" title="Việc làm yêu thích">
+                    <a href="<%= request.getContextPath() %>/getListJobPostSaveOfCandidate" target="_blank" id="favorite-btn-v2" class="fab-btn" >
+                        <i class="bi bi-heart-fill"></i>
+                        <span class="fab-badge" id="favorite-count-v2">0</span>
+                    </a>
+                    <span class="fab-hover-label">Danh sách việc làm đã lưu</span>
+                </div>
+                <div class="fab-item" title="Bảo mật">
+                    <a  href="<%= request.getContextPath() %>/getListJobPostSaveOfCandidate" target="_blank" class="fab-btn">
+                        <i class="bi bi-shield-check"></i>
+                    </a>
+                    <span class="fab-hover-label">Tìm việc an toàn</span>
+                </div>
+                <div class="fab-item" title="Góp ý">
+                    <a  href="<%= request.getContextPath() %>/giveComments" target="_blank" class="fab-btn">
+                        <i class="bi bi-chat-dots"></i>
+                    </a>
+                    <span class="fab-hover-label">Góp ý GenZTimViec</span>
+                </div>
+                <div class="fab-item" title="Hỗ trợ">
+                    <a  href="<%= request.getContextPath() %>/SupportUser" target="_blank" class="fab-btn">
+                        <i class="bi bi-headset"></i>
+                    </a>
+                    <span class="fab-hover-label">Hỗ trợ</span>
+                </div>
+            </div>
+
+
         </div>
 
         <!-- Bootstrap 5 JS (for modal/tooltips if needed) -->
@@ -467,4 +670,19 @@
         </div>
         <!--         kết thúc phân trang-->
     </body>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Quote rotate giữ nguyên phía trên
+
+            // Xử lý thả tim
+            document.querySelectorAll('.heart-btn').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var svg = btn.querySelector('.heart-svg');
+                    svg.classList.toggle('filled');
+                });
+            });
+        });
+    </script>
 </html>
