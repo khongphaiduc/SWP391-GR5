@@ -1,6 +1,7 @@
 // pham truung duc lần cuối test 10:07  28/5/2025
 package Controller_Log;
 
+import DAO.IsAdminDAO;
 import DAO.RegisterAccount_Database;
 import DAO.RegisterCandidateUser;
 import DAO.RegisterEmployerUser;
@@ -44,7 +45,7 @@ public class LoginAccount extends HttpServlet {
             throws ServletException, IOException {
         try {
 
-            HttpSession session = request.getSession(); 
+            HttpSession session = request.getSession();
 
             String status = " ";
             String nameAccount = request.getParameter("username");
@@ -52,13 +53,13 @@ public class LoginAccount extends HttpServlet {
 
             RegisterCandidateUser candidateDAO = new RegisterCandidateUser();
             RegisterEmployerUser employerDAO = new RegisterEmployerUser();
-
+            IsAdminDAO adminDAO = new IsAdminDAO();
             // kiểm tra xem có tồn tại trong Candidate trước          
             if (candidateDAO.isCandidatetNameUser(nameAccount)) {
 
                 boolean result = candidateDAO.LogInAccountCandidate(nameAccount, password);
 
-                if (result) { 
+                if (result) {
                     session.setAttribute("username", nameAccount);
                     session.setAttribute("role", "Candidate");
                     response.sendRedirect("index.jsp");
@@ -68,7 +69,7 @@ public class LoginAccount extends HttpServlet {
                     request.setAttribute("username", nameAccount);
                     request.getRequestDispatcher("log/login.jsp").forward(request, response);
                 }
-              // Kiểm tra xem trong employerr
+                // Kiểm tra xem trong employerr
             } else if (employerDAO.isEmployertUser(nameAccount)) {
 
                 boolean result = employerDAO.LogInAccountEmployers(nameAccount, password);
@@ -82,8 +83,21 @@ public class LoginAccount extends HttpServlet {
                     request.setAttribute("status", status);
                     request.getRequestDispatcher("log/login.jsp").forward(request, response);
                 }
-               
-                // nếu không có 2 thằng thì báo lỗi 
+            } // kiểm tra  role admin
+            else if (adminDAO.isAdmin(nameAccount)) {
+
+                boolean result = adminDAO.LogInAccountAdmin(nameAccount, password);
+                if (result) {
+                    session.setAttribute("username", nameAccount);
+                    session.setAttribute("role", "Admin");
+                    response.sendRedirect("index.jsp");
+                } else {
+                    status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
+                    request.setAttribute("username", nameAccount);
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                }
+                 // cả 3 thằng đều không phải 
             } else {
                 status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
                 request.setAttribute("username", nameAccount);
