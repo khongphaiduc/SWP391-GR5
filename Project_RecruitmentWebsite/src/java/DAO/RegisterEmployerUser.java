@@ -221,7 +221,8 @@ public class RegisterEmployerUser extends DBContext {
         RegisterEmployerUser o = new RegisterEmployerUser();
 //        System.out.println("Mã code cũ :"+o.getPasswordHashEmpployer("phamtrungduc"));
 //        System.out.println(o.changePasswordEmployer("phamtrungduc","hahahaha","123"));
-        System.out.println(o.isEmployertUser("phamtrungduc"));
+//        System.out.println(o.isEmployertUser("phamtrungduc"));
+
     }
-    
+
 }
