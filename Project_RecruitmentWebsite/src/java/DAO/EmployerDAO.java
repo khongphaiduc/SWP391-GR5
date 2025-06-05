@@ -44,7 +44,7 @@ public class EmployerDAO extends DBContext {
 
 
                 employer.setEmployerName(rs.getString("EmployerName"));
-                employer.setEmail(rs.getString("AccountEmail")); // Từ bảng Account
+                employer.setEmail(rs.getString("Email")); 
 
 
 
