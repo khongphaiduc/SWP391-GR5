@@ -203,7 +203,7 @@
             }
         </style>
 
-
+        <!--        Css action menu-->
         <style>
             .floating-actions-v2 {
                 position: fixed;
@@ -350,6 +350,70 @@
             }
         </style>
 
+        <style>
+            .support-popup {
+                position: fixed;
+                left: 90px;
+                bottom: 32px;
+                width: 350px;
+                background: #fff;
+                border-radius: 12px;
+                box-shadow: 0 8px 32px 0 rgba(20,184,102,0.13), 0 1.5px 8px #1976d211;
+                z-index: 10001;
+                animation: fadeInFabDropdown 0.22s;
+            }
+            @keyframes fadeInFabDropdown {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px) scale(0.97);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+            .support-popup-body {
+                padding: 12px 0;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+            .support-popup-link {
+                display: flex;
+                align-items: center;
+                gap: 13px;
+                padding: 14px 22px;
+                color: #1a9e7c;
+                text-decoration: none;
+                background: none;
+                font-size: 1.08rem;
+                border-bottom: 1px solid #f1f1f1;
+                transition: background 0.12s, color 0.12s;
+                font-weight: 500;
+            }
+            .support-popup-link:last-child {
+                border-bottom: none;
+            }
+            .support-popup-link:hover {
+                background: #eafaf2;
+                color: #0a8e65;
+            }
+            @media (max-width:600px) {
+                .support-popup {
+                    width: 95vw;
+                    left: 2vw;
+                    bottom: 12px;
+                }
+                .support-popup-header {
+                    padding: 12px 10px 10px 10px !important;
+                }
+                .support-popup-link {
+                    padding: 10px 10px;
+                    font-size: 1rem;
+                }
+            }
+        </style>
+        <!--    End Action Menu-->
     </head>
     <body>
         <div class="container py-4">
@@ -586,35 +650,102 @@
             </c:forEach>
             <!-- End hiển thị job -->
 
-
-            <!--              hiển thị support-->
+   <!--            hiển thị Action Menu-->
             <div class="floating-actions-v2">
                 <div class="fab-item fab-heart" title="Việc làm yêu thích">
-                    <a href="<%= request.getContextPath() %>/getListJobPostSaveOfCandidate" target="_blank" id="favorite-btn-v2" class="fab-btn" >
+                    <a href="<%= request.getContextPath() %>/getListJobPostSaveOfCandidate" target="_self" id="favorite-btn-v2" class="fab-btn" >
                         <i class="bi bi-heart-fill"></i>
                         <span class="fab-badge" id="favorite-count-v2">0</span>
                     </a>
                     <span class="fab-hover-label">Danh sách việc làm đã lưu</span>
                 </div>
                 <div class="fab-item" title="Bảo mật">
-                    <a  href="<%= request.getContextPath() %>/getListJobPostSaveOfCandidate" target="_blank" class="fab-btn">
+                    <a  href="<%= request.getContextPath() %>/getListJobPostSaveOfCandidate" target="_self" class="fab-btn">
                         <i class="bi bi-shield-check"></i>
                     </a>
                     <span class="fab-hover-label">Tìm việc an toàn</span>
                 </div>
                 <div class="fab-item" title="Góp ý">
-                    <a  href="<%= request.getContextPath() %>/giveComments" target="_blank" class="fab-btn">
+                    <a  href="<%= request.getContextPath() %>/giveComments" target="_self" class="fab-btn">
                         <i class="bi bi-chat-dots"></i>
                     </a>
                     <span class="fab-hover-label">Góp ý GenZTimViec</span>
                 </div>
-                <div class="fab-item" title="Hỗ trợ">
-                    <a  href="<%= request.getContextPath() %>/SupportUser" target="_blank" class="fab-btn">
+                <div class="fab-item" title="Hỗ trợ" style="z-index:10000;">
+                    <button class="fab-btn" id="openSupportPanel" type="button">
                         <i class="bi bi-headset"></i>
-                    </a>
+                    </button>
                     <span class="fab-hover-label">Hỗ trợ</span>
                 </div>
+
+                <div class="support-popup" id="supportPopup" style="display:none;">
+                    <div class="support-popup-header d-flex align-items-center justify-content-between" style="background: #15c564; color:#fff; padding: 18px 18px 13px 18px; border-radius: 12px 12px 0 0;">
+                        <div>
+                            <div style="font-size:1.18rem; font-weight:700;">Trung tâm hỗ trợ ứng viên</div>
+                            <div class="d-flex align-items-center mt-2">
+                                <img src="https://genk.mediacdn.vn/thumb_w/640/139269124445442048/2024/6/1/photo-1-17168606131071257137350-1717278776106716631383.jpg" alt="avatar" class="rounded-circle" style="width:38px; height:38px; object-fit:cover; margin-right:10px;">
+                                <div>
+                                    <div style="font-weight:600;">Sơn Tùng MTP</div>
+                                    <div style="font-size:0.97rem;">GenZTimViec thường phản hồi trong vòng 24h</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="support-popup-body">
+                        <a class="support-popup-link" href="#" target="_blank">
+                            <i class="bi bi-shield-check"></i> Hướng dẫn tìm việc an toàn <span style="color:#f33;">*</span>
+                        </a>
+                        <a class="support-popup-link" href="#" target="_blank">
+                            <i class="bi bi-person"></i> Hướng dẫn quản lý tài khoản
+                        </a>
+                        <a class="support-popup-link" href="#" target="_blank">
+                            <i class="bi bi-question-circle"></i> Các câu hỏi thường gặp
+                        </a>
+                        <a class="support-popup-link" href="#" target="_blank">
+                            <i class="bi bi-envelope-paper"></i> Yêu cầu hỗ trợ
+                        </a>
+                        <a class="support-popup-link" href="#" target="_blank">
+                            <i class="bi bi-telephone"></i> Liên hệ GenZTimViec
+                        </a>
+                    </div>
+                </div>
             </div>
+
+            <!--                        end Action Menu-->
+
+
+
+            <script>
+                const supportBtn = document.getElementById("openSupportPanel");
+                const supportPopup = document.getElementById("supportPopup");
+                const closeBtn = document.getElementById("closeSupportPanel");
+
+                supportBtn.onclick = function (e) {
+                    // Toggle panel
+                    if (supportPopup.style.display === "block") {
+                        supportPopup.style.display = "none";
+                    } else {
+                        supportPopup.style.display = "block";
+                    }
+                };
+
+                // Đóng popup khi bấm nút X
+                closeBtn.onclick = function () {
+                    supportPopup.style.display = "none";
+                };
+
+                // Đóng popup khi click ra ngoài panel
+                document.addEventListener('mousedown', function (e) {
+                    if (
+                            supportPopup.style.display === "block" &&
+                            !supportPopup.contains(e.target) &&
+                            !supportBtn.contains(e.target)
+                            ) {
+                        supportPopup.style.display = "none";
+                    }
+                });
+            </script>
+
 
 
         </div>
