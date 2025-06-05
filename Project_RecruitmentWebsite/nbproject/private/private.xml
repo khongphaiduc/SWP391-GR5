@@ -8,13 +8,20 @@
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Employer.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Candidate.java</file>
+<<<<<<< HEAD
+=======
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/CV.java</file>
+>>>>>>> main
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/ListServlet.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/LoginAccount.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/EmployerDAO.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/CandidateDAO.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/CVDAO.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/GetForgetPassword.java</file>
+<<<<<<< HEAD
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/AccountDAO.java</file>
+=======
+>>>>>>> main
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/navbar.jsp</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Account.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/RegisterAccount.java</file>

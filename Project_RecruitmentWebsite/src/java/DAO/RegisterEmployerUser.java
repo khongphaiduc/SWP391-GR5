@@ -14,7 +14,7 @@ public class RegisterEmployerUser extends DBContext {
 
             String query = "SELECT [Employer_ID]\n"
                     + "      ,[Email]\n"
-                    + "  FROM [dbo].[Employers]\n"
+                    + "  FROM [dbo].[Employer]\n"
                     + "  where Email=?";
 
             PreparedStatement push = connection.prepareStatement(query);
@@ -37,15 +37,15 @@ public class RegisterEmployerUser extends DBContext {
     public boolean isEmployertUser(String account) {
         try {
             String query = "SELECT [Employer_ID]\n"
-                    + "      ,[Name_Employer]\n"
-                    + "  FROM [dbo].[Employers]\n"
-                    + "  where Name_Employer  =?";
+                    + "      ,[EmployerName]\n"
+                    + "  FROM [dbo].[Employer]\n"
+                    + "  where EmployerName  =?";
             PreparedStatement push = connection.prepareStatement(query);
             push.setString(1, account);
             ResultSet rs = push.executeQuery();
 
             while (rs.next()) {
-                String result = rs.getString("Name_Employer");
+                String result = rs.getString("EmployerName");
                 if (result.equals(account)) {
                     return true;
                 }
@@ -59,8 +59,8 @@ public class RegisterEmployerUser extends DBContext {
     //đăng ký Employers       (đẫ test)
     public boolean registerEmployers(String account, String mail, String password) {
         try {
-            String query = "INSERT INTO [dbo].[Employers]\n"
-                    + "           ([Name_Employer]\n"
+            String query = "INSERT INTO [dbo].[Employer]\n"
+                    + "           ([EmployerName]\n"
                     + "           ,[Email]\n"
                     + "           ,[Password_hash])\n"
                     + "                  \n"
@@ -91,12 +91,12 @@ public class RegisterEmployerUser extends DBContext {
     public boolean LogInAccountEmployers(String account, String password) {
         try {
             String query = "SELECT [Employer_ID]\n"
-                    + "      ,[Name_Employer]\n"
+                    + "      ,[EmployerName]\n"
                     + "     \n"
                     + "      ,[Password_hash]\n"
                     + "     \n"
-                    + "  FROM [dbo].[Employers]\n"
-                    + "  where Name_Employer =?";
+                    + "  FROM [dbo].[Employer]\n"
+                    + "  where EmployerName =?";
 
             String passwordHash = EncodePassword.encodePasswordbyHash(password);  // encode 
 
@@ -134,7 +134,7 @@ public class RegisterEmployerUser extends DBContext {
 
             String passwordHash = myencoder.encodePasswordbyHash(newpassword.toString());  // encode
 
-            String query = "UPDATE [dbo].[Employers]\n"
+            String query = "UPDATE [dbo].[Employer]\n"
                     + "SET [Password_hash] = ?\n"
                     + "WHERE [Email] = ? ";
 
@@ -159,8 +159,8 @@ public class RegisterEmployerUser extends DBContext {
         try {
             String passwordHash = null;
             String query = "SELECT  [Password_hash]\n"
-                    + "  FROM [dbo].[Employers]\n"
-                    + "  where Name_Employer =?";
+                    + "  FROM [dbo].[Employer]\n"
+                    + "  where EmployerName =?";
 
             PreparedStatement push = connection.prepareStatement(query);
             push.setString(1, EmployerName);
@@ -197,9 +197,9 @@ public class RegisterEmployerUser extends DBContext {
             //bắt đầu tạo mật khẩu mới do user đặt va thêm tí mắn tí muối        
             String passwordHash = myencoder.encodePasswordbyHash(newpasswordUser);  // encode password
 
-            String query = "update [dbo].[Employers]\n"
+            String query = "update [dbo].[Employer]\n"
                     + "  set [Password_hash] = ?\n"
-                    + "  where [Name_Employer] = ?";
+                    + "  where [EmployerName] = ?";
 
             PreparedStatement push = connection.prepareStatement(query);
 
@@ -219,8 +219,10 @@ public class RegisterEmployerUser extends DBContext {
 
     public static void main(String[] args) {
         RegisterEmployerUser o = new RegisterEmployerUser();
-        System.out.println("Mã code cũ :"+o.getPasswordHashEmpployer("phamtrungduc"));
-        System.out.println(o.changePasswordEmployer("phamtrungduc","hahahaha","123"));
+//        System.out.println("Mã code cũ :"+o.getPasswordHashEmpployer("phamtrungduc"));
+//        System.out.println(o.changePasswordEmployer("phamtrungduc","hahahaha","123"));
+//        System.out.println(o.isEmployertUser("phamtrungduc"));
+
     }
-    
+
 }

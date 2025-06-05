@@ -4,7 +4,6 @@
  */
 package Controller_CV;
 
-import DAO.AccountDAO;
 import DAO.CVDAO;
 import DAO.CandidateDAO;
 import Models.*;
@@ -17,7 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Date;
 
@@ -96,7 +94,12 @@ public class submitCVServlet extends HttpServlet {
         int numberExp = Integer.parseInt(request.getParameter("numberExp"));
         String education = request.getParameter("education");
         String field = request.getParameter("field");
-        double currentSalary = Double.parseDouble(request.getParameter("currentSalary"));
+        
+        String salaryStr = request.getParameter("currentSalary");
+        salaryStr = salaryStr.replace(".", "").replace(",", ""); 
+
+        double currentSalary = Double.parseDouble(salaryStr);
+
         Date birthday = Date.valueOf(request.getParameter("birthday"));
         String nationality = request.getParameter("nationality");
         String gender = request.getParameter("gender");
@@ -113,10 +116,8 @@ public class submitCVServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
         CVDAO cvdao = new CVDAO();
-        
-      
-        
-        if (mimeType.startsWith("image/")&& filePart.getSize()<1000000) {
+
+        if (mimeType.startsWith("image/") && filePart.getSize() < 1000000) {
             boolean success = cvdao.addCV(fullName, address, email, position, numberExp, education,
                     field, currentSalary, birthday, candidateId, nationality, gender, inputStream, mimeType);
 
@@ -127,9 +128,9 @@ public class submitCVServlet extends HttpServlet {
                 request.setAttribute("message", "Lưu CV thất bại");
                 request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
             }
-        }else{
+        } else {
             request.setAttribute("message", "Bạn cần chọn file ảnh(.png, jpg) nhỏ hơn 1MB để đăng lên");
-                request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
+            request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
         }
 
     }

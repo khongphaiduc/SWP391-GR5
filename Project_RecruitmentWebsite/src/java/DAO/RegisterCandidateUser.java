@@ -218,7 +218,9 @@ public class RegisterCandidateUser extends DBContext {
     
     public static void main(String[] args) {
         RegisterCandidateUser o = new RegisterCandidateUser();
-        System.out.println(o.LogInAccountCandidate("phamtrungduc", "12345"));
+//        System.out.println(o.LogInAccountCandidate("phamtrungduc", "12345"));
        // System.out.println(o.changePasswordEmployer("phamtrungduc", "dfghhdt-926226851550952879", "12345"));
+        System.out.println(o.isCandidatetNameUser("phamtrungduc"));
+           
     }
 }

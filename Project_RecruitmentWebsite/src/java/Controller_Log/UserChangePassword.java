@@ -76,7 +76,7 @@ public class UserChangePassword extends HttpServlet {
                         request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
                     }
 
-                } else if (employerDAO.isEmaiEmployerUser(username)) {
+                } else if (employerDAO.isEmployertUser(username)) {
                     boolean result = employerDAO.changePasswordEmployer(username, oldPassword, newPassword);
 
                     if (result) {
@@ -88,7 +88,10 @@ public class UserChangePassword extends HttpServlet {
                         request.setAttribute("status", status);
                         request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
                     }
-                } else {
+              } 
+                
+                else
+                {
                     status = "Ối rồi ôi đã có rắc rối \n Vui lòng thử lại sau khi hệ thông của chúng tôi hoạt động trở lại !";
                     request.setAttribute("status", status);
                     request.getRequestDispatcher("log/ChangePassword.jsp").forward(request, response);
