@@ -1,3 +1,4 @@
+
 package dal;
 
 import java.sql.Connection;
@@ -17,8 +18,10 @@ public class DBContext {
             String pass = "123";
 
 
-//            String url = "jdbc:sqlserver://DESKTOP-NQH197\\NGUYENQUANGHUYSV:1433;databaseName=swp_final4;";
-String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=TOPCV10";
+
+            String url = "jdbc:sqlserver://DESKTOP-NQH197\\NGUYENQUANGHUYSV:1433;databaseName=swp_final4;";
+//            String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=TOPCV13";
+
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
@@ -36,3 +39,4 @@ String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=TOPCV10";
         System.out.println(s.check());
     }
 }
+
