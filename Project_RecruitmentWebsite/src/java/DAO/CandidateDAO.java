@@ -39,6 +39,7 @@ public class CandidateDAO extends DBContext {
                 candidate.setAvatar(rs.getBytes("Avatar")); // nếu có
 
    
+
             }
 
         } catch (Exception e) {

@@ -83,16 +83,28 @@
                 border: 1px solid #ccc;
             }
             .message-box {
-            background-color: #e7f3e7;
-            border: 1px solid #2e4f4f;
-            border-radius: 4px;
-            padding: 10px;
-            margin-bottom: 20px;
-            color: #2e4f4f;
-            font-size: 14px;
-            text-align: center;
-        }
+                background-color: #e7f3e7;
+                border: 1px solid #2e4f4f;
+                border-radius: 4px;
+                padding: 10px;
+                margin-bottom: 20px;
+                color: #2e4f4f;
+                font-size: 14px;
+                text-align: center;
+            }
         </style>
+        <script>
+            function formatCurrencyInput(input) {
+                let value = input.value.replace(/\D/g, '');
+                if (value === '') {
+                    input.value = '';
+                    return;
+                }
+                input.value = new Intl.NumberFormat('vi-VN').format(value);
+            }
+            
+
+        </script>
     </head>
     <body>
 
@@ -180,7 +192,8 @@
                     <div class="form-section">
                         <div class="section-title">MỨC LƯƠNG HIỆN TẠI</div>
                         <label for="currentSalary" class="form-label">Mức lương hiện tại (VND)</label>
-                        <input type="number" step="0.01" class="form-control" id="currentSalary" name="currentSalary" placeholder="Nhập mức lương hiện tại" required>
+                        <input type="text" class="form-control" id="currentSalary" name="currentSalary" placeholder="Nhập mức lương hiện tại" required oninput="formatCurrencyInput(this)">
+
                     </div>
 
                     <!-- Submit Button -->

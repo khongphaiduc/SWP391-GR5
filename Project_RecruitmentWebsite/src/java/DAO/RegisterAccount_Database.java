@@ -144,7 +144,7 @@ public class RegisterAccount_Database extends DBContext {
                     + "           ,[Birthday]\n"
                     + "           ,[Nationality]\n"
                     + "           ,[Account_ID]\n"
-                    + "           ,[avata])\n"
+                    + "           ,[avatar])\n"
                     + "     VALUES  (?,null,?,null,null,?,null)";
             PreparedStatement push = connection.prepareStatement(query);
 
@@ -164,8 +164,8 @@ public class RegisterAccount_Database extends DBContext {
         int check = 0;
         try {
 
-            String query = "INSERT INTO [dbo].[Employers]\n"
-                    + "           ([Name_Employer]\n"
+            String query = "INSERT INTO [dbo].[Employer]\n"
+                    + "           ([EmployerName]\n"
                     + "           ,[Account_ID]\n"
                     + "           ,[Company_Name]\n"
                     + "           ,[Description]\n"

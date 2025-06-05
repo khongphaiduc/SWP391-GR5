@@ -15,7 +15,7 @@ public class EmployerDAO extends DBContext {
 
         try {
 
-            String sql = "SELECT * FROM Employers WHERE Name_Employer = ?";
+            String sql = "SELECT * FROM Employer WHERE EmployerName = ?";
 
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, nameEmployer);
@@ -26,8 +26,7 @@ public class EmployerDAO extends DBContext {
                 employer.setEmployerId(rs.getInt("Employer_ID"));
 
                 employer.setEmployerName(rs.getString("EmployerName"));
-                employer.setEmail(rs.getString("AccountEmail")); // Từ bảng Account
-
+                employer.setEmail(rs.getString("Email"));
 
                 employer.setPasswordHash(rs.getString("Password_hash"));
                 employer.setCompanyName(rs.getString("Company_Name"));

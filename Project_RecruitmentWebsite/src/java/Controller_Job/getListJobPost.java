@@ -8,7 +8,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name = "getListJobPost", urlPatterns = {"/getListJobPost"})
 public class getListJobPost extends HttpServlet {
@@ -35,11 +34,22 @@ public class getListJobPost extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-
+            String status = " ";
+            String fields = request.getParameter("career");
+            String location = request.getParameter("location");
+            String nameCompany = request.getParameter("search");
             SearchAnDisplayJob o = new SearchAnDisplayJob();
-            var listJobPost = o.getListJobPost();
-
+            
+            var listJobPost = o.BuildTest("0", location,fields, null, null,nameCompany);
+            
+            listJobPost.sort((a, b) -> {
+                var s = b.getDayCre().compareTo(a.getDayCre());
+                return s;
+            });
+         
             int totalJobs = listJobPost.size();    // lấy số lượng jobpost có hiện tại
+            
+        
             String pageStr = request.getParameter("page");
             int currentpage = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
             int numberJobOfPage = 8; // dẳte số job mỗi trang
@@ -48,8 +58,15 @@ public class getListJobPost extends HttpServlet {
 
             int start = (currentpage - 1) * numberJobOfPage;
             int end = Math.min(start + numberJobOfPage, totalJobs);
-
+        
             var jobsOnPage = listJobPost.subList(start, end);
+
+            // nếu list = 0S
+            if (listJobPost.size() == 0) {
+                request.setAttribute("status", status);
+                request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
+                return;
+            }
 
             request.setAttribute("ListJobPost", jobsOnPage);
             request.setAttribute("currentPage", currentpage);
@@ -65,58 +82,6 @@ public class getListJobPost extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-
-            HttpSession session = request.getSession();
-            String status = null;
-            String salary = request.getParameter("salary");
-            String location = request.getParameter("location");
-            String career = request.getParameter("career");
-            String experience = request.getParameter("exp");
-            String typeJob = request.getParameter("typeJob");
-            String searchKey = request.getParameter("search");
-            SearchAnDisplayJob o = new SearchAnDisplayJob();
-            var listJobPost = o.getListJobPost();
-
-            // tìm bên ngoài index
-            if (location != null) {
-                listJobPost = o.getListJobPostByOnlyLocation(location);
-                request.setAttribute("ListJobPost", listJobPost);
-                session.setAttribute("location", location);
-            } else if (career != null) {
-                listJobPost = o.getListJobPostByOnlyField(career);
-                session.setAttribute("career", career);
-                request.setAttribute("ListJobPost", listJobPost);
-            } else if (searchKey != null) {
-                listJobPost = o.getListJobPostByOnlyNameCompany(searchKey);
-                request.setAttribute("ListJobPost", listJobPost);
-                 session.setAttribute("searchKey", searchKey);
-            } else if (salary != null && !salary.isEmpty()) {
-                listJobPost = o.getListJobPostByOnlySalary(salary);
-                request.setAttribute("ListJobPost", listJobPost);
-                session.setAttribute("selectedSalary", salary);
-            }
-
-            if (listJobPost.size() == 0) {
-                status = "ối rồi ôi";
-                request.setAttribute("status", status);
-                request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
-                return;
-            }
-
-            // lưu các option của user vào session
-            session.setAttribute("selectedSalary", salary);
-            session.setAttribute("location", location);
-            session.setAttribute("career", career);
-            session.setAttribute("exp", experience);
-            session.setAttribute("typeJob", typeJob);
-            session.setAttribute("searchKey", searchKey);
-            // list
-            request.setAttribute("ListJobPost", listJobPost);
-            request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
-        } catch (Exception e) {
-            request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
-        }
 
     }
 

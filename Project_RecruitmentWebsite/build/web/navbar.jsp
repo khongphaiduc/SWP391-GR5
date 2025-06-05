@@ -62,7 +62,13 @@
                 </div>
             </div>
             <%}else if("Employer".equals(role)){%>
-            <a href="${pageContext.request.contextPath}/manageCreatedJob" class="nav-item nav-link">Quản lý tin</a>
+            <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">For Employer</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                       
+                                <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
+                            </div>
+                        </div>
             <%}%>
             <a href="contact.jsp" class="nav-item nav-link">Contact</a>
         </div>

@@ -124,7 +124,7 @@ public class JobPostDAO extends DBContext {
                 job.setNumber_exp(rs.getInt("Number_exp"));
                 job.setVisible(rs.getBoolean("Visible"));
                 job.setTypeJob(rs.getString("TypeJob"));
-                job.setDayCre(rs.getString("DayCreate"));
+                job.setDayCre(rs.getDate("DayCreate"));
                 job.setEmployer_ID(rs.getInt("Employer_ID"));
                 job.setCategory(rs.getString("Category"));
                 return job;
