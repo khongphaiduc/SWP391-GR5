@@ -613,7 +613,7 @@
                     <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
                         <img src="../img/carousel-1.jpg" alt="ABC Corp Logo" class="company-logo">
                         <div class="flex-grow-1">
-                            <a href="#" class="job-title">${s.title}</a>
+                            <a href="${pageContext.request.contextPath}/detailJob?postId=${s.jobPost_ID}" class="job-title">${s.title}</a>
                             <div class="company-name"> <i class="bi bi-building"></i> ${s.compapy}  </div>
                             <div class="job-meta">
                                 <span class="job-location">📍 ${s.location}</span>
@@ -626,6 +626,7 @@
                             <div class="job-desc">
                                 <i class="bi bi-card-text"></i>   ${s.description}
                             </div>
+
                             <!-- Nút ứng tuyển với icon trái tim cùng dòng -->
 
                             <div class="d-flex align-items-center justify-content-between mt-2">
