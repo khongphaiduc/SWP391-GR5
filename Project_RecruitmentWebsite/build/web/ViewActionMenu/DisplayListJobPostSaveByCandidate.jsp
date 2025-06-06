@@ -8,6 +8,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="./css/SaveJobPostcss.css">
+        <link rel="stylesheet" href="../css/phantrangcss.css"/>
         <!--        Style Action Menu-->
 
 
@@ -435,10 +436,10 @@
                                 <a class="nav-link" href="/Project_RecruitmentWebsite/Index"><i class="bi bi-house-door"></i> Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="bi bi-briefcase"></i> Việc làm</a>
+                                <a class="nav-link" href="searchListJobPost"><i class="bi bi-briefcase"></i> Việc làm</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="bi bi-person-circle"></i> Tài khoản</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/log/profile.jsp"><i class="bi bi-person-circle"></i> Tài khoản</a>
                             </li>
                         </ul>
                     </div>
@@ -451,9 +452,9 @@
         <div class="container py-5">
             <div class="row g-4">
 
-                <!-- JobPost Mẫu 1 -->
+                <!-- Hiện thị list  -->
 
-                <c:forEach var="s" items="${listJobPost}">
+                <c:forEach var="s" items="${listJobPostSave}">
 
                     <div class="col-md-6 col-lg-4">
                         <div class="card cv-card h-100 shadow border-0">
@@ -542,7 +543,7 @@
                 <div class="fab-item fab-heart" title="Việc làm yêu thích">
                     <a href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" id="favorite-btn-v2" class="fab-btn" >
                         <i class="bi bi-heart-fill"></i>
-                        <span class="fab-badge" id="favorite-count-v2">0</span>
+                        <span class="fab-badge" id="favorite-count-v2">${numberJobPost}</span>
                     </a>
                     <span class="fab-hover-label">Danh sách việc làm đã lưu</span>
                 </div>
@@ -602,6 +603,29 @@
 
 
 
+            <!--            Phần phân trang -->
+            <div class="d-flex justify-content-center mt-4">
+                <nav>
+                    <ul class="pagination">
+                        <c:if test="${currentPage > 1}">
+                            <li class="page-item">
+                                <a class="page-link" href="DisplayListJobPostSaveOfCandidate?page=${currentPage - 1}">&laquo; Trước</a>
+                            </li>
+                        </c:if>
+                        <c:forEach var="i" begin="1" end="${totalPages}">
+                            <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                <a class="page-link" href="DisplayListJobPostSaveOfCandidate?page=${i}"> ${i} </a>
+                            </li>
+                        </c:forEach>
+                        <c:if test="${currentPage < totalPages}">
+                            <li class="page-item">
+                                <a class="page-link" href="DisplayListJobPostSaveOfCandidate?page=${currentPage + 1}">Sau &raquo;</a>
+                            </li>
+                        </c:if>
+                    </ul>
+                </nav>
+            </div>
+            <!--            Phần phân trang -->
             <script>
                 const supportBtn = document.getElementById("openSupportPanel");
                 const supportPopup = document.getElementById("supportPopup");

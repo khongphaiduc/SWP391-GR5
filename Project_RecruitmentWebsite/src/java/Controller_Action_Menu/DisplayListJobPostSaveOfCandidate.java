@@ -40,15 +40,15 @@ public class DisplayListJobPostSaveOfCandidate extends HttpServlet {
             SaveJobPostOfCandidate saveJobPostDAO = new SaveJobPostOfCandidate();
             String user = (String) session.getAttribute("username");
             String idUser = "";
-            
+
             // check user đã đăng nhập chưa 
             if (user != null) {
                 idUser = saveJobPostDAO.getCandidateIDByName(user);    // lấy id của thằng user
-                
+
             } else if (user == null) {
                 request.setAttribute("statuss", "usernull");
                 request.getRequestDispatcher("ViewActionMenu/DisplayListJobPostSaveByCandidate.jsp").forward(request, response);
-                return ;
+                return;
             }
 
             getListSaveJobPost getListJobPostDAO = new getListSaveJobPost();
@@ -60,9 +60,39 @@ public class DisplayListJobPostSaveOfCandidate extends HttpServlet {
                 request.getRequestDispatcher("ViewActionMenu/DisplayListJobPostSaveByCandidate.jsp").forward(request, response);
                 return;
             }
-            
-           
-            request.setAttribute("listJobPost", listJobPost);
+
+            // -----------------------------------------------------------------------------------------
+            // Phân Trang 
+            int totalJobs = listJobPost.size();    // lấy số lượng jobpost có hiện tại
+            String pageStr = request.getParameter("page");
+            int currentpage = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
+            int numberJobOfPage = 9; // dẳte số job mỗi trang
+
+            int totalPages = (int) Math.ceil((double) totalJobs / numberJobOfPage); // tính  tổng số trang cần có 
+
+            int start = (currentpage - 1) * numberJobOfPage;
+            int end = Math.min(start + numberJobOfPage, totalJobs);
+
+            var jobsOnPage = listJobPost.subList(start, end);
+
+            request.setAttribute("listJobPostSave", jobsOnPage);
+            request.setAttribute("currentPage", currentpage);
+            request.setAttribute("totalPages", totalPages);
+
+            // -------------------------------------------------------
+            // Số lượng jobPost đã lưu 
+            SaveJobPostOfCandidate saveJob = new SaveJobPostOfCandidate();
+            int numberJobPost = 0;
+
+            // kiểm tra xem đăng nhập chưa và lấy số lượng post đã lưu 
+            if (user != null) {
+                String IdUser = saveJob.getCandidateIDByName(user);
+                numberJobPost = saveJob.getNumberJobPostSavedByCandidate(IdUser);
+            }
+
+            session.setAttribute("numberJobPost", numberJobPost);    // số lượng jobpost của thằng user
+            // -------------------------------------------------------
+
             request.getRequestDispatcher("ViewActionMenu/DisplayListJobPostSaveByCandidate.jsp").forward(request, response);
         } catch (Exception e) {
             System.out.println("Loi nay cu em :" + e.getMessage());

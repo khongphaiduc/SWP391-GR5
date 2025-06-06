@@ -101,7 +101,7 @@ public class searchListJobPost extends HttpServlet {
             session.setAttribute("exp", experience);
             session.setAttribute("typeJob", typeJob);
             session.setAttribute("searchKey", searchKey);
-            request.setAttribute("ListJobPost", listJobPost);
+            
 
             if (listJobPost.size() == 0) {
                 status = "ối rồi ôi";

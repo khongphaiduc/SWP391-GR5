@@ -12,6 +12,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="../css/SaveJobPostcss.css"/>
         <style>
             body {
                 background: linear-gradient(135deg, #e3f2fd 0%, #fffde7 100%);
@@ -345,10 +346,10 @@
             }
 
         </style>
-<!--          End css thong bao-->
-        
-        
-        
+        <!--          End css thong bao-->
+
+
+
         <!--        Css action menu-->
         <style>
             .floating-actions-v2 {
@@ -780,9 +781,26 @@
                                 </a>
 
                                 <!--                               lưu jobPost-->
-                                <a href="SaveJobPost?idJobPost=${s.jobPost_ID}" target="_self" style="text-decoration: none;"> Lưu </a>
+                                <c:if test="${sessionScope.username != null and sessionScope.role eq 'Candidate'}">
+                                    <a href="SaveJobPost?idJobPost=${s.jobPost_ID}" target="_self" style="text-decoration: none;">Lưu</a>
+                                </c:if>
+                                <c:if test="${sessionScope.username == null}">
+                                    <a href="log/login.jsp" target="_self" style="text-decoration: none" > 
+                                        <svg width="36" height="40" viewBox="0 0 49 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="24.5" cy="27.5" r="17" stroke="#16B155" stroke-width="2.5" fill="none"/>
+                                        <path d="M24.5 34
+                                              C22.5 32.5, 15.5 27.5, 18.5 23.5
+                                              C20.2 21.2, 24.5 24, 24.5 26.5
+                                              C24.5 24, 28.8 21.2, 30.5 23.5
+                                              C33.5 27.5, 26.5 32.5, 24.5 34Z"
+                                              stroke="#16B155" stroke-width="2" fill="none"/>
+                                        </svg>
+                                    </a>
+                                    </c:if>
+                                    <c:if test="${sessionScope.username != null and sessionScope.role eq 'Admin'}">
+                                    <a href="SaveJobPost?idJobPost=${s.jobPost_ID}" target="_self" style="text-decoration: none;"> Xóa Tin </a>
+                                </c:if>
                             </div>
-
 
                         </div>
                     </div>
@@ -816,7 +834,7 @@
                                 <path class="crossmark-cross" fill="none" d="M17 17 35 35 M35 17 17 35"/>
                                 </svg>
                             </span>
-                            <span> Đã xảy ra lỗi ! Vui lòng thử lại.</span>
+                            <span>Tin tuyển dụng này đã được lưu</span>
 
                         </div>
                     </c:otherwise>
@@ -896,9 +914,9 @@
 
 
 
-            
-            
-<!--               doan Scrip cua Aciont Menu-->
+
+
+            <!--               doan Scrip cua Aciont Menu-->
             <script>
                 const supportBtn = document.getElementById("openSupportPanel");
                 const supportPopup = document.getElementById("supportPopup");
