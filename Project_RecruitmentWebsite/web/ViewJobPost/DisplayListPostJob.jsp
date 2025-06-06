@@ -783,7 +783,20 @@
 
                                 <!--                               lưu jobPost-->
                                 <c:if test="${sessionScope.username != null and sessionScope.role eq 'Candidate'}">
-                                    <a href="SaveJobPost?idJobPost=${s.jobPost_ID}" target="_self" style="text-decoration: none;">Lưu</a>
+                                    <a href="SaveJobPost?idJobPost=${s.jobPost_ID}" target="_self" style="text-decoration: none;">
+                                        
+                                     <svg width="36" height="40" viewBox="0 0 49 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="24.5" cy="27.5" r="17" stroke="#16B155" stroke-width="2.5" fill="none"/>
+                                        <path d="M24.5 34
+                                              C22.5 32.5, 15.5 27.5, 18.5 23.5
+                                              C20.2 21.2, 24.5 24, 24.5 26.5
+                                              C24.5 24, 28.8 21.2, 30.5 23.5
+                                              C33.5 27.5, 26.5 32.5, 24.5 34Z"
+                                              stroke="#16B155" stroke-width="2" fill="none"/>
+                                        </svg>
+                                    
+                                    
+                                    </a>
                                 </c:if>
                                     
                                 <c:if test="${sessionScope.username == null}">
