@@ -12,6 +12,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="../css/SaveJobPostcss.css"/>
         <style>
             body {
                 background: linear-gradient(135deg, #e3f2fd 0%, #fffde7 100%);
@@ -201,7 +202,153 @@
                 stroke: #ff4d6d;
                 transition: fill 0.2s;
             }
+
+            /*            css thông báo*/
+            .custom-toast {
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%) scale(0.97);
+                min-width: 320px;
+                max-width: 90vw;
+                background: #fff;
+                color: #222;
+                font-weight: 700;
+                font-size: 1.14rem;
+                border-radius: 16px;
+                box-shadow: 0 12px 40px #2bdbb855, 0 2px 10px #1976d244;
+                z-index: 11000;
+                padding: 32px 38px 32px 36px;
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.55s cubic-bezier(.23,1.18,.82,0.97);
+            }
+            .custom-toast.show {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            .toast-success {
+                border-left: 7px solid #3ec56b;
+                background: linear-gradient(90deg, #eafaf3 80%, #d7f5e3 100%);
+            }
+            .toast-error {
+                border-left: 7px solid #ff4d6d;
+                background: linear-gradient(90deg, #fff0f3 80%, #ffe8e6 100%);
+            }
+            .toast-anim-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 58px;
+                height: 58px;
+                flex-shrink: 0;
+                margin-right: 8px;
+                position: relative;
+            }
+            .checkmark, .crossmark {
+                width: 52px;
+                height: 52px;
+                display: block;
+            }
+            .checkmark-circle, .crossmark-circle {
+                stroke: #3ec56b;
+                stroke-width: 4;
+                stroke-dasharray: 166;
+                stroke-dashoffset: 166;
+                stroke-linecap: round;
+                animation: draw-circle 0.5s ease-out forwards;
+            }
+            .crossmark-circle {
+                stroke: #ff4d6d;
+                animation: draw-circle-red 0.5s ease-out forwards;
+            }
+            .checkmark-check {
+                stroke: #3ec56b;
+                stroke-width: 5;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-dasharray: 48;
+                stroke-dashoffset: 48;
+                animation: draw-check 0.35s 0.5s cubic-bezier(.65,.05,.36,1) forwards;
+            }
+            .crossmark-cross {
+                stroke: #ff4d6d;
+                stroke-width: 5;
+                stroke-linecap: round;
+                stroke-dasharray: 36 36;
+                stroke-dashoffset: 36;
+                animation: draw-cross 0.28s 0.5s cubic-bezier(.65,.05,.36,1) forwards;
+            }
+            @keyframes draw-circle {
+                to {
+                    stroke-dashoffset: 0;
+                }
+            }
+            @keyframes draw-circle-red {
+                to {
+                    stroke-dashoffset: 0;
+                }
+            }
+            @keyframes draw-check {
+                to {
+                    stroke-dashoffset: 0;
+                }
+            }
+            @keyframes draw-cross {
+                to {
+                    stroke-dashoffset: 0;
+                }
+            }
+            .toast-close {
+                background: none;
+                border: none;
+                font-size: 2rem;
+                color: #199c89;
+                cursor: pointer;
+                outline: none;
+                margin-left: 15px;
+                margin-right: 0;
+                transition: color 0.18s;
+                position: absolute;
+                top: 12px;
+                right: 20px;
+            }
+            .toast-close:hover {
+                color: #e74c3c;
+            }
+            @media (max-width:600px) {
+                .custom-toast {
+                    min-width: 0;
+                    width: 95vw;
+                    font-size: 1rem;
+                    padding: 18px 12px 18px 8px;
+                    left: 50%;
+                    top: 15%;
+                    transform: translate(-50%, 0%) scale(1);
+                }
+                .toast-close {
+                    right: 4px;
+                    top: 7px;
+                    font-size: 1.4rem;
+                }
+                .toast-anim-icon {
+                    width: 40px;
+                    height: 40px;
+                }
+                .checkmark, .crossmark {
+                    width: 36px;
+                    height: 36px;
+                }
+            }
+
         </style>
+        <!--          End css thong bao-->
+
+
 
         <!--        Css action menu-->
         <style>
@@ -630,38 +777,90 @@
                             <!-- Nút ứng tuyển với icon trái tim cùng dòng -->
 
                             <div class="d-flex align-items-center justify-content-between mt-2">
-                                <button class="apply-btn">
+                                <a href="#" target="_self" class="apply-btn" style="text-decoration: none;">
                                     <i class="bi bi-send-fill"></i> Ứng tuyển ngay
-                                </button>
-                                <a href="javascript:void(0)" class="ms-3 heart-btn" style="text-decoration:none;">
-                                    <svg class="heart-svg" width="38" height="28" viewBox="0 0 60 54" fill="none" stroke="#ff4d6d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle">
-                                    <path 
-                                        d="M30 50 
-                                        C 28 47, 8 33, 8 18
-                                        A 10 10 0 0 1 30 15
-                                        A 10 10 0 0 1 52 18
-                                        C 52 33, 32 47, 30 50 Z"/>
-                                    </svg>
                                 </a>
+
+                                <!--                               lưu jobPost-->
+                                <c:if test="${sessionScope.username != null and sessionScope.role eq 'Candidate'}">
+                                    <a href="SaveJobPost?idJobPost=${s.jobPost_ID}" target="_self" style="text-decoration: none;">Lưu</a>
+                                </c:if>
+                                <c:if test="${sessionScope.username == null}">
+                                    <a href="log/login.jsp" target="_self" style="text-decoration: none" > 
+                                        <svg width="36" height="40" viewBox="0 0 49 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="24.5" cy="27.5" r="17" stroke="#16B155" stroke-width="2.5" fill="none"/>
+                                        <path d="M24.5 34
+                                              C22.5 32.5, 15.5 27.5, 18.5 23.5
+                                              C20.2 21.2, 24.5 24, 24.5 26.5
+                                              C24.5 24, 28.8 21.2, 30.5 23.5
+                                              C33.5 27.5, 26.5 32.5, 24.5 34Z"
+                                              stroke="#16B155" stroke-width="2" fill="none"/>
+                                        </svg>
+                                    </a>
+                                    </c:if>
+                                    <c:if test="${sessionScope.username != null and sessionScope.role eq 'Admin'}">
+                                    <a href="SaveJobPost?idJobPost=${s.jobPost_ID}" target="_self" style="text-decoration: none;"> Xóa Tin </a>
+                                </c:if>
                             </div>
 
                         </div>
                     </div>
                 </div>
             </c:forEach>
+
+            <!--             thông báo-->
+            <c:if test="${temporary == true}">
+
+                <c:choose>
+                    <c:when test="${status1 == true}">
+                        <div id="status1-message" class="custom-toast toast-success">
+                            <span class="toast-anim-icon">
+                                <!-- Animated checkmark SVG -->
+                                <svg class="checkmark" viewBox="0 0 52 52">
+                                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                                <path class="checkmark-check" fill="none" d="M14 27l7 7 17-17"/>
+                                </svg>
+                            </span>
+                            <span>Lưu Thành Công</span>
+
+                        </div>
+                        <% session.removeAttribute("status1"); %>
+                    </c:when>
+                    <c:otherwise>
+                        <div id="status1-message" class="custom-toast toast-error">
+                            <span class="toast-anim-icon">
+                                <!-- Animated cross SVG -->
+                                <svg class="crossmark" viewBox="0 0 52 52">
+                                <circle class="crossmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                                <path class="crossmark-cross" fill="none" d="M17 17 35 35 M35 17 17 35"/>
+                                </svg>
+                            </span>
+                            <span>Tin tuyển dụng này đã được lưu</span>
+
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+
+                <% session.removeAttribute("temporary"); %>
+
+            </c:if>
+
+
             <!-- End hiển thị job -->
 
-   <!--            hiển thị Action Menu-->
+            <!--            hiển thị Action Menu-->
             <div class="floating-actions-v2">
                 <div class="fab-item fab-heart" title="Việc làm yêu thích">
-                    <a href="<%= request.getContextPath() %>/getListJobPostSaveOfCandidate" target="_self" id="favorite-btn-v2" class="fab-btn" >
+                    <a href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" id="favorite-btn-v2" class="fab-btn" >
                         <i class="bi bi-heart-fill"></i>
-                        <span class="fab-badge" id="favorite-count-v2">0</span>
+                        <c:if test="${username!=null}">
+                            <span class="fab-badge" id="favorite-count-v2"> ${numberJobPost}</span>
+                        </c:if>
                     </a>
                     <span class="fab-hover-label">Danh sách việc làm đã lưu</span>
                 </div>
                 <div class="fab-item" title="Bảo mật">
-                    <a  href="<%= request.getContextPath() %>/getListJobPostSaveOfCandidate" target="_self" class="fab-btn">
+                    <a  href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" class="fab-btn">
                         <i class="bi bi-shield-check"></i>
                     </a>
                     <span class="fab-hover-label">Tìm việc an toàn</span>
@@ -716,6 +915,9 @@
 
 
 
+
+
+            <!--               doan Scrip cua Aciont Menu-->
             <script>
                 const supportBtn = document.getElementById("openSupportPanel");
                 const supportPopup = document.getElementById("supportPopup");
@@ -754,27 +956,27 @@
         <!-- Bootstrap 5 JS (for modal/tooltips if needed) -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-                            document.addEventListener("DOMContentLoaded", function () {
-                                const quotes = [
-                                    "Cơ hội luôn ở đó – bạn chỉ cần một nơi để bắt đầu hành trình.",
-                                    "Chúng tôi không đưa bạn việc làm, chúng tôi trao bạn tương lai.",
-                                    "Công việc không chỉ là nguồn sống, mà là nơi ta viết nên câu chuyện cuộc đời.",
-                                    "Đừng tìm việc chỉ để làm, hãy tìm việc để sống đúng với giá trị của mình.",
-                                    "Sơn Tùng-MTP :  Muốn ngồi một vị trí không ai ngồi được thì bạn phải chịu cảm giác mà không ai chịu được    .",
-                                    "Thành công không chờ ai, nhưng luôn mở cửa cho người biết tìm đúng lối đi.",
-                                    "Không chỉ là tìm việc, mà là tìm thấy chính mình trong sự nghiệp mơ ước"
-                                ];
-                                let idx = 0;
-                                const quoteElem = document.getElementById('quote-rotate');
-                                setInterval(() => {
-                                    quoteElem.style.opacity = 0;
-                                    setTimeout(() => {
-                                        idx = (idx + 1) % quotes.length;
-                                        quoteElem.textContent = quotes[idx];
-                                        quoteElem.style.opacity = 1;
-                                    }, 500);
-                                }, 5000);
-                            });
+                document.addEventListener("DOMContentLoaded", function () {
+                    const quotes = [
+                        "Cơ hội luôn ở đó – bạn chỉ cần một nơi để bắt đầu hành trình.",
+                        "Chúng tôi không đưa bạn việc làm, chúng tôi trao bạn tương lai.",
+                        "Công việc không chỉ là nguồn sống, mà là nơi ta viết nên câu chuyện cuộc đời.",
+                        "Đừng tìm việc chỉ để làm, hãy tìm việc để sống đúng với giá trị của mình.",
+                        "Sơn Tùng-MTP :  Muốn ngồi một vị trí không ai ngồi được thì bạn phải chịu cảm giác mà không ai chịu được    .",
+                        "Thành công không chờ ai, nhưng luôn mở cửa cho người biết tìm đúng lối đi.",
+                        "Không chỉ là tìm việc, mà là tìm thấy chính mình trong sự nghiệp mơ ước"
+                    ];
+                    let idx = 0;
+                    const quoteElem = document.getElementById('quote-rotate');
+                    setInterval(() => {
+                        quoteElem.style.opacity = 0;
+                        setTimeout(() => {
+                            idx = (idx + 1) % quotes.length;
+                            quoteElem.textContent = quotes[idx];
+                            quoteElem.style.opacity = 1;
+                        }, 500);
+                    }, 5000);
+                });
         </script>
 
 
@@ -803,18 +1005,22 @@
         <!--         kết thúc phân trang-->
     </body>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Quote rotate giữ nguyên phía trên
 
-            // Xử lý thả tim
-            document.querySelectorAll('.heart-btn').forEach(function (btn) {
-                btn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    var svg = btn.querySelector('.heart-svg');
-                    svg.classList.toggle('filled');
-                });
-            });
+    <!--     thông báo -->
+    <script>
+        function hideStatusToast() {
+            const elem = document.getElementById('status1-message');
+            if (elem) {
+                elem.classList.remove('show');
+                setTimeout(() => elem.style.display = 'none', 550);
+            }
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            const statusElem = document.getElementById('status1-message');
+            if (statusElem) {
+                statusElem.classList.add('show');
+                setTimeout(() => hideStatusToast(), 1000);
+            }
         });
     </script>
 </html>

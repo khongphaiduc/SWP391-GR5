@@ -1,7 +1,8 @@
 // pham trung duc
 package Models;
-import  java.time.LocalDateTime;
+
 import java.util.Date;
+
 public class JobPost {
 
     private int jobPost_ID;
@@ -18,10 +19,10 @@ public class JobPost {
     private String company;
     private int employer_ID;
     private String typeJob;
+    private byte[] imgLogo;
+    private int saveIdJobPost;
 
-
-
-    public JobPost(int jobPost_ID, String title, String description,String category,
+    public JobPost(int jobPost_ID, String title, String description, String category,
             String position, String location, double offer_Min, double offer_Max,
             int number_exp, boolean visible, String typeJob, Date dayCre, String compapy) {
         this.jobPost_ID = jobPost_ID;
@@ -36,16 +37,44 @@ public class JobPost {
         this.typeJob = typeJob;
         this.dayCre = dayCre;
 
-        this.category=category;
+        this.category = category;
 
         this.company = compapy;
 
     }
-    
+
+    //Contructor của List JobPostSave
+    public JobPost(String title, String company, String location, String description, Date dayCre, int jobPost_ID, byte[] imgLogo, int saveIdJobPost) {
+        this.title = title;
+        this.company = company;
+        this.location = location;
+        this.description = description;
+        this.dayCre = dayCre;
+        this.jobPost_ID = jobPost_ID;
+        this.imgLogo = imgLogo;
+        this.saveIdJobPost = saveIdJobPost;
+    }
+
+    public void setImgLogo(byte[] imgLogo) {
+        this.imgLogo = imgLogo;
+    }
+
+    public void setSaveIdJobPost(int saveIdJobPost) {
+        this.saveIdJobPost = saveIdJobPost;
+    }
+
+    public byte[] getImgLogo() {
+        return imgLogo;
+    }
+
+    public int getSaveIdJobPost() {
+        return saveIdJobPost;
+    }
+
     public boolean isVisible() {
         return visible;
     }
-    
+
     public JobPost() {
     }
 
@@ -105,7 +134,6 @@ public class JobPost {
         return company;
     }
 
-    
     public String getCompapy() {
         return company;
     }
@@ -150,8 +178,6 @@ public class JobPost {
         this.category = category;
     }
 
-
-
     public void setCompapy(String compapy) {
         this.company = compapy;
     }
@@ -174,9 +200,9 @@ public class JobPost {
 
     @Override
     public String toString() {
-        return "JobPost{" + "jobPost_ID=" + jobPost_ID + ", title=" + title + ", description=" + description + ", position=" + position + ", location=" + location + ", offer_Min=" + offer_Min + ", offer_Max=" + offer_Max + ", number_exp=" + number_exp + ", visible=" + visible + ", category=" + category + ", dayCre=" + dayCre + ", company=" + company + ", employer_ID=" + employer_ID + ", typeJob=" + typeJob + '}';
+        return "JobPost{" + "jobPost_ID=" + jobPost_ID + ", title=" + title + ", description=" + description + ", position=" + position + ", location=" + location + ", offer_Min=" + offer_Min + ", offer_Max=" + offer_Max + ", number_exp=" + number_exp + ", visible=" + visible + ", category=" + category + ", dayCre=" + dayCre + ", company=" + company + ", employer_ID=" + employer_ID + ", typeJob=" + typeJob + ", imgLogo=" + imgLogo + ", saveIdJobPost=" + saveIdJobPost + '}';
     }
 
-
+ 
 
 }

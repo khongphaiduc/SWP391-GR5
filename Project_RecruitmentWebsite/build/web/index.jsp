@@ -887,14 +887,17 @@
             <!--            hiển thị Action Menu-->
             <div class="floating-actions-v2">
                 <div class="fab-item fab-heart" title="Việc làm yêu thích">
-                    <a href="<%= request.getContextPath() %>/getListJobPostSaveOfCandidate" target="_self" id="favorite-btn-v2" class="fab-btn" >
+                    <a href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" id="favorite-btn-v2" class="fab-btn" >
                         <i class="bi bi-heart-fill"></i>
-                        <span class="fab-badge" id="favorite-count-v2">0</span>
+                        <c:if test="${username!=null}">
+                            <span class="fab-badge" id="favorite-count-v2"> ${numberJobPost}</span>
+                        </c:if>
+                       
                     </a>
                     <span class="fab-hover-label">Danh sách việc làm đã lưu</span>
                 </div>
                 <div class="fab-item" title="Bảo mật">
-                    <a  href="<%= request.getContextPath() %>/getListJobPostSaveOfCandidate" target="_self" class="fab-btn">
+                    <a  href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" class="fab-btn">
                         <i class="bi bi-shield-check"></i>
                     </a>
                     <span class="fab-hover-label">Tìm việc an toàn</span>
