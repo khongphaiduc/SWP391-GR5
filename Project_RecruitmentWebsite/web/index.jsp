@@ -938,7 +938,7 @@
                         <a class="support-popup-link" href="#" target="_blank">
                             <i class="bi bi-question-circle"></i> Các câu hỏi thường gặp
                         </a>
-                        <a class="support-popup-link" href="#" target="_blank">
+                        <a class="support-popup-link" href="SupportUser" target="_blank">
                             <i class="bi bi-envelope-paper"></i> Yêu cầu hỗ trợ
                         </a>
                         <a class="support-popup-link" href="#" target="_blank">
