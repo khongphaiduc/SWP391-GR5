@@ -785,6 +785,7 @@
                                 <c:if test="${sessionScope.username != null and sessionScope.role eq 'Candidate'}">
                                     <a href="SaveJobPost?idJobPost=${s.jobPost_ID}" target="_self" style="text-decoration: none;">Lưu</a>
                                 </c:if>
+                                    
                                 <c:if test="${sessionScope.username == null}">
                                     <a href="log/login.jsp" target="_self" style="text-decoration: none" > 
                                         <svg width="36" height="40" viewBox="0 0 49 55" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -797,9 +798,10 @@
                                               stroke="#16B155" stroke-width="2" fill="none"/>
                                         </svg>
                                     </a>
-                                    </c:if>
-                                    <c:if test="${sessionScope.username != null and sessionScope.role eq 'Admin'}">
-                                    <a href="SaveJobPost?idJobPost=${s.jobPost_ID}" target="_self" style="text-decoration: none;"> Xóa Tin </a>
+                                </c:if>
+                                    
+                                <c:if test="${sessionScope.username != null and sessionScope.role eq 'Admin'}">
+                                    <a href="#" target="_self" style="text-decoration: none;"> Xóa Tin </a>
                                 </c:if>
                             </div>
 
