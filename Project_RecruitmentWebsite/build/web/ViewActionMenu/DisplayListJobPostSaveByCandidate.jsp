@@ -543,18 +543,15 @@
                 <div class="fab-item fab-heart" title="Việc làm yêu thích">
                     <a href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" id="favorite-btn-v2" class="fab-btn" >
                         <i class="bi bi-heart-fill"></i>
-                        <span class="fab-badge" id="favorite-count-v2">${numberJobPost}</span>
+                        <c:if test="${username!=null}">
+                            <span class="fab-badge" id="favorite-count-v2"> ${numberJobPost}</span>
+                        </c:if>
+
                     </a>
                     <span class="fab-hover-label">Danh sách việc làm đã lưu</span>
                 </div>
-                <div class="fab-item" title="Bảo mật">
-                    <a  href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" class="fab-btn">
-                        <i class="bi bi-shield-check"></i>
-                    </a>
-                    <span class="fab-hover-label">Tìm việc an toàn</span>
-                </div>
                 <div class="fab-item" title="Góp ý">
-                    <a  href="<%= request.getContextPath() %>/giveComments" target="_self" class="fab-btn">
+                    <a  href="<%= request.getContextPath() %>/ViewActionMenu/Feedback.jsp" target="_self" class="fab-btn">
                         <i class="bi bi-chat-dots"></i>
                     </a>
                     <span class="fab-hover-label">Góp ý GenZTimViec</span>
@@ -569,7 +566,7 @@
                 <div class="support-popup" id="supportPopup" style="display:none;">
                     <div class="support-popup-header d-flex align-items-center justify-content-between" style="background: #15c564; color:#fff; padding: 18px 18px 13px 18px; border-radius: 12px 12px 0 0;">
                         <div>
-                            <div style="font-size:1.18rem; font-weight:700;">Trung tâm hỗ trợ ứng viên</div>
+                            <div style="font-size:1.18rem; font-weight:700;">Trung tâm hỗ trợ </div>
                             <div class="d-flex align-items-center mt-2">
                                 <img src="https://genk.mediacdn.vn/thumb_w/640/139269124445442048/2024/6/1/photo-1-17168606131071257137350-1717278776106716631383.jpg" alt="avatar" class="rounded-circle" style="width:38px; height:38px; object-fit:cover; margin-right:10px;">
                                 <div>
@@ -580,16 +577,13 @@
                         </div>
                     </div>
                     <div class="support-popup-body">
-                        <a class="support-popup-link" href="#" target="_blank">
-                            <i class="bi bi-shield-check"></i> Hướng dẫn tìm việc an toàn <span style="color:#f33;">*</span>
-                        </a>
-                        <a class="support-popup-link" href="#" target="_blank">
-                            <i class="bi bi-person"></i> Hướng dẫn quản lý tài khoản
-                        </a>
+                        <!--                        <a class="support-popup-link" href="#" target="_blank">
+                                                    <i class="bi bi-person"></i> Hướng dẫn quản lý tài khoản
+                                                </a>-->
                         <a class="support-popup-link" href="#" target="_blank">
                             <i class="bi bi-question-circle"></i> Các câu hỏi thường gặp
                         </a>
-                        <a class="support-popup-link" href="#" target="_blank">
+                        <a class="support-popup-link" href="SupportUser" target="_blank">
                             <i class="bi bi-envelope-paper"></i> Yêu cầu hỗ trợ
                         </a>
                         <a class="support-popup-link" href="#" target="_blank">
