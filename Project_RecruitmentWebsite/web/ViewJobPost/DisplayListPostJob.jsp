@@ -777,7 +777,7 @@
                             <!-- Nút ứng tuyển với icon trái tim cùng dòng -->
 
                             <div class="d-flex align-items-center justify-content-between mt-2">
-                                <a href="#" target="_self" class="apply-btn" style="text-decoration: none;">
+                                <a href="${pageContext.request.contextPath}/detailJob?postId=${s.jobPost_ID}" target="_self" class="apply-btn" style="text-decoration: none;">
                                     <i class="bi bi-send-fill"></i> Ứng tuyển ngay
                                 </a>
 

@@ -337,7 +337,7 @@
         </c:if>
 
 
-        <c:if test="${sessionScope.username != null}">
+        <c:if test="${sessionScope.username != null && sessionScope.role != 'Employer'}">
             <div class="avatar-fixed-container">
                 <a href="${pageContext.request.contextPath}/log/profile.jsp" target="target">
                     <img src="img/sontung.jpg" width="50" height="50" alt="sontung" class="avatar-fixed-img"/>
@@ -348,6 +348,18 @@
                 </div>
             </div>
         </c:if>
+        <c:if test="${sessionScope.username != null && sessionScope.role == 'Employer'}">
+            <div class="avatar-fixed-container">
+                <a href="${pageContext.request.contextPath}/EmployerInfo.jsp" target="target">
+                    <img src="img/sontung.jpg" width="50" height="50" alt="sontung" class="avatar-fixed-img"/>
+                </a>
+                <div class="avatar-greeting">
+                    Xin chào, <b>${sessionScope.username}</b>!
+
+                </div>
+            </div>
+        </c:if>
+
 
 
         <div class="container-xxl bg-white p-0">
@@ -404,7 +416,7 @@
                         <%}else if("Employer".equals(role)){%>                      
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">For Employer</a>
-
+                            <div class="dropdown-menu rounded-0 m-0">
                                 <a href="${pageContext.request.contextPath}/manageCreatedJob" class="dropdown-item">Quản lý tin tuyển</a> 
 
                                 <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
@@ -893,7 +905,7 @@
                         <c:if test="${username!=null}">
                             <span class="fab-badge" id="favorite-count-v2"> ${numberJobPost}</span>
                         </c:if>
-                       
+
                     </a>
                     <span class="fab-hover-label">Danh sách việc làm đã lưu</span>
                 </div>
