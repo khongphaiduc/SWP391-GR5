@@ -441,8 +441,23 @@
                 <div class="table-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3><i class="fas fa-users me-2"></i>User Management</h3>
-                        <div class="d-flex gap-2">
+                               <div class="d-flex gap-2">
 
+                            <form action="adduser.jsp" method="get">
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-plus me-1"></i>Add User
+                                </button>
+                            </form>
+                        </div>
+                          <div class="d-flex gap-2">
+                            <!-- Search Bar -->
+                            <form method="get" action="search" class="search-bar">
+                                <input type="text" name="search" placeholder="Search by account name..." 
+                                       value="${param.search}">
+                                <i class="fas fa-search"></i>
+                                <input type="hidden" name="type" value="${type}">
+                                <input type="hidden" name="page" value="${currentPage}">
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -595,7 +610,7 @@
                                                                }
                                                            });
                                                        });
-
+ 
                                                        statsCards.forEach(card => {
                                                            observer.observe(card);
                                                        });

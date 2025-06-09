@@ -54,10 +54,7 @@ public class EmployerDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-
-
-
-
+            
             try {
                 if (rs != null) {
                     rs.close();
@@ -74,6 +71,47 @@ public class EmployerDAO extends DBContext {
 
         return employer;
     }
+    public List<Employer> searchEmployersByName(String name, int offset, int limit) {
+    List<Employer> employers = new ArrayList<>();
+    String sql = "SELECT Employer_ID, EmployerName, Email FROM Employer WHERE EmployerName LIKE ? " +
+                 "ORDER BY Employer_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, "%" + name + "%");
+        ps.setInt(2, offset);
+        ps.setInt(3, limit);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Employer emp = new Employer();
+            emp.setEmployerId(rs.getInt("Employer_ID"));
+            emp.setEmployerName(rs.getString("EmployerName"));
+            emp.setEmail(rs.getString("Email"));
+            employers.add(emp);
+        }
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return employers;
+}
+
+public int getTotalEmployersByName(String name) {
+    String sql = "SELECT COUNT(*) FROM Employer WHERE EmployerName LIKE ?";
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, "%" + name + "%");
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return 0;
+}
 
 
 
@@ -122,20 +160,39 @@ public int countEmployers() {
     return count;
 }
  public static void main(String[] args) {
-        EmployerDAO dao = new EmployerDAO();
+        // Khởi tạo EmployerDAO
+        EmployerDAO employerDAO = new EmployerDAO();
 
-        int offset = 0;      // lấy từ bản ghi đầu tiên
-        int limit = 10;      // lấy 10 bản ghi
+        // Tham số test
+        String searchKeyword = "A"; // Từ khóa tìm kiếm
+        int page = 1;                 // Trang hiện tại
+        int recordsPerPage = 10;      // Số bản ghi trên mỗi trang
+        int offset = (page - 1) * recordsPerPage;
 
-        List<Employer> employers = dao.getEmployersByPage(offset, limit);
+        // Test 1: Lấy tất cả Employers
+        System.out.println("--- Test lấy tất cả Employers ---");
+        List<Employer> allEmployers = employerDAO.getAllEmployers();
+        for (Employer emp : allEmployers) {
+            System.out.println("ID: " + emp.getEmployerId() + ", Name: " + emp.getEmployerName() + ", Email: " + emp.getEmail());
+        }
+        System.out.println("Tổng số Employers: " + allEmployers.size());
 
-        System.out.println("=== Candidates ===");
-        for (Employer e : employers) {
-            System.out.println("ID: " + e.getEmployerId()+ ", Name: " + e.getEmployerName()+ ", Email: " + e.getEmail());
+        // Test 2: Lấy Employers theo trang
+        System.out.println("\n--- Test lấy Employers theo trang ---");
+        List<Employer> employersByPage = employerDAO.getEmployersByPage(offset, recordsPerPage);
+        System.out.println("Kết quả trang " + page + " (mỗi trang " + recordsPerPage + " bản ghi):");
+        for (Employer emp : employersByPage) {
+            System.out.println("ID: " + emp.getEmployerId() + ", Name: " + emp.getEmployerName() + ", Email: " + emp.getEmail());
         }
 
-        int total = dao.countEmployers();
-        System.out.println("Total candidates in DB: " + total);
+        // Test 3: Tìm kiếm Employers theo tên
+        System.out.println("\n--- Test tìm kiếm Employers với từ khóa '" + searchKeyword + "' ---");
+        List<Employer> searchResults = employerDAO.searchEmployersByName(searchKeyword, offset, recordsPerPage);
+        int totalSearchResults = employerDAO.getTotalEmployersByName(searchKeyword);
+        for (Employer emp : searchResults) {
+            System.out.println("ID: " + emp.getEmployerId() + ", Name: " + emp.getEmployerName() + ", Email: " + emp.getEmail());
+        }
+        System.out.println("Tổng số Employers khớp với từ khóa: " + totalSearchResults);
     }
    public Employer getEmployerById(int id) {
         String sql = "SELECT * FROM Employer WHERE Employer_ID = ?";
@@ -214,6 +271,7 @@ public int countEmployers() {
     }
     return list;
 }
+    
 
 
 

@@ -64,6 +64,47 @@ public class CandidateDAO extends DBContext {
 
         return candidate;
     }
+    public List<Candidate> searchCandidatesByName(String name, int offset, int limit) {
+    List<Candidate> candidates = new ArrayList<>();
+    String sql = "SELECT Candidate_ID, CandidateName, Email FROM Candidate WHERE CandidateName LIKE ? " +
+                 "ORDER BY Candidate_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, "%" + name + "%");
+        ps.setInt(2, offset);
+        ps.setInt(3, limit);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Candidate can = new Candidate();
+            can.setCandidateId(rs.getInt("Candidate_ID"));
+            can.setCandidateName(rs.getString("CandidateName"));
+            can.setEmail(rs.getString("Email"));
+            candidates.add(can);
+        }
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return candidates;
+}
+
+public int getTotalCandidatesByName(String name) {
+    String sql = "SELECT COUNT(*) FROM Candidate WHERE CandidateName LIKE ?";
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, "%" + name + "%");
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return 0;
+}
 
 
 
