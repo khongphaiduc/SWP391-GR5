@@ -62,12 +62,12 @@ public class LoginAccount extends HttpServlet {
                 if (result) {
                     session.setAttribute("username", nameAccount);
                     session.setAttribute("role", "Candidate");
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("Index");
                 } else {
                     status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
                     request.setAttribute("status", status);
                     request.setAttribute("username", nameAccount);
-                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                    request.getRequestDispatcher("/log/login.jsp").forward(request, response);
                 }
                 // Kiểm tra xem trong employerr
             } else if (employerDAO.isEmployertUser(nameAccount)) {
@@ -76,12 +76,12 @@ public class LoginAccount extends HttpServlet {
                 if (result) {
                     session.setAttribute("username", nameAccount);
                     session.setAttribute("role", "Employer");
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("Index");
                 } else {
                     status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
                     request.setAttribute("username", nameAccount);
                     request.setAttribute("status", status);
-                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                    request.getRequestDispatcher("/log/login.jsp").forward(request, response);
                 }
             } // kiểm tra  role admin
             else if (adminDAO.isAdmin(nameAccount)) {
@@ -90,23 +90,23 @@ public class LoginAccount extends HttpServlet {
                 if (result) {
                     session.setAttribute("username", nameAccount);
                     session.setAttribute("role", "Admin");
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("Index");
                 } else {
                     status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
                     request.setAttribute("username", nameAccount);
                     request.setAttribute("status", status);
-                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                    request.getRequestDispatcher("/log/login.jsp").forward(request, response);
                 }
-                 // cả 3 thằng đều không phải 
+                // cả 3 thằng đều không phải 
             } else {
                 status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
                 request.setAttribute("username", nameAccount);
                 request.setAttribute("status", status);
-                request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/log/login.jsp").forward(request, response);
             }
 
         } catch (Exception s) {
-            request.getRequestDispatcher("log/login.jsp").forward(request, response);
+            request.getRequestDispatcher("Index").forward(request, response);
         }
     }
 

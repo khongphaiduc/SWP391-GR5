@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="Models.*" %>
+<%@ page import="java.util.List" %>
+
 
 <html lang="en">
 
@@ -32,6 +34,32 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+
+        <style>
+            .cv-list .card {
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            }
+            .cv-list img {
+                max-height: 150px;
+                object-fit: contain;
+            }
+            .cv-item-preview {
+                width: 80px;
+                height: 100px;
+                border-radius: 8px;
+                overflow: hidden;
+                border: 3px solid rgba(255,255,255,0.3);
+                float: right;
+                margin-left: 20px;
+            }
+
+            .cv-item-preview img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        </style>
+
     </head>
 
     <body>
@@ -86,41 +114,66 @@
                             </div>
 
                             <div class="mb-5">
-                                
+
                                 <h4 class="mb-3">Vị trí tuyển</h4>
                                 <p><%=job.getPosition()%></p>
-                                
+
                                 <h4 class="mb-3">Mô tả công việc</h4>
                                 <p><%=job.getDescription()%></p>
-                               
+
                                 <h4 class="mb-3">Danh mục</h4>
                                 <p><%=job.getCategory()%></p>
                             </div>
 
                             <div class="">
                                 <h4 class="mb-4">Apply For The Job</h4>
-                                <form>
-                                    <div class="row g-3">
-                                        <div class="col-12 col-sm-6">
-                                            <input type="text" class="form-control" placeholder="Your Name">
+                                <div class="d-grid gap-3">
+                                    <a href="${pageContext.request.contextPath}/submitCV" class="btn btn-outline-primary w-100">Tạo CV mới trên web</a>
+
+                                    <!--                                    <form action="upload-cv" method="post" enctype="multipart/form-data">
+                                                                            <input type="file" name="cvFile" class="form-control mb-2" required>
+                                                                            <button type="submit" class="btn btn-outline-success w-100">Tải CV từ máy lên</button>
+                                                                        </form>-->
+
+                                    <form action="apply" method="post">
+                                        <!--                                        <div class="cv-list">
+                                        <%
+                                            List<CV> cvList = (List<CV>) request.getAttribute("cvList");
+                                            if (cvList != null) {
+                                                for (CV cv : cvList) {
+                                        %>
+                                        <div class="card mb-3 p-2 border">
+                                            <div class="row g-2">
+                                                <div class="col-md-4">
+                                                    <div class="cv-item-preview">
+                                                        <img src="viewCV?cvId=<%= cv.getCvId() %>" alt="CV Preview" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgODAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZjhmOWZhIi8+CjxwYXRoIGQ9Ik00MCA1MEwyNSA2MEw1NSA2MFoiIGZpbGw9IiNkZGQiLz4KPHN2Zz4K'">
+                                                    </div>                                                    </div>
+                                                <div class="col-md-8">
+                                                    <h5><%=cv.getFullName()%> - <%=cv.getPosition()%></h5>
+                                                    <p>Email: <%=cv.getEmail()%></p>
+                                                    <p>Kinh nghiệm: <%=cv.getNumberExp()%> năm</p>
+                                                    <form action="ApplyCVServlet" method="post">
+                                                        <input type="hidden" name="cvId" value="<%=cv.getCvId()%>">
+                                                        <input type="hidden" name="jobId" value="<%=job.getJobPost_ID()%>">
+                                                        <button type="submit" class="btn btn-primary btn-sm">Dùng CV này</button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-12 col-sm-6">
-                                            <input type="email" class="form-control" placeholder="Your Email">
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <input type="text" class="form-control" placeholder="Portfolio Website">
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <input type="file" class="form-control bg-white">
-                                        </div>
-                                        <div class="col-12">
-                                            <textarea class="form-control" rows="5" placeholder="Coverletter"></textarea>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-primary w-100" type="submit">Apply Now</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                        <%
+                                                }
+                                            }
+                                        %>
+                                    </div>-->
+                                        <a class="btn btn-outline-warning w-100" 
+                                           href="${pageContext.request.contextPath}/apply?jobId=<%= job.getJobPost_ID() %>">
+                                            Dùng CV đã tạo
+                                        </a>
+
+                                        <input type="hidden" name="jobId" value="<%=job.getJobPost_ID()%>">
+                                    </form>
+                                </div>
+
                             </div>
                         </div>
 
