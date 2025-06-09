@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page import="java.time.*" %> %>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -102,7 +103,7 @@
                 }
                 input.value = new Intl.NumberFormat('vi-VN').format(value);
             }
-            
+
         </script>
     </head>
     <body>
@@ -119,7 +120,12 @@
                     <h2>----------------</h2>
                     <div class="form-section">
                         <label for="birthday" class="form-label">Ngày sinh</label>
-                        <input type="date" class="form-control" id="birthday" name="birthday" required>
+                        <%
+                            java.time.LocalDate today = java.time.LocalDate.now();
+                        %>
+
+
+                        <input type="date" class="form-control" id="birthday" name="birthday" max="<%= today.toString() %>" required>
                     </div>
                     <div class="form-section">
                         <label for="gender" class="form-label">Giới tính</label>

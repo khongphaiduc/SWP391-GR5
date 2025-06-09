@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="Models.CV" %>
+<%@page import="java.time.*" %> %>
+
 <%
     CV cv = (CV) request.getAttribute("editedCV");
 %>
@@ -104,7 +106,10 @@
                     <h2>THÔNG TIN CÁ NHÂN</h2>
                     <div class="form-section">
                         <label for="birthday">Ngày sinh</label>
-                        <input type="date" id="birthday" name="birthday" value="<%= cv.getBirthday() %>" required>
+                         <%
+                            java.time.LocalDate today = java.time.LocalDate.now();
+                        %>
+                        <input type="date" id="birthday" name="birthday" value="<%= cv.getBirthday() %>" max="<%= today.toString() %>" required>
                     </div>
                     <div class="form-section">
                         <label for="gender">Giới tính</label>
