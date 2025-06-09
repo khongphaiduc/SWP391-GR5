@@ -1,6 +1,6 @@
 package Controller_Job;
 
-import DAO.SearchAnDisplayJob;
+import DAO.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,7 +40,7 @@ public class searchListJobPost extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html;charset=UTF-8");
 
-            HttpSession session = request.getSession();
+            
             String status = null;
             String salary = request.getParameter("salary");
             String location = request.getParameter("location");
@@ -49,15 +49,35 @@ public class searchListJobPost extends HttpServlet {
             String typeJob = request.getParameter("typeJob");
             String searchKey = request.getParameter("searchKey");
             SearchAnDisplayJob o = new SearchAnDisplayJob();
-             
-       
-            var listJobPost = o.BuildTest(salary, location, career, experience, typeJob,searchKey);
+          
+
+            // -------------------------------------------------------
+            HttpSession session = request.getSession();
+            SaveJobPostOfCandidate saveJob = new SaveJobPostOfCandidate();
+            int numberJobPost = 0;
+            String user = (String) session.getAttribute("username");
+
+            // kiểm tra xem đăng nhập chưa và lấy số lượng post đã lưu 
+            if (user != null) {
+                String IdUser = saveJob.getCandidateIDByName(user);
+                numberJobPost = saveJob.getNumberJobPostSavedByCandidate(IdUser);
+            }
+
+            session.setAttribute("numberJobPost", numberJobPost);    // số lượng jobpost của thằng user
+            // -------------------------------------------------------
+            
+            
+            
+            
+
+            
+            var listJobPost = o.BuildTest(salary, location, career, experience, typeJob, searchKey);
             // thằng mới đăng tin hiển  thị lên đầu
             listJobPost.sort((a, b) -> {
-              var s =  b.getDayCre().compareTo(a.getDayCre());
-                     return s; 
-              });
-              
+                var s = b.getDayCre().compareTo(a.getDayCre());
+                return s;
+            });
+
             int totalJobs = listJobPost.size();    // lấy số lượng jobpost có hiện tại
             String pageStr = request.getParameter("page");
             int currentpage = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
@@ -81,7 +101,7 @@ public class searchListJobPost extends HttpServlet {
             session.setAttribute("exp", experience);
             session.setAttribute("typeJob", typeJob);
             session.setAttribute("searchKey", searchKey);
-            request.setAttribute("ListJobPost", listJobPost);
+            
 
             if (listJobPost.size() == 0) {
                 status = "ối rồi ôi";
