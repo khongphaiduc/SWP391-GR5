@@ -48,6 +48,11 @@ public class searchListJobPost extends HttpServlet {
             String experience = request.getParameter("exp");
             String typeJob = request.getParameter("typeJob");
             String searchKey = request.getParameter("searchKey");
+            String searchKeyTrim=null;
+            if(searchKey!=null){
+                searchKeyTrim = searchKey.trim().replaceAll("\\s+", " ");
+            }
+           
             SearchAnDisplayJob o = new SearchAnDisplayJob();
           
 
@@ -71,7 +76,7 @@ public class searchListJobPost extends HttpServlet {
             
 
             
-            var listJobPost = o.BuildTest(salary, location, career, experience, typeJob, searchKey);
+            var listJobPost = o.BuildTest(salary, location, career, experience, typeJob, searchKeyTrim);
             // thằng mới đăng tin hiển  thị lên đầu
             listJobPost.sort((a, b) -> {
                 var s = b.getDayCre().compareTo(a.getDayCre());
@@ -101,7 +106,7 @@ public class searchListJobPost extends HttpServlet {
             session.setAttribute("exp", experience);
             session.setAttribute("typeJob", typeJob);
             session.setAttribute("searchKey", searchKey);
-            
+            request.setAttribute("keySearch", searchKey);
 
             if (listJobPost.size() == 0) {
                 status = "ối rồi ôi";

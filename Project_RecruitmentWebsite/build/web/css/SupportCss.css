@@ -20,11 +20,9 @@ body {
     position: absolute;
     width: 44px;
     height: 44px;
-    /* Remove base opacity, let each icon control its own */
     animation: floatIcon 12s linear infinite;
     filter: drop-shadow(0 2px 8px #fff8) drop-shadow(0 0 8px #fff3);
 }
-
 .animated-bg-icons svg.icon2 { left: 10vw; animation-delay: 2s; animation-duration: 11s; }
 .animated-bg-icons svg.icon3 { left: 30vw; animation-delay: 5s; animation-duration: 15s; }
 .animated-bg-icons svg.icon4 { left: 60vw; animation-delay: 3s; animation-duration: 13s; }
@@ -32,25 +30,11 @@ body {
 .animated-bg-icons svg.icon6 { left: 50vw; animation-delay: 0s; animation-duration: 12s; }
 .animated-bg-icons svg.icon7 { left: 25vw; animation-delay: 10s; animation-duration: 18s; }
 .animated-bg-icons svg.icon8 { left: 70vw; animation-delay: 8s; animation-duration: 14s; }
-
 @keyframes floatIcon {
-    0% {
-        top: 100vh;
-        opacity: 0.8;
-        transform: translateY(0) scale(1) rotate(-10deg);
-    }
-    5% {
-        opacity: 0.93;
-        transform: translateY(-30px) scale(1.08) rotate(6deg);
-    }
-    70% {
-        opacity: 0.88;
-    }
-    100% {
-        top: -60px;
-        opacity: 0;
-        transform: translateY(-30px) scale(1.14) rotate(12deg);
-    }
+    0%   { top: 100vh; opacity: 0.8; transform: translateY(0) scale(1) rotate(-10deg);}
+    5%   { opacity: 0.93; transform: translateY(-30px) scale(1.08) rotate(6deg);}
+    70%  { opacity: 0.88; }
+    100% { top: -60px; opacity: 0; transform: translateY(-30px) scale(1.14) rotate(12deg);}
 }
 
 /* Bokeh light effect */
@@ -67,83 +51,70 @@ body::after {
 }
 
 .support-form-container {
-    max-width: 500px;
-    margin: 80px auto 0 auto;
+    max-width: 720px;
+    margin: 90px auto 0 auto;
     background: rgba(255,255,255,0.98);
-    padding: 2.5rem 2rem 2rem 2rem;
-    border-radius: 1.6rem;
-    box-shadow: 0 14px 60px 0 rgba(50, 220, 120, 0.15), 0 2px 8px 0 rgba(44, 185, 130, 0.11);
+    padding: 2.7rem 2.1rem 2.1rem 2.1rem;
+    border-radius: 2.2rem;
+    box-shadow: 0 16px 70px 0 rgba(50, 220, 120, 0.17), 0 2px 12px 0 rgba(44, 185, 130, 0.13);
     border: 1.5px solid #c8fdd6;
     position: relative;
     z-index: 1;
     transition: box-shadow 0.23s cubic-bezier(.25,.8,.25,1), transform 0.18s;
-    backdrop-filter: blur(2.5px);
+    backdrop-filter: blur(3px);
     animation: fadeInUp 1s cubic-bezier(.23,1.2,.32,1);
 }
-
 .support-form-container:hover {
-    box-shadow: 0 22px 80px 0 rgba(50, 220, 120, 0.23), 0 4px 10px 0 rgba(44, 185, 130, 0.13);
-    transform: translateY(-4px) scale(1.012);
+    box-shadow: 0 26px 100px 0 rgba(50, 220, 120, 0.23), 0 4px 14px 0 rgba(44, 185, 130, 0.16);
+    transform: translateY(-6px) scale(1.018);
 }
-
 @keyframes fadeInUp {
     0% { opacity: 0; transform: translateY(80px);}
     100% { opacity: 1; transform: translateY(0);}
 }
-
 .form-title {
-    margin-bottom: 1.8rem;
-    font-weight: 700;
-    font-size: 2.1rem;
+    margin-bottom: 2.2rem;
+    font-weight: 800;
+    font-size: 2.3rem;
     color: #159147;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.7px;
     background: linear-gradient(90deg, #159147 30%, #56e381 90%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 16px #1fc56b26;
     animation: fadeIn 1.2s 0.2s backwards;
 }
-
 @keyframes fadeIn {
     0% { opacity: 0;}
     100% { opacity: 1;}
 }
-
 .form-label {
     font-weight: 500;
     color: #1fa861;
-    margin-bottom: 6px;
-    letter-spacing: 0.03em;
+    margin-bottom: 7px;
+    letter-spacing: 0.04em;
     transition: color 0.2s;
 }
-
 .form-label:focus-within {
     color: #56e381;
 }
-
-.form-control,
-.form-control:focus,
-textarea.form-control {
+.form-control, .form-control:focus, textarea.form-control {
     background-color: #f7fff9;
-    border: 1.3px solid #c3fddf;
-    border-radius: 0.65rem;
-    font-size: 1rem;
-    box-shadow: 0 1px 10px 0 rgba(46,205,124,0.03);
-    transition: border-color 0.23s, background 0.23s, box-shadow 0.12s;
+    border: 1.5px solid #c3fddf;
+    border-radius: 1.1rem;
+    font-size: 1.06rem;
+    box-shadow: 0 1px 12px 0 rgba(46,205,124,0.04);
+    transition: border-color 0.23s, background 0.23s, box-shadow 0.13s;
 }
-
-.form-control:focus,
-textarea.form-control:focus {
+.form-control:focus, textarea.form-control:focus {
     border-color: #1fc56b;
     background-color: #e6fff1;
     box-shadow: 0 0 0 2px #1fc56b33;
 }
-
 textarea.form-control {
-    min-height: 110px;
+    min-height: 120px;
     resize: vertical;
 }
-
-/* Floating effect for input on focus */
 .form-control:focus {
     animation: focusFloat 0.19s;
 }
@@ -151,23 +122,29 @@ textarea.form-control {
     0% { box-shadow: 0 0 0 0 #1fc56b00;}
     100% { box-shadow: 0 0 0 2px #1fc56b33;}
 }
-
-.btn-primary {
-    background: linear-gradient(90deg, #159147 10%, #56e381 100%);
-    border: none;
-    border-radius: 0.7rem;
+.btn-action-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.3rem;
+}
+.btn-primary, .btn-cancel {
+    border-radius: 0.8rem;
     font-weight: 600;
-    font-size: 1.14rem;
+    font-size: 1.15rem;
     letter-spacing: 0.4px;
     padding: 0.72rem 0;
-    box-shadow: 0 2px 9px -2px #1fc56b33;
+    min-width: 0;
+    width: 50%;
     transition: background 0.18s, transform 0.12s, box-shadow 0.17s;
     outline: none;
     position: relative;
-    overflow: hidden;
     z-index: 1;
 }
-
+.btn-primary {
+    background: linear-gradient(90deg, #159147 10%, #56e381 100%);
+    border: none;
+    box-shadow: 0 2px 9px -2px #1fc56b33;
+}
 .btn-primary:before {
     content: "";
     position: absolute;
@@ -179,37 +156,87 @@ textarea.form-control {
     transition: width 0.27s, height 0.27s;
     z-index: 0;
 }
-
 .btn-primary:hover:before {
     width: 240%;
     height: 800%;
 }
-
-.btn-primary:hover,
-.btn-primary:active,
-.btn-primary:focus {
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
     background: linear-gradient(90deg, #56e381 10%, #159147 100%);
-    transform: scale(1.03) translateY(-2px);
-    box-shadow: 0 2px 20px -2px #1fc56b66;
+    transform: scale(1.04) translateY(-2px);
+    box-shadow: 0 2px 22px -2px #1fc56b88;
 }
-
-.btn-primary span {
+.btn-cancel {
+    background: linear-gradient(90deg, #f44336 10%, #ffb199 100%);
+    border: none;
+    color: #fff;
+    box-shadow: 0 2px 12px -2px #f4433640;
+    transition: background 0.18s, color 0.18s, transform 0.14s;
+}
+.btn-cancel:hover, .btn-cancel:focus {
+    background: linear-gradient(90deg, #ffb199 10%, #f44336 100%);
+    color: #fff;
+    transform: scale(1.04) translateY(-2px);
+    box-shadow: 0 2px 22px -2px #f4433688;
+}
+.btn-primary span, .btn-cancel span {
     position: relative;
     z-index: 2;
 }
-
 .mt-3.text-muted {
     color: #5fbb7a !important;
-    margin-top: 1.25rem !important;
-    text-shadow: 0 2px 6px #f4fdff88;
+    margin-top: 1.45rem !important;
+    text-shadow: 0 2px 7px #f4fdff99;
 }
-
 @media (max-width: 600px) {
     .support-form-container {
-        padding: 1.25rem 0.6rem 1.25rem 0.6rem;
-        max-width: 98vw;
+        padding: 1.5rem 0.7rem 1.5rem 0.7rem;
+        max-width: 99vw;
     }
     .form-title {
-        font-size: 1.3rem;
+        font-size: 1.35rem;
     }
+    .btn-primary, .btn-cancel {
+        font-size: 1.01rem;
+    }
+}
+
+/*  phần thông báo */
+
+/* Tab thông báo nổi cho <h3>${statusReport}</h3> */
+.status-report-toast {
+    position: fixed;
+    top: -100px; /* Ẩn trên màn hình */
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 300px;
+    max-width: 80vw;
+    background: #fff;
+    color: #198754;
+    border: 1.5px solid #198754;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px 0 rgba(60,60,60,0.18);
+    padding: 16px 28px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    z-index: 1999;
+    opacity: 0;
+    transition:
+        top 0.7s cubic-bezier(0.23, 1, 0.32, 1),
+        opacity 0.3s linear;
+    pointer-events: none;
+}
+
+/* Hiện toast ở giữa màn hình */
+.status-report-toast.show {
+    top: 70px;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Ẩn xuống dưới màn hình */
+.status-report-toast.hide {
+    top: -100px;
+    opacity: 0;
+    pointer-events: none;
 }
