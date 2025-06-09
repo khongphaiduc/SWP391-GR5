@@ -727,7 +727,7 @@
                 <form action="searchListJobPost" method="get" class="filter-group flex-grow-1 d-flex align-items-end" style="gap:10px;">
                     <div style="flex:2;">
                         <label for="keyword" class="form-label"> <i class="bi bi-search"></i> Tìm Theo Tên Công Ty</label>
-                        <input type="text" class="form-control" id="keyword" name="searchKey" placeholder="Nhập từ khoá và Enter">
+                        <input type="text" class="form-control" id="keyword" name="searchKey" value="${keySearch}" placeholder="Nhập từ khoá và Enter">
                     </div>
                     <input type="hidden" name="location" value="${sessionScope.location}" />
                     <input type="hidden" name="salary" value="${sessionScope.selectedSalary}" />

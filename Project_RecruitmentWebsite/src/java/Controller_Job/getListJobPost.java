@@ -36,15 +36,21 @@ public class getListJobPost extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            
+
             HttpSession session = request.getSession();
             String status = " ";
             String fields = request.getParameter("career");
             String location = request.getParameter("location");
             String nameCompany = request.getParameter("search");
+
+            String searchKeyTrim = null;
+            if (nameCompany != null) {
+                searchKeyTrim = nameCompany.trim().replaceAll("\\s+", " ");
+            }
+
             SearchAnDisplayJob o = new SearchAnDisplayJob();
-            
-           // -------------------------------------------------------
+
+            // -------------------------------------------------------
             SaveJobPostOfCandidate saveJob = new SaveJobPostOfCandidate();
             int numberJobPost = 0;
             String user = (String) session.getAttribute("username");
@@ -58,7 +64,7 @@ public class getListJobPost extends HttpServlet {
             session.setAttribute("numberJobPost", numberJobPost);    // số lượng jobpost của thằng user
             // -------------------------------------------------------
 
-            var listJobPost = o.BuildTest("0", location, fields, null, null, nameCompany);
+            var listJobPost = o.BuildTest("0", location, fields, null, null, searchKeyTrim);
 
             listJobPost.sort((a, b) -> {
                 var s = b.getDayCre().compareTo(a.getDayCre());
