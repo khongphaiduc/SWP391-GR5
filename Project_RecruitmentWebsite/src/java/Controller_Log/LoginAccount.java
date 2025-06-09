@@ -2,7 +2,6 @@
 package Controller_Log;
 
 import DAO.IsAdminDAO;
-import DAO.RegisterAccount_Database;
 import DAO.RegisterCandidateUser;
 import DAO.RegisterEmployerUser;
 import java.io.IOException;
@@ -58,10 +57,11 @@ public class LoginAccount extends HttpServlet {
             if (candidateDAO.isCandidatetNameUser(nameAccount)) {
 
                 boolean result = candidateDAO.LogInAccountCandidate(nameAccount, password);
-
+                String idCandidate = candidateDAO.getIDbyAccountNameCandidate(nameAccount);
                 if (result) {
-                    session.setAttribute("username", nameAccount);
-                    session.setAttribute("role", "Candidate");
+                    session.setAttribute("username", nameAccount);   // lưu account name 
+                    session.setAttribute("role", "Candidate");       // lưu id
+                    session.setAttribute("idUser", idCandidate);     // lưu role
                     response.sendRedirect("Index");
                 } else {
                     status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
@@ -73,8 +73,10 @@ public class LoginAccount extends HttpServlet {
             } else if (employerDAO.isEmployertUser(nameAccount)) {
 
                 boolean result = employerDAO.LogInAccountEmployers(nameAccount, password);
+                String idEmployer = employerDAO.getIDbyAccountNameEmployer(nameAccount);
                 if (result) {
                     session.setAttribute("username", nameAccount);
+                    session.setAttribute("idUser", idEmployer);
                     session.setAttribute("role", "Employer");
                     response.sendRedirect("Index");
                 } else {

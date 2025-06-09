@@ -103,7 +103,7 @@ public class applyServlet extends HttpServlet {
             request.setAttribute("currentPage", page);
             request.setAttribute("totalPages", totalPages);
 
-    request.getRequestDispatcher("ApplyCV_view/applyCVList.jsp").forward(request, response);
+            request.getRequestDispatcher("ApplyCV_view/applyCVList.jsp").forward(request, response);
         }
     }
 
@@ -120,15 +120,17 @@ public class applyServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
-        CandidateDAO cdao=new CandidateDAO();
-        
+        CandidateDAO cdao = new CandidateDAO();
+
         int jobId = Integer.parseInt(request.getParameter("jobId"));
-        
+
         int candidateID = cdao.getCandidateByName(username).getCandidateId();
         int cvID = Integer.parseInt(request.getParameter("cvId"));
 
         ApplyDAO applyDAO = new ApplyDAO();
 
+        JobPostDAO jobPostDAO = new JobPostDAO();
+        JobPost jobPost = jobPostDAO.getJobPostById(jobId);
         if (!applyDAO.hasApplied(candidateID, jobId)) {
             Apply apply = new Apply();
             apply.setJobPost_ID(jobId);
@@ -142,8 +144,8 @@ public class applyServlet extends HttpServlet {
         } else {
             request.setAttribute("message", "Bạn đã ứng tuyển công việc này rồi.");
         }
-
-        request.getRequestDispatcher("jobPost_view/job_detail.jsp").forward(request, response);
+        request.setAttribute("jobPost", jobPost);
+        request.getRequestDispatcher("jobPost_view/job-detail.jsp").forward(request, response);
     }
 
     /**

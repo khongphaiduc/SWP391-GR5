@@ -77,7 +77,7 @@ public class RegisterEmployerUser extends DBContext {
 
             System.out.println(row + " dòng đã được thêm");
             MyEmail mymail = new MyEmail();
-            RegisterAccount_Database o = new RegisterAccount_Database();
+
             // gửi mail cho client thông báo là thành công
             mymail.sendEmail(mail, "Đăng Ký Tài Khoản  Thành Công ", " Chào mừng bạn đến với GenZTimViec.Vn ");
             return row != 0;
@@ -217,12 +217,36 @@ public class RegisterEmployerUser extends DBContext {
         return false;
     }
 
+    // lấy id của thằng Employer (đã test)
+    public String getIDbyAccountNameEmployer(String accountName) {
+        try {
+
+            String query = "SELECT [Employer_ID]\n"
+                    + "      ,[EmployerName]\n"
+                    + "  FROM [dbo].[Employer]\n"
+                    + "  Where EmployerName=?";
+
+            PreparedStatement push = connection.prepareStatement(query);
+
+            push.setString(1, accountName);
+
+            ResultSet rs = push.executeQuery();
+            while (rs.next()) {
+                return rs.getString("Employer_ID");
+            }
+        } catch (Exception s) {
+            System.out.println("Bug  SQL:" + s.getMessage());
+
+        }
+        return null;
+    }
+    
     public static void main(String[] args) {
         RegisterEmployerUser o = new RegisterEmployerUser();
 //        System.out.println("Mã code cũ :"+o.getPasswordHashEmpployer("phamtrungduc"));
 //        System.out.println(o.changePasswordEmployer("phamtrungduc","hahahaha","123"));
 //        System.out.println(o.isEmployertUser("phamtrungduc"));
-
+        System.out.println(o.getIDbyAccountNameEmployer("Công ty NOP"));
     }
 
 }

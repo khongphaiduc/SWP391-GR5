@@ -72,7 +72,7 @@ public class detailJobServlet extends HttpServlet {
 
         String username = (String) session.getAttribute("username");
 
-        if (username != null) {
+        if (username != null && "Candidate".equals(session.getAttribute("role"))) {
             CandidateDAO candidateDAO = new CandidateDAO();
             Candidate candidate = candidateDAO.getCandidateByName(username);
             int candidateId = candidate.getCandidateId();

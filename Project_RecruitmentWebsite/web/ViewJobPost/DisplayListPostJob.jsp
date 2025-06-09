@@ -777,15 +777,15 @@
                             <!-- Nút ứng tuyển với icon trái tim cùng dòng -->
 
                             <div class="d-flex align-items-center justify-content-between mt-2">
-                                <a href="#" target="_self" class="apply-btn" style="text-decoration: none;">
+                                <a href="${pageContext.request.contextPath}/detailJob?postId=${s.jobPost_ID}" target="_self" class="apply-btn" style="text-decoration: none;">
                                     <i class="bi bi-send-fill"></i> Ứng tuyển ngay
                                 </a>
 
                                 <!--                               lưu jobPost-->
                                 <c:if test="${sessionScope.username != null and sessionScope.role eq 'Candidate'}">
                                     <a href="SaveJobPost?idJobPost=${s.jobPost_ID}" target="_self" style="text-decoration: none;">
-                                        
-                                     <svg width="36" height="40" viewBox="0 0 49 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                                        <svg width="36" height="40" viewBox="0 0 49 55" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="24.5" cy="27.5" r="17" stroke="#16B155" stroke-width="2.5" fill="none"/>
                                         <path d="M24.5 34
                                               C22.5 32.5, 15.5 27.5, 18.5 23.5
@@ -794,11 +794,11 @@
                                               C33.5 27.5, 26.5 32.5, 24.5 34Z"
                                               stroke="#16B155" stroke-width="2" fill="none"/>
                                         </svg>
-                                    
-                                    
+
+
                                     </a>
                                 </c:if>
-                                    
+
                                 <c:if test="${sessionScope.username == null}">
                                     <a href="log/login.jsp" target="_self" style="text-decoration: none" > 
                                         <svg width="36" height="40" viewBox="0 0 49 55" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -812,7 +812,7 @@
                                         </svg>
                                     </a>
                                 </c:if>
-                                    
+
                                 <c:if test="${sessionScope.username != null and sessionScope.role eq 'Admin'}">
                                     <a href="#" target="_self" style="text-decoration: none;"> Xóa Tin </a>
                                 </c:if>
@@ -871,17 +871,12 @@
                         <c:if test="${username!=null}">
                             <span class="fab-badge" id="favorite-count-v2"> ${numberJobPost}</span>
                         </c:if>
+
                     </a>
                     <span class="fab-hover-label">Danh sách việc làm đã lưu</span>
                 </div>
-                <div class="fab-item" title="Bảo mật">
-                    <a  href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" class="fab-btn">
-                        <i class="bi bi-shield-check"></i>
-                    </a>
-                    <span class="fab-hover-label">Tìm việc an toàn</span>
-                </div>
                 <div class="fab-item" title="Góp ý">
-                    <a  href="<%= request.getContextPath() %>/giveComments" target="_self" class="fab-btn">
+                    <a  href="<%= request.getContextPath() %>/ViewActionMenu/Feedback.jsp" target="_self" class="fab-btn">
                         <i class="bi bi-chat-dots"></i>
                     </a>
                     <span class="fab-hover-label">Góp ý GenZTimViec</span>
@@ -896,7 +891,7 @@
                 <div class="support-popup" id="supportPopup" style="display:none;">
                     <div class="support-popup-header d-flex align-items-center justify-content-between" style="background: #15c564; color:#fff; padding: 18px 18px 13px 18px; border-radius: 12px 12px 0 0;">
                         <div>
-                            <div style="font-size:1.18rem; font-weight:700;">Trung tâm hỗ trợ ứng viên</div>
+                            <div style="font-size:1.18rem; font-weight:700;">Trung tâm hỗ trợ </div>
                             <div class="d-flex align-items-center mt-2">
                                 <img src="https://genk.mediacdn.vn/thumb_w/640/139269124445442048/2024/6/1/photo-1-17168606131071257137350-1717278776106716631383.jpg" alt="avatar" class="rounded-circle" style="width:38px; height:38px; object-fit:cover; margin-right:10px;">
                                 <div>
@@ -907,16 +902,13 @@
                         </div>
                     </div>
                     <div class="support-popup-body">
-                        <a class="support-popup-link" href="#" target="_blank">
-                            <i class="bi bi-shield-check"></i> Hướng dẫn tìm việc an toàn <span style="color:#f33;">*</span>
-                        </a>
-                        <a class="support-popup-link" href="#" target="_blank">
-                            <i class="bi bi-person"></i> Hướng dẫn quản lý tài khoản
-                        </a>
+                        <!--                        <a class="support-popup-link" href="#" target="_blank">
+                                                    <i class="bi bi-person"></i> Hướng dẫn quản lý tài khoản
+                                                </a>-->
                         <a class="support-popup-link" href="#" target="_blank">
                             <i class="bi bi-question-circle"></i> Các câu hỏi thường gặp
                         </a>
-                        <a class="support-popup-link" href="#" target="_blank">
+                        <a class="support-popup-link" href="SupportUser" target="_blank">
                             <i class="bi bi-envelope-paper"></i> Yêu cầu hỗ trợ
                         </a>
                         <a class="support-popup-link" href="#" target="_blank">
@@ -925,7 +917,6 @@
                     </div>
                 </div>
             </div>
-
             <!--                        end Action Menu-->
 
 
