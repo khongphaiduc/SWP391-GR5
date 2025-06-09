@@ -103,7 +103,6 @@
                 input.value = new Intl.NumberFormat('vi-VN').format(value);
             }
             
-
         </script>
     </head>
     <body>

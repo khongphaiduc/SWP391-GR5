@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/RegisterAccount_Database.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Job/getListJobPost.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
@@ -24,6 +25,16 @@
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/ViewServlet.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/index.jsp</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/DeleteServlet.java</file>
+=======
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/candidateCV_view/manageCreatedCV.jsp</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_CV/manageCreatedCVServlet.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/ViewJobPost/DisplayListPostJob.jsp</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/index.jsp</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/jobPost_view/job-detail.jsp</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Apply/applyServlet.java</file>
+            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Candidate.java</file>
+>>>>>>> 7431efb5788100ca242ec624c2ad1197c5810ad0
         </group>
     </open-files>
 </project-private>

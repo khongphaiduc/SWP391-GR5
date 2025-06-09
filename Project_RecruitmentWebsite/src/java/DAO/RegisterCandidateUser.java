@@ -73,7 +73,7 @@ public class RegisterCandidateUser extends DBContext {
 
             System.out.println(row + " dòng đã được thêm");
             MyEmail mymail = new MyEmail();
-            RegisterAccount_Database o = new RegisterAccount_Database();
+
             // gửi mail cho client thông báo là thành công
             mymail.sendEmail(mail, "Đăng Ký Tài Khoản  Thành Công ", " Chào mừng bạn đến với GenZTimViec.Vn ");
             return row != 0;
@@ -171,7 +171,6 @@ public class RegisterCandidateUser extends DBContext {
 //        RegisterCandidateUser o = new RegisterCandidateUser();
 //        System.out.println(o.getPasswordHashCandidate("phamthea"));
 //    }
-
     // đổi mật khẩu client bên  (đẫ test)
     public boolean changePasswordCandidate(String account, String oldPassword, String newpasswordUser) {
         try {
@@ -213,14 +212,36 @@ public class RegisterCandidateUser extends DBContext {
         return false;
     }
 
-    
-    
-    
+    // lấy id của thằng Candidate (đã test)
+    public String getIDbyAccountNameCandidate(String accountName) {
+        try {
+
+            String query = "SELECT [Candidate_ID]\n"
+                    + "      ,[CandidateName] \n"
+                    + "  FROM [dbo].[Candidate]\n"
+                    + "  Where CandidateName = ?";
+
+            PreparedStatement push = connection.prepareStatement(query);
+
+            push.setString(1, accountName);
+            
+           ResultSet rs= push.executeQuery();
+           while(rs.next()){
+               return rs.getString("Candidate_ID");
+           }
+        } catch (Exception s) {
+            System.out.println("Bug  SQL:" + s.getMessage());
+
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         RegisterCandidateUser o = new RegisterCandidateUser();
 //        System.out.println(o.LogInAccountCandidate("phamtrungduc", "12345"));
-       // System.out.println(o.changePasswordEmployer("phamtrungduc", "dfghhdt-926226851550952879", "12345"));
-        System.out.println(o.isCandidatetNameUser("phamtrungduc"));
-           
+        // System.out.println(o.changePasswordEmployer("phamtrungduc", "dfghhdt-926226851550952879", "12345"));
+   //     System.out.println(o.isCandidatetNameUser("phamtrungduc"));
+        System.out.println(o.getIDbyAccountNameCandidate("phamtrungduc"));
+
     }
 }

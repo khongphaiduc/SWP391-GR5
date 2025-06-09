@@ -2,7 +2,6 @@
 package Controller_Log;
 
 import DAO.IsAdminDAO;
-import DAO.RegisterAccount_Database;
 import DAO.RegisterCandidateUser;
 import DAO.RegisterEmployerUser;
 import java.io.IOException;
@@ -58,30 +57,33 @@ public class LoginAccount extends HttpServlet {
             if (candidateDAO.isCandidatetNameUser(nameAccount)) {
 
                 boolean result = candidateDAO.LogInAccountCandidate(nameAccount, password);
-
+                String idCandidate = candidateDAO.getIDbyAccountNameCandidate(nameAccount);
                 if (result) {
-                    session.setAttribute("username", nameAccount);
-                    session.setAttribute("role", "Candidate");
-                    response.sendRedirect("index.jsp");
+                    session.setAttribute("username", nameAccount);   // lưu account name 
+                    session.setAttribute("role", "Candidate");       // lưu id
+                    session.setAttribute("idUser", idCandidate);     // lưu role
+                    response.sendRedirect("Index");
                 } else {
                     status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
                     request.setAttribute("status", status);
                     request.setAttribute("username", nameAccount);
-                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                    request.getRequestDispatcher("/log/login.jsp").forward(request, response);
                 }
                 // Kiểm tra xem trong employerr
             } else if (employerDAO.isEmployertUser(nameAccount)) {
 
                 boolean result = employerDAO.LogInAccountEmployers(nameAccount, password);
+                String idEmployer = employerDAO.getIDbyAccountNameEmployer(nameAccount);
                 if (result) {
                     session.setAttribute("username", nameAccount);
+                    session.setAttribute("idUser", idEmployer);
                     session.setAttribute("role", "Employer");
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("Index");
                 } else {
                     status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
                     request.setAttribute("username", nameAccount);
                     request.setAttribute("status", status);
-                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                    request.getRequestDispatcher("/log/login.jsp").forward(request, response);
                 }
             } // kiểm tra  role admin
             else if (adminDAO.isAdmin(nameAccount)) {
@@ -90,23 +92,23 @@ public class LoginAccount extends HttpServlet {
                 if (result) {
                     session.setAttribute("username", nameAccount);
                     session.setAttribute("role", "Admin");
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("Index");
                 } else {
                     status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
                     request.setAttribute("username", nameAccount);
                     request.setAttribute("status", status);
-                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                    request.getRequestDispatcher("/log/login.jsp").forward(request, response);
                 }
-                 // cả 3 thằng đều không phải 
+                // cả 3 thằng đều không phải 
             } else {
                 status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
                 request.setAttribute("username", nameAccount);
                 request.setAttribute("status", status);
-                request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/log/login.jsp").forward(request, response);
             }
 
         } catch (Exception s) {
-            request.getRequestDispatcher("log/login.jsp").forward(request, response);
+            request.getRequestDispatcher("Index").forward(request, response);
         }
     }
 

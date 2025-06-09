@@ -18,6 +18,7 @@ public class DBContext {
             String pass = "0211";
 
 
+
             String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=CV10";
 
 
