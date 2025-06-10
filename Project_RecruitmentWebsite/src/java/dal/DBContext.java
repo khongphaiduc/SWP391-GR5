@@ -19,7 +19,9 @@ public class DBContext {
 
 
 
+
             String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=CV10";
+
 
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
