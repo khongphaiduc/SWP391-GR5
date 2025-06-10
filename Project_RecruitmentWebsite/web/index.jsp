@@ -687,6 +687,24 @@
 
             <!--            hiển thị Action Menu-->
             <div class="floating-actions-v2">
+         <%
+        // Kiểm tra session và vai trò Admin
+        if (session.getAttribute("username") != null && 
+            session.getAttribute("role") != null && 
+            session.getAttribute("role").equals("Admin")) {
+    %>
+        <div class="fab-item fab-heart" title="Admin Dashboard">
+            <a href="<%= request.getContextPath() %>/list" target="_self" id="favorite-btn-v2" class="fab-btn">
+                <i class="bi-gear-fill"></i>
+                <c:if test="${username != null}">
+                    <span class="fab-badge" id="favorite-count-v2">${numberJobPost}</span>
+                </c:if>
+            </a>
+            <span class="fab-hover-label">Admin Dashboard</span>
+        </div>
+    <%
+        }
+    %>
                 <div class="fab-item fab-heart" title="Việc làm yêu thích">
                     <a href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" id="favorite-btn-v2" class="fab-btn" >
                         <i class="bi bi-heart-fill"></i>

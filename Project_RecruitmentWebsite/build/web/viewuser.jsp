@@ -7,6 +7,12 @@
     List<Employer> employers = (List<Employer>) request.getAttribute("employers");
     List<Candidate> candidates = (List<Candidate>) request.getAttribute("candidates");
 %>
+<%
+    // Kiểm tra session
+    if (session.getAttribute("username") == null || !session.getAttribute("role").equals("Admin")) {
+        response.sendRedirect("log/login.jsp"); // Chuyển hướng về trang đăng nhập nếu chưa đăng nhập hoặc không phải admin
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
