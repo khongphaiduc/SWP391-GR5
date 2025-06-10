@@ -537,7 +537,6 @@
 
             </div>
 
-
             <!--            hiển thị Action Menu-->
             <div class="floating-actions-v2">
                 <div class="fab-item fab-heart" title="Việc làm yêu thích">
@@ -586,40 +585,40 @@
                         <a class="support-popup-link" href="SupportUser" target="_blank">
                             <i class="bi bi-envelope-paper"></i> Yêu cầu hỗ trợ
                         </a>
-                        <a class="support-popup-link" href="#" target="_blank">
+                        <a class="support-popup-link" href="#" id="contactButton">
                             <i class="bi bi-telephone"></i> Liên hệ GenZTimViec
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!--                        end Action Menu-->
+            <!--                       Sub Action Menu -->
 
-
-
-            <!--            Phần phân trang -->
-            <div class="d-flex justify-content-center mt-4">
-                <nav>
-                    <ul class="pagination">
-                        <c:if test="${currentPage > 1}">
-                            <li class="page-item">
-                                <a class="page-link" href="DisplayListJobPostSaveOfCandidate?page=${currentPage - 1}">&laquo; Trước</a>
-                            </li>
-                        </c:if>
-                        <c:forEach var="i" begin="1" end="${totalPages}">
-                            <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                <a class="page-link" href="DisplayListJobPostSaveOfCandidate?page=${i}"> ${i} </a>
-                            </li>
-                        </c:forEach>
-                        <c:if test="${currentPage < totalPages}">
-                            <li class="page-item">
-                                <a class="page-link" href="DisplayListJobPostSaveOfCandidate?page=${currentPage + 1}">Sau &raquo;</a>
-                            </li>
-                        </c:if>
-                    </ul>
-                </nav>
+            <!-- hiển thị thong tin liên hệ -->
+            <div id="contactModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4);">
+                <div style="background:#fff; border-radius:10px; max-width:600px; margin:100px auto; padding:24px 16px 16px 16px; position:relative; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+                    <div style="text-align:center;">
+                        <div style="color:#24963F; font-weight:600; font-size:20px; margin-bottom:8px;">Liên hệ</div>
+                        <div style="font-weight:500; color:#222; margin-bottom:8px;">
+                            GenZTimViec cam kết sẽ xử lý các vấn đề của bạn trong vòng tối đa 24h.
+                        </div>
+                        <div style="margin-bottom:8px;">
+                            Tổng đài: <span style="color:#24963F; font-weight:600;">9999999 nhé các ngài </span>
+                            <span style="color:#24963F;">(Giờ hành chính)</span>
+                        </div>
+                        <div style="margin-bottom:8px;">
+                            Trong trường hợp không liên lạc được, vui lòng gửi hỗ trợ tới email: <br>
+                            <a href="mailto:hotro@genztimviec.vn" style="color:#24963F; font-weight:600;">hotro@genztimviec.vn</a>
+                        </div>
+                        <div style="margin-bottom:16px;">
+                            Xin cảm ơn!
+                        </div>
+                        <button id="closeModalBtn" style="padding: 8px 24px; border:none; background:#E4E6EB; border-radius:6px; font-size:16px; cursor:pointer;">Đóng lại</button>
+                    </div>
+                </div>
             </div>
-            <!--            Phần phân trang -->
+
+
             <script>
                 const supportBtn = document.getElementById("openSupportPanel");
                 const supportPopup = document.getElementById("supportPopup");
@@ -650,6 +649,51 @@
                     }
                 });
             </script>
+
+
+            <script>
+// Show modal on click
+                document.getElementById('contactButton').onclick = function (e) {
+                    e.preventDefault();
+                    document.getElementById('contactModal').style.display = 'block';
+                };
+// Hide modal on close
+                document.getElementById('closeModalBtn').onclick = function () {
+                    document.getElementById('contactModal').style.display = 'none';
+                };
+// Optional: hide modal when clicking outside the modal box
+                document.getElementById('contactModal').onclick = function (event) {
+                    if (event.target === this) {
+                        this.style.display = 'none';
+                    }
+                };
+            </script>
+
+
+
+            <!--            Phần phân trang -->
+            <div class="d-flex justify-content-center mt-4">
+                <nav>
+                    <ul class="pagination">
+                        <c:if test="${currentPage > 1}">
+                            <li class="page-item">
+                                <a class="page-link" href="DisplayListJobPostSaveOfCandidate?page=${currentPage - 1}">&laquo; Trước</a>
+                            </li>
+                        </c:if>
+                        <c:forEach var="i" begin="1" end="${totalPages}">
+                            <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                <a class="page-link" href="DisplayListJobPostSaveOfCandidate?page=${i}"> ${i} </a>
+                            </li>
+                        </c:forEach>
+                        <c:if test="${currentPage < totalPages}">
+                            <li class="page-item">
+                                <a class="page-link" href="DisplayListJobPostSaveOfCandidate?page=${currentPage + 1}">Sau &raquo;</a>
+                            </li>
+                        </c:if>
+                    </ul>
+                </nav>
+            </div>
+            <!--            Phần phân trang -->
 
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
