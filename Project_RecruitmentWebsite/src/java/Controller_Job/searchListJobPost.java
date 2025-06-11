@@ -1,6 +1,7 @@
 package Controller_Job;
 
 import DAO.*;
+import Models.JobPost;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,6 +11,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "searchListJobPost", urlPatterns = {"/searchListJobPost"})
 public class searchListJobPost extends HttpServlet {
@@ -40,21 +43,22 @@ public class searchListJobPost extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html;charset=UTF-8");
 
-            
             String status = null;
             String salary = request.getParameter("salary");
+            if(salary==null){
+                salary="0";
+            }
             String location = request.getParameter("location");
             String career = request.getParameter("career");
             String experience = request.getParameter("exp");
             String typeJob = request.getParameter("typeJob");
             String searchKey = request.getParameter("searchKey");
-            String searchKeyTrim=null;
-            if(searchKey!=null){
+            String searchKeyTrim = null;
+            if (searchKey != null) {
                 searchKeyTrim = searchKey.trim().replaceAll("\\s+", " ");
             }
-           
+
             SearchAnDisplayJob o = new SearchAnDisplayJob();
-          
 
             // -------------------------------------------------------
             HttpSession session = request.getSession();
@@ -70,30 +74,35 @@ public class searchListJobPost extends HttpServlet {
 
             session.setAttribute("numberJobPost", numberJobPost);    // số lượng jobpost của thằng user
             // -------------------------------------------------------
-            
-            
-            
-            
 
-            
             var listJobPost = o.BuildTest(salary, location, career, experience, typeJob, searchKeyTrim);
-            // thằng mới đăng tin hiển  thị lên đầu
-            listJobPost.sort((a, b) -> {
-                var s = b.getDayCre().compareTo(a.getDayCre());
-                return s;
-            });
 
             int totalJobs = listJobPost.size();    // lấy số lượng jobpost có hiện tại
             String pageStr = request.getParameter("page");
             int currentpage = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
-            int numberJobOfPage = 8; // dẳte số job mỗi trang
+            int numberJobOfPage = 5; // dẳte số job mỗi trang
 
             int totalPages = (int) Math.ceil((double) totalJobs / numberJobOfPage); // tính  tổng số trang cần có 
+
+//            int totalPagesMax = 99;
+//
+//            int totalPages = Math.max(NumberPagesOfList, currentpage + 1);
+//            totalPages = Math.min(totalPagesMax, currentpage + 1);
 
             int start = (currentpage - 1) * numberJobOfPage;
             int end = Math.min(start + numberJobOfPage, totalJobs);
 
-            var jobsOnPage = listJobPost.subList(start, end);
+            List<JobPost> jobsOnPage;
+            if (start >= totalJobs) {
+                jobsOnPage = new ArrayList<>(); // Trang trống
+            } else {
+                jobsOnPage = listJobPost.subList(start, end);
+            }
+
+            System.out.println("currentPage = " + currentpage);
+            System.out.println("totalPages = " + totalPages);
+            System.out.println("start = " + start + ", end = " + end);
+            System.out.println("totalJobs = " + totalJobs);
 
             request.setAttribute("ListJobPost", jobsOnPage);
             request.setAttribute("currentPage", currentpage);
@@ -108,13 +117,12 @@ public class searchListJobPost extends HttpServlet {
             session.setAttribute("searchKey", searchKey);
             request.setAttribute("keySearch", searchKey);
 
-            if (listJobPost.size() == 0) {
+            if (listJobPost.size() == 0 || listJobPost.isEmpty()) {
                 status = "ối rồi ôi";
                 request.setAttribute("status", status);
                 request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
                 return;
             }
-
             request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);
         } catch (Exception e) {
             request.getRequestDispatcher("ViewJobPost/DisplayListPostJob.jsp").forward(request, response);

@@ -115,7 +115,7 @@
             }
         </style>
 
-     
+
     </head>
 
     <body>
@@ -274,8 +274,8 @@
 
 
                         <!-- Search -->                         
-                        <form  action="getListJobPost" method="get" >
-                            <input name="search" type="text" placeholder="Search Tên Công Ty " style="flex: 1; border: none; outline: none; background: transparent; font-size: 1rem; color: #555; padding: 0 10px; height: 36px;margin-left: -750px ;" />
+                        <form  action="searchListJobPost" method="get" >
+                            <input name="searchKey" type="text" placeholder="Search Tên Công Ty " style="flex: 1; border: none; outline: none; background: transparent; font-size: 1rem; color: #555; padding: 0 10px; height: 36px;margin-left: -750px ;" />
                             <input type="submit" name="name" value="Tìm Kiếm" style="background-color: #33cc00;color: #ffffff;border-radius: 10px;border: #ffffff;margin-left: 550px;width: 120px ;height: 40px">
                         </form>
 
