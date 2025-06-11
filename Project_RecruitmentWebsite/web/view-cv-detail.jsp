@@ -30,7 +30,8 @@
                 </div>
             </div>
         </c:if>
-        <a href="${pageContext.request.contextPath}/view-applied-cvs" class="btn btn-primary mt-3">Quay lại</a>
+                    <a href="${pageContext.request.contextPath}/view-applied-cvs" class="btn btn-primary mt-3">Quay lại</a> <br>
+                    <a href="#" class="btn btn-primary mt-3"> Lưu CV <a/>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

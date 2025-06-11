@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Danh sách CV đã ứng tuyển</title>
+        <title>Danh sách CV Tiềm Năng</title>
         <!-- Bootstrap 5 CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <style>
@@ -126,22 +126,6 @@
                 font-weight: 500;
             }
 
-            .cv-card .save-link {
-                font-size: 20px;
-                color: #28a745;
-                font-weight: 500;
-                background: none;
-                border: none;
-                cursor: pointer;
-                text-decoration: none;
-                transition: color 0.3s;
-            }
-
-            .cv-card .save-link:hover {
-                color: #218838;
-                text-decoration: underline;
-            }
-
             /* CV Table (List View) */
             .cv-table {
                 display: none;
@@ -218,7 +202,7 @@
                 <!-- Main Content -->
                 <div class="col-md-9">
                     <div class="main-content">
-                        <h2>Danh sách CV đã ứng tuyển vào công ty</h2>
+                        <h2>Danh sách CV Tiềm Năng</h2>
 
                         <!-- Display success or error messages -->
                         <c:if test="${not empty message}">
@@ -239,8 +223,8 @@
                         <!-- Grid View -->
                         <div class="row cv-grid" id="cvGrid">
                             <c:choose>
-                                <c:when test="${not empty appliedCVs}">
-                                    <c:forEach var="cv" items="${appliedCVs}">
+                                <c:when test="${not empty potentialCVs}">
+                                    <c:forEach var="cv" items="${potentialCVs}">
                                         <div class="col-md-4 col-sm-6 mb-4">
                                             <div class="cv-card">
                                                 <img src="img/avata.jpg" alt="CV Icon">
@@ -248,10 +232,10 @@
                                                 <p>${cv.email}</p>
                                                 <p>Vị trí: ${cv.position}</p>
                                                 <p>Kinh nghiệm: ${cv.numberExp} năm</p>
-                                                <a href="view-cv-detail?cvId=${cv.cvId}" class="save-link mt-2">Xem chi tiết</a> <br>
-                                                <form action="save-potential-cvs" method="post" style="display:inline;">
+                                                <a href="view-cv-detail?cvId=${cv.cvId}" class="details-link">Xem</a> <br>
+                                                <form action="remove-potential-cv" method="post" style="display:inline;">
                                                     <input type="hidden" name="cvId" value="${cv.cvId}">
-                                                    <button type="submit" class="save-link mt-2">Lưu CV</button>
+                                                    <button type="submit" class="btn btn-sm btn-danger mt-2">Xoá</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -259,7 +243,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <div class="col-12 text-center">
-                                        <p>Không có CV nào được ứng tuyển.</p>
+                                        <p>Chưa có CV nào được lưu là tiềm năng.</p>
                                     </div>
                                 </c:otherwise>
                             </c:choose>
@@ -280,8 +264,8 @@
                                 </thead>
                                 <tbody>
                                     <c:choose>
-                                        <c:when test="${not empty appliedCVs}">
-                                            <c:forEach var="cv" items="${appliedCVs}">
+                                        <c:when test="${not empty potentialCVs}">
+                                            <c:forEach var="cv" items="${potentialCVs}">
                                                 <tr>
                                                     <td>${cv.cvId}</td>
                                                     <td>${cv.fullName}</td>
@@ -289,10 +273,10 @@
                                                     <td>${cv.position}</td>
                                                     <td>${cv.numberExp} năm</td>
                                                     <td>
-                                                        <a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
-                                                        <form action="save-potential-cvs" method="post" style="display:inline;">
+                                                        <a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-primary">Xem</a>
+                                                        <form action="remove-potential-cv" method="post" style="display:inline;">
                                                             <input type="hidden" name="cvId" value="${cv.cvId}">
-                                                            <button type="submit" class="btn btn-sm btn-outline-primary">Lưu CV</button>
+                                                            <button type="submit" class="btn btn-sm btn-danger" href="remove-potential-cv">Xoá</button>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -300,7 +284,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <tr>
-                                                <td colspan="6" class="text-center">Không có CV nào được ứng tuyển.</td>
+                                                <td colspan="6" class="text-center">Chưa có CV nào được lưu là tiềm năng.</td>
                                             </tr>
                                         </c:otherwise>
                                     </c:choose>
@@ -314,19 +298,19 @@
                                 <ul class="pagination justify-content-center mt-4">
                                     <c:if test="${currentPage > 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="applied-cvs?page=${currentPage - 1}" aria-label="Previous">
+                                            <a class="page-link" href="potential-cvs?page=${currentPage - 1}" aria-label="Previous">
                                                 <span aria-hidden="true">«</span>
                                             </a>
                                         </li>
                                     </c:if>
                                     <c:forEach begin="1" end="${totalPages}" var="i">
                                         <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="applied-cvs?page=${i}">${i}</a>
+                                            <a class="page-link" href="potential-cvs?page=${i}">${i}</a>
                                         </li>
                                     </c:forEach>
                                     <c:if test="${currentPage < totalPages}">
                                         <li class="page-item">
-                                            <a class="page-link" href="applied-cvs?page=${currentPage + 1}" aria-label="Next">
+                                            <a class="page-link" href="potential-cvs?page=${currentPage + 1}" aria-label="Next">
                                                 <span aria-hidden="true">»</span>
                                             </a>
                                         </li>

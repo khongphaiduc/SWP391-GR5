@@ -266,126 +266,181 @@ public class CVDAO extends DBContext {
 //hàm search Cv for employer
 
     public List<CV> searchCVsForEmployer(int employerId, String address, Integer numberExp, String position, String keyword) {
-    List<CV> result = new ArrayList<>();
-    StringBuilder sql = new StringBuilder(
-        "SELECT CV.CV_ID, CV.Candidate_ID, CV.Full_Name, CV.Address, CV.Email, "
-        + "CV.Position, CV.Number_exp, CV.Education, CV.Field, CV.Current_Salary, "
-        + "CV.Birthday, CV.Nationality, CV.Gender, CV.FileData, CV.MimeType "
-        + "FROM CV "
-        + "INNER JOIN Apply ON CV.CV_ID = Apply.CV_ID "
-        + "INNER JOIN JobPost ON Apply.JobPost_ID = JobPost.JobPost_ID "
-        + "WHERE JobPost.Employer_ID = ?"
-    );
-
-    if (address != null && !address.trim().isEmpty()) {
-        sql.append(" AND CV.Address LIKE ?");
-    }
-    if (numberExp != null) {
-        sql.append(" AND CV.Number_exp = ?");
-    }
-    if (position != null && !position.trim().isEmpty()) {
-        sql.append(" AND CV.Position LIKE ?");
-    }
-    if (keyword != null && !keyword.trim().isEmpty()) {
-        sql.append(" AND (CV.Full_Name LIKE ? OR CV.Position LIKE ? OR CV.Education LIKE ? OR CV.Field LIKE ?)");
-    }
-
-    try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
-        int paramIndex = 1;
-        ps.setInt(paramIndex++, employerId);
+        List<CV> result = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+                "SELECT CV.CV_ID, CV.Candidate_ID, CV.Full_Name, CV.Address, CV.Email, "
+                + "CV.Position, CV.Number_exp, CV.Education, CV.Field, CV.Current_Salary, "
+                + "CV.Birthday, CV.Nationality, CV.Gender, CV.FileData, CV.MimeType "
+                + "FROM CV "
+                + "INNER JOIN Apply ON CV.CV_ID = Apply.CV_ID "
+                + "INNER JOIN JobPost ON Apply.JobPost_ID = JobPost.JobPost_ID "
+                + "WHERE JobPost.Employer_ID = ?"
+        );
 
         if (address != null && !address.trim().isEmpty()) {
-            ps.setString(paramIndex++, "%" + address + "%");
+            sql.append(" AND CV.Address LIKE ?");
         }
         if (numberExp != null) {
-            ps.setInt(paramIndex++, numberExp);
+            sql.append(" AND CV.Number_exp = ?");
         }
         if (position != null && !position.trim().isEmpty()) {
-            ps.setString(paramIndex++, "%" + position + "%");
+            sql.append(" AND CV.Position LIKE ?");
         }
         if (keyword != null && !keyword.trim().isEmpty()) {
-            String likeKeyword = "%" + keyword + "%";
-            ps.setString(paramIndex++, likeKeyword); // Full_Name
-            ps.setString(paramIndex++, likeKeyword); // Position
-            ps.setString(paramIndex++, likeKeyword); // Education
-            ps.setString(paramIndex++, likeKeyword); // Field
+            sql.append(" AND (CV.Full_Name LIKE ? OR CV.Position LIKE ? OR CV.Education LIKE ? OR CV.Field LIKE ?)");
         }
 
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            CV cv = new CV();
-            cv.setCvId(rs.getInt("CV_ID"));
-            cv.setCandidateId(rs.getInt("Candidate_ID"));
-            cv.setFullName(rs.getString("Full_Name"));
-            cv.setAddress(rs.getString("Address"));
-            cv.setEmail(rs.getString("Email"));
-            cv.setPosition(rs.getString("Position"));
-            cv.setNumberExp(rs.getInt("Number_exp"));
-            cv.setEducation(rs.getString("Education"));
-            cv.setField(rs.getString("Field"));
-            cv.setCurrentSalary(rs.getDouble("Current_Salary"));
-            cv.setBirthday(rs.getDate("Birthday"));
-            cv.setNationality(rs.getString("Nationality"));
-            cv.setGender(rs.getString("Gender"));
-            Blob blob = rs.getBlob("FileData");
-            if (blob != null) {
-                cv.setFileData(blob.getBinaryStream());
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+            ps.setInt(paramIndex++, employerId);
+
+            if (address != null && !address.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + address + "%");
             }
-            cv.setMimeType(rs.getString("MimeType"));
-            result.add(cv);
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return result;
-}
+            if (numberExp != null) {
+                ps.setInt(paramIndex++, numberExp);
+            }
+            if (position != null && !position.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + position + "%");
+            }
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                String likeKeyword = "%" + keyword + "%";
+                ps.setString(paramIndex++, likeKeyword); // Full_Name
+                ps.setString(paramIndex++, likeKeyword); // Position
+                ps.setString(paramIndex++, likeKeyword); // Education
+                ps.setString(paramIndex++, likeKeyword); // Field
+            }
 
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                CV cv = new CV();
+                cv.setCvId(rs.getInt("CV_ID"));
+                cv.setCandidateId(rs.getInt("Candidate_ID"));
+                cv.setFullName(rs.getString("Full_Name"));
+                cv.setAddress(rs.getString("Address"));
+                cv.setEmail(rs.getString("Email"));
+                cv.setPosition(rs.getString("Position"));
+                cv.setNumberExp(rs.getInt("Number_exp"));
+                cv.setEducation(rs.getString("Education"));
+                cv.setField(rs.getString("Field"));
+                cv.setCurrentSalary(rs.getDouble("Current_Salary"));
+                cv.setBirthday(rs.getDate("Birthday"));
+                cv.setNationality(rs.getString("Nationality"));
+                cv.setGender(rs.getString("Gender"));
+                Blob blob = rs.getBlob("FileData");
+                if (blob != null) {
+                    cv.setFileData(blob.getBinaryStream());
+                }
+                cv.setMimeType(rs.getString("MimeType"));
+                result.add(cv);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+//    public List<CV> getPotentialCVsByEmployerId(int employerId) {
+//        List<CV> result = new ArrayList<>();
+//        String sql = "SELECT CV.* FROM CV "
+//                + "JOIN Potential ON CV.CV_ID = Potential.CV_ID "
+//                + "WHERE Potential.Employer_ID = ?";
+//
+//        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+//
+//            ps.setInt(1, employerId);
+//            ResultSet rs = ps.executeQuery();
+//
+//            while (rs.next()) {
+//                CV cv = new CV();
+//                cv.setCvId(rs.getInt("CV_ID"));
+//                cv.setCandidateId(rs.getInt("Candidate_ID"));
+//                cv.setFullName(rs.getString("Full_Name"));
+//                cv.setAddress(rs.getString("Address"));
+//                cv.setEmail(rs.getString("Email"));
+//                cv.setPosition(rs.getString("Position"));
+//                cv.setNumberExp(rs.getInt("Number_exp"));
+//                cv.setEducation(rs.getString("Education"));
+//                cv.setField(rs.getString("Field"));
+//                cv.setCurrentSalary(rs.getDouble("Current_Salary"));
+//                cv.setBirthday(rs.getDate("Birthday"));
+//                cv.setNationality(rs.getString("Nationality"));
+//                cv.setGender(rs.getString("Gender"));
+//
+//                try {
+//                    Blob blob = rs.getBlob("FileData");
+//                    if (blob != null && blob.length() > 0) {
+//                        cv.setFileData(blob.getBinaryStream());
+//                    } else {
+//                        cv.setFileData(null);
+//                    }
+//                } catch (SQLException e) {
+//                    e.printStackTrace(); // log nếu cần
+//                    cv.setFileData(null);
+//                }
+//
+//                cv.setMimeType(rs.getString("MimeType"));
+//
+//                result.add(cv);
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace(); // có thể log ra file hoặc logger
+//        }
+//
+//        return result;
+//    }
 
     public static void main(String[] args) {
-    CVDAO dao = new CVDAO();
+        CVDAO dao = new CVDAO();
 
-    int employerId = 1;
+        int employerId = 1;
+        List<CV> list = dao.getAppliedCVsByEmployer(employerId);
+        for (CV cvs : list) {
+            System.out.println("CV ID: " + cvs.getCvId() + ", Họ tên: " + cvs.getFullName()
+                    + ", Địa chỉ: " + cvs.getAddress() + ", Vị trí: " + cvs.getPosition()
+                    + ", Kinh nghiệm: " + cvs.getNumberExp());
+        }
 
-    // Test case 1: Search by address only
-    System.out.println("🔍 Tìm kiếm theo địa chỉ 'HN':");
-    List<CV> result1 = dao.searchCVsForEmployer(1, null, null, null, null);
-    for (CV cv : result1) {
-        System.out.println("CV ID: " + cv.getCvId() + ", Họ tên: " + cv.getFullName()
-                + ", Địa chỉ: " + cv.getAddress() + ", Vị trí: " + cv.getPosition()
-                + ", Kinh nghiệm: " + cv.getNumberExp());
+//        // Test case 1: Search by address only
+//        System.out.println("🔍 Tìm kiếm theo địa chỉ 'HN':");
+//        List<CV> result1 = dao.searchCVsForEmployer(1, null, null, null, null);
+//        for (CV cv : result1) {
+//            System.out.println("CV ID: " + cv.getCvId() + ", Họ tên: " + cv.getFullName()
+//                    + ", Địa chỉ: " + cv.getAddress() + ", Vị trí: " + cv.getPosition()
+//                    + ", Kinh nghiệm: " + cv.getNumberExp());
+//        }
+//        System.out.println("------------");
+//
+//        // Test case 2: Search by address and numberExp
+//        System.out.println("🔍 Tìm kiếm theo địa chỉ 'HN' và số năm kinh nghiệm = 2:");
+//        List<CV> result2 = dao.searchCVsForEmployer(employerId, "HN", 2, null, null);
+//        for (CV cv : result2) {
+//            System.out.println("CV ID: " + cv.getCvId() + ", Họ tên: " + cv.getFullName()
+//                    + ", Địa chỉ: " + cv.getAddress() + ", Vị trí: " + cv.getPosition()
+//                    + ", Kinh nghiệm: " + cv.getNumberExp());
+//        }
+//        System.out.println("------------");
+//
+//        // ✅ Test case 3: Search by keyword (ví dụ: tìm 'developer' trong Full_Name, Position, Field, Education)
+//        System.out.println("🔍 Tìm kiếm theo từ khóa 'developer':");
+//        List<CV> result3 = dao.searchCVsForEmployer(employerId, null, null, null, "developer");
+//        for (CV cv : result3) {
+//            System.out.println("CV ID: " + cv.getCvId() + ", Họ tên: " + cv.getFullName()
+//                    + ", Vị trí: " + cv.getPosition() + ", Ngành: " + cv.getField()
+//                    + ", Học vấn: " + cv.getEducation());
+//        }
+//        System.out.println("------------");
+//
+//        // Test case 4: Kết hợp address + numberExp + position + keyword
+//        System.out.println("🔍 Kết hợp HN + 2 năm + 'Dev' + từ khóa 'Java':");
+//        List<CV> result4 = dao.searchCVsForEmployer(employerId, null, null, null, "Web");
+//        for (CV cv : result4) {
+//            System.out.println("CV ID: " + cv.getCvId() + ", Họ tên: " + cv.getFullName()
+//                    + ", Vị trí: " + cv.getPosition() + ", Học vấn: " + cv.getEducation()
+//                    + ", Ngành: " + cv.getField());
+//        }
+//        System.out.println("------------");
     }
-    System.out.println("------------");
-
-    // Test case 2: Search by address and numberExp
-    System.out.println("🔍 Tìm kiếm theo địa chỉ 'HN' và số năm kinh nghiệm = 2:");
-    List<CV> result2 = dao.searchCVsForEmployer(employerId, "HN", 2, null, null);
-    for (CV cv : result2) {
-        System.out.println("CV ID: " + cv.getCvId() + ", Họ tên: " + cv.getFullName()
-                + ", Địa chỉ: " + cv.getAddress() + ", Vị trí: " + cv.getPosition()
-                + ", Kinh nghiệm: " + cv.getNumberExp());
-    }
-    System.out.println("------------");
-
-    // ✅ Test case 3: Search by keyword (ví dụ: tìm 'developer' trong Full_Name, Position, Field, Education)
-    System.out.println("🔍 Tìm kiếm theo từ khóa 'developer':");
-    List<CV> result3 = dao.searchCVsForEmployer(employerId, null, null, null, "developer");
-    for (CV cv : result3) {
-        System.out.println("CV ID: " + cv.getCvId() + ", Họ tên: " + cv.getFullName()
-                + ", Vị trí: " + cv.getPosition() + ", Ngành: " + cv.getField()
-                + ", Học vấn: " + cv.getEducation());
-    }
-    System.out.println("------------");
-
-    // Test case 4: Kết hợp address + numberExp + position + keyword
-    System.out.println("🔍 Kết hợp HN + 2 năm + 'Dev' + từ khóa 'Java':");
-    List<CV> result4 = dao.searchCVsForEmployer(employerId, null, null, null, "Web");
-    for (CV cv : result4) {
-        System.out.println("CV ID: " + cv.getCvId() + ", Họ tên: " + cv.getFullName()
-                + ", Vị trí: " + cv.getPosition() + ", Học vấn: " + cv.getEducation()
-                + ", Ngành: " + cv.getField());
-    }
-    System.out.println("------------");
-}
-
 
 }
