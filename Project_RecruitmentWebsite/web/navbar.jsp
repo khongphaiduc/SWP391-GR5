@@ -65,9 +65,14 @@
             <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">For Employer</a>
                             <div class="dropdown-menu rounded-0 m-0">
+
                        
                                 <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a>
                                 <a href="${pageContext.request.contextPath}/potential-cvs" class="dropdown-item"> CV Tiềm Năng </a>
+
+                                <a href="${pageContext.request.contextPath}/manageCreatedJob" class="dropdown-item">Quản lý tin tuyển</a> 
+
+
                             </div>
                         </div>
             <%}%>

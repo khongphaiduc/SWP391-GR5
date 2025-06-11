@@ -238,10 +238,10 @@
                 <!-- Right Column -->
                 <div class="form-column">
                     <label>Lương tối thiểu (VNĐ)</label>
-                    <input type="number" name="offerMin" step="1000" placeholder="Nhập lương tối thiểu" value="<%= job.getOffer_Min() %>">
+                    <input type="number" name="offerMin" step="1000" min="0" placeholder="Nhập lương tối thiểu" value="<%= job.getOffer_Min() %>">
 
                     <label>Lương tối đa (VNĐ)</label>
-                    <input type="number" name="offerMax" step="1000" placeholder="Nhập lương tối đa" value="<%= job.getOffer_Max() %>">
+                    <input type="number" name="offerMax" step="1000" min="0" placeholder="Nhập lương tối đa" value="<%= job.getOffer_Max() %>">
 
                     <label>Số năm kinh nghiệm yêu cầu</label>
                     <input type="number" name="numberExp" min="0" placeholder="Nhập số năm kinh nghiệm" value="<%= job.getNumber_exp() %>">

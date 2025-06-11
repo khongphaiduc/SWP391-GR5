@@ -106,14 +106,14 @@ public class RegisterAccount extends HttpServlet {
                         request.getRequestDispatcher("log/login.jsp").forward(request, response);
                     } 
                     else {
-                        status = "ối rồi ồi , đã có dác rồi nên không đăng ký thành công";
+                        status = "ối rồi ồi , đã có rác rồi nên không đăng ký thành công";
                         request.setAttribute("status", status);
                         request.getRequestDispatcher("log/login.jsp").forward(request, response);
                     }
 
                 }
                 // 2 xử lý nếu user chọn Candidate
-            } else {
+            } else  {
 
                 // kiểm tra email đã tồn tại hay chưa    (đã test)
                 if (employersDAO.isEmaiEmployerUser(email)) {
