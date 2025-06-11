@@ -1,7 +1,5 @@
 // pham truung duc lần cuối test 10:07  28/5/2025
 package Controller_Log;
-
-import DAO.RegisterAccount_Database;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -45,7 +43,6 @@ public class GetForgetPassword extends HttpServlet {
             String status = " ";
             String mail = request.getParameter("email");
 
-            RegisterAccount_Database o = new RegisterAccount_Database();
 
             RegisterCandidateUser candidateDAO = new RegisterCandidateUser();
             RegisterEmployerUser employerDAO = new RegisterEmployerUser();

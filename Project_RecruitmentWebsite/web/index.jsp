@@ -25,6 +25,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <link href="css/ActionMenuCSS.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
         <style>
             .btn-login-fixed {
@@ -113,6 +114,8 @@
                 }
             }
         </style>
+
+     
     </head>
 
     <body>
@@ -122,7 +125,7 @@
         </c:if>
 
 
-        <c:if test="${sessionScope.username != null}">
+        <c:if test="${sessionScope.username != null && sessionScope.role != 'Employer'}">
             <div class="avatar-fixed-container">
                 <a href="${pageContext.request.contextPath}/log/profile.jsp" target="target">
                     <img src="img/sontung.jpg" width="50" height="50" alt="sontung" class="avatar-fixed-img"/>
@@ -133,6 +136,18 @@
                 </div>
             </div>
         </c:if>
+        <c:if test="${sessionScope.username != null && sessionScope.role == 'Employer'}">
+            <div class="avatar-fixed-container">
+                <a href="${pageContext.request.contextPath}/EmployerInfo.jsp" target="target">
+                    <img src="img/sontung.jpg" width="50" height="50" alt="sontung" class="avatar-fixed-img"/>
+                </a>
+                <div class="avatar-greeting">
+                    Xin chào, <b>${sessionScope.username}</b>!
+
+                </div>
+            </div>
+        </c:if>
+
 
 
         <div class="container-xxl bg-white p-0">
@@ -148,6 +163,7 @@
 
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+
                 <a href="index.jsp" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
                     <h1 class="m-0 text-primary">GenZTimViec.VN</h1>
                 </a>
@@ -189,7 +205,8 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">For Employer</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                       
+                                <a href="${pageContext.request.contextPath}/manageCreatedJob" class="dropdown-item">Quản lý tin tuyển</a> 
+
                                 <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
                             </div>
                         </div>
@@ -250,7 +267,7 @@
                                 <option value="Đã Nẵng">Đà Nẵng</option>
                                 <option value="Hải Phòng">Hải Phòng</option>
                                 <option value="Ninh Bình">Cần Thơ</option>
-                          
+
                             </select>
 
                         </form>
@@ -281,10 +298,10 @@
                             <!-- Carousel images -->
                             <div id="auoCarousel" style="width:100%; height:100%; position:relative; display:flex; align-items:center; justify-content:center;">
                                 <img src="img/songtung1.jpg" class="auo-carousel-img" style="width:100%; height:100%; object-fit:cover; border-radius:32px; position:absolute; left:0; top:0; opacity:1; transition:opacity 0.5s;">
-                                <img src="img/mtp.jpg" class="auo-carousel-img" style="width:100%; height:100%; object-fit:cover; border-radius:32px; position:absolute; left:0; top:0; opacity:0; transition:opacity 0.5s;">
-                                <img src="img/sontungspeak.jpg" class="auo-carousel-img" style="width:100%; height:100%; object-fit:cover; border-radius:32px; position:absolute; left:0; top:0; opacity:0; transition:opacity 0.5s;">
+                                <img src="img/sontung5.png" class="auo-carousel-img" style="width:100%; height:100%; object-fit:cover; border-radius:32px; position:absolute; left:0; top:0; opacity:0; transition:opacity 0.5s;">
+                                <!--<img src="img/sontungspeak.jpg" class="auo-carousel-img" style="width:100%; height:100%; object-fit:cover; border-radius:32px; position:absolute; left:0; top:0; opacity:0; transition:opacity 0.5s;">-->
                                 <img src="img/songtung4.png" class="auo-carousel-img" style="width:100%; height:100%; object-fit:cover; border-radius:32px; position:absolute; left:0; top:0; opacity:0; transition:opacity 0.5s;">
-
+                                <img src="img/mtp.jpg" class="auo-carousel-img" style="width:100%; height:100%; object-fit:cover; border-radius:32px; position:absolute; left:0; top:0; opacity:0; transition:opacity 0.5s;">
                             </div>
                             <!-- Nút chuyển phải -->
                             <button id="slideRightBtn" style="position:absolute; right:24px; top:50%; transform:translateY(-50%); background:#f5f6fa; border:none; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 6px rgba(0,0,0,0.08); cursor:pointer; z-index:3;">
@@ -667,6 +684,138 @@
             </div>
             <!-- Footer End -->
 
+
+            <!--            hiển thị Action Menu-->
+            <div class="floating-actions-v2">
+                <div class="fab-item fab-heart" title="Việc làm yêu thích">
+                    <a href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" id="favorite-btn-v2" class="fab-btn" >
+                        <i class="bi bi-heart-fill"></i>
+                        <c:if test="${username!=null}">
+                            <span class="fab-badge" id="favorite-count-v2"> ${numberJobPost}</span>
+                        </c:if>
+
+                    </a>
+                    <span class="fab-hover-label">Danh sách việc làm đã lưu</span>
+                </div>
+                <div class="fab-item" title="Góp ý">
+                    <a  href="<%= request.getContextPath() %>/ViewActionMenu/Feedback.jsp" target="_self" class="fab-btn">
+                        <i class="bi bi-chat-dots"></i>
+                    </a>
+                    <span class="fab-hover-label">Góp ý GenZTimViec</span>
+                </div>
+                <div class="fab-item" title="Hỗ trợ" style="z-index:10000;">
+                    <button class="fab-btn" id="openSupportPanel" type="button">
+                        <i class="bi bi-headset"></i>
+                    </button>
+                    <span class="fab-hover-label">Hỗ trợ</span>
+                </div>
+
+                <div class="support-popup" id="supportPopup" style="display:none;">
+                    <div class="support-popup-header d-flex align-items-center justify-content-between" style="background: #15c564; color:#fff; padding: 18px 18px 13px 18px; border-radius: 12px 12px 0 0;">
+                        <div>
+                            <div style="font-size:1.18rem; font-weight:700;">Trung tâm hỗ trợ </div>
+                            <div class="d-flex align-items-center mt-2">
+                                <img src="https://genk.mediacdn.vn/thumb_w/640/139269124445442048/2024/6/1/photo-1-17168606131071257137350-1717278776106716631383.jpg" alt="avatar" class="rounded-circle" style="width:38px; height:38px; object-fit:cover; margin-right:10px;">
+                                <div>
+                                    <div style="font-weight:600;">Sơn Tùng MTP</div>
+                                    <div style="font-size:0.97rem;">GenZTimViec thường phản hồi trong vòng 24h</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="support-popup-body">
+                        <!--                        <a class="support-popup-link" href="#" target="_blank">
+                                                    <i class="bi bi-person"></i> Hướng dẫn quản lý tài khoản
+                                                </a>-->
+                        <a class="support-popup-link" href="#" target="_blank">
+                            <i class="bi bi-question-circle"></i> Các câu hỏi thường gặp
+                        </a>
+                        <a class="support-popup-link" href="SupportUser" target="_blank">
+                            <i class="bi bi-envelope-paper"></i> Yêu cầu hỗ trợ
+                        </a>
+                        <a class="support-popup-link" href="#" id="contactButton">
+                            <i class="bi bi-telephone"></i> Liên hệ GenZTimViec
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!--                       Sub Action Menu -->
+
+            <!-- hiển thị thong tin liên hệ -->
+            <div id="contactModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4);">
+                <div style="background:#fff; border-radius:10px; max-width:600px; margin:100px auto; padding:24px 16px 16px 16px; position:relative; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+                    <div style="text-align:center;">
+                        <div style="color:#24963F; font-weight:600; font-size:20px; margin-bottom:8px;">Liên hệ</div>
+                        <div style="font-weight:500; color:#222; margin-bottom:8px;">
+                            GenZTimViec cam kết sẽ xử lý các vấn đề của bạn trong vòng tối đa 24h.
+                        </div>
+                        <div style="margin-bottom:8px;">
+                            Tổng đài: <span style="color:#24963F; font-weight:600;">999999 nhé cái ngài </span>
+                            <span style="color:#24963F;">(Giờ hành chính)</span>
+                        </div>
+                        <div style="margin-bottom:8px;">
+                            Trong trường hợp không liên lạc được, vui lòng gửi hỗ trợ tới email: <br>
+                            <a href="mailto:hotro@genztimviec.vn" style="color:#24963F; font-weight:600;">hotro@genztimviec.vn</a>
+                        </div>
+                        <div style="margin-bottom:16px;">
+                            Xin cảm ơn!
+                        </div>
+                        <button id="closeModalBtn" style="padding: 8px 24px; border:none; background:#E4E6EB; border-radius:6px; font-size:16px; cursor:pointer;">Đóng lại</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <script>
+                const supportBtn = document.getElementById("openSupportPanel");
+                const supportPopup = document.getElementById("supportPopup");
+                const closeBtn = document.getElementById("closeSupportPanel");
+
+                supportBtn.onclick = function (e) {
+                    // Toggle panel
+                    if (supportPopup.style.display === "block") {
+                        supportPopup.style.display = "none";
+                    } else {
+                        supportPopup.style.display = "block";
+                    }
+                };
+
+                // Đóng popup khi bấm nút X
+                closeBtn.onclick = function () {
+                    supportPopup.style.display = "none";
+                };
+
+                // Đóng popup khi click ra ngoài panel
+                document.addEventListener('mousedown', function (e) {
+                    if (
+                            supportPopup.style.display === "block" &&
+                            !supportPopup.contains(e.target) &&
+                            !supportBtn.contains(e.target)
+                            ) {
+                        supportPopup.style.display = "none";
+                    }
+                });
+            </script>
+
+
+            <script>
+// Show modal on click
+                document.getElementById('contactButton').onclick = function (e) {
+                    e.preventDefault();
+                    document.getElementById('contactModal').style.display = 'block';
+                };
+// Hide modal on close
+                document.getElementById('closeModalBtn').onclick = function () {
+                    document.getElementById('contactModal').style.display = 'none';
+                };
+// Optional: hide modal when clicking outside the modal box
+                document.getElementById('contactModal').onclick = function (event) {
+                    if (event.target === this) {
+                        this.style.display = 'none';
+                    }
+                };
+            </script>
 
             <!-- Back to Top -->
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
