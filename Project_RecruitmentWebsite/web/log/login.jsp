@@ -1,131 +1,152 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Đăng nhập & Đăng ký</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/logincss.css">
-    <style>
-        .notification-tab {
-            position: fixed;
-            top: 18px;
-            left: 50%;
-            transform: translateX(-50%);
-            min-width: 410px;
-            max-width: 560px;
-            width: fit-content;
-            padding: 22px 36px 22px 36px;
-            background: linear-gradient(90deg, #fff6da 0%, #ffe3e3 100%);
-            color: #d35400;
-            border: 2px solid #faad7d;
-            border-radius: 16px;
-            box-shadow: 0 4px 18px -7px #b48c6f55;
-            font-size: 1.13rem;
-            font-weight: 600;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 24px;
-            animation: slideDownFade 0.7s cubic-bezier(0.23, 1.15, 0.69, 0.99);
-            opacity: 1;
-        }
-        @keyframes slideDownFade {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-60px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-        .notification-tab span {
-            flex: 1;
-            text-align: left;
-            word-break: break-word;
-        }
-    </style>
-    <script>
-        // Ẩn tự động sau 4 giây
-        window.addEventListener('DOMContentLoaded', function() {
-            var noti = document.getElementById('notificationTab');
-            if(noti) {
-                setTimeout(function() {
-                    // Hiệu ứng biến mất dần
-                    noti.style.transition = "opacity 0.5s";
-                    noti.style.opacity = "0";
-                    setTimeout(function() {
-                        if(noti) noti.style.display = "none";
-                    }, 500);
-                }, 4000);
-            }
-        });
-    </script>
-</head>
-<body>
-    <c:if test="${not empty status}">
-        <div class="notification-tab" id="notificationTab">
-            <span>${status}</span>
-        </div>
-    </c:if>
-    <div class="background-overlay"></div>
-    <input type="checkbox" id="flip" />
-    <div class="container">
-        <div class="flip-card">
-            <!-- Đăng nhập -->
-            <div class="flip-card-front">
-                <h2>Đăng nhập</h2>
-                <form action="${pageContext.request.contextPath}/LoginAccount" method="post" autocomplete="off">
-                    <div class="form-group">
-                        <label for="user">Tên đăng nhập</label>
-                        <input type="text" id="user" name="username" style="width: 400px" required value="${username}">
+<html lang="vi">
+    <head>
+        <meta charset="utf-8" />
+        <title>Đăng nhập & Đăng ký</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
+          <link rel="stylesheet" href="<%= request.getContextPath() %>/css/logCSS.css">
+        <script>
+            // Ẩn tự động sau 4 giây
+            window.addEventListener('DOMContentLoaded', function () {
+                var noti = document.getElementById('notificationTab');
+                if (noti) {
+                    setTimeout(function () {
+                        // Hiệu ứng biến mất dần
+                        noti.style.transition = "opacity 0.5s";
+                        noti.style.opacity = "0";
+                        setTimeout(function () {
+                            if (noti)
+                                noti.style.display = "none";
+                        }, 500);
+                    }, 4000);
+                }
+            });
+        </script>
+    </head>
+    <body> 
+        <div class="container" id="container">
+            <div class="form-container sign-up-container">
+                <form id="signupForm" action="${pageContext.request.contextPath}/RegisterAccount" method="post" autocomplete="off">
+                    <h1>Tạo tài khoản</h1>
+                    <div class="input-row">
+                        <input type="text" placeholder="Tên người dùng" name="username"   value="${username}" required />
                     </div>
-                    <div class="form-group">
-                        <label for="pass">Mật khẩu</label>
-                        <input type="password" id="pass" style="width: 400px" name="password"  required>
+                    <div class="input-row">
+                        <input type="email" placeholder="Email"  name="email" value="${email}" required />
                     </div>
-                    <button type="submit">Đăng nhập</button>
-                </form>
-                <span style="display: flex; align-items: center; gap: 10px;">
-                    <a style="margin-top: 10px;margin-left: 20px" href="<%= request.getContextPath() %>/forgetPassword.jsp" target="target">Quên Mật Khẩu</a>
-                    <label style="margin-left: 60px" class="switch-link" for="flip">Chưa có tài khoản? <b>Đăng ký</b></label>
-                </span>
-            </div>
-            <!-- Đăng ký -->
-            <div class="flip-card-back">
-                <h2>Đăng ký</h2>
-                <form action="${pageContext.request.contextPath}/RegisterAccount" method="post" autocomplete="off">
-                    <div class="form-group">
-                        <label for="reg-user">Tên đăng nhập</label>
-                        <input type="text" id="reg-user" name="username" style="width: 400px" value="${username}" required>
+                    <!-- Số điện thoại: có cả input-row và phone-container, ban đầu ẩn đi -->
+                    <div class="input-row phone-container" id="phoneContainer" style="display: none;">
+                        <input type="tel" id="phoneInput" name="employerPhone" placeholder="Số điện thoại" pattern="[0-9]{10,15}" />
                     </div>
-                    <div class="form-group">
-                        <label for="reg-email">Email</label>
-                        <input type="email" id="reg-email" name="email" style="width: 400px" value="${email}" required>
+                    <div class="input-row">
+                        <input type="password" id="password" name="password1" placeholder="Mật khẩu" required />
                     </div>
-                    <div class="form-group">
-                        <label for="reg-pass">Mật khẩu</label>
-                        <input type="password" id="reg-pass" name="password1" style="width: 400px"  required>
+                    <div class="input-row">
+                        <input type="password" id="confirmPassword"  name="password2" placeholder="Nhập lại mật khẩu" required />
                     </div>
-                    <div class="form-group">
-                        <label for="reg-pass">Nhập Lại Mật Khẩu</label>
-                        <input type="password" id="reg-pass" name="password2" style="width: 400px" required>
+                    <div class="input-row role-select-container">
+
+                        <select id="role" name="role" required>
+                            <option value="" disabled selected>Chọn vai trò</option>
+                            <option value="candidate">Ứng viên</option>
+                            <option value="employer">Nhà tuyển dụng</option>
+                        </select>
+                        
                     </div>
-                    <div class="form-group">
-                        <label for="reg-pass">Hãy Cho Chúng Tôi Biết Bạn Là Ai ?</label>
-                        <br>
-                        <input style="margin-left: 20px" type="radio" name="role" value="Candidate" />Candidate 
-                        <input style="margin-left: 180px" type="radio" name="role" value="Employer" />Employer
-                    </div>
+                    <div id="passwordError" class="error-message" style="display:none;">Mật khẩu không trùng khớp!</div>
                     <button type="submit">Đăng ký</button>
                 </form>
-                <div style="display: flex; align-items: center;">
-                    <label style="margin-left: 100px;margin-bottom: 20px" class="switch-link" for="flip">Đã có tài khoản? <b>Đăng nhập</b></label>
+            </div>
+            <div class="form-container sign-in-container">
+                <form action="${pageContext.request.contextPath}/LoginAccount" method="post" autocomplete="off">
+                    <h1>Đăng nhập</h1>
+                    <div class="input-row">
+                        <input type="text" placeholder="Tên Đăng Nhập" required  name="username" value="${username}"/>
+                    </div>
+                    <div class="input-row">
+                        <input type="password" placeholder="Mật khẩu" name="password" required />
+                    </div>
+                    <button type="submit">Đăng nhập</button>
+                    <div class="input-row" style="justify-content: flex-end; margin-top: 10px; margin-bottom: 0;">
+                        <a href="<%= request.getContextPath() %>/forgetPassword.jsp"  target="target" class="forgot-password-link">Quên mật khẩu?</a>
+                    </div>
+                </form>
+            </div>s
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1 style="margin-right:100px">Chào mừng trở lại!</h1>
+                        <p style="margin-right:60px">Nếu đã có tài khoản, hãy đăng nhập ở đây</p>
+                        <button style="margin-top:70px ; margin-right:80px" class="ghost" id="signIn">Đăng nhập</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1 style="margin-left:70px">Xin chào, bạn mới!</h1>
+                        <p style="margin-left :50px">Chưa có tài khoản? Đăng ký ngay để bắt đầu</p>
+                        <button style="margin-top:80px" class="ghost" id="signUp">Đăng ký</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</body>
+        <c:if test="${status!=null}">
+            <div class="notification-tab" id="notificationTab">
+                <span>${status}</span>
+            </div>
+        </c:if>
+        <script>
+            // Chuyển form
+            const signUpButton = document.getElementById('signUp');
+            const signInButton = document.getElementById('signIn');
+            const container = document.getElementById('container');
+
+            if (signUpButton && signInButton && container) {
+                signUpButton.addEventListener('click', () => {
+                    container.classList.add('right-panel-active');
+                });
+                signInButton.addEventListener('click', () => {
+                    container.classList.remove('right-panel-active');
+                });
+            }
+
+            // Hiện/ẩn số điện thoại khi chọn Employer
+            const roleSelect = document.getElementById('role');
+            const phoneContainer = document.getElementById('phoneContainer');
+            const phoneInput = document.getElementById('phoneInput');
+
+            roleSelect.addEventListener('change', function () {
+                if (this.value === 'employer') {
+                    phoneContainer.style.display = 'flex'; // dùng flex để giống input-row
+                    phoneInput.required = true;
+                } else {
+                    phoneContainer.style.display = 'none';
+                    phoneInput.required = false;
+                    phoneInput.value = '';
+                }
+            });
+
+            // Kiểm tra mật khẩu trùng khớp
+            const signupForm = document.getElementById('signupForm');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const passwordError = document.getElementById('passwordError');
+
+            signupForm.addEventListener('submit', function (e) {
+                if (password.value !== confirmPassword.value) {
+                    passwordError.style.display = 'block';
+                    e.preventDefault();
+                    confirmPassword.focus();
+                } else {
+                    passwordError.style.display = 'none';
+                }
+            });
+
+            confirmPassword.addEventListener('input', function () {
+                if (password.value === confirmPassword.value) {
+                    passwordError.style.display = 'none';
+                }
+            });
+        </script>
+    </body>
 </html>
