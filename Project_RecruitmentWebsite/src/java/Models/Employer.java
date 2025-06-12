@@ -22,6 +22,16 @@ public class Employer {
     private String urlWebsite;
     private String companySize;
     private InputStream imgLogo;
+    private String phoneNumber;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
 
     // Constructors
     public Employer() {

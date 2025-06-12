@@ -50,6 +50,7 @@ public class RegisterAccount extends HttpServlet {
             String status = " ";
             String nameAccount = request.getParameter("username");
             String email = request.getParameter("email");
+            String employerPhone = request.getParameter("employerPhone");
             String passwordFist = request.getParameter("password1");
             String passwordSecond = request.getParameter("password2");
             String role = request.getParameter("role");
@@ -66,7 +67,7 @@ public class RegisterAccount extends HttpServlet {
             RegisterEmployerUser employersDAO = new RegisterEmployerUser();
 
             // `1.xử lý nếu user chọn Candidate  (đã test)
-            if (role.equals("Candidate")) {
+            if (role.equals("candidate")) {
 
                 // kiểm tra xem email đã tồn tại chưa 
                 if (candidateDAO.isEmaiCandidateUser(email)) {
@@ -76,7 +77,7 @@ public class RegisterAccount extends HttpServlet {
 
                     // kiểm tra tài khoản 
                 } else if (candidateDAO.isCandidatetNameUser(nameAccount)) {
-                    status = "Tài khoản của bạn đã tồn tại ";
+                    status = "Tài khoản của bạn đã tồn tại ??? ";
                     request.setAttribute("status", status);
                     request.getRequestDispatcher("log/login.jsp").forward(request, response);
 
@@ -104,16 +105,15 @@ public class RegisterAccount extends HttpServlet {
                         status = "Đăng ký thành công,mời bạn quay lại để đăng nhập !";
                         request.setAttribute("status", status);
                         request.getRequestDispatcher("log/login.jsp").forward(request, response);
-                    } 
-                    else {
+                    } else {
                         status = "ối rồi ồi , đã có rác rồi nên không đăng ký thành công";
                         request.setAttribute("status", status);
                         request.getRequestDispatcher("log/login.jsp").forward(request, response);
                     }
 
                 }
-                // 2 xử lý nếu user chọn Candidate
-            } else  {
+                // 2 xử lý nếu user chọn Employer
+            } else if (role.equals("employer")) {
 
                 // kiểm tra email đã tồn tại hay chưa    (đã test)
                 if (employersDAO.isEmaiEmployerUser(email)) {
@@ -138,13 +138,19 @@ public class RegisterAccount extends HttpServlet {
                     status = "Mật khẩu cần 8 ký tự và các ký tự đặc biệt";
                     request.setAttribute("status", status);
                     request.getRequestDispatcher("log/login.jsp").forward(request, response);
-                
-                }
-                
-                 else {
+
+                } else if (employerPhone.length() != 10) {
+                    status = "Số điện thoại chỉ 10 chữ số ";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                } else if (employersDAO.isPhoneNumberEmployer(employerPhone)) {
+                    status = "Số điện thoại đã được đăng ký ";
+                    request.setAttribute("status", status);
+                    request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                } else {
                     // đăng ký 
 
-                    boolean result = employersDAO.registerEmployers(nameAccount, email, passwordFist);
+                    boolean result = employersDAO.registerEmployers(nameAccount, email, employerPhone, passwordFist);
 
                     if (result) {
                         status = "Đăng ký thành công,mời bạn quay lại để đăng nhập !";
@@ -157,7 +163,9 @@ public class RegisterAccount extends HttpServlet {
                     }
 
                 }
-
+                status = "ối rồi ồi , đã có dác rồi nên không đăng ký thành công";
+                request.setAttribute("status", status);
+                request.getRequestDispatcher("log/login.jsp").forward(request, response);
             }
 
         } catch (Exception s) {

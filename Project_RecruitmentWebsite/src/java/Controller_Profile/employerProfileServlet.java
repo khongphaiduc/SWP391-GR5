@@ -25,7 +25,6 @@ import java.util.ArrayList;
  * @author PC
  */
 @MultipartConfig
-
 public class employerProfileServlet extends HttpServlet {
 
     /**
@@ -69,17 +68,28 @@ public class employerProfileServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
+        
         if (username == null || !"Employer".equals(role)) {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
-        } else {
-           
+        }
+        
+        try {
             EmployerDAO employerDAO = new EmployerDAO();
             Employer employer = employerDAO.getEmployerByName(username);
-            request.setAttribute("employer", employer);
-            request.getRequestDispatcher("log/EmployerInfo.jsp").forward(request, response);
             
-            
+            if (employer != null) {
+                request.setAttribute("employer", employer);
+                request.getRequestDispatcher("log/EmployerInfo.jsp").forward(request, response);
+            } else {
+                // Nếu không tìm thấy employer, redirect về login
+                response.sendRedirect(request.getContextPath() + "/log/login.jsp");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Log error và redirect về trang lỗi
+            request.setAttribute("errorMessage", "Có lỗi xảy ra khi tải thông tin profile: " + e.getMessage());
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 
@@ -94,27 +104,115 @@ public class employerProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
-        String companyName = request.getParameter("companyName");
-        String email = request.getParameter("email");
-        String location = request.getParameter("location");
-        String description = request.getParameter("description");
-        String website = request.getParameter("urlWebsite");
         
-        Part filePart = request.getPart("file");
-        InputStream inputStream = filePart.getInputStream();
-        String mimeType = filePart.getContentType();
-        if (mimeType.startsWith("image/") && filePart.getSize() < 1000000) {
-            EmployerDAO employerDAO=new EmployerDAO();
-            employerDAO.updateEmployer(username, email, description, location,
-                    website, companyName, inputStream);
-            
-            Employer employer=employerDAO.getEmployerByName(username);
-            request.setAttribute("employer", employer);
-            request.getRequestDispatcher("log/EmployerInfo.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+        String role = (String) session.getAttribute("role");
+        
+        // Kiểm tra authentication
+        if (username == null || !"Employer".equals(role)) {
+            response.sendRedirect(request.getContextPath() + "/log/login.jsp");
+            return;
         }
-       
+        
+        try {
+            // Lấy parameters từ form
+            String companyName = request.getParameter("companyName");
+            String email = request.getParameter("email");
+            String phoneNumber = request.getParameter("phoneNumber");
+            String location = request.getParameter("location");
+            String description = request.getParameter("description");
+            String website = request.getParameter("urlWebsite");
+            
+            // Validate dữ liệu đầu vào
+            if (companyName == null || companyName.trim().isEmpty() ||
+                email == null || email.trim().isEmpty() ||
+                phoneNumber == null || phoneNumber.trim().isEmpty() ||
+                location == null || location.trim().isEmpty() ||
+                description == null || description.trim().isEmpty()) {
+                
+                request.setAttribute("errorMessage", "Vui lòng điền đầy đủ thông tin bắt buộc.");
+                doGet(request, response); // Load lại trang với thông báo lỗi
+                return;
+            }
+            
+            EmployerDAO employerDAO = new EmployerDAO();
+            
+            // Kiểm tra email và phone number trùng lặp
+            if (employerDAO.isEmailExists(email.trim(), username)) {
+                request.setAttribute("errorMessage", "Email này đã được sử dụng bởi tài khoản khác.");
+                doGet(request, response);
+                return;
+            }
+            
+            if (employerDAO.isPhoneExists(phoneNumber.trim(), username)) {
+                request.setAttribute("errorMessage", "Số điện thoại này đã được sử dụng bởi tài khoản khác.");
+                doGet(request, response);
+                return;
+            }
+            
+            
+            // Xử lý file upload
+            Part filePart = request.getPart("file");
+            
+            if (filePart != null && filePart.getSize() > 0) {
+                // Có file được upload
+                String mimeType = filePart.getContentType();
+                
+                // Validate file type và size
+                if (mimeType != null && mimeType.startsWith("image/") && filePart.getSize() < 5000000) { // 5MB limit
+                    InputStream inputStream = filePart.getInputStream();
+                    
+                    // Update với file mới
+                    boolean updateSuccess = employerDAO.updateEmployer(username, email, description, 
+                            location, website, companyName, inputStream, phoneNumber);
+                    
+                    inputStream.close();
+                    
+                    if (updateSuccess) {
+                        request.setAttribute("successMessage", "Cập nhật thông tin thành công!");
+                    } else {
+                        request.setAttribute("errorMessage", "Có lỗi xảy ra khi cập nhật thông tin.");
+                    }
+                } else {
+                    request.setAttribute("errorMessage", "File không hợp lệ. Vui lòng chọn file ảnh có kích thước nhỏ hơn 5MB.");
+                    doGet(request, response);
+                    return;
+                }
+            } else {
+                // Không có file upload, chỉ update thông tin text
+                boolean updateSuccess = employerDAO.updateEmployerWithoutImage(username, email, 
+                        description, location, website, companyName, phoneNumber);
+                
+                if (updateSuccess) {
+                    request.setAttribute("successMessage", "Cập nhật thông tin thành công!");
+                } else {
+                    request.setAttribute("errorMessage", "Có lỗi xảy ra khi cập nhật thông tin.");
+                }
+            }
+            
+            // Load lại employer data sau khi update
+            Employer employer = employerDAO.getEmployerByName(username);
+            request.setAttribute("employer", employer);
+            
+            // Forward về trang profile với thông báo
+            request.getRequestDispatcher("log/EmployerInfo.jsp").forward(request, response);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Có lỗi xảy ra: " + e.getMessage());
+            
+            // Load lại employer data để hiển thị trang
+            try {
+                EmployerDAO employerDAO = new EmployerDAO();
+                Employer employer = employerDAO.getEmployerByName(username);
+                request.setAttribute("employer", employer);
+                request.getRequestDispatcher("log/EmployerInfo.jsp").forward(request, response);
+            } catch (Exception ex) {
+                // Nếu không thể load được data, redirect về trang chính
+                response.sendRedirect(request.getContextPath() + "/index.jsp");
+            }
+        }
     }
 
     /**
@@ -124,7 +222,6 @@ public class employerProfileServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Employer Profile Management Servlet";
     }// </editor-fold>
-
 }

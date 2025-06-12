@@ -63,7 +63,7 @@ public class SearchAnDisplayJob extends DBContext {
 
     // đã test
     public List<JobPost> BuildTest(String salary, String location, String category, String number, String typeJob, String companyName) {
-
+    
         if (salary == null) {
             salary = "0";
         }
@@ -104,7 +104,7 @@ public class SearchAnDisplayJob extends DBContext {
                     + "  AND (? IS NULL OR s1.Category like ?)\n"
                     + "  AND (? IS NULL OR s1.Number_exp like ?)\n"
                     + "  AND (? IS NULL OR s1.TypeJob like ?) \n"
-                    + "  AND (? IS NULL OR s2.Company_Name like ?)";
+                    + "  AND (? IS NULL OR Title like ?)";
             
             PreparedStatement push = connection.prepareStatement(query);
             push.setString(1, min);

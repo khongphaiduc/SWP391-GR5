@@ -8,196 +8,453 @@
     <head>
         <meta charset="UTF-8">
         <title>Hồ sơ cá nhân - Đặc biệt</title>
-        <link rel="stylesheet"  href="<%= request.getContextPath() %>/css/profilecss.css" >
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: #f0f8f0;
+                min-height: 100vh;
+                padding: 20px;
+            }
+
+            .profile-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 1fr 280px;
+                gap: 20px;
+                background: white;
+                border-radius: 10px;
+                padding: 30px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .profile-main {
+                text-align: center;
+            }
+
+            .company-avatar {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 3px solid #81c784;
+                margin: 0 auto 20px;
+            }
+
+            .company-name {
+                font-size: 1.8em;
+                color: #2e7d32;
+                margin-bottom: 25px;
+                font-weight: 500;
+            }
+
+            .company-info-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+                margin-bottom: 25px;
+                text-align: left;
+            }
+
+            .info-item {
+                background: #f8fdf8;
+                padding: 15px;
+                border-radius: 8px;
+                border: 1px solid #e8f5e8;
+            }
+
+            .info-label {
+                font-weight: 500;
+                color: #4caf50;
+                font-size: 0.9em;
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            .info-value {
+                color: #333;
+                line-height: 1.4;
+            }
+
+            .description-item {
+                grid-column: 1 / -1;
+            }
+
+            .edit-profile-btn {
+                background: #66bb6a;
+                color: white;
+                border: none;
+                padding: 12px 25px;
+                border-radius: 6px;
+                font-size: 1em;
+                cursor: pointer;
+            }
+
+            .profile-sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .sidebar-btn {
+                background: #f8fdf8;
+                border: 1px solid #e8f5e8;
+                padding: 15px;
+                border-radius: 6px;
+                text-decoration: none;
+                color: #333;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                cursor: pointer;
+            }
+
+            .btn-icon {
+                width: 18px;
+                height: 18px;
+            }
+
+            .edit-modal {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                align-items: center;
+                justify-content: center;
+            }
+
+            .modal-content {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                width: 90%;
+                max-width: 500px;
+                max-height: 80vh;
+                overflow-y: auto;
+                position: relative;
+            }
+
+            .modal-close {
+                position: absolute;
+                right: 15px;
+                top: 15px;
+                font-size: 24px;
+                color: #999;
+                cursor: pointer;
+            }
+
+            .modal-title {
+                font-size: 1.4em;
+                color: #2e7d32;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .form-label {
+                display: block;
+                color: #333;
+                margin-bottom: 5px;
+                font-weight: 500;
+            }
+
+            .form-input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+
+            .form-input:focus {
+                outline: none;
+                border-color: #66bb6a;
+            }
+
+            .file-upload {
+                position: relative;
+                width: 100%;
+            }
+
+            .file-upload input[type=file] {
+                position: absolute;
+                opacity: 0;
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+            }
+
+            .file-upload-label {
+                display: block;
+                padding: 10px;
+                border: 1px dashed #66bb6a;
+                border-radius: 4px;
+                text-align: center;
+                cursor: pointer;
+                background: #f8fdf8;
+            }
+
+            .avatar-preview-container {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin: 10px 0;
+                padding: 10px;
+                background: #f8fdf8;
+                border-radius: 4px;
+            }
+
+            .avatar-preview-img {
+                display: none;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 2px solid #66bb6a;
+                object-fit: cover;
+            }
+
+            .avatar-filename {
+                font-size: 14px;
+                color: #666;
+            }
+
+            .save-btn {
+                background: #66bb6a;
+                color: white;
+                border: none;
+                padding: 12px;
+                border-radius: 4px;
+                font-size: 1em;
+                cursor: pointer;
+                width: 100%;
+                margin-top: 15px;
+            }
+
+            .alert {
+                padding: 12px;
+                margin: 15px 0;
+                border-radius: 4px;
+            }
+
+            .alert-success {
+                background: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
+
+            .alert-error {
+                background: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+            }
+
+            @media (max-width: 768px) {
+                .profile-container {
+                    grid-template-columns: 1fr;
+                    padding: 20px;
+                }
+
+                .company-info-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .modal-content {
+                    width: 95%;
+                    padding: 20px;
+                }
+            }
+        </style>
     </head>
     <body>
-        <div class="profile-background"></div>
+
         <div class="profile-container">
+          
+
             <div class="profile-main">
-                <div class="avatar-glow">
-                    <img class="profile-avatar" src="../img/avata.jpg" alt="avatar" id="avatar-img">
-                    <button class="edit-avatar-btn" onclick="showAvatarModal()">✏️</button>
+                <img class="company-avatar" src="viewLogo?name=<%= employer.getNameEmployer() %>" alt="Company Logo" id="companyLogoImg">
+                <h2 class="company-name">
+                    <%= employer.getNameEmployer() != null && !employer.getNameEmployer().trim().isEmpty() ? employer.getNameEmployer() : "Chưa cập nhật" %>
+                </h2>
+                <div class="company-info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Email</span>
+                        <span class="info-value">
+                            <%= employer.getEmail() != null && !employer.getEmail().trim().isEmpty() ? employer.getEmail() : "Chưa cập nhật" %>
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tên công ty</span>
+                        <span class="info-value">
+                            <%= employer.getCompanyName() != null && !employer.getCompanyName().trim().isEmpty() ? employer.getCompanyName() : "Chưa cập nhật" %>
+                        </span>
+                    </div>
+                    <div class="info-item description-item">
+                        <span class="info-label">Mô tả công ty</span>
+                        <span class="info-value">
+                            <%= employer.getDescription() != null && !employer.getDescription().trim().isEmpty() ? employer.getDescription() : "Chưa cập nhật" %>
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Website</span>
+                        <span class="info-value">
+                            <%= employer.getUrlWebsite() != null && !employer.getUrlWebsite().trim().isEmpty() ? employer.getUrlWebsite() : "Chưa cập nhật" %>
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Địa chỉ</span>
+                        <span class="info-value">
+                            <%= employer.getLocation() != null && !employer.getLocation().trim().isEmpty() ? employer.getLocation() : "Chưa cập nhật" %>
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Số điện thoại</span>
+                        <span class="info-value">
+                            <%= employer.getPhoneNumber() != null && !employer.getPhoneNumber().trim().isEmpty() ? employer.getPhoneNumber() : "Chưa cập nhật" %>
+                        </span>
+                    </div>
                 </div>
-                <h2 id="user-name"><%=employer.getNameEmployer()%></h2>
-                <div class="info-list" id="info-list">
-                    <div><span class="info-label">Email:</span> <span id="user-email"><%=employer.getEmail()%></span></div>
-                    <div><span class="info-label">Tên công ty:</span> <span id="user-phone"><%=employer.getCompanyName()%></span></div>
-                    <div><span class="info-label">Mô tả công ty:</span> <span id="user-birth"><%=employer.getDescription()%></span></div>
-                    <div><span class="info-label">URL:</span> <span id="user-gender"><%=employer.getUrlWebsite()%></span></div>
-                    <div><span class="info-label">Địa chỉ:</span> <span id="user-address"><%=employer.getLocation()%></span></div>
-                    <div><span class="info-label">Quy mô:</span> <span id="user-role"><%=employer.getImgLogo()%></span></div>
-                </div>
-                <button class="edit-info-btn" onclick="showEditModal()">Chỉnh sửa thông tin</button>
-            </div>
-            <div class="profile-sidebar">
-
-                <button onclick="showAvatarModal()">
-                    <span class="icon">
-                        <svg width="20" height="20" viewBox="0 0 20 20"><path fill="#fff" d="M17.7 6.29a1 1 0 0 0 0-1.41l-2.58-2.58a1 1 0 0 0-1.41 0l-8.08 8.08A1 1 0 0 0 5.5 11v2.5a1 1 0 0 0 1 1H9a1 1 0 0 0 .71-.29l8.08-8.08zM6.5 12.5V11.91l7.08-7.08.59.59-7.08 7.08H6.5zm8.79-8.79l.59.59-1.18 1.18-.59-.59 1.18-1.18z"/></svg>
-                    </span>
-                    Thay đổi Avatar
+                <button class="edit-profile-btn" onclick="openEditModal()">
+                    ✏️ Chỉnh sửa thông tin
                 </button>
+            </div>
 
-                <a  href="<%= request.getContextPath() %>/log/ChangePassword.jsp"  >
-                    <button>
-                        <span class="icon">
-                            <svg width="20" height="20" viewBox="0 0 20 20">
-                            <path fill="#fff" d="M10 2a4 4 0 0 1 4 4v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h1V6a4 4 0 0 1 4-4zm2 6V6a2 2 0 1 0-4 0v2h4zm-7 2v7h10v-7H5zm5 2a1 1 0 0 1 1 1a1 1 0 1 1-2 0a1 1 0 0 1 1-1z"/>
-                            </svg>
-                        </span>
-                        Thay đổi mật khẩu
-                    </button>
+
+            <div class="profile-sidebar">
+                <a href="<%= request.getContextPath() %>/log/ChangePassword.jsp" class="sidebar-btn">
+                    <svg class="btn-icon" viewBox="0 0 20 20">
+                    <path fill="#666" d="M10 2a4 4 0 0 1 4 4v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h1V6a4 4 0 0 1 4-4zm2 6V6a2 2 0 1 0-4 0v2h4zm-7 2v7h10v-7H5zm5 2a1 1 0 0 1 1 1a1 1 0 1 1-2 0a1 1 0 0 1 1-1z"/>
+                    </svg>
+                    Thay đổi mật khẩu
                 </a>
 
-
-
-
-
-
-                <a  href="<%= request.getContextPath() %>/LogOut"  >
-                    <button class="logout-btn" >
-                        <span style="width: 95px" class="icon">
-                            <svg width="30" height="20" viewBox="0 0 20 20"><path fill="#fff" d="M16 13v-2h-6v-2h6V7l5 3l-5 3zm-2-8V2H2v16h12v-3h-2v1H4V4h8v1h2z"/></svg>
-                        </span>
-                        Đăng Xuất
-                    </button>
+                <a href="<%= request.getContextPath() %>/LogOut" class="sidebar-btn">
+                    <svg class="btn-icon" viewBox="0 0 20 20">
+                    <path fill="#666" d="M16 13v-2h-6v-2h6V7l5 3l-5 3zm-2-8V2H2v16h12v-3h-2v1H4V4h8v1h2z"/>
+                    </svg>
+                    Đăng Xuất
                 </a>
 
-                <button class="home-btn" onclick="goHome()">
-                    <span class="icon">
-                        <svg width="20" height="20" viewBox="0 0 20 20"><path fill="#fff" d="M10 3.293l7 7V18a1 1 0 0 1-1 1h-4v-5H8v5H4a1 1 0 0 1-1-1v-7.707l7-7zm-7.707 8.707a1 1 0 0 1 0-1.414l8-8a1 1 0 0 1 1.414 0l8 8a1 1 0 0 1-1.414 1.414L17 11.414V18a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6.586l-1.293 1.293a1 1 0 0 1-1.414-1.414z"/></svg>
-                    </span>
+                <button class="sidebar-btn" onclick="navigateToHome()">
+                    <svg class="btn-icon" viewBox="0 0 20 20">
+                    <path fill="#666" d="M10 3.293l7 7V18a1 1 0 0 1-1 1h-4v-5H8v5H4a1 1 0 0 1-1-1v-7.707l7-7zm-7.707 8.707a1 1 0 0 1 0-1.414l8-8a1 1 0 0 1 1.414 0l8 8a1 1 0 0 1-1.414 1.414L17 11.414V18a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6.586l-1.293 1.293a1 1 0 0 1-1.414-1.414z"/>
+                    </svg>
                     Trang chủ
                 </button>
-
             </div>
         </div>
 
-
-
-        <!-- Modal Chỉnh sửa thông tin -->
-        <div class="modal" id="edit-modal">
+        <div class="edit-modal" id="profileEditModal">
             <div class="modal-content">
-                <span class="close" onclick="closeEditModal()">&times;</span>
-                <h3>Chỉnh sửa thông tin cá nhân</h3>
-                <form action="employerProfile" method="post" enctype="multipart/form-data"">
-                   
-                    <label>Email</label>
-                    <input type="email" name="email" id="edit-email" required>
-                    <label>Tên công ty</label>
-                    <input type="text" name="companyName" id="edit-phone" required>
-                    <label>Mô tả công ty</label>
-                    <input type="text" name="description" id="edit-birth" required>
-                    <label>URL công ty</label>
-                    <input type="text" name="urlWebsite" id="edit-gender">
-                        
-                    <label>Địa chỉ</label>
-                    <input type="text" name="location" id="edit-address" required>
-                    
-                    <label>Chọn ảnh mới từ máy tính</label>
-                    <input type="file" name ="file" id="avatar-file" accept="image/*" required>
-                    <div style="display:flex;align-items:center;gap:7px;margin:8px 0;">
-                        <img id="avatar-preview" src="" alt="Preview" style="display:none;width:60px;height:60px;border-radius:50%;border:2px solid #eee;">
-                        <span id="avatar-filename" style="font-size:0.95em;color:#888;"></span>
+                <span class="modal-close" onclick="closeEditModal()">×</span>
+                <h3 class="modal-title">Chỉnh sửa thông tin công ty</h3>
+                <form action="employerProfile" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="form-label">Email công ty</label>
+                        <input type="email" name="email" id="companyEmailInput" class="form-input" required>
                     </div>
-                    <button type="submit" class="modal-btn">Lưu thông tin</button>
+
+                    <div class="form-group">
+                        <label class="form-label">Số điện thoại</label>
+                        <input type="tel" name="phoneNumber" id="companyPhoneInput" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tên công ty</label>
+                        <input type="text" name="companyName" id="companyNameInput" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Mô tả công ty</label>
+                        <textarea name="description" id="companyDescInput" class="form-input" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Website công ty</label>
+                        <input type="url" name="urlWebsite" id="companyUrlInput" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Địa chỉ công ty</label>
+                        <input type="text" name="location" id="companyAddressInput" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Logo công ty</label>
+                        <div class="file-upload">
+                            <input type="file" name="file" id="logoFileInput" accept="image/*">
+                            <label for="logoFileInput" class="file-upload-label">
+                                Chọn ảnh logo từ máy tính
+                            </label>
+                        </div>
+                        <div class="avatar-preview-container">
+                            <img id="logoPreviewImg" class="avatar-preview-img" alt="Logo Preview">
+                            <span id="logoFilenameDisplay" class="avatar-filename"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="save-btn">Lưu thông tin</button>
                 </form>
             </div>
         </div>
 
-
-
         <script>
-            // Modal Password
-
-
-            // Modal Edit Info
-            function showEditModal() {
-                document.getElementById('edit-modal').style.display = 'flex';
-                document.getElementById('edit-name').value = document.getElementById('user-name').childNodes[0].nodeValue.trim();
-                document.getElementById('edit-email').value = document.getElementById('user-email').innerText;
-                document.getElementById('edit-phone').value = document.getElementById('user-phone').innerText;
-                document.getElementById('edit-birth').value = formatDateForInput(document.getElementById('user-birth').innerText);
-                document.getElementById('edit-gender').value = document.getElementById('user-gender').innerText;
-                document.getElementById('edit-address').value = document.getElementById('user-address').innerText;
-                document.getElementById('edit-role').value = document.getElementById('user-role').innerText;
-                document.getElementById('edit-bio').value = document.getElementById('user-bio').innerText;
+            function openEditModal() {
+                document.getElementById('profileEditModal').style.display = 'flex';
+                document.getElementById('companyEmailInput').value = '<%=employer.getEmail()%>';
+                document.getElementById('companyPhoneInput').value = '<%=employer.getPhoneNumber()%>';
+                document.getElementById('companyNameInput').value = '<%=employer.getCompanyName()%>';
+                document.getElementById('companyDescInput').value = '<%=employer.getDescription()%>';
+                document.getElementById('companyUrlInput').value = '<%=employer.getUrlWebsite()%>';
+                document.getElementById('companyAddressInput').value = '<%=employer.getLocation()%>';
             }
+
             function closeEditModal() {
-                document.getElementById('edit-modal').style.display = 'none';
+                document.getElementById('profileEditModal').style.display = 'none';
             }
-            function saveInfo(e) {
-                e.preventDefault();
-                document.getElementById('user-name').childNodes[0].nodeValue = document.getElementById('edit-name').value;
-                document.getElementById('user-email').innerText = document.getElementById('edit-email').value;
-                document.getElementById('user-phone').innerText = document.getElementById('edit-phone').value;
-                document.getElementById('user-birth').innerText = formatDateForDisplay(document.getElementById('edit-birth').value);
-                document.getElementById('user-gender').innerText = document.getElementById('edit-gender').value;
-                document.getElementById('user-address').innerText = document.getElementById('edit-address').value;
-                document.getElementById('user-role').innerText = document.getElementById('edit-role').value;
-                document.getElementById('user-bio').innerText = document.getElementById('edit-bio').value;
-                closeEditModal();
+
+            function navigateToHome() {
+                window.location.href = "/Project_RecruitmentWebsite/index.jsp";
             }
-            function formatDateForInput(d) {
-                const s = d.split('/');
-                if (s.length === 3)
-                    return `${s[2]}-${s[1].padStart(2,'0')}-${s[0].padStart(2,'0')}`;
-                            return "";
+
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('logoFileInput').addEventListener('change', function (event) {
+                    const file = event.target.files[0];
+                    const preview = document.getElementById('logoPreviewImg');
+                    const filename = document.getElementById('logoFilenameDisplay');
+
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            preview.src = e.target.result;
+                            preview.style.display = 'block';
                         }
-                        function formatDateForDisplay(d) {
-                            const s = d.split('-');
-                            if (s.length === 3)
-                                return `${s[2]}/${s[1]}/${s[0]}`;
-                                        return "";
-                                    }
+                        reader.readAsDataURL(file);
+                        filename.textContent = file.name;
+                    } else {
+                        preview.style.display = 'none';
+                        filename.textContent = '';
+                    }
+                });
 
-                                    // Modal Avatar - Chọn file local
-                                    function showAvatarModal() {
-                                        document.getElementById('avatar-modal').style.display = 'flex';
-                                        document.getElementById('avatar-file').value = '';
-                                        document.getElementById('avatar-preview').style.display = 'none';
-                                        document.getElementById('avatar-filename').innerText = '';
-                                    }
-                                    function closeAvatarModal() {
-                                        document.getElementById('avatar-modal').style.display = 'none';
-                                    }
-                                    function changeAvatar(e) {
-                                        e.preventDefault();
-                                        const fileInput = document.getElementById('avatar-file');
-                                        if (fileInput.files && fileInput.files[0]) {
-                                            const reader = new FileReader();
-                                            reader.onload = function (e) {
-                                                document.getElementById('avatar-img').src = e.target.result;
-                                                closeAvatarModal();
-                                            };
-                                            reader.readAsDataURL(fileInput.files[0]);
-                                        }
-                                    }
-                                    // Xem trước avatar khi chọn file
-                                    document.addEventListener('DOMContentLoaded', function () {
-                                        document.getElementById('avatar-file').addEventListener('change', function (event) {
-                                            const file = event.target.files[0];
-                                            const preview = document.getElementById('avatar-preview');
-                                            const filename = document.getElementById('avatar-filename');
-                                            if (file) {
-                                                const reader = new FileReader();
-                                                reader.onload = function (e) {
-                                                    preview.src = e.target.result;
-                                                    preview.style.display = 'block';
-                                                }
-                                                reader.readAsDataURL(file);
-                                                filename.innerText = file.name;
-                                            } else {
-                                                preview.style.display = 'none';
-                                                filename.innerText = '';
-                                            }
-                                        });
-                                    });
-
-                                    // Trang chủ
-                                    function goHome() {
-                                        window.location.href = "/Project_RecruitmentWebsite/index.jsp";
-                                    }
+                document.getElementById('profileEditModal').addEventListener('click', function (event) {
+                    if (event.target === this) {
+                        closeEditModal();
+                    }
+                });
+            });
         </script>
     </body>
 </html>
