@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page import="java.time.*" %> 
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -102,7 +103,27 @@
                 }
                 input.value = new Intl.NumberFormat('vi-VN').format(value);
             }
-            
+
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('avatar-file').addEventListener('change', function (event) {
+                    const file = event.target.files[0];
+                    const preview = document.getElementById('avatar-preview');
+                    const filename = document.getElementById('avatar-filename');
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            preview.src = e.target.result;
+                            preview.style.display = 'block';
+                        }
+                        reader.readAsDataURL(file);
+                        filename.innerText = file.name;
+                    } else {
+                        preview.style.display = 'none';
+                        filename.innerText = '';
+                    }
+                });
+            });
+
         </script>
     </head>
     <body>
@@ -114,12 +135,21 @@
                     <!-- Profile Picture Upload at Top -->
                     <div class="form-section upload-section">
                         <label for="image">Ảnh đại diện</label>
-                        <input type="file" class="form-control" id="image" name="CVFile" accept="image/*" required>
+                        <input type="file" class="form-control"  id="avatar-file" name="CVFile" accept="image/*" required>
+                        <div style="display:flex;align-items:center;gap:7px;margin:8px 0;">
+                            <img id="avatar-preview" src="" alt="Preview" style="display:none;width:60px;height:60px;border-radius:50%;border:2px solid #eee;">
+                            <span id="avatar-filename" style="font-size:0.95em;color:#888;"></span>
+                        </div>
                     </div>
                     <h2>----------------</h2>
                     <div class="form-section">
                         <label for="birthday" class="form-label">Ngày sinh</label>
-                        <input type="date" class="form-control" id="birthday" name="birthday" required>
+                        <%
+                            java.time.LocalDate today = java.time.LocalDate.now();
+                        %>
+
+
+                        <input type="date" class="form-control" id="birthday" name="birthday" max="<%= today.toString() %>" required>
                     </div>
                     <div class="form-section">
                         <label for="gender" class="form-label">Giới tính</label>
@@ -170,7 +200,7 @@
                     <div class="form-section">
                         <div class="section-title">KINH NGHIỆM LÀM VIỆC</div>
                         <label for="numberExp" class="form-label">Số năm kinh nghiệm</label>
-                        <input type="number" class="form-control" id="numberExp" name="numberExp" placeholder="Nhập số năm kinh nghiệm" required>
+                        <input type="number" class="form-control" min=0 id="numberExp" name="numberExp" placeholder="Nhập số năm kinh nghiệm" required>
                     </div>
 
                     <!-- Education -->
@@ -191,7 +221,7 @@
                     <div class="form-section">
                         <div class="section-title">MỨC LƯƠNG HIỆN TẠI</div>
                         <label for="currentSalary" class="form-label">Mức lương hiện tại (VND)</label>
-                        <input type="text" class="form-control" id="currentSalary" name="currentSalary" placeholder="Nhập mức lương hiện tại" required oninput="formatCurrencyInput(this)">
+                        <input type="number" min="0" step="0.01" id="currentSalary" name="currentSalary"  placeholder="Nhập mức lương hiện tại (VD: 10000000)" required>
 
                     </div>
 

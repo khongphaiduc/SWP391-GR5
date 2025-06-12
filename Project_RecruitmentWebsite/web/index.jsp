@@ -138,7 +138,7 @@
         </c:if>
         <c:if test="${sessionScope.username != null && sessionScope.role == 'Employer'}">
             <div class="avatar-fixed-container">
-                <a href="${pageContext.request.contextPath}/EmployerInfo.jsp" target="target">
+                <a href="${pageContext.request.contextPath}/employerProfile" target="target">
                     <img src="img/sontung.jpg" width="50" height="50" alt="sontung" class="avatar-fixed-img"/>
                 </a>
                 <div class="avatar-greeting">

@@ -4,6 +4,8 @@
  */
 package Models;
 
+import java.io.InputStream;
+
 /**
  *
  * @author PC
@@ -19,7 +21,17 @@ public class Employer {
     private String location;
     private String urlWebsite;
     private String companySize;
-    private byte[] imgLogo;
+    private InputStream imgLogo;
+    private String phoneNumber;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
 
     // Constructors
     public Employer() {
@@ -27,7 +39,7 @@ public class Employer {
 
     public Employer(int employerId, String nameEmployer, String email, String passwordHash,
             String companyName, String description, String location,
-            String urlWebsite, String companySize, byte[] imgLogo) {
+            String urlWebsite, String companySize, InputStream imgLogo) {
         this.employerId = employerId;
         this.nameEmployer = nameEmployer;
         this.email = email;
@@ -113,11 +125,11 @@ public class Employer {
         this.companySize = companySize;
     }
 
-    public byte[] getImgLogo() {
+    public InputStream getImgLogo() {
         return imgLogo;
     }
 
-    public void setImgLogo(byte[] imgLogo) {
+    public void setImgLogo(InputStream imgLogo) {
         this.imgLogo = imgLogo;
     }
 }
