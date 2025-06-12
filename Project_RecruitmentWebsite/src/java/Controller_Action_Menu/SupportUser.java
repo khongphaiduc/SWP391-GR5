@@ -59,11 +59,16 @@ public class SupportUser extends HttpServlet {
             HttpSession session = request.getSession();
             String idUser = (String) session.getAttribute("idUser");
             String idRole = (String) session.getAttribute("role");
-
+            
             String content = request.getParameter("content");
             String titel = request.getParameter("title");
             String idAdminSupport = "1";
             Part imageFIle = request.getPart("fileReport");
+            String checktype =imageFIle.getContentType();
+            
+            if(checktype.startsWith("/image")){
+                
+            }
             
             if(imageFIle==null){
                  request.setAttribute("statusReport", "Ối Rồi Ôi Có Bug");

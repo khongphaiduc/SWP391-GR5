@@ -32,10 +32,24 @@ public class ValidationRegister {
         return date.format(outputFormatter);  // Trả về "31/05/2025"
     }
 
-    public static void main(String[] args) {
-        ValidationRegister o = new ValidationRegister();
-
-        System.out.println(checkChar("123456789@Aa"));
+//    public static void main(String[] args) {
+//        ValidationRegister o = new ValidationRegister();
+//
+//        System.out.println(checkChar("123456789@Aa"));
+//    }
+//
+//    
+    
+    
+     public static String searchKey(String key){
+         return key.trim().replaceAll("\\s+", " ");
+     }
+     
+     
+     
+     
+     
+     public static void main(String[] args) {
+         System.out.println(searchKey("           pham              trung               duc                  "));
     }
-
 }
