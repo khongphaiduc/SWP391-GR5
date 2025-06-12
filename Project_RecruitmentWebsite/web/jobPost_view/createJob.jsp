@@ -262,11 +262,11 @@
 
                     <!-- Right Column -->
                     <div class="form-column">
-                        <label>Lương tối thiểu (VNĐ)</label>
-                        <input type="text" name="offerMin" step="1000" min="0" placeholder="Nhập lương tối thiểu" required oninput="formatCurrencyInput(this)">
+                        <label>Lương tối thiểu (triệu VNĐ)</label>
+                        <input type="text" name="offerMin" step="1" min="0" placeholder="Nhập lương tối thiểu" required oninput="formatCurrencyInput(this)">
 
-                        <label>Lương tối đa (VNĐ)</label>
-                        <input type="text" name="offerMax" step="1000" min="0" placeholder="Nhập lương tối đa" required oninput="formatCurrencyInput(this)">
+                        <label>Lương tối đa (triệu VNĐ)</label>
+                        <input type="text" name="offerMax" step="1" min="0" placeholder="Nhập lương tối đa" required oninput="formatCurrencyInput(this)">
 
                         <label>Số năm kinh nghiệm yêu cầu</label>
                         <input type="number" name="numberExp" min="0" placeholder="Nhập số năm kinh nghiệm" required>

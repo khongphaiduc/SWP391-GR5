@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller_CV;
+package Controller_Profile;
 
-import DAO.CVDAO;
-import DAO.CandidateDAO;
-import Models.*;
+import DAO.EmployerDAO;
+import Models.Employer;
+import MyService.JobCategoryProvider;
+import MyService.LocationProvider;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,14 +18,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.InputStream;
-import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  *
  * @author PC
  */
 @MultipartConfig
-public class submitCVServlet extends HttpServlet {
+
+public class employerProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +45,10 @@ public class submitCVServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet submitCVServlet</title>");
+            out.println("<title>Servlet employerProfileServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet submitCVServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet employerProfileServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -67,12 +69,17 @@ public class submitCVServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
-
-        if (username == null || !"Candidate".equals(role)) {
+        if (username == null || !"Employer".equals(role)) {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
-            request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
+           
+            EmployerDAO employerDAO = new EmployerDAO();
+            Employer employer = employerDAO.getEmployerByName(username);
+            request.setAttribute("employer", employer);
+            request.getRequestDispatcher("log/EmployerInfo.jsp").forward(request, response);
+            
+            
         }
     }
 
@@ -87,52 +94,27 @@ public class submitCVServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String fullName = request.getParameter("fullName");
-        String address = request.getParameter("address");
-        String email = request.getParameter("email");
-        String position = request.getParameter("position");
-        int numberExp = Integer.parseInt(request.getParameter("numberExp"));
-        String education = request.getParameter("education");
-        String field = request.getParameter("field");
-        
-        String salaryStr = request.getParameter("currentSalary");
-        salaryStr = salaryStr.replace(".", "").replace(",", ""); 
-
-        double currentSalary = Double.parseDouble(salaryStr);
-
-        Date birthday = Date.valueOf(request.getParameter("birthday"));
-        String nationality = request.getParameter("nationality");
-        String gender = request.getParameter("gender");
-
-        
-
-        HttpSession session = request.getSession();
+         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
-        CandidateDAO candidateDAO = new CandidateDAO();
-        Candidate candidate = candidateDAO.getCandidateByName(username);
-        int candidateId = candidate.getCandidateId();
-
-        CVDAO cvdao = new CVDAO();
-
-        Part filePart = request.getPart("CVFile");
+        String companyName = request.getParameter("companyName");
+        String email = request.getParameter("email");
+        String location = request.getParameter("location");
+        String description = request.getParameter("description");
+        String website = request.getParameter("urlWebsite");
+        
+        Part filePart = request.getPart("file");
         InputStream inputStream = filePart.getInputStream();
         String mimeType = filePart.getContentType();
         if (mimeType.startsWith("image/") && filePart.getSize() < 1000000) {
-            boolean success = cvdao.addCV(fullName, address, email, position, numberExp, education,
-                    field, currentSalary, birthday, candidateId, nationality, gender, inputStream, mimeType);
-
-            if (success) {
-                request.setAttribute("message", "Lưu CV thành công");
-                request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
-            } else {
-                request.setAttribute("message", "Lưu CV thất bại");
-                request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
-            }
-        } else {
-            request.setAttribute("message", "Bạn cần chọn file ảnh(.png, jpg) nhỏ hơn 1MB để đăng lên");
-            request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
+            EmployerDAO employerDAO=new EmployerDAO();
+            employerDAO.updateEmployer(username, email, description, location,
+                    website, companyName, inputStream);
+            
+            Employer employer=employerDAO.getEmployerByName(username);
+            request.setAttribute("employer", employer);
+            request.getRequestDispatcher("log/EmployerInfo.jsp").forward(request, response);
         }
-
+       
     }
 
     /**

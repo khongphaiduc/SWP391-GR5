@@ -25,6 +25,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <link href="css/ActionMenuCSS.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
         <style>
             .btn-login-fixed {
@@ -114,220 +115,7 @@
             }
         </style>
 
-        <!--        Style Action Menu-->
-
-
-        <style>
-            .floating-actions-v2 {
-                position: fixed;
-                bottom: 32px;
-                left: 24px;
-                z-index: 9999;
-                display: flex;
-                flex-direction: column;
-                gap: 16px;
-                align-items: flex-start;
-            }
-            .fab-item {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                background: rgba(255,255,255,0.97);
-                border-radius: 18px;
-                box-shadow: 0 8px 32px 0 rgba(20,184,102,0.10), 0 1.5px 8px #1976d211;
-                padding: 3px 8px 3px 3px;
-                transition: box-shadow 0.18s, transform 0.14s;
-            }
-            .fab-item:hover {
-                box-shadow: 0 12px 32px 0 rgba(20,184,102,0.22), 0 3px 16px #1976d222;
-                transform: translateY(-3px) scale(1.03);
-            }
-            .fab-btn {
-                background: linear-gradient(135deg, #38ef7d 60%, #11998e 100%);
-                border: none;
-                border-radius: 50%;
-                box-shadow: 0 2px 12px #14b86633;
-                width: 48px;
-                height: 48px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: relative;
-                cursor: pointer;
-                transition: background 0.13s, box-shadow 0.13s, transform 0.13s;
-                outline: none;
-            }
-            .fab-btn:active {
-                transform: scale(0.95);
-            }
-            .fab-btn i {
-                font-size: 1.45rem;
-                color: #fff;
-                transition: color .17s;
-            }
-            .fab-label {
-                color: #11998e;
-                font-size: 1.04rem;
-                font-weight: 600;
-                letter-spacing: 0.03em;
-                padding: 0 10px;
-                border-radius: 10px;
-                background: linear-gradient(90deg, #e2fdeb 60%, #e0f7fa 100%);
-                margin-left: 2px;
-            }
-            .fab-heart .fab-btn {
-                background: linear-gradient(135deg, #ff4d6d 70%, #14b866 100%);
-                box-shadow: 0 2px 14px #ff4d6d22;
-            }
-            .fab-heart .fab-btn.filled i {
-                color: #ff4d6d;
-                text-shadow: 0 2px 8px #ff4d6d22, 0 0px 2px #fff;
-            }
-            .fab-badge {
-                position: absolute;
-                top: -7px;
-                right: -7px;
-                background: #14b866;
-                color: #fff;
-                font-size: 0.93rem;
-                font-weight: 700;
-                border-radius: 50%;
-                min-width: 24px;
-                height: 24px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border: 2px solid #fff;
-                box-shadow: 0 1.5px 5px #14b86622;
-                z-index: 2;
-            }
-            .fab-heart .fab-badge {
-                background: #ff4d6d;
-            }
-            @media (max-width: 600px) {
-                .floating-actions-v2 {
-                    left: 7px;
-                    bottom: 10px;
-                    gap: 12px;
-                }
-                .fab-btn {
-                    width: 42px;
-                    height: 42px;
-                }
-                .fab-label {
-                    font-size: 0.95rem;
-                    padding: 0 6px;
-                }
-                .fab-badge {
-                    min-width: 20px;
-                    height: 20px;
-                    font-size: 0.87rem;
-                }
-            }
-        </style>
-        <style>
-            .fab-item {
-                position: relative;
-            }
-            .fab-hover-label {
-                display: none;
-                position: absolute;
-                left: 60px;
-                top: 50%;
-                transform: translateY(-50%);
-                background: #fff;
-                color: #11998e;
-                font-weight: 600;
-                font-size: 1.02rem;
-                padding: 5px 16px;
-                border-radius: 9px;
-                box-shadow: 0 3px 16px #1976d211;
-                white-space: nowrap;
-                z-index: 10000;
-                pointer-events: none;
-                opacity: 0;
-                transition: opacity 0.17s, left 0.17s;
-            }
-            .fab-item:hover .fab-hover-label,
-            .fab-item:focus-within .fab-hover-label {
-                display: block;
-                opacity: 1;
-                left: 60px;
-            }
-            @media (max-width: 600px) {
-                .fab-hover-label {
-                    left: 45px;
-                    font-size: 0.95rem;
-                    padding: 4px 10px;
-                }
-            }
-        </style>
-
-        <style>
-            .support-popup {
-                position: fixed;
-                left: 90px;
-                bottom: 32px;
-                width: 350px;
-                background: #fff;
-                border-radius: 12px;
-                box-shadow: 0 8px 32px 0 rgba(20,184,102,0.13), 0 1.5px 8px #1976d211;
-                z-index: 10001;
-                animation: fadeInFabDropdown 0.22s;
-            }
-            @keyframes fadeInFabDropdown {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px) scale(0.97);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                }
-            }
-            .support-popup-body {
-                padding: 12px 0;
-                display: flex;
-                flex-direction: column;
-                gap: 5px;
-            }
-            .support-popup-link {
-                display: flex;
-                align-items: center;
-                gap: 13px;
-                padding: 14px 22px;
-                color: #1a9e7c;
-                text-decoration: none;
-                background: none;
-                font-size: 1.08rem;
-                border-bottom: 1px solid #f1f1f1;
-                transition: background 0.12s, color 0.12s;
-                font-weight: 500;
-            }
-            .support-popup-link:last-child {
-                border-bottom: none;
-            }
-            .support-popup-link:hover {
-                background: #eafaf2;
-                color: #0a8e65;
-            }
-            @media (max-width:600px) {
-                .support-popup {
-                    width: 95vw;
-                    left: 2vw;
-                    bottom: 12px;
-                }
-                .support-popup-header {
-                    padding: 12px 10px 10px 10px !important;
-                }
-                .support-popup-link {
-                    padding: 10px 10px;
-                    font-size: 1rem;
-                }
-            }
-        </style>
-
-        <!--    End Action Menu-->
+     
     </head>
 
     <body>
@@ -350,7 +138,7 @@
         </c:if>
         <c:if test="${sessionScope.username != null && sessionScope.role == 'Employer'}">
             <div class="avatar-fixed-container">
-                <a href="${pageContext.request.contextPath}/EmployerInfo.jsp" target="target">
+                <a href="${pageContext.request.contextPath}/employerProfile" target="target">
                     <img src="img/sontung.jpg" width="50" height="50" alt="sontung" class="avatar-fixed-img"/>
                 </a>
                 <div class="avatar-greeting">
@@ -375,7 +163,7 @@
 
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-                
+
                 <a href="index.jsp" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
                     <h1 class="m-0 text-primary">GenZTimViec.VN</h1>
                 </a>
@@ -936,24 +724,47 @@
                         </div>
                     </div>
                     <div class="support-popup-body">
-<!--                        <a class="support-popup-link" href="#" target="_blank">
-                            <i class="bi bi-person"></i> Hướng dẫn quản lý tài khoản
-                        </a>-->
+                        <!--                        <a class="support-popup-link" href="#" target="_blank">
+                                                    <i class="bi bi-person"></i> Hướng dẫn quản lý tài khoản
+                                                </a>-->
                         <a class="support-popup-link" href="#" target="_blank">
                             <i class="bi bi-question-circle"></i> Các câu hỏi thường gặp
                         </a>
                         <a class="support-popup-link" href="SupportUser" target="_blank">
                             <i class="bi bi-envelope-paper"></i> Yêu cầu hỗ trợ
                         </a>
-                        <a class="support-popup-link" href="#" target="_blank">
+                        <a class="support-popup-link" href="#" id="contactButton">
                             <i class="bi bi-telephone"></i> Liên hệ GenZTimViec
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!--                        end Action Menu-->
+            <!--                       Sub Action Menu -->
 
+            <!-- hiển thị thong tin liên hệ -->
+            <div id="contactModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4);">
+                <div style="background:#fff; border-radius:10px; max-width:600px; margin:100px auto; padding:24px 16px 16px 16px; position:relative; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+                    <div style="text-align:center;">
+                        <div style="color:#24963F; font-weight:600; font-size:20px; margin-bottom:8px;">Liên hệ</div>
+                        <div style="font-weight:500; color:#222; margin-bottom:8px;">
+                            GenZTimViec cam kết sẽ xử lý các vấn đề của bạn trong vòng tối đa 24h.
+                        </div>
+                        <div style="margin-bottom:8px;">
+                            Tổng đài: <span style="color:#24963F; font-weight:600;">999999 nhé cái ngài </span>
+                            <span style="color:#24963F;">(Giờ hành chính)</span>
+                        </div>
+                        <div style="margin-bottom:8px;">
+                            Trong trường hợp không liên lạc được, vui lòng gửi hỗ trợ tới email: <br>
+                            <a href="mailto:hotro@genztimviec.vn" style="color:#24963F; font-weight:600;">hotro@genztimviec.vn</a>
+                        </div>
+                        <div style="margin-bottom:16px;">
+                            Xin cảm ơn!
+                        </div>
+                        <button id="closeModalBtn" style="padding: 8px 24px; border:none; background:#E4E6EB; border-radius:6px; font-size:16px; cursor:pointer;">Đóng lại</button>
+                    </div>
+                </div>
+            </div>
 
 
             <script>
@@ -985,6 +796,25 @@
                         supportPopup.style.display = "none";
                     }
                 });
+            </script>
+
+
+            <script>
+// Show modal on click
+                document.getElementById('contactButton').onclick = function (e) {
+                    e.preventDefault();
+                    document.getElementById('contactModal').style.display = 'block';
+                };
+// Hide modal on close
+                document.getElementById('closeModalBtn').onclick = function () {
+                    document.getElementById('contactModal').style.display = 'none';
+                };
+// Optional: hide modal when clicking outside the modal box
+                document.getElementById('contactModal').onclick = function (event) {
+                    if (event.target === this) {
+                        this.style.display = 'none';
+                    }
+                };
             </script>
 
             <!-- Back to Top -->

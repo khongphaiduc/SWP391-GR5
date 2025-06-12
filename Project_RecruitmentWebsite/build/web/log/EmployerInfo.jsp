@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-
-
+<%@page import="Models.*" %>
+<%
+    Employer employer = (Employer)request.getAttribute("employer");
+%>
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
@@ -17,17 +18,16 @@
                     <img class="profile-avatar" src="../img/avata.jpg" alt="avatar" id="avatar-img">
                     <button class="edit-avatar-btn" onclick="showAvatarModal()">✏️</button>
                 </div>
-                <h2 id="user-name">Phạm Trung Đức</h2>
+                <h2 id="user-name"><%=employer.getNameEmployer()%></h2>
                 <div class="info-list" id="info-list">
-                    <div><span class="info-label">Email:</span> <span id="user-email">Phạm Trung Đức</span></div>
-                    <div><span class="info-label">Số điện thoại:</span> <span id="user-phone">9999999</span></div>
-                    <div><span class="info-label">Ngày sinh:</span> <span id="user-birth">//////</span></div>
-                    <div><span class="info-label">Giới tính:</span> <span id="user-gender">Nam</span></div>
-                    <div><span class="info-label">Địa chỉ:</span> <span id="user-address">nnnnn</span></div>
-                    <div><span class="info-label">Vai trò:</span> <span id="user-role">Developer</span></div>
+                    <div><span class="info-label">Email:</span> <span id="user-email"><%=employer.getEmail()%></span></div>
+                    <div><span class="info-label">Tên công ty:</span> <span id="user-phone"><%=employer.getCompanyName()%></span></div>
+                    <div><span class="info-label">Mô tả công ty:</span> <span id="user-birth"><%=employer.getDescription()%></span></div>
+                    <div><span class="info-label">URL:</span> <span id="user-gender"><%=employer.getUrlWebsite()%></span></div>
+                    <div><span class="info-label">Địa chỉ:</span> <span id="user-address"><%=employer.getLocation()%></span></div>
+                    <div><span class="info-label">Quy mô:</span> <span id="user-role"><%=employer.getImgLogo()%></span></div>
                 </div>
                 <button class="edit-info-btn" onclick="showEditModal()">Chỉnh sửa thông tin</button>
-                <p class="bio" id="user-bio">“Tôi không đi theo số đông, tôi khác biệt Sơn Tùng-MTP”</p>
             </div>
             <div class="profile-sidebar">
 
@@ -49,7 +49,7 @@
                     </button>
                 </a>
 
-          
+
 
 
 
@@ -80,48 +80,32 @@
             <div class="modal-content">
                 <span class="close" onclick="closeEditModal()">&times;</span>
                 <h3>Chỉnh sửa thông tin cá nhân</h3>
-                <form onsubmit="saveInfo(event)">
-                    <label>Họ tên</label>
-                    <input type="text" id="edit-name" required>
+                <form action="employerProfile" method="post" enctype="multipart/form-data"">
+                   
                     <label>Email</label>
-                    <input type="email" id="edit-email" required>
-                    <label>Số điện thoại</label>
-                    <input type="text" id="edit-phone" required>
-                    <label>Ngày sinh</label>
-                    <input type="date" id="edit-birth" required>
-                    <label>Giới tính</label>
-                    <select id="edit-gender">
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
-                        <option value="Khác">Khác</option>
-                    </select>
+                    <input type="email" name="email" id="edit-email" required>
+                    <label>Tên công ty</label>
+                    <input type="text" name="companyName" id="edit-phone" required>
+                    <label>Mô tả công ty</label>
+                    <input type="text" name="description" id="edit-birth" required>
+                    <label>URL công ty</label>
+                    <input type="text" name="urlWebsite" id="edit-gender">
+                        
                     <label>Địa chỉ</label>
-                    <input type="text" id="edit-address" required>
-                    <label>Vai trò</label>
-                    <input type="text" id="edit-role" required>
-                    <label>Bio</label>
-                    <textarea id="edit-bio" rows="2"></textarea>
+                    <input type="text" name="location" id="edit-address" required>
+                    
+                    <label>Chọn ảnh mới từ máy tính</label>
+                    <input type="file" name ="file" id="avatar-file" accept="image/*" required>
+                    <div style="display:flex;align-items:center;gap:7px;margin:8px 0;">
+                        <img id="avatar-preview" src="" alt="Preview" style="display:none;width:60px;height:60px;border-radius:50%;border:2px solid #eee;">
+                        <span id="avatar-filename" style="font-size:0.95em;color:#888;"></span>
+                    </div>
                     <button type="submit" class="modal-btn">Lưu thông tin</button>
                 </form>
             </div>
         </div>
 
-        <!-- Modal Đổi avatar (Chọn file local) -->
-        <div class="modal" id="avatar-modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeAvatarModal()">&times;</span>
-                <h3>Đổi ảnh đại diện</h3>
-                <form onsubmit="changeAvatar(event)">
-                    <label>Chọn ảnh mới từ máy tính</label>
-                    <input type="file" id="avatar-file" accept="image/*" required>
-                    <div style="display:flex;align-items:center;gap:7px;margin:8px 0;">
-                        <img id="avatar-preview" src="" alt="Preview" style="display:none;width:60px;height:60px;border-radius:50%;border:2px solid #eee;">
-                        <span id="avatar-filename" style="font-size:0.95em;color:#888;"></span>
-                    </div>
-                    <button type="submit" class="modal-btn">Cập nhật ảnh</button>
-                </form>
-            </div>
-        </div>
+
 
         <script>
             // Modal Password
