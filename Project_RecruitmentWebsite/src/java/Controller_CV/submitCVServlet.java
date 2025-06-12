@@ -104,9 +104,7 @@ public class submitCVServlet extends HttpServlet {
         String nationality = request.getParameter("nationality");
         String gender = request.getParameter("gender");
 
-        Part filePart = request.getPart("CVFile");
-        InputStream inputStream = filePart.getInputStream();
-        String mimeType = filePart.getContentType();
+        
 
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
@@ -114,9 +112,11 @@ public class submitCVServlet extends HttpServlet {
         Candidate candidate = candidateDAO.getCandidateByName(username);
         int candidateId = candidate.getCandidateId();
 
-        PrintWriter out = response.getWriter();
         CVDAO cvdao = new CVDAO();
 
+        Part filePart = request.getPart("CVFile");
+        InputStream inputStream = filePart.getInputStream();
+        String mimeType = filePart.getContentType();
         if (mimeType.startsWith("image/") && filePart.getSize() < 1000000) {
             boolean success = cvdao.addCV(fullName, address, email, position, numberExp, education,
                     field, currentSalary, birthday, candidateId, nationality, gender, inputStream, mimeType);

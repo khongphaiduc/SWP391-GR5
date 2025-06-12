@@ -32,6 +32,14 @@
         <servlet-name>detailJobServlet</servlet-name>
         <servlet-class>Controller_Job.detailJobServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>employerProfileServlet</servlet-name>
+        <servlet-class>Controller_Profile.employerProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>viewLogoServlet</servlet-name>
+        <servlet-class>Controller_Profile.viewLogoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -63,5 +71,13 @@
     <servlet-mapping>
         <servlet-name>detailJobServlet</servlet-name>
         <url-pattern>/detailJob</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>employerProfileServlet</servlet-name>
+        <url-pattern>/employerProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewLogoServlet</servlet-name>
+        <url-pattern>/viewLogo</url-pattern>
     </servlet-mapping>
 </web-app>

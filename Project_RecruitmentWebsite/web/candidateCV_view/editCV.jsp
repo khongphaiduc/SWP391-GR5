@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="Models.CV" %>
+<%@page import="java.time.*" %> 
+
 <%
     CV cv = (CV) request.getAttribute("editedCV");
 %>
@@ -9,6 +11,22 @@
         <meta charset="UTF-8">
         <title>Chỉnh sửa CV</title>
         <style>
+            .cv-item-preview {
+                width: 80px;
+                height: 100px;
+                border-radius: 8px;
+                overflow: hidden;
+                border: 3px solid rgba(255,255,255,0.3);
+                float: right;
+                margin-left: 20px;
+            }
+
+            .cv-item-preview img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
             body {
                 font-family: Arial, sans-serif;
                 background-color: #f4f4f4;
@@ -100,11 +118,17 @@
                     <div class="form-section upload-section">
                         <label for="image">Ảnh đại diện</label>
                         <input type="file" id="image" name="CVFile">
+                        <div class="cv-item-preview">
+                            <img src="viewCV?cvId=<%= cv.getCvId() %>" alt="CV Preview" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgODAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZjhmOWZhIi8+CjxwYXRoIGQ9Ik00MCA1MEwyNSA2MEw1NSA2MFoiIGZpbGw9IiNkZGQiLz4KPHN2Zz4K'">
+                        </div>
                     </div>
                     <h2>THÔNG TIN CÁ NHÂN</h2>
                     <div class="form-section">
                         <label for="birthday">Ngày sinh</label>
-                        <input type="date" id="birthday" name="birthday" value="<%= cv.getBirthday() %>" required>
+                        <%
+                           java.time.LocalDate today = java.time.LocalDate.now();
+                        %>
+                        <input type="date" id="birthday" name="birthday" value="<%= cv.getBirthday() %>" max="<%= today.toString() %>" required>
                     </div>
                     <div class="form-section">
                         <label for="gender">Giới tính</label>
@@ -151,7 +175,7 @@
                     <div class="form-section">
                         <div class="section-title">KINH NGHIỆM LÀM VIỆC</div>
                         <label for="numberExp">Số năm kinh nghiệm</label>
-                        <input type="number" id="numberExp" name="numberExp" value="<%= cv.getNumberExp() %>" placeholder="Nhập số năm kinh nghiệm (VD: 2)" required>
+                        <input type="number" id="numberExp" min=0 name="numberExp" value="<%= cv.getNumberExp() %>" placeholder="Nhập số năm kinh nghiệm (VD: 2)" required>
                     </div>
 
                     <!-- Education -->
@@ -172,13 +196,16 @@
                     <div class="form-section">
                         <div class="section-title">MỨC LƯƠNG HIỆN TẠI</div>
                         <label for="currentSalary">Mức lương hiện tại (VND)</label>
-                        <input type="number" step="0.01" id="currentSalary" name="currentSalary" value="<%= cv.getCurrentSalary() %>" placeholder="Nhập mức lương hiện tại (VD: 10000000)" required>
+                        <input type="number" min="0" step="0.01" id="currentSalary" name="currentSalary" value="<%= cv.getCurrentSalary() %>" placeholder="Nhập mức lương hiện tại (VD: 10000000)" required>
                     </div>
 
-                    <!-- Submit Button -->
-                    <button type="submit" class="submit-btn">Lưu thay đổi</button>
-                    </form>
+
                 </div>
+
+
             </div>
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Lưu thay đổi</button>
+        </form>
     </body>
 </html>
