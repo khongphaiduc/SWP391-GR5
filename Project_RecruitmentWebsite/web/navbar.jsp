@@ -67,6 +67,8 @@
                             <div class="dropdown-menu rounded-0 m-0">
                        
                                 <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
+                                <a href="${pageContext.request.contextPath}/potential-cvs" class="dropdown-item"> CV Tiềm Năng </a>
+
                             </div>
                         </div>
             <%}%>
