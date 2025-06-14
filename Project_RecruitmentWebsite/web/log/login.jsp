@@ -7,7 +7,7 @@
         <title>Đăng nhập & Đăng ký</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
-          <link rel="stylesheet" href="<%= request.getContextPath() %>/css/logCSS.css">
+        <link rel="stylesheet" href="<%= request.getContextPath() %>/css/logCSS.css">
         <script>
             // Ẩn tự động sau 4 giây
             window.addEventListener('DOMContentLoaded', function () {
@@ -54,7 +54,7 @@
                             <option value="candidate">Ứng viên</option>
                             <option value="employer">Nhà tuyển dụng</option>
                         </select>
-                        
+
                     </div>
                     <div id="passwordError" class="error-message" style="display:none;">Mật khẩu không trùng khớp!</div>
                     <button type="submit">Đăng ký</button>
@@ -70,11 +70,17 @@
                         <input type="password" placeholder="Mật khẩu" name="password" required />
                     </div>
                     <button type="submit">Đăng nhập</button>
+                    <a id="loginGoogle" target="_blank" style="background: #fff; color: #444; border: 1.5px solid #41a94c; margin-top: 10px; padding: 7px;border-radius: 10px ;text-decoration: none"
+                       href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8080/Project_RecruitmentWebsite/LogWithGoogle&response_type=code&client_id=780846937780-ahb5qprjgmul2n1filj1haul2lssonk2.apps.googleusercontent.com&approval_prompt=force" >
+                        <img src="https://developers.google.com/identity/images/g-logo.png" style="width:20px; vertical-align:middle; margin-right:8px;"> 
+                        Đăng nhập bằng Google
+                    </a>
                     <div class="input-row" style="justify-content: flex-end; margin-top: 10px; margin-bottom: 0;">
                         <a href="<%= request.getContextPath() %>/forgetPassword.jsp"  target="target" class="forgot-password-link">Quên mật khẩu?</a>
                     </div>
                 </form>
-            </div>s
+            </div>
+
             <div class="overlay-container">
                 <div class="overlay">
                     <div class="overlay-panel overlay-left">
