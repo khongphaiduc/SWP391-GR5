@@ -794,8 +794,6 @@
                                               C33.5 27.5, 26.5 32.5, 24.5 34Z"
                                               stroke="#16B155" stroke-width="2" fill="none"/>
                                         </svg>
-
-
                                     </a>
                                 </c:if>
 
@@ -993,7 +991,7 @@
                     }
                 };
             </script>
-<!--                    End Action Menu-->
+            <!--                    End Action Menu-->
 
         </div>
 
@@ -1040,7 +1038,7 @@
                     </c:forEach>
                     <c:if test="${currentPage < totalPages}">
                         <li class="page-item">
-                       <a class="page-link" href="searchListJobPost?page=${currentPage + 1}">Sau &raquo;</a>
+                            <a class="page-link" href="searchListJobPost?page=${currentPage + 1}">Sau &raquo;</a>
 
                         </li>
                     </c:if>
