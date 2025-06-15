@@ -1,4 +1,5 @@
 package Controller_Action_Menu;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import DAO.*;
 // dung để lưu jobPost
+
 @WebServlet(name = "SaveJobPost", urlPatterns = {"/SaveJobPost"})
 public class SaveJobPost extends HttpServlet {
 
@@ -35,36 +37,29 @@ public class SaveJobPost extends HttpServlet {
 
         try {
 
-            boolean satus = true;
-            boolean temporary = false;
             HttpSession session = request.getSession();
 
             String accountNameUser = (String) session.getAttribute("username");
             String iDJopPost = request.getParameter("idJobPost");
-            
+
             SaveJobPostOfCandidate savejobpost = new SaveJobPostOfCandidate();
 
             String idCandidate = savejobpost.getCandidateIDByName(accountNameUser);  // lấy id của user này 
 
+            System.out.println("accountNameUser:" + accountNameUser);
+            System.out.println("iDJopPost: " + iDJopPost);
+
             boolean result = savejobpost.saveJobPost(idCandidate, iDJopPost);  // save jobpost
-            int numberJobPost = savejobpost.getNumberJobPostSavedByCandidate(idCandidate);
-            session.setAttribute("numberJobPost", numberJobPost);
+
+
             if (result) {
-                temporary = true;
-                session.setAttribute("temporary", temporary);
-                session.setAttribute("status1", satus);
-                session.setAttribute("numberJobPost", numberJobPost);
-                response.sendRedirect("searchListJobPost");
+                response.setStatus(200);  // chèn thành công 
             } else {
-                temporary = true;
-                satus = false;
-                session.setAttribute("temporary", temporary);
-                session.setAttribute("numberJobPost", numberJobPost);
-                response.sendRedirect("searchListJobPost");
+                response.setStatus(500);   // chèn thất bại 
             }
 
         } catch (Exception e) {
-            response.sendRedirect("searchListJobPost");
+            response.setStatus(500);
         }
 
     }
