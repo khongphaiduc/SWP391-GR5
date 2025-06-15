@@ -117,7 +117,7 @@ public class submitCVServlet extends HttpServlet {
         Part filePart = request.getPart("CVFile");
         InputStream inputStream = filePart.getInputStream();
         String mimeType = filePart.getContentType();
-        if (mimeType.startsWith("image/") && filePart.getSize() < 1000000) {
+        if (mimeType.startsWith("image/") && filePart.getSize() < 3000000) {
             boolean success = cvdao.addCV(fullName, address, email, position, numberExp, education,
                     field, currentSalary, birthday, candidateId, nationality, gender, inputStream, mimeType);
 

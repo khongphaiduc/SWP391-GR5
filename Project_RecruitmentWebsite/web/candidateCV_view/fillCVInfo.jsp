@@ -135,7 +135,7 @@
                     <!-- Profile Picture Upload at Top -->
                     <div class="form-section upload-section">
                         <label for="image">Ảnh đại diện</label>
-                        <input type="file" class="form-control"  id="avatar-file" name="CVFile" accept="image/*" required>
+                        <input type="file" class="form-control"  id="avatar-file" name="CVFile" required>
                         <div style="display:flex;align-items:center;gap:7px;margin:8px 0;">
                             <img id="avatar-preview" src="" alt="Preview" style="display:none;width:60px;height:60px;border-radius:50%;border:2px solid #eee;">
                             <span id="avatar-filename" style="font-size:0.95em;color:#888;"></span>

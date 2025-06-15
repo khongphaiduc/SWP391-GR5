@@ -1,219 +1,573 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-
-
+<%@page import="Models.*" %>
+<%
+    Candidate candidate = (Candidate)request.getAttribute("candidate");
+%>
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
-        <title>Hồ sơ cá nhân - Đặc biệt</title>
-        <link rel="stylesheet"  href="<%= request.getContextPath() %>/css/profilecss.css" >
+        <title>Hồ sơ ứng viên - Đặc biệt</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: #f0f4ff;
+                min-height: 100vh;
+                padding: 20px;
+            }
+
+            .profile-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 1fr 280px;
+                gap: 20px;
+                background: white;
+                border-radius: 10px;
+                padding: 30px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .profile-main {
+                text-align: center;
+            }
+
+            .candidate-avatar {
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 4px solid #4a90e2;
+                margin: 0 auto 20px;
+                background: #f0f4ff;
+            }
+
+            .candidate-name {
+                font-size: 2em;
+                color: #2c5aa0;
+                margin-bottom: 10px;
+                font-weight: 600;
+            }
+
+            .candidate-email {
+                color: #666;
+                font-size: 1.1em;
+                margin-bottom: 25px;
+            }
+
+            .candidate-info-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+                margin-bottom: 25px;
+                text-align: left;
+            }
+
+            .info-item {
+                background: #f8fbff;
+                padding: 15px;
+                border-radius: 8px;
+                border: 1px solid #e3f2fd;
+            }
+
+            .info-label {
+                font-weight: 600;
+                color: #1976d2;
+                font-size: 0.9em;
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            .info-value {
+                color: #333;
+                line-height: 1.4;
+            }
+
+            .full-width {
+                grid-column: 1 / -1;
+            }
+
+            .edit-profile-btn {
+                background: linear-gradient(135deg, #4a90e2, #357abd);
+                color: white;
+                border: none;
+                padding: 14px 30px;
+                border-radius: 8px;
+                font-size: 1em;
+                cursor: pointer;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            }
+
+            .edit-profile-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+            }
+
+            .profile-sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .sidebar-btn {
+                background: #f8fbff;
+                border: 1px solid #e3f2fd;
+                padding: 16px;
+                border-radius: 8px;
+                text-decoration: none;
+                color: #333;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                font-weight: 500;
+            }
+
+            .sidebar-btn:hover {
+                background: #e3f2fd;
+                transform: translateX(5px);
+            }
+
+            .btn-icon {
+                width: 20px;
+                height: 20px;
+            }
+
+            .edit-modal {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                align-items: center;
+                justify-content: center;
+            }
+
+            .modal-content {
+                background: white;
+                padding: 30px;
+                border-radius: 12px;
+                width: 90%;
+                max-width: 600px;
+                max-height: 85vh;
+                overflow-y: auto;
+                position: relative;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+
+            .modal-close {
+                position: absolute;
+                right: 15px;
+                top: 15px;
+                font-size: 28px;
+                color: #999;
+                cursor: pointer;
+                font-weight: bold;
+            }
+
+            .modal-close:hover {
+                color: #333;
+            }
+
+            .modal-title {
+                font-size: 1.5em;
+                color: #2c5aa0;
+                margin-bottom: 25px;
+                text-align: center;
+                font-weight: 600;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            .form-label {
+                display: block;
+                color: #333;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: #1976d2;
+            }
+
+            .form-input {
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #e3f2fd;
+                border-radius: 6px;
+                font-size: 14px;
+                transition: border-color 0.3s ease;
+            }
+
+            .form-input:focus {
+                outline: none;
+                border-color: #4a90e2;
+                box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+            }
+
+            .file-upload {
+                position: relative;
+                width: 100%;
+            }
+
+            .file-upload input[type=file] {
+                position: absolute;
+                opacity: 0;
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+            }
+
+            .file-upload-label {
+                display: block;
+                padding: 12px;
+                border: 2px dashed #4a90e2;
+                border-radius: 6px;
+                text-align: center;
+                cursor: pointer;
+                background: #f8fbff;
+                transition: all 0.3s ease;
+            }
+
+            .file-upload-label:hover {
+                background: #e3f2fd;
+                border-color: #357abd;
+            }
+
+            .avatar-preview-container {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin: 15px 0;
+                padding: 12px;
+                background: #f8fbff;
+                border-radius: 6px;
+                border: 1px solid #e3f2fd;
+            }
+
+            .avatar-preview-img {
+                display: none;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                border: 2px solid #4a90e2;
+                object-fit: cover;
+            }
+
+            .avatar-filename {
+                font-size: 14px;
+                color: #666;
+                font-weight: 500;
+            }
+
+            .save-btn {
+                background: linear-gradient(135deg, #4a90e2, #357abd);
+                color: white;
+                border: none;
+                padding: 14px;
+                border-radius: 6px;
+                font-size: 1em;
+                cursor: pointer;
+                width: 100%;
+                margin-top: 20px;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            .save-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+            }
+
+            .alert {
+                padding: 12px;
+                margin: 15px 0;
+                border-radius: 6px;
+                font-weight: 500;
+            }
+
+            .alert-success {
+                background: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
+
+            .alert-error {
+                background: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+            }
+
+            .age-display {
+                font-size: 0.9em;
+                color: #666;
+                margin-top: 5px;
+            }
+
+            @media (max-width: 768px) {
+                .profile-container {
+                    grid-template-columns: 1fr;
+                    padding: 20px;
+                }
+
+                .candidate-info-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .form-row {
+                    grid-template-columns: 1fr;
+                }
+
+                .modal-content {
+                    width: 95%;
+                    padding: 20px;
+                }
+
+                .candidate-name {
+                    font-size: 1.6em;
+                }
+            }
+        </style>
     </head>
     <body>
-        <div class="profile-background"></div>
+
         <div class="profile-container">
             <div class="profile-main">
-                <div class="avatar-glow">
-                    <img class="profile-avatar" src="../img/avata.jpg" alt="avatar" id="avatar-img">
-                    <button class="edit-avatar-btn" onclick="showAvatarModal()">✏️</button>
-                </div>
-                <h2 id="user-name">Phạm Trung Đức</h2>
-                <div class="info-list" id="info-list">
-                    <div><span class="info-label">Email:</span> <span id="user-email">Phạm Trung Đức</span></div>
-                    <div><span class="info-label">Số điện thoại:</span> <span id="user-phone">9999999</span></div>
-                    <div><span class="info-label">Ngày sinh:</span> <span id="user-birth">//////</span></div>
-                    <div><span class="info-label">Giới tính:</span> <span id="user-gender">Nam</span></div>
-                    <div><span class="info-label">Địa chỉ:</span> <span id="user-address">nnnnn</span></div>
-                    <div><span class="info-label">Vai trò:</span> <span id="user-role">Developer</span></div>
-                </div>
-                <button class="edit-info-btn" onclick="showEditModal()">Chỉnh sửa thông tin</button>
-                <p class="bio" id="user-bio">“Tôi không đi theo số đông, tôi khác biệt Sơn Tùng-MTP”</p>
-            </div>
-            <div class="profile-sidebar">
+                <img class="candidate-avatar" src="viewLogo?name=<%= candidate.getCandidateName() %>" alt="Avatar" id="candidateAvatarImg" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjZjBmNGZmIi8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iNDAiIHI9IjIwIiBmaWxsPSIjNGE5MGUyIi8+CjxwYXRoIGQ9Ik0yMCA5MEM3MCA3MCA5MCA3MCA5MCA5MEgyMFoiIGZpbGw9IiM0YTkwZTIiLz4KPC9zdmc+'">
+                
+                <h2 class="candidate-name">
+                    <%= candidate.getCandidateName() != null && !candidate.getCandidateName().trim().isEmpty() ? candidate.getCandidateName() : "Chưa cập nhật" %>
+                </h2>
+                
+                <p class="candidate-email">
+                    <%= candidate.getEmail() != null && !candidate.getEmail().trim().isEmpty() ? candidate.getEmail() : "Chưa cập nhật email" %>
+                </p>
 
-                <button onclick="showAvatarModal()">
-                    <span class="icon">
-                        <svg width="20" height="20" viewBox="0 0 20 20"><path fill="#fff" d="M17.7 6.29a1 1 0 0 0 0-1.41l-2.58-2.58a1 1 0 0 0-1.41 0l-8.08 8.08A1 1 0 0 0 5.5 11v2.5a1 1 0 0 0 1 1H9a1 1 0 0 0 .71-.29l8.08-8.08zM6.5 12.5V11.91l7.08-7.08.59.59-7.08 7.08H6.5zm8.79-8.79l.59.59-1.18 1.18-.59-.59 1.18-1.18z"/></svg>
-                    </span>
-                    Thay đổi Avatar
+                <div class="candidate-info-grid">
+                    <div class="info-item">
+                        <span class="info-label">📍 Địa chỉ</span>
+                        <span class="info-value">
+                            <%= candidate.getAddress() != null && !candidate.getAddress().trim().isEmpty() ? candidate.getAddress() : "Chưa cập nhật" %>
+                        </span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">🎂 Ngày sinh</span>
+                        <span class="info-value">
+                            <% if (candidate.getBirthday() != null) { %>
+                                <%= candidate.getBirthday().toString() %>
+                                <div class="age-display">
+                                    <script>
+                                        const birthDate = new Date('<%= candidate.getBirthday().toString() %>');
+                                        const today = new Date();
+                                        let age = today.getFullYear() - birthDate.getFullYear();
+                                        const monthDiff = today.getMonth() - birthDate.getMonth();
+                                        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                                            age--;
+                                        }
+                                        document.write('(' + age + ' tuổi)');
+                                    </script>
+                                </div>
+                            <% } else { %>
+                                Chưa cập nhật
+                            <% } %>
+                        </span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">🌍 Quốc tịch</span>
+                        <span class="info-value">
+                            <%= candidate.getNationality() != null && !candidate.getNationality().trim().isEmpty() ? candidate.getNationality() : "Chưa cập nhật" %>
+                        </span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">📧 Email liên hệ</span>
+                        <span class="info-value">
+                            <%= candidate.getEmail() != null && !candidate.getEmail().trim().isEmpty() ? candidate.getEmail() : "Chưa cập nhật" %>
+                        </span>
+                    </div>
+                </div>
+                
+                <button class="edit-profile-btn" onclick="openEditModal()">
+                    ✏️ Chỉnh sửa thông tin cá nhân
                 </button>
+            </div>
 
-                <a  href="<%= request.getContextPath() %>/log/ChangePassword.jsp"  >
-                    <button>
-                        <span class="icon">
-                            <svg width="20" height="20" viewBox="0 0 20 20">
-                            <path fill="#fff" d="M10 2a4 4 0 0 1 4 4v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h1V6a4 4 0 0 1 4-4zm2 6V6a2 2 0 1 0-4 0v2h4zm-7 2v7h10v-7H5zm5 2a1 1 0 0 1 1 1a1 1 0 1 1-2 0a1 1 0 0 1 1-1z"/>
-                            </svg>
-                        </span>
-                        Thay đổi mật khẩu
-                    </button>
+            <div class="profile-sidebar">
+                <a href="<%= request.getContextPath() %>/log/ChangePassword.jsp" class="sidebar-btn">
+                    <svg class="btn-icon" viewBox="0 0 20 20">
+                        <path fill="#4a90e2" d="M10 2a4 4 0 0 1 4 4v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h1V6a4 4 0 0 1 4-4zm2 6V6a2 2 0 1 0-4 0v2h4zm-7 2v7h10v-7H5zm5 2a1 1 0 0 1 1 1a1 1 0 1 1-2 0a1 1 0 0 1 1-1z"/>
+                    </svg>
+                    Thay đổi mật khẩu
                 </a>
 
-          
 
-
-
-
-                <a  href="<%= request.getContextPath() %>/LogOut"  >
-                    <button class="logout-btn" >
-                        <span style="width: 95px" class="icon">
-                            <svg width="30" height="20" viewBox="0 0 20 20"><path fill="#fff" d="M16 13v-2h-6v-2h6V7l5 3l-5 3zm-2-8V2H2v16h12v-3h-2v1H4V4h8v1h2z"/></svg>
-                        </span>
-                        Đăng Xuất
-                    </button>
-                </a>
-
-                <button class="home-btn" onclick="goHome()">
-                    <span class="icon">
-                        <svg width="20" height="20" viewBox="0 0 20 20"><path fill="#fff" d="M10 3.293l7 7V18a1 1 0 0 1-1 1h-4v-5H8v5H4a1 1 0 0 1-1-1v-7.707l7-7zm-7.707 8.707a1 1 0 0 1 0-1.414l8-8a1 1 0 0 1 1.414 0l8 8a1 1 0 0 1-1.414 1.414L17 11.414V18a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6.586l-1.293 1.293a1 1 0 0 1-1.414-1.414z"/></svg>
-                    </span>
+                <button class="sidebar-btn" onclick="navigateToHome()">
+                    <svg class="btn-icon" viewBox="0 0 20 20">
+                        <path fill="#4a90e2" d="M10 3.293l7 7V18a1 1 0 0 1-1 1h-4v-5H8v5H4a1 1 0 0 1-1-1v-7.707l7-7zm-7.707 8.707a1 1 0 0 1 0-1.414l8-8a1 1 0 0 1 1.414 0l8 8a1 1 0 0 1-1.414 1.414L17 11.414V18a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6.586l-1.293 1.293a1 1 0 0 1-1.414-1.414z"/>
+                    </svg>
                     Trang chủ
                 </button>
 
+                <a href="<%= request.getContextPath() %>/LogOut" class="sidebar-btn">
+                    <svg class="btn-icon" viewBox="0 0 20 20">
+                        <path fill="#4a90e2" d="M16 13v-2h-6v-2h6V7l5 3l-5 3zm-2-8V2H2v16h12v-3h-2v1H4V4h8v1h2z"/>
+                    </svg>
+                    Đăng Xuất
+                </a>
             </div>
         </div>
 
-
-
-        <!-- Modal Chỉnh sửa thông tin -->
-        <div class="modal" id="edit-modal">
+        <!-- Edit Modal -->
+        <div class="edit-modal" id="profileEditModal">
             <div class="modal-content">
-                <span class="close" onclick="closeEditModal()">&times;</span>
-                <h3>Chỉnh sửa thông tin cá nhân</h3>
-                <form onsubmit="saveInfo(event)">
-                    <label>Họ tên</label>
-                    <input type="text" id="edit-name" required>
-                    <label>Email</label>
-                    <input type="email" id="edit-email" required>
-                    <label>Số điện thoại</label>
-                    <input type="text" id="edit-phone" required>
-                    <label>Ngày sinh</label>
-                    <input type="date" id="edit-birth" required>
-                    <label>Giới tính</label>
-                    <select id="edit-gender">
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
-                        <option value="Khác">Khác</option>
-                    </select>
-                    <label>Địa chỉ</label>
-                    <input type="text" id="edit-address" required>
-                    <label>Vai trò</label>
-                    <input type="text" id="edit-role" required>
-                    <label>Bio</label>
-                    <textarea id="edit-bio" rows="2"></textarea>
-                    <button type="submit" class="modal-btn">Lưu thông tin</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Modal Đổi avatar (Chọn file local) -->
-        <div class="modal" id="avatar-modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeAvatarModal()">&times;</span>
-                <h3>Đổi ảnh đại diện</h3>
-                <form onsubmit="changeAvatar(event)">
-                    <label>Chọn ảnh mới từ máy tính</label>
-                    <input type="file" id="avatar-file" accept="image/*" required>
-                    <div style="display:flex;align-items:center;gap:7px;margin:8px 0;">
-                        <img id="avatar-preview" src="" alt="Preview" style="display:none;width:60px;height:60px;border-radius:50%;border:2px solid #eee;">
-                        <span id="avatar-filename" style="font-size:0.95em;color:#888;"></span>
+                <span class="modal-close" onclick="closeEditModal()">×</span>
+                <h3 class="modal-title">Chỉnh sửa thông tin cá nhân</h3>
+                
+                <form action="candidateProfile" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="form-label">Tên đăng nhập</label>
+                        <input type="text" name="candidateName" id="candidateNameInput" class="form-input" required>
                     </div>
-                    <button type="submit" class="modal-btn">Cập nhật ảnh</button>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" id="candidateEmailInput" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Ngày sinh</label>
+                            <input type="date" name="birthday" id="candidateBirthdayInput" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Địa chỉ</label>
+                        <input type="text" name="address" id="candidateAddressInput" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Quốc tịch</label>
+                        <input type="text" name="nationality" id="candidateNationalityInput" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Ảnh đại diện</label>
+                        <div class="file-upload">
+                            <input type="file" name="avatar" id="avatarFileInput" accept="image/*">
+                            <label for="avatarFileInput" class="file-upload-label">
+                                📷 Chọn ảnh đại diện từ máy tính
+                            </label>
+                        </div>
+                        <div class="avatar-preview-container">
+                            <img id="avatarPreviewImg" class="avatar-preview-img" alt="Avatar Preview">
+                            <span id="avatarFilenameDisplay" class="avatar-filename"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="save-btn">💾 Lưu thông tin</button>
                 </form>
             </div>
         </div>
 
         <script>
-            // Modal Password
-
-
-            // Modal Edit Info
-            function showEditModal() {
-                document.getElementById('edit-modal').style.display = 'flex';
-                document.getElementById('edit-name').value = document.getElementById('user-name').childNodes[0].nodeValue.trim();
-                document.getElementById('edit-email').value = document.getElementById('user-email').innerText;
-                document.getElementById('edit-phone').value = document.getElementById('user-phone').innerText;
-                document.getElementById('edit-birth').value = formatDateForInput(document.getElementById('user-birth').innerText);
-                document.getElementById('edit-gender').value = document.getElementById('user-gender').innerText;
-                document.getElementById('edit-address').value = document.getElementById('user-address').innerText;
-                document.getElementById('edit-role').value = document.getElementById('user-role').innerText;
-                document.getElementById('edit-bio').value = document.getElementById('user-bio').innerText;
+            function openEditModal() {
+                document.getElementById('profileEditModal').style.display = 'flex';
+                
+                // Pre-fill form with current data
+                document.getElementById('candidateNameInput').value = '<%=candidate.getCandidateName() != null ? candidate.getCandidateName() : ""%>';
+                document.getElementById('candidateEmailInput').value = '<%=candidate.getEmail() != null ? candidate.getEmail() : ""%>';
+                document.getElementById('candidateAddressInput').value = '<%=candidate.getAddress() != null ? candidate.getAddress() : ""%>';
+                document.getElementById('candidateNationalityInput').value = '<%=candidate.getNationality() != null ? candidate.getNationality() : ""%>';
+                
+                <% if (candidate.getBirthday() != null) { %>
+                document.getElementById('candidateBirthdayInput').value = '<%=candidate.getBirthday().toString()%>';
+                <% } %>
             }
+
             function closeEditModal() {
-                document.getElementById('edit-modal').style.display = 'none';
+                document.getElementById('profileEditModal').style.display = 'none';
             }
-            function saveInfo(e) {
-                e.preventDefault();
-                document.getElementById('user-name').childNodes[0].nodeValue = document.getElementById('edit-name').value;
-                document.getElementById('user-email').innerText = document.getElementById('edit-email').value;
-                document.getElementById('user-phone').innerText = document.getElementById('edit-phone').value;
-                document.getElementById('user-birth').innerText = formatDateForDisplay(document.getElementById('edit-birth').value);
-                document.getElementById('user-gender').innerText = document.getElementById('edit-gender').value;
-                document.getElementById('user-address').innerText = document.getElementById('edit-address').value;
-                document.getElementById('user-role').innerText = document.getElementById('edit-role').value;
-                document.getElementById('user-bio').innerText = document.getElementById('edit-bio').value;
-                closeEditModal();
+
+            function navigateToHome() {
+                window.location.href = "/Project_RecruitmentWebsite/index.jsp";
             }
-            function formatDateForInput(d) {
-                const s = d.split('/');
-                if (s.length === 3)
-                    return `${s[2]}-${s[1].padStart(2,'0')}-${s[0].padStart(2,'0')}`;
-                            return "";
+
+            function navigateToJobs() {
+                window.location.href = "/Project_RecruitmentWebsite/jobs";
+            }
+
+            function navigateToApplications() {
+                window.location.href = "/Project_RecruitmentWebsite/myApplications";
+            }
+
+            // File upload preview functionality
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('avatarFileInput').addEventListener('change', function (event) {
+                    const file = event.target.files[0];
+                    const preview = document.getElementById('avatarPreviewImg');
+                    const filename = document.getElementById('avatarFilenameDisplay');
+
+                    if (file) {
+                        // Validate file size (max 5MB)
+                        if (file.size > 5 * 1024 * 1024) {
+                            alert('File quá lớn! Vui lòng chọn file nhỏ hơn 5MB.');
+                            event.target.value = '';
+                            return;
                         }
-                        function formatDateForDisplay(d) {
-                            const s = d.split('-');
-                            if (s.length === 3)
-                                return `${s[2]}/${s[1]}/${s[0]}`;
-                                        return "";
-                                    }
 
-                                    // Modal Avatar - Chọn file local
-                                    function showAvatarModal() {
-                                        document.getElementById('avatar-modal').style.display = 'flex';
-                                        document.getElementById('avatar-file').value = '';
-                                        document.getElementById('avatar-preview').style.display = 'none';
-                                        document.getElementById('avatar-filename').innerText = '';
-                                    }
-                                    function closeAvatarModal() {
-                                        document.getElementById('avatar-modal').style.display = 'none';
-                                    }
-                                    function changeAvatar(e) {
-                                        e.preventDefault();
-                                        const fileInput = document.getElementById('avatar-file');
-                                        if (fileInput.files && fileInput.files[0]) {
-                                            const reader = new FileReader();
-                                            reader.onload = function (e) {
-                                                document.getElementById('avatar-img').src = e.target.result;
-                                                closeAvatarModal();
-                                            };
-                                            reader.readAsDataURL(fileInput.files[0]);
-                                        }
-                                    }
-                                    // Xem trước avatar khi chọn file
-                                    document.addEventListener('DOMContentLoaded', function () {
-                                        document.getElementById('avatar-file').addEventListener('change', function (event) {
-                                            const file = event.target.files[0];
-                                            const preview = document.getElementById('avatar-preview');
-                                            const filename = document.getElementById('avatar-filename');
-                                            if (file) {
-                                                const reader = new FileReader();
-                                                reader.onload = function (e) {
-                                                    preview.src = e.target.result;
-                                                    preview.style.display = 'block';
-                                                }
-                                                reader.readAsDataURL(file);
-                                                filename.innerText = file.name;
-                                            } else {
-                                                preview.style.display = 'none';
-                                                filename.innerText = '';
-                                            }
-                                        });
-                                    });
+                        // Validate file type
+                        if (!file.type.startsWith('image/')) {
+                            alert('Vui lòng chọn file hình ảnh!');
+                            event.target.value = '';
+                            return;
+                        }
 
-                                    // Trang chủ
-                                    function goHome() {
-                                        window.location.href = "/Project_RecruitmentWebsite/index.jsp";
-                                    }
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            preview.src = e.target.result;
+                            preview.style.display = 'block';
+                        }
+                        reader.readAsDataURL(file);
+                        filename.textContent = file.name;
+                    } else {
+                        preview.style.display = 'none';
+                        filename.textContent = '';
+                    }
+                });
+
+                // Close modal when clicking outside
+                document.getElementById('profileEditModal').addEventListener('click', function (event) {
+                    if (event.target === this) {
+                        closeEditModal();
+                    }
+                });
+
+                // Handle ESC key to close modal
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape') {
+                        closeEditModal();
+                    }
+                });
+            });
         </script>
     </body>
 </html>
