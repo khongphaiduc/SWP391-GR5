@@ -74,6 +74,16 @@ public class RegisterWithGoogle extends HttpServlet {
 
             GoogleInfo userInfo = (GoogleInfo) session.getAttribute("infoUser");
 
+            // check thằng số điện thoại
+            if (employer.isPhoneNumberEmployer(phoneNumber)) {
+                request.setAttribute("inform", "Số điện thoại này đã được sử dụng với 1 tài khoản khác ");
+                request.setAttribute("fullname", name);
+                request.setAttribute("company", companyName);
+                request.setAttribute("location", location);
+                request.getRequestDispatcher("log/FormEmployer.jsp").forward(request, response);
+                return;
+            }
+
             boolean result = employer.RegisterEmployerByGoogle(userInfo.getEmail(), name, phoneNumber, companyName, location);
 
             System.out.println(result == true ? "đăng ký thành công " : "đang ký thất bại ");
