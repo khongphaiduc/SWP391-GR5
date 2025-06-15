@@ -82,14 +82,11 @@ public class employerProfileServlet extends HttpServlet {
                 request.setAttribute("employer", employer);
                 request.getRequestDispatcher("log/EmployerInfo.jsp").forward(request, response);
             } else {
-                // Nếu không tìm thấy employer, redirect về login
                 response.sendRedirect(request.getContextPath() + "/log/login.jsp");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // Log error và redirect về trang lỗi
-            request.setAttribute("errorMessage", "Có lỗi xảy ra khi tải thông tin profile: " + e.getMessage());
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+          
         }
     }
 

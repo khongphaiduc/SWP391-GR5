@@ -124,7 +124,7 @@ public class viewCVServlet extends HttpServlet {
             CVDAO dao = new CVDAO();
             boolean updated = false;
             if (filePart != null && filePart.getSize() > 0) {
-                if (mimeType.startsWith("image/") && filePart.getSize() < 1000000) {
+                if (mimeType.startsWith("image/") && filePart.getSize() < 3000000) {
                     updated = dao.editCVById(cvId, fullName, address, email,
                             position, numberExp, education,
                             field, currentSalary, birthday, nationality, gender,

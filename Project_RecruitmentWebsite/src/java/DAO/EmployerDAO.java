@@ -30,7 +30,6 @@ public class EmployerDAO extends DBContext {
                 employer.setUrlWebsite(rs.getString("URL_Website"));
                 employer.setCompanySize(rs.getString("CompanySize"));
 
-                // Xử lý imgLogo an toàn hơn
                 Blob logoBlob = rs.getBlob("imgLogo");
                 if (logoBlob != null) {
                     employer.setImgLogo(logoBlob.getBinaryStream());
