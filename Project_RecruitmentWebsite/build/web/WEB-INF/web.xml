@@ -48,6 +48,10 @@
         <servlet-name>candidateProfileServlet</servlet-name>
         <servlet-class>Controller_Profile.candidateProfileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CandidateApplyListServlet</servlet-name>
+        <servlet-class>Controller_Apply.CandidateApplyListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -95,5 +99,9 @@
     <servlet-mapping>
         <servlet-name>candidateProfileServlet</servlet-name>
         <url-pattern>/candidateProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CandidateApplyListServlet</servlet-name>
+        <url-pattern>/CandidateApplyList</url-pattern>
     </servlet-mapping>
 </web-app>

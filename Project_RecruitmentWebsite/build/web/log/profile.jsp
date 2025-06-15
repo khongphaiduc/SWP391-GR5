@@ -17,7 +17,7 @@
 
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background: #f0f4ff;
+                background: #f0f7f0;
                 min-height: 100vh;
                 padding: 20px;
             }
@@ -43,14 +43,14 @@
                 height: 120px;
                 border-radius: 50%;
                 object-fit: cover;
-                border: 4px solid #4a90e2;
+                border: 4px solid #4caf50;
                 margin: 0 auto 20px;
-                background: #f0f4ff;
+                background: #f0f7f0;
             }
 
             .candidate-name {
                 font-size: 2em;
-                color: #2c5aa0;
+                color: #2e7d32;
                 margin-bottom: 10px;
                 font-weight: 600;
             }
@@ -70,15 +70,15 @@
             }
 
             .info-item {
-                background: #f8fbff;
+                background: #f1f8e9;
                 padding: 15px;
                 border-radius: 8px;
-                border: 1px solid #e3f2fd;
+                border: 1px solid #dcedc8;
             }
 
             .info-label {
                 font-weight: 600;
-                color: #1976d2;
+                color: #388e3c;
                 font-size: 0.9em;
                 margin-bottom: 5px;
                 display: block;
@@ -94,7 +94,7 @@
             }
 
             .edit-profile-btn {
-                background: linear-gradient(135deg, #4a90e2, #357abd);
+                background: linear-gradient(135deg, #4caf50, #388e3c);
                 color: white;
                 border: none;
                 padding: 14px 30px;
@@ -107,7 +107,7 @@
 
             .edit-profile-btn:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+                box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
             }
 
             .profile-sidebar {
@@ -117,8 +117,8 @@
             }
 
             .sidebar-btn {
-                background: #f8fbff;
-                border: 1px solid #e3f2fd;
+                background: #f1f8e9;
+                border: 1px solid #dcedc8;
                 padding: 16px;
                 border-radius: 8px;
                 text-decoration: none;
@@ -132,7 +132,7 @@
             }
 
             .sidebar-btn:hover {
-                background: #e3f2fd;
+                background: #dcedc8;
                 transform: translateX(5px);
             }
 
@@ -182,7 +182,7 @@
 
             .modal-title {
                 font-size: 1.5em;
-                color: #2c5aa0;
+                color: #2e7d32;
                 margin-bottom: 25px;
                 text-align: center;
                 font-weight: 600;
@@ -203,13 +203,13 @@
                 color: #333;
                 margin-bottom: 8px;
                 font-weight: 600;
-                color: #1976d2;
+                color: #388e3c;
             }
 
             .form-input {
                 width: 100%;
                 padding: 12px;
-                border: 2px solid #e3f2fd;
+                border: 2px solid #dcedc8;
                 border-radius: 6px;
                 font-size: 14px;
                 transition: border-color 0.3s ease;
@@ -217,8 +217,8 @@
 
             .form-input:focus {
                 outline: none;
-                border-color: #4a90e2;
-                box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+                border-color: #4caf50;
+                box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
             }
 
             .file-upload {
@@ -237,17 +237,17 @@
             .file-upload-label {
                 display: block;
                 padding: 12px;
-                border: 2px dashed #4a90e2;
+                border: 2px dashed #4caf50;
                 border-radius: 6px;
                 text-align: center;
                 cursor: pointer;
-                background: #f8fbff;
+                background: #f1f8e9;
                 transition: all 0.3s ease;
             }
 
             .file-upload-label:hover {
-                background: #e3f2fd;
-                border-color: #357abd;
+                background: #dcedc8;
+                border-color: #388e3c;
             }
 
             .avatar-preview-container {
@@ -256,9 +256,9 @@
                 gap: 12px;
                 margin: 15px 0;
                 padding: 12px;
-                background: #f8fbff;
+                background: #f1f8e9;
                 border-radius: 6px;
-                border: 1px solid #e3f2fd;
+                border: 1px solid #dcedc8;
             }
 
             .avatar-preview-img {
@@ -266,7 +266,7 @@
                 width: 50px;
                 height: 50px;
                 border-radius: 50%;
-                border: 2px solid #4a90e2;
+                border: 2px solid #4caf50;
                 object-fit: cover;
             }
 
@@ -277,7 +277,7 @@
             }
 
             .save-btn {
-                background: linear-gradient(135deg, #4a90e2, #357abd);
+                background: linear-gradient(135deg, #4caf50, #388e3c);
                 color: white;
                 border: none;
                 padding: 14px;
@@ -292,14 +292,16 @@
 
             .save-btn:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+                box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
             }
 
             .alert {
                 padding: 12px;
-                margin: 15px 0;
+                margin: 15px auto;
                 border-radius: 6px;
                 font-weight: 500;
+                text-align: center;
+                max-width: 600px;
             }
 
             .alert-success {
@@ -346,15 +348,27 @@
         </style>
     </head>
     <body>
+        <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+        <% String successMessage = (String) request.getAttribute("successMessage"); %>
+
+        <% if (errorMessage != null) { %>
+        <div class="alert alert-error">
+            <%= errorMessage %>
+        </div>
+        <% } else if (successMessage != null) { %>
+        <div class="alert alert-success">
+            <%= successMessage %>
+        </div>
+        <% } %>
 
         <div class="profile-container">
             <div class="profile-main">
                 <img class="candidate-avatar" src="viewLogo?name=<%= candidate.getCandidateName() %>" alt="Avatar" id="candidateAvatarImg" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjZjBmNGZmIi8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iNDAiIHI9IjIwIiBmaWxsPSIjNGE5MGUyIi8+CjxwYXRoIGQ9Ik0yMCA5MEM3MCA3MCA5MCA3MCA5MCA5MEgyMFoiIGZpbGw9IiM0YTkwZTIiLz4KPC9zdmc+'">
-                
+
                 <h2 class="candidate-name">
                     <%= candidate.getCandidateName() != null && !candidate.getCandidateName().trim().isEmpty() ? candidate.getCandidateName() : "Chưa cập nhật" %>
                 </h2>
-                
+
                 <p class="candidate-email">
                     <%= candidate.getEmail() != null && !candidate.getEmail().trim().isEmpty() ? candidate.getEmail() : "Chưa cập nhật email" %>
                 </p>
@@ -366,14 +380,14 @@
                             <%= candidate.getAddress() != null && !candidate.getAddress().trim().isEmpty() ? candidate.getAddress() : "Chưa cập nhật" %>
                         </span>
                     </div>
-                    
+
                     <div class="info-item">
                         <span class="info-label">🎂 Ngày sinh</span>
                         <span class="info-value">
                             <% if (candidate.getBirthday() != null) { %>
-                                <%= candidate.getBirthday().toString() %>
-                                <div class="age-display">
-                                    <script>
+                            <%= candidate.getBirthday().toString() %>
+                            <div class="age-display">
+                                <script>
                                         const birthDate = new Date('<%= candidate.getBirthday().toString() %>');
                                         const today = new Date();
                                         let age = today.getFullYear() - birthDate.getFullYear();
@@ -382,21 +396,21 @@
                                             age--;
                                         }
                                         document.write('(' + age + ' tuổi)');
-                                    </script>
-                                </div>
+                                </script>
+                            </div>
                             <% } else { %>
-                                Chưa cập nhật
+                            Chưa cập nhật
                             <% } %>
                         </span>
                     </div>
-                    
+
                     <div class="info-item">
                         <span class="info-label">🌍 Quốc tịch</span>
                         <span class="info-value">
                             <%= candidate.getNationality() != null && !candidate.getNationality().trim().isEmpty() ? candidate.getNationality() : "Chưa cập nhật" %>
                         </span>
                     </div>
-                    
+
                     <div class="info-item">
                         <span class="info-label">📧 Email liên hệ</span>
                         <span class="info-value">
@@ -404,7 +418,7 @@
                         </span>
                     </div>
                 </div>
-                
+
                 <button class="edit-profile-btn" onclick="openEditModal()">
                     ✏️ Chỉnh sửa thông tin cá nhân
                 </button>
@@ -413,22 +427,21 @@
             <div class="profile-sidebar">
                 <a href="<%= request.getContextPath() %>/log/ChangePassword.jsp" class="sidebar-btn">
                     <svg class="btn-icon" viewBox="0 0 20 20">
-                        <path fill="#4a90e2" d="M10 2a4 4 0 0 1 4 4v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h1V6a4 4 0 0 1 4-4zm2 6V6a2 2 0 1 0-4 0v2h4zm-7 2v7h10v-7H5zm5 2a1 1 0 0 1 1 1a1 1 0 1 1-2 0a1 1 0 0 1 1-1z"/>
+                    <path fill="#4caf50" d="M10 2a4 4 0 0 1 4 4v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h1V6a4 4 0 0 1 4-4zm2 6V6a2 2 0 1 0-4 0v2h4zm-7 2v7h10v-7H5zm5 2a1 1 0 0 1 1 1a1 1 0 1 1-2 0a1 1 0 0 1 1-1z"/>
                     </svg>
                     Thay đổi mật khẩu
                 </a>
 
-
                 <button class="sidebar-btn" onclick="navigateToHome()">
                     <svg class="btn-icon" viewBox="0 0 20 20">
-                        <path fill="#4a90e2" d="M10 3.293l7 7V18a1 1 0 0 1-1 1h-4v-5H8v5H4a1 1 0 0 1-1-1v-7.707l7-7zm-7.707 8.707a1 1 0 0 1 0-1.414l8-8a1 1 0 0 1 1.414 0l8 8a1 1 0 0 1-1.414 1.414L17 11.414V18a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6.586l-1.293 1.293a1 1 0 0 1-1.414-1.414z"/>
+                    <path fill="#4caf50" d="M10 3.293l7 7V18a1 1 0 0 1-1 1h-4v-5H8v5H4a1 1 0 0 1-1-1v-7.707l7-7zm-7.707 8.707a1 1 0 0 1 0-1.414l8-8a1 1 0 0 1 1.414 0l8 8a1 1 0 0 1-1.414 1.414L17 11.414V18a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6.586l-1.293 1.293a1 1 0 0 1-1.414-1.414z"/>
                     </svg>
                     Trang chủ
                 </button>
 
                 <a href="<%= request.getContextPath() %>/LogOut" class="sidebar-btn">
                     <svg class="btn-icon" viewBox="0 0 20 20">
-                        <path fill="#4a90e2" d="M16 13v-2h-6v-2h6V7l5 3l-5 3zm-2-8V2H2v16h12v-3h-2v1H4V4h8v1h2z"/>
+                    <path fill="#4caf50" d="M16 13v-2h-6v-2h6V7l5 3l-5 3zm-2-8V2H2v16h12v-3h-2v1H4V4h8v1h2z"/>
                     </svg>
                     Đăng Xuất
                 </a>
@@ -440,7 +453,7 @@
             <div class="modal-content">
                 <span class="modal-close" onclick="closeEditModal()">×</span>
                 <h3 class="modal-title">Chỉnh sửa thông tin cá nhân</h3>
-                
+
                 <form action="candidateProfile" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label class="form-label">Tên đăng nhập</label>
@@ -452,7 +465,7 @@
                             <label class="form-label">Email</label>
                             <input type="email" name="email" id="candidateEmailInput" class="form-input" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label">Ngày sinh</label>
                             <input type="date" name="birthday" id="candidateBirthdayInput" class="form-input" required>
@@ -491,16 +504,16 @@
         <script>
             function openEditModal() {
                 document.getElementById('profileEditModal').style.display = 'flex';
-                
+
                 // Pre-fill form with current data
                 document.getElementById('candidateNameInput').value = '<%=candidate.getCandidateName() != null ? candidate.getCandidateName() : ""%>';
                 document.getElementById('candidateEmailInput').value = '<%=candidate.getEmail() != null ? candidate.getEmail() : ""%>';
                 document.getElementById('candidateAddressInput').value = '<%=candidate.getAddress() != null ? candidate.getAddress() : ""%>';
                 document.getElementById('candidateNationalityInput').value = '<%=candidate.getNationality() != null ? candidate.getNationality() : ""%>';
-                
-                <% if (candidate.getBirthday() != null) { %>
+
+            <% if (candidate.getBirthday() != null) { %>
                 document.getElementById('candidateBirthdayInput').value = '<%=candidate.getBirthday().toString()%>';
-                <% } %>
+            <% } %>
             }
 
             function closeEditModal() {
@@ -562,7 +575,7 @@
                 });
 
                 // Handle ESC key to close modal
-                document.addEventListener('keydown', function(event) {
+                document.addEventListener('keydown', function (event) {
                     if (event.key === 'Escape') {
                         closeEditModal();
                     }

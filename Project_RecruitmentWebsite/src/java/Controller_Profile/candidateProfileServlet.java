@@ -60,7 +60,6 @@ public class candidateProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
@@ -75,67 +74,65 @@ public class candidateProfileServlet extends HttpServlet {
 
         Candidate candidate = candidateDAO.getCandidateByName(username);
 
-        String candidateName = getParameterSafely(request, "candidateName");
-        String email = getParameterSafely(request, "email");
-        String address = getParameterSafely(request, "address");
-        String nationality = getParameterSafely(request, "nationality");
-        String birthdayStr = getParameterSafely(request, "birthday");
-        if (rCandidateDAO.isCandidatetNameUser(candidateName) && !candidateName.equals(username)) {
-            throw new IllegalArgumentException("Tên đăng nhập đã tồn tại");
-        }
-        if (rCandidateDAO.isEmaiCandidateUser(email) && !email.equals(candidate.getEmail())) {
-            throw new IllegalArgumentException("Email đã tồn tại");
-        }
-        // Validate required fields
-        if (isEmptyOrNull(candidateName) || isEmptyOrNull(email)
-                || isEmptyOrNull(address) || isEmptyOrNull(nationality)) {
-            throw new IllegalArgumentException("Vui lòng điền đầy đủ thông tin bắt buộc");
-        }
+        try {
+            String candidateName = getParameterSafely(request, "candidateName");
+            String email = getParameterSafely(request, "email");
+            String address = getParameterSafely(request, "address");
+            String nationality = getParameterSafely(request, "nationality");
+            String birthdayStr = getParameterSafely(request, "birthday");
 
-        // Validate email format
-        if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("Định dạng email không hợp lệ");
-        }
-
-        // Parse birthday
-        Date birthday = null;
-        if (!isEmptyOrNull(birthdayStr)) {
-            birthday = parseDate(birthdayStr);
-            if (birthday != null && !isValidAge(birthday)) {
-                throw new IllegalArgumentException("Tuổi phải từ 16 đến 65 tuổi");
+            if (rCandidateDAO.isCandidatetNameUser(candidateName) && !candidateName.equals(username)) {
+                throw new IllegalArgumentException("Tên đăng nhập đã tồn tại");
             }
-        }
+            if (rCandidateDAO.isEmaiCandidateUser(email) && !email.equals(candidate.getEmail())) {
+                throw new IllegalArgumentException("Email đã tồn tại");
+            }
 
-        // Update candidate information
-        candidate.setCandidateName(candidateName.trim());
-        candidate.setEmail(email.trim().toLowerCase());
-        candidate.setAddress(address.trim());
-        candidate.setNationality(nationality.trim());
-        candidate.setBirthday(birthday);
+            if (isEmptyOrNull(candidateName) || isEmptyOrNull(email)
+                    || isEmptyOrNull(address) || isEmptyOrNull(nationality)) {
+                throw new IllegalArgumentException("Vui lòng điền đầy đủ thông tin bắt buộc");
+            }
 
-        // Handle avatar upload
-        Part avatarPart = request.getPart("avatar");
-        if (avatarPart != null && avatarPart.getSize() > 0) {
-            InputStream inputStream = avatarPart.getInputStream();
-            candidate.setAvatar(inputStream);
-        }
+            if (!isValidEmail(email)) {
+                throw new IllegalArgumentException("Định dạng email không hợp lệ");
+            }
 
-        // Update in database
-        boolean updateSuccess = candidateDAO.updateCandidate(candidate);
+            Date birthday = null;
+            if (!isEmptyOrNull(birthdayStr)) {
+                birthday = parseDate(birthdayStr);
+                if (!isValidAge(birthday)) {
+                    throw new IllegalArgumentException("Tuổi phải từ 16 đến 65 tuổi");
+                }
+            }
 
-        if (updateSuccess) {
-            // Update session with new data
-            session.setAttribute("candidate", candidate);
+            candidate.setCandidateName(candidateName.trim());
+            candidate.setEmail(email.trim().toLowerCase());
+            candidate.setAddress(address.trim());
+            candidate.setNationality(nationality.trim());
+            candidate.setBirthday(birthday);
+
+            Part avatarPart = request.getPart("avatar");
+            if (avatarPart != null && avatarPart.getSize() > 0) {
+                InputStream inputStream = avatarPart.getInputStream();
+                candidate.setAvatar(inputStream);
+            }
+
+            boolean updateSuccess = candidateDAO.updateCandidate(candidate);
 
             request.setAttribute("candidate", candidate);
-            request.setAttribute("successMessage", "Cập nhật thông tin thành công!");
-            request.getRequestDispatcher("/log/profile.jsp").forward(request, response);
+            if (updateSuccess) {
+                session.setAttribute("candidate", candidate);
+                request.setAttribute("successMessage", "Cập nhật thông tin thành công!");
+            }
 
-        } else {
-            request.getRequestDispatcher("/log/profile.jsp").forward(request, response);
-
+        } catch (IllegalArgumentException ex) {
+            // Gửi lỗi về JSP
+            request.setAttribute("candidate", candidate);
+            request.setAttribute("errorMessage", ex.getMessage());
         }
 
+        // Hiển thị lại trang hồ sơ
+        request.getRequestDispatcher("/log/profile.jsp").forward(request, response);
     }
 
     /**

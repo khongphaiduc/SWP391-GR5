@@ -59,18 +59,20 @@
                 <div class="dropdown-menu rounded-0 m-0">
                     <a href="${pageContext.request.contextPath}/submitCV" class="dropdown-item">Tạo CV</a>
                     <a href="${pageContext.request.contextPath}/manageCreatedCV" class="dropdown-item">Quản lý CV đã tạo</a> 
+                    <a href="${pageContext.request.contextPath}/CandidateApplyList" class="dropdown-item" >Đơn tuyển</a>
+
                 </div>
             </div>
             <%}else if("Employer".equals(role)){%>
             <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">For Employer</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="${pageContext.request.contextPath}/manageCreatedJob" class="dropdown-item">Quản lý tin tuyển</a> 
-                                <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
-                                <a href="${pageContext.request.contextPath}/potential-cvs" class="dropdown-item"> CV Tiềm Năng </a>
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">For Employer</a>
+                <div class="dropdown-menu rounded-0 m-0">
+                    <a href="${pageContext.request.contextPath}/manageCreatedJob" class="dropdown-item">Quản lý tin tuyển</a> 
+                    <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
+                    <a href="${pageContext.request.contextPath}/potential-cvs" class="dropdown-item"> CV Tiềm Năng </a>
 
-                            </div>
-                        </div>
+                </div>
+            </div>
             <%}%>
             <a href="contact.jsp" class="nav-item nav-link">Contact</a>
         </div>
