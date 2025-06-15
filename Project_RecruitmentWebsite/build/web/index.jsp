@@ -127,7 +127,7 @@
 
         <c:if test="${sessionScope.username != null && sessionScope.role != 'Employer'}">
             <div class="avatar-fixed-container">
-                <a href="${pageContext.request.contextPath}/log/profile.jsp" target="target">
+                <a href="${pageContext.request.contextPath}/candidateProfile" target="target">
                     <img src="img/sontung.jpg" width="50" height="50" alt="sontung" class="avatar-fixed-img"/>
                 </a>
                 <div class="avatar-greeting">
@@ -193,13 +193,16 @@
                         <%if("Candidate".equals(role)){%>
                         <div class="nav-item dropdown">
 
-
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Quản lý CV</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="${pageContext.request.contextPath}/submitCV" class="dropdown-item">Tạo CV</a>
                                 <a href="${pageContext.request.contextPath}/manageCreatedCV" class="dropdown-item">Quản lý CV đã tạo</a> 
+                                <a href="${pageContext.request.contextPath}/CandidateApplyList" class="dropdown-item" >Đơn tuyển</a>
+
                             </div>
                         </div>
+
+
 
                         <%}else if("Employer".equals(role)){%>                      
                         <div class="nav-item dropdown">
