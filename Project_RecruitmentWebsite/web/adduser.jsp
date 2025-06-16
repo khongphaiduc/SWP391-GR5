@@ -78,16 +78,13 @@
     <div class="container">
         <div class="flip-card">
             <div class="flip-card-front">
-                <h2>Thêm Người Dùng Mới</h2>
-                <form action="addUser" method="post" autocomplete="off">
+                <h2>Thêm Admin Mới</h2>
+                <form action="addAdmin" method="post" autocomplete="off">
                     <div class="form-group">
                         <label for="add-user">Tên đăng nhập</label>
                         <input type="text" id="add-user" name="username" style="width: 400px" value="" required>
                     </div>
-                    <div class="form-group">
-                        <label for="add-email">Email</label>
-                        <input type="email" id="add-email" name="email" style="width: 400px" value="" required>
-                    </div>
+               
                     <div class="form-group">
                         <label for="add-pass">Mật khẩu</label>
                         <input type="password" id="add-pass" name="password1" style="width: 400px" required>
@@ -96,13 +93,8 @@
                         <label for="add-pass">Mật khẩu</label>
                         <input type="password" id="add-pass" name="password2" style="width: 400px" required>
                     </div>
-                    <div class="form-group">
-                        <label for="add-role">Vai trò</label>
-                        <br>
-                        <input style="margin-left: 20px" type="radio" name="role" value="Candidate" required />Candidate
-                        <input style="margin-left: 180px" type="radio" name="role" value="Employer" />Employer
-                    </div>
-                    <button type="submit">Thêm Người Dùng</button>
+                
+                    <button type="submit">Thêm</button>
                 </form>
                 <div style="display: flex; justify-content: center;">
                     <a style="margin-top: 20px;" href="list">Quay lại Dashboard</a>
