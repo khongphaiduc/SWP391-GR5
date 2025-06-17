@@ -74,9 +74,6 @@ public class viewCVServlet extends HttpServlet {
             String mimeType = cv.getMimeType();
             response.setContentType(mimeType);
 
-//            if (!mimeType.startsWith("image/")) {
-//                response.setHeader("Content-Disposition", "inline; filename=\"cv." + getExtensionFromMimeType(mimeType) + "\"");
-//            }
             InputStream inputStream = cv.getFileData();
             OutputStream out = response.getOutputStream();
             byte[] buffer = new byte[4096];
@@ -119,13 +116,15 @@ public class viewCVServlet extends HttpServlet {
             Date birthday = Date.valueOf(request.getParameter("birthday"));
             String nationality = request.getParameter("nationality");
             String gender = request.getParameter("gender");
+            
+            
             Part filePart = request.getPart("CVFile");
             InputStream inputStream = filePart.getInputStream();
             String mimeType = filePart.getContentType();
             CVDAO dao = new CVDAO();
             boolean updated = false;
             if (filePart != null && filePart.getSize() > 0) {
-                if (mimeType.startsWith("image/") && filePart.getSize() < 1000000) {
+                if (mimeType.startsWith("image/") && filePart.getSize() < 3000000) {
                     updated = dao.editCVById(cvId, fullName, address, email,
                             position, numberExp, education,
                             field, currentSalary, birthday, nationality, gender,
@@ -141,9 +140,10 @@ public class viewCVServlet extends HttpServlet {
 
             }
 
-            PrintWriter out = response.getWriter();
-            out.print(inputStream);
-            out.print(updated);
+//            PrintWriter out = response.getWriter();
+//            out.print(inputStream);
+//            out.print(updated);
+            
             if (updated) {
                 response.sendRedirect("manageCreatedCV");
             } else {

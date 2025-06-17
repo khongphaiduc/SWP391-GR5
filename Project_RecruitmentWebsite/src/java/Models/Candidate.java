@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Models;
+
+import java.io.InputStream;
+
 public class Candidate {
 
     private int candidateId;
@@ -12,14 +15,14 @@ public class Candidate {
     private java.sql.Date birthday;
     private String nationality;
     private String passwordHash;
-    private byte[] avatar;
+    private InputStream avatar;
 
     // Constructors
     public Candidate() {
     }
 
     public Candidate(int candidateId, String candidateName, String address, String email,
-            java.sql.Date birthday, String nationality, String passwordHash, byte[] avatar) {
+            java.sql.Date birthday, String nationality, String passwordHash, InputStream avatar) {
         this.candidateId = candidateId;
         this.candidateName = candidateName;
         this.address = address;
@@ -87,11 +90,11 @@ public class Candidate {
         this.passwordHash = passwordHash;
     }
 
-    public byte[] getAvatar() {
+    public InputStream getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(byte[] avatar) {
+    public void setAvatar(InputStream avatar) {
         this.avatar = avatar;
     }
 }

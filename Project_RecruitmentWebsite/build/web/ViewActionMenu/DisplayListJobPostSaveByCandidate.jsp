@@ -481,7 +481,6 @@
                                     <a href="#" class="btn btn-gradient me-2 btn-sm"><i class="bi bi-eye"></i> Xem chi tiết</a>
                                     <a href="DeleteJobPostSaved?idJobPost=${s.saveIdJobPost}" target="_self" class="btn btn-outline-danger btn-sm"><i class="bi bi-bookmark-x"> Xóa</i></a>
                                 </div>
-
                             </div>
                         </div>
                     </div>
