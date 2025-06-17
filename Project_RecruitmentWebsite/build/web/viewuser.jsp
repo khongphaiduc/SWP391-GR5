@@ -474,12 +474,12 @@
                                         <div class="d-flex align-items-center">
                                             <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
                                                  style="width: 40px; height: 40px; font-size: 0.9rem; color: white; font-weight: 600;">
-                                                ${emp.employerName.substring(0, 1).toUpperCase()}
+                                                ${emp.nameEmployer.substring(0, 1).toUpperCase()}
 
 
                                             </div>
                                             <div>
-                                                <div class="fw-bold">${emp.employerName}</div>
+                                                <div class="fw-bold">${emp.nameEmployer}</div>
                                                 <small class="text-muted">Member since 2024</small>
                                             </div>
                                         </div>

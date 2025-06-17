@@ -115,7 +115,7 @@
             }
         </style>
 
-     
+
     </head>
 
     <body>
@@ -127,7 +127,7 @@
 
         <c:if test="${sessionScope.username != null && sessionScope.role != 'Employer'}">
             <div class="avatar-fixed-container">
-                <a href="${pageContext.request.contextPath}/log/profile.jsp" target="target">
+                <a href="${pageContext.request.contextPath}/candidateProfile" target="target">
                     <img src="img/sontung.jpg" width="50" height="50" alt="sontung" class="avatar-fixed-img"/>
                 </a>
                 <div class="avatar-greeting">
@@ -138,7 +138,7 @@
         </c:if>
         <c:if test="${sessionScope.username != null && sessionScope.role == 'Employer'}">
             <div class="avatar-fixed-container">
-                <a href="${pageContext.request.contextPath}/EmployerInfo.jsp" target="target">
+                <a href="${pageContext.request.contextPath}/employerProfile" target="target">
                     <img src="img/sontung.jpg" width="50" height="50" alt="sontung" class="avatar-fixed-img"/>
                 </a>
                 <div class="avatar-greeting">
@@ -193,13 +193,16 @@
                         <%if("Candidate".equals(role)){%>
                         <div class="nav-item dropdown">
 
-
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Quản lý CV</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="${pageContext.request.contextPath}/submitCV" class="dropdown-item">Tạo CV</a>
                                 <a href="${pageContext.request.contextPath}/manageCreatedCV" class="dropdown-item">Quản lý CV đã tạo</a> 
+                                <a href="${pageContext.request.contextPath}/CandidateApplyList" class="dropdown-item" >Đơn tuyển</a>
+
                             </div>
                         </div>
+
+
 
                         <%}else if("Employer".equals(role)){%>                      
                         <div class="nav-item dropdown">
@@ -274,8 +277,8 @@
 
 
                         <!-- Search -->                         
-                        <form  action="getListJobPost" method="get" >
-                            <input name="search" type="text" placeholder="Search Tên Công Ty " style="flex: 1; border: none; outline: none; background: transparent; font-size: 1rem; color: #555; padding: 0 10px; height: 36px;margin-left: -750px ;" />
+                        <form  action="searchListJobPost" method="get" >
+                            <input name="searchKey" type="text" placeholder="Search Tên Công Ty " style="flex: 1; border: none; outline: none; background: transparent; font-size: 1rem; color: #555; padding: 0 10px; height: 36px;margin-left: -750px ;" />
                             <input type="submit" name="name" value="Tìm Kiếm" style="background-color: #33cc00;color: #ffffff;border-radius: 10px;border: #ffffff;margin-left: 550px;width: 120px ;height: 40px">
                         </form>
 
@@ -687,6 +690,25 @@
 
             <!--            hiển thị Action Menu-->
             <div class="floating-actions-v2">
+                     <%
+        // Kiểm tra session và vai trò Admin
+        if (session.getAttribute("username") != null && 
+            session.getAttribute("role") != null && 
+            session.getAttribute("role").equals("Admin")) {
+    %>
+        <div class="fab-item fab-heart" title="Admin Dashboard">
+            <a href="<%= request.getContextPath() %>/list" target="_self" id="favorite-btn-v2" class="fab-btn">
+                <i class="bi-gear-fill"></i>
+                <c:if test="${username != null}">
+                    <span class="fab-badge" id="favorite-count-v2">${numberJobPost}</span>
+                </c:if>
+            </a>
+            <span class="fab-hover-label">Admin Dashboard</span>
+        </div>
+    <%
+        }
+    %>
+
                 <div class="fab-item fab-heart" title="Việc làm yêu thích">
                     <a href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" id="favorite-btn-v2" class="fab-btn" >
                         <i class="bi bi-heart-fill"></i>

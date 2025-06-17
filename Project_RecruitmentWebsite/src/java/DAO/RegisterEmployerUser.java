@@ -33,6 +33,27 @@ public class RegisterEmployerUser extends DBContext {
         return false;
     }
 
+    // lấy tên đăng nhập bằng email
+    public String getNamAcountByEmailofEmployer(String mail) {
+        try {
+
+            String query = "SELECT   [EmployerName]\n"
+                    + "  FROM [dbo].[Employer]\n"
+                    + "  Where Email =?";
+            PreparedStatement push = connection.prepareStatement(query);
+            push.setString(1, mail);
+            ResultSet rs = push.executeQuery();
+
+            while (rs.next()) {
+                return rs.getString("EmployerName");
+
+            }
+        } catch (SQLException s) {
+            System.out.println("Bug  SQL:" + s.getMessage());
+        }
+        return " ";
+    }
+
     // kiểm tra tài khoản đã tồn tại yet  (dadx test)
     public boolean isEmployertUser(String account) {
         try {
@@ -57,21 +78,23 @@ public class RegisterEmployerUser extends DBContext {
     }
 
     //đăng ký Employers       (đẫ test)
-    public boolean registerEmployers(String account, String mail, String password) {
+    public boolean registerEmployers(String account, String mail, String phone, String password) {
         try {
             String query = "INSERT INTO [dbo].[Employer]\n"
                     + "           ([EmployerName]\n"
                     + "           ,[Email]\n"
-                    + "           ,[Password_hash])\n"
-                    + "                  \n"
-                    + "     VALUES (?,?,?)";
+                    + "           ,[PhoneNumber]\n"
+                    + "           ,[Password_hash]\n"
+                    + "          )\n"
+                    + "     VALUES (?,?,?,?)";
 
             String passwordHash = EncodePassword.encodePasswordbyHash(password);  // encode trước khi lưu vào database 
 
             PreparedStatement push = connection.prepareStatement(query);
             push.setString(1, account);
             push.setString(2, mail);
-            push.setString(3, passwordHash);
+            push.setString(3, phone);
+            push.setString(4, passwordHash);
 
             int row = push.executeUpdate();
 
@@ -240,13 +263,72 @@ public class RegisterEmployerUser extends DBContext {
         }
         return null;
     }
-    
+
+    // kiểm tra xem phone đã tồn tại yet 
+    public boolean isPhoneNumberEmployer(String phone) {
+        try {
+
+            String query = "SELECT \n"
+                    + " [PhoneNumber]\n"
+                    + "  FROM [dbo].[Employer]\n"
+                    + "  Where PhoneNumber=?";
+
+            PreparedStatement push = connection.prepareStatement(query);
+
+            push.setString(1, phone);
+
+            ResultSet rs = push.executeQuery();
+            while (rs.next()) {
+                return rs.getString("PhoneNumber").equals(phone);
+            }
+        } catch (Exception s) {
+            System.out.println("Bug  SQL:" + s.getMessage());
+
+        }
+        return false;
+    }
+
+//     đăng ký bằng google
+    public boolean RegisterEmployerByGoogle(String mail, String name, String phone, String nameCompany, String location) {
+        try {
+            // mail với tên đang nhập là 1 
+            String query = "INSERT INTO [dbo].[Employer]\n"
+                    + "           ([EmployerName]\n"
+                    + "           ,[Name]\n"
+                    + "           ,[Email]\n"
+                    + "           ,[PhoneNumber]\n"
+                    + "           ,[Password_hash]\n"
+                    + "           ,[Company_Name]\n"
+                    + "           ,[Location]\n"
+                    + "		   )\n"
+                    + "     VALUES  (?,?,?,?,'111111',?,?)\n"
+                    + "          ";
+            PreparedStatement push = connection.prepareStatement(query);
+            push.setString(1, mail);
+            push.setString(2, name);
+            push.setString(3, mail);
+            push.setString(4, phone);
+            push.setString(5, nameCompany);
+            push.setString(6, location);
+            ResultSet rs = push.executeQuery();
+
+            while (rs.next()) {
+
+            }
+        } catch (SQLException s) {
+            System.out.println("Bug  SQL:" + s.getMessage());
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         RegisterEmployerUser o = new RegisterEmployerUser();
 //        System.out.println("Mã code cũ :"+o.getPasswordHashEmpployer("phamtrungduc"));
 //        System.out.println(o.changePasswordEmployer("phamtrungduc","hahahaha","123"));
 //        System.out.println(o.isEmployertUser("phamtrungduc"));
-        System.out.println(o.getIDbyAccountNameEmployer("Công ty NOP"));
+//        System.out.println(o.getIDbyAccountNameEmployer("Công ty NOP"));
+        // System.out.println(o.registerEmployers("phamtrungduc1", "ptrungduc1011@gmail.com", "0329255824", "12"));
+        System.out.println(o.isPhoneNumberEmployer("0329255823"));
     }
 
 }

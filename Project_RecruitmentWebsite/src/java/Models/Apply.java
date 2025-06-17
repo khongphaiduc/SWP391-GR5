@@ -9,30 +9,96 @@ package Models;
  * @author PC
  */
 public class Apply {
+
     private int apply_ID;
     private int jobPost_ID;
     private int candidate_ID;
     private int cv_ID;
     private String status;
     private String step;
+    private String jobTitle;
+    private String jobPosition;
+    private double offerMin;
+    private double offerMax;
 
-    // Getters & Setters
-    public int getApply_ID() { return apply_ID; }
-    public void setApply_ID(int apply_ID) { this.apply_ID = apply_ID; }
+// Getter & Setter
+    public String getJobTitle() {
+        return jobTitle;
+    }
 
-    public int getJobPost_ID() { return jobPost_ID; }
-    public void setJobPost_ID(int jobPost_ID) { this.jobPost_ID = jobPost_ID; }
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
 
-    public int getCandidate_ID() { return candidate_ID; }
-    public void setCandidate_ID(int candidate_ID) { this.candidate_ID = candidate_ID; }
+    public String getJobPosition() {
+        return jobPosition;
+    }
 
-    public int getCV_ID() { return cv_ID; }
-    public void setCV_ID(int cv_ID) { this.cv_ID = cv_ID; }
+    public void setJobPosition(String jobPosition) {
+        this.jobPosition = jobPosition;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public double getOfferMin() {
+        return offerMin;
+    }
 
-    public String getStep() { return step; }
-    public void setStep(String step) { this.step = step; }
+    public void setOfferMin(double offerMin) {
+        this.offerMin = offerMin;
+    }
+
+    public double getOfferMax() {
+        return offerMax;
+    }
+
+    public void setOfferMax(double offerMax) {
+        this.offerMax = offerMax;
+    }
+
+    public int getApply_ID() {
+        return apply_ID;
+    }
+
+    public void setApply_ID(int apply_ID) {
+        this.apply_ID = apply_ID;
+    }
+
+    public int getJobPost_ID() {
+        return jobPost_ID;
+    }
+
+    public void setJobPost_ID(int jobPost_ID) {
+        this.jobPost_ID = jobPost_ID;
+    }
+
+    public int getCandidate_ID() {
+        return candidate_ID;
+    }
+
+    public void setCandidate_ID(int candidate_ID) {
+        this.candidate_ID = candidate_ID;
+    }
+
+    public int getCV_ID() {
+        return cv_ID;
+    }
+
+    public void setCV_ID(int cv_ID) {
+        this.cv_ID = cv_ID;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStep() {
+        return step;
+    }
+
+    public void setStep(String step) {
+        this.step = step;
+    }
 }
-

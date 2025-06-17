@@ -4,6 +4,8 @@
  */
 package Models;
 
+import java.io.InputStream;
+
 /**
  *
  * @author PC
@@ -11,27 +13,35 @@ package Models;
 public class Employer {
 
     private int employerId;
-
-    private String EmployerName;
+    private String nameEmployer;
     private String email;
-     private String passwordHash;
-
+    private String passwordHash;
     private String companyName;
     private String description;
     private String location;
     private String urlWebsite;
     private String companySize;
-    private byte[] imgLogo;
+    private InputStream imgLogo;
+    private String phoneNumber;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
 
     // Constructors
     public Employer() {
     }
 
-
-    public Employer(int employerId, String EmployerName, String email, String passwordHash, String companyName, String description, String location, String urlWebsite, String companySize, byte[] imgLogo) {
+    public Employer(int employerId, String nameEmployer, String email, String passwordHash,
+            String companyName, String description, String location,
+            String urlWebsite, String companySize, InputStream imgLogo) {
         this.employerId = employerId;
-        this.EmployerName = EmployerName;
-
+        this.nameEmployer = nameEmployer;
         this.email = email;
         this.passwordHash = passwordHash;
         this.companyName = companyName;
@@ -51,14 +61,12 @@ public class Employer {
         this.employerId = employerId;
     }
 
-
-    public String getEmployerName() {
-        return EmployerName;
+    public String getNameEmployer() {
+        return nameEmployer;
     }
 
-    public void setEmployerName(String EmployerName) {
-        this.EmployerName = EmployerName;
-
+    public void setNameEmployer(String nameEmployer) {
+        this.nameEmployer = nameEmployer;
     }
 
     public String getEmail() {
@@ -117,19 +125,11 @@ public class Employer {
         this.companySize = companySize;
     }
 
-    public byte[] getImgLogo() {
+    public InputStream getImgLogo() {
         return imgLogo;
     }
 
-    public void setImgLogo(byte[] imgLogo) {
+    public void setImgLogo(InputStream imgLogo) {
         this.imgLogo = imgLogo;
     }
-
-
-
-    
-
-    
 }
-
-

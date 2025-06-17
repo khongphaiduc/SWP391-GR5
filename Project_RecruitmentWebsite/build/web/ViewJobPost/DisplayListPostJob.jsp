@@ -345,6 +345,12 @@
                 }
             }
 
+            .custom-toast.show {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
         </style>
         <!--          End css thong bao-->
 
@@ -783,8 +789,7 @@
 
                                 <!--                               lưu jobPost-->
                                 <c:if test="${sessionScope.username != null and sessionScope.role eq 'Candidate'}">
-                                    <a href="SaveJobPost?idJobPost=${s.jobPost_ID}" target="_self" style="text-decoration: none;">
-
+                                    <a  href="#" class="save-job-btn" data-id="${s.jobPost_ID}" style="text-decoration: none;">
                                         <svg width="36" height="40" viewBox="0 0 49 55" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="24.5" cy="27.5" r="17" stroke="#16B155" stroke-width="2.5" fill="none"/>
                                         <path d="M24.5 34
@@ -794,8 +799,6 @@
                                               C33.5 27.5, 26.5 32.5, 24.5 34Z"
                                               stroke="#16B155" stroke-width="2" fill="none"/>
                                         </svg>
-
-
                                     </a>
                                 </c:if>
 
@@ -824,41 +827,31 @@
             </c:forEach>
 
             <!--             thông báo-->
-            <c:if test="${temporary == true}">
 
-                <c:choose>
-                    <c:when test="${status1 == true}">
-                        <div id="status1-message" class="custom-toast toast-success">
-                            <span class="toast-anim-icon">
-                                <!-- Animated checkmark SVG -->
-                                <svg class="checkmark" viewBox="0 0 52 52">
-                                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                                <path class="checkmark-check" fill="none" d="M14 27l7 7 17-17"/>
-                                </svg>
-                            </span>
-                            <span>Lưu Thành Công</span>
+            <div id="thongbao1-status1-message" class="custom-toast toast-success" >
+                <span class="toast-anim-icon">
+                    <!-- Animated checkmark SVG -->
+                    <svg class="checkmark" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14 27l7 7 17-17"/>
+                    </svg>
+                </span>
+                <span>Lưu Thành Công</span>
 
-                        </div>
-                        <% session.removeAttribute("status1"); %>
-                    </c:when>
-                    <c:otherwise>
-                        <div id="status1-message" class="custom-toast toast-error">
-                            <span class="toast-anim-icon">
-                                <!-- Animated cross SVG -->
-                                <svg class="crossmark" viewBox="0 0 52 52">
-                                <circle class="crossmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                                <path class="crossmark-cross" fill="none" d="M17 17 35 35 M35 17 17 35"/>
-                                </svg>
-                            </span>
-                            <span>Tin tuyển dụng này đã được lưu</span>
+            </div>
 
-                        </div>
-                    </c:otherwise>
-                </c:choose>
 
-                <% session.removeAttribute("temporary"); %>
+            <div id="thongbao2-status1-message" class="custom-toast toast-error">
+                <span class="toast-anim-icon">
+                    <!-- Animated cross SVG -->
+                    <svg class="crossmark" viewBox="0 0 52 52">
+                    <circle class="crossmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="crossmark-cross" fill="none" d="M17 17 35 35 M35 17 17 35"/>
+                    </svg>
+                </span>
+                <span>Tin tuyển dụng này đã được lưu</span>
+            </div>
 
-            </c:if>
 
 
             <!-- End hiển thị job -->
@@ -901,9 +894,6 @@
                         </div>
                     </div>
                     <div class="support-popup-body">
-                        <!--                        <a class="support-popup-link" href="#" target="_blank">
-                                                    <i class="bi bi-person"></i> Hướng dẫn quản lý tài khoản
-                                                </a>-->
                         <a class="support-popup-link" href="#" target="_blank">
                             <i class="bi bi-question-circle"></i> Các câu hỏi thường gặp
                         </a>
@@ -993,7 +983,7 @@
                     }
                 };
             </script>
-<!--                    End Action Menu-->
+            <!--                    End Action Menu-->
 
         </div>
 
@@ -1030,17 +1020,18 @@
                 <ul class="pagination">
                     <c:if test="${currentPage > 1}">
                         <li class="page-item">
-                            <a class="page-link" href="getListJobPost?page=${currentPage - 1}">&laquo; Trước</a>
+                            <a class="page-link" href="searchListJobPost?page=${currentPage - 1}">&laquo; Trước</a>
                         </li>
                     </c:if>
                     <c:forEach var="i" begin="1" end="${totalPages}">
                         <li class="page-item ${i == currentPage ? 'active' : ''}">
-                            <a class="page-link" href="getListJobPost?page=${i}"> ${i} </a>
+                            <a class="page-link" href="searchListJobPost?page=${i}"> ${i} </a>
                         </li>
                     </c:forEach>
                     <c:if test="${currentPage < totalPages}">
                         <li class="page-item">
-                            <a class="page-link" href="getListJobPost?page=${currentPage + 1}">Sau &raquo;</a>
+                            <a class="page-link" href="searchListJobPost?page=${currentPage + 1}">Sau &raquo;</a>
+
                         </li>
                     </c:if>
                 </ul>
@@ -1065,6 +1056,46 @@
                 statusElem.classList.add('show');
                 setTimeout(() => hideStatusToast(), 1000);
             }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const saveButtons = document.querySelectorAll(".save-job-btn");
+
+            saveButtons.forEach(button => {
+                button.addEventListener("click", function (e) {
+                    e.preventDefault();
+
+                    const jobPostId = this.getAttribute("data-id");   // lấy id
+                    console.log(" ID:", jobPostId);
+
+                    fetch(`SaveJobPost?idJobPost=` + jobPostId, {// dcm bug lon fix mãi mới xong
+                        method: "GET"
+                    })
+                            .then(response => {
+
+                                if (response.ok) {
+                                    const inform = document.getElementById("thongbao1-status1-message");
+                                    inform.classList.add('show');
+                                    setTimeout(() => {
+                                        inform.classList.remove("show");
+                                    }, 1000);
+                                } else {
+                                    const inform = document.getElementById("thongbao2-status1-message");
+                                    inform.classList.add('show');
+                                    setTimeout(() => {
+                                        inform.classList.remove("show");
+                                    }, 1000);
+                                }
+
+                            })
+                            .catch(error => {
+                                console.error("Lỗi:", error);
+                                alert("Có lỗi xảy ra!");
+                            });
+                });
+            });
         });
     </script>
 </html>

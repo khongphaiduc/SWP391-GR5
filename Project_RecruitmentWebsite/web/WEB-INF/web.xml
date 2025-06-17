@@ -32,6 +32,26 @@
         <servlet-name>detailJobServlet</servlet-name>
         <servlet-class>Controller_Job.detailJobServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>employerProfileServlet</servlet-name>
+        <servlet-class>Controller_Profile.employerProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>viewLogoServlet</servlet-name>
+        <servlet-class>Controller_Profile.viewLogoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CandidateProfileServlet</servlet-name>
+        <servlet-class>Controller_Profile.CandidateProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>candidateProfileServlet</servlet-name>
+        <servlet-class>Controller_Profile.candidateProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CandidateApplyListServlet</servlet-name>
+        <servlet-class>Controller_Apply.CandidateApplyListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -63,5 +83,25 @@
     <servlet-mapping>
         <servlet-name>detailJobServlet</servlet-name>
         <url-pattern>/detailJob</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>employerProfileServlet</servlet-name>
+        <url-pattern>/employerProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewLogoServlet</servlet-name>
+        <url-pattern>/viewLogo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CandidateProfileServlet</servlet-name>
+        <url-pattern>/CandidateProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>candidateProfileServlet</servlet-name>
+        <url-pattern>/candidateProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CandidateApplyListServlet</servlet-name>
+        <url-pattern>/CandidateApplyList</url-pattern>
     </servlet-mapping>
 </web-app>

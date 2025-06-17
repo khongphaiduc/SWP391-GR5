@@ -31,6 +31,27 @@ public class RegisterCandidateUser extends DBContext {
         return false;
     }
 
+    // lấy tên đăng nhập bằng email
+    public String getNamAcountByEmailofCandidate(String mail) {
+        try {
+
+            String query = "SELECT [CandidateName]\n"
+                    + "  FROM [dbo].[Candidate]\n"
+                    + "  Where Email = ? ";
+            PreparedStatement push = connection.prepareStatement(query);
+            push.setString(1, mail);
+            ResultSet rs = push.executeQuery();
+
+            while (rs.next()) {
+                return rs.getString("CandidateName");
+
+            }
+        } catch (SQLException s) {
+            System.out.println("Bug  SQL:" + s.getMessage());
+        }
+        return " ";
+    }
+
     // kiểm tra tài khoản đã tồn tại yet  (dadx test)
     public boolean isCandidatetNameUser(String account) {
         try {
@@ -224,11 +245,11 @@ public class RegisterCandidateUser extends DBContext {
             PreparedStatement push = connection.prepareStatement(query);
 
             push.setString(1, accountName);
-            
-           ResultSet rs= push.executeQuery();
-           while(rs.next()){
-               return rs.getString("Candidate_ID");
-           }
+
+            ResultSet rs = push.executeQuery();
+            while (rs.next()) {
+                return rs.getString("Candidate_ID");
+            }
         } catch (Exception s) {
             System.out.println("Bug  SQL:" + s.getMessage());
 
@@ -236,12 +257,35 @@ public class RegisterCandidateUser extends DBContext {
         return null;
     }
 
+    // đăng ký tài khoản bằng google cho thằng candidate  (đã test)
+    public boolean RegisterCandidateByGoogle(String mail) {
+        try {
+
+            String query = "INSERT INTO [dbo].[Candidate]\n"
+                    + "           ([CandidateName]\n"
+                    + "           ,[Email]\n"
+                    + "           ,[Password_hash]\n"
+                    + "		   )\n"
+                    + "     VALUES  (?,?,'111111111111111')";
+            PreparedStatement push = connection.prepareStatement(query);
+            push.setString(1, mail);
+            push.setString(2, mail);
+            int row = push.executeUpdate();
+            System.out.println(row != 0 ? "Thêm Thành Công" : "Thêm thất bại");
+            return row != 0;
+        } catch (SQLException s) {
+            System.out.println("Bug  SQL:" + s.getMessage());
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         RegisterCandidateUser o = new RegisterCandidateUser();
 //        System.out.println(o.LogInAccountCandidate("phamtrungduc", "12345"));
         // System.out.println(o.changePasswordEmployer("phamtrungduc", "dfghhdt-926226851550952879", "12345"));
-   //     System.out.println(o.isCandidatetNameUser("phamtrungduc"));
-        System.out.println(o.getIDbyAccountNameCandidate("phamtrungduc"));
+        //     System.out.println(o.isCandidatetNameUser("phamtrungduc"));
+//        System.out.println(o.getIDbyAccountNameCandidate("phamtrungduc"));
+        System.out.println(o.RegisterCandidateByGoogle("ducchimto@gmail.com"));
 
     }
 }

@@ -126,6 +126,22 @@
                 font-weight: 500;
             }
 
+            .cv-card .save-link {
+                font-size: 20px;
+                color: #28a745;
+                font-weight: 500;
+                background: none;
+                border: none;
+                cursor: pointer;
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+
+            .cv-card .save-link:hover {
+                color: #218838;
+                text-decoration: underline;
+            }
+
             /* CV Table (List View) */
             .cv-table {
                 display: none;
@@ -191,7 +207,7 @@
                                 <input type="number" name="numberExp" class="form-control" placeholder="e.g. 3" value="${param.numberExp}">
                             </div>
 
-                            <!-- Hidden employerId (nếu cần gửi qua form) -->
+                            <!-- Hidden employerId -->
                             <input type="hidden" name="employerId" value="${sessionScope.employerId != null ? sessionScope.employerId : ''}">
 
                             <button type="submit" class="btn btn-find-job w-100 mt-4">Find CV</button>
@@ -204,38 +220,13 @@
                     <div class="main-content">
                         <h2>Danh sách CV đã ứng tuyển vào công ty</h2>
 
-                        <!-- Search and Filter Bar -->
-                        <!--                        <div class="search-filter-bar">
-                                                    <form action="SearchCVsServlet" method="get" class="row g-3">
-                                                         Hidden input for employerId 
-                                                        <input type="hidden" name="employerId" value="${sessionScope.employerId != null ? sessionScope.employerId : ''}">
-                        
-                                                        <div class="col-md-4">
-                                                            <input type="text" name="address" class="form-control" placeholder="Search by address" value="${param.address != null ? param.address : ''}">
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <select name="position" class="form-select">
-                                                                <option value="">Tất cả vị trí</option>
-                                                                <option value="Web Dev" ${param.position == 'Web Dev' ? 'selected' : ''}>Web Dev</option>
-                                                                <option value="Tester" ${param.position == 'Tester' ? 'selected' : ''}>Tester</option>
-                                                                <option value="Designer" ${param.position == 'Designer' ? 'selected' : ''}>Designer</option>
-                                                                <option value="Manager" ${param.position == 'Manager' ? 'selected' : ''}>Manager</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <select name="numberExp" class="form-select">
-                                                                <option value="">Tất cả kinh nghiệm</option>
-                                                                <option value="1" ${param.numberExp == '1' ? 'selected' : ''}>0-2 năm</option>
-                                                                <option value="2" ${param.numberExp == '2' ? 'selected' : ''}>2-5 năm</option>
-                                                                <option value="3" ${param.numberExp == '3' ? 'selected' : ''}>5+ năm</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
-                                                        </div>
-                                                    </form>
-                                                </div>-->
-
+                        <!-- Display success or error messages -->
+                        <c:if test="${not empty message}">
+                            <div class="alert alert-success">${message}</div>
+                        </c:if>
+                        <c:if test="${not empty error}">
+                            <div class="alert alert-danger">${error}</div>
+                        </c:if>
 
                         <div class="results-info">
                             <span>Hiển thị ${startIndex + 1} đến ${endIndex} của ${totalCVs} CV</span>
@@ -257,7 +248,11 @@
                                                 <p>${cv.email}</p>
                                                 <p>Vị trí: ${cv.position}</p>
                                                 <p>Kinh nghiệm: ${cv.numberExp} năm</p>
-                                                <a href="view-cv-detail?cvId=${cv.cvId}" class="details-link">Xem chi tiết</a>
+                                                <a href="view-cv-detail?cvId=${cv.cvId}" class="save-link mt-2">Xem chi tiết</a> <br>
+                                                <form action="save-potential-cvs" method="post" style="display:inline;">
+                                                    <input type="hidden" name="cvId" value="${cv.cvId}">
+                                                    <button type="submit" class="save-link mt-2">Lưu CV</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </c:forEach>
@@ -280,7 +275,7 @@
                                         <th>Email</th>
                                         <th>Vị trí</th>
                                         <th>Kinh nghiệm</th>
-                                        <th>Chi tiết</th>
+                                        <th>Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -293,7 +288,13 @@
                                                     <td>${cv.email}</td>
                                                     <td>${cv.position}</td>
                                                     <td>${cv.numberExp} năm</td>
-                                                    <td><a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-outline-primary">Xem chi tiết</a></td>
+                                                    <td>
+                                                        <a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
+                                                        <form action="save-potential-cvs" method="post" style="display:inline;">
+                                                            <input type="hidden" name="cvId" value="${cv.cvId}">
+                                                            <button type="submit" class="btn btn-sm btn-outline-primary">Lưu CV</button>
+                                                        </form>
+                                                    </td>
                                                 </tr>
                                             </c:forEach>
                                         </c:when>
@@ -309,40 +310,27 @@
 
                         <!-- Pagination -->
                         <c:if test="${totalPages > 1}">
-                            <nav aria-label="Page navigation" class="mt-4">
-                                <ul class="pagination justify-content-center">
-                                    <!-- Previous Button -->
-                                    <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                                        <a class="page-link" href="SearchCVsServlet?page=${currentPage - 1}&address=${param.address}&position=${param.position}&numberExp=${param.numberExp}">Trước</a>
-                                    </li>
-                                    <!-- Page Numbers -->
-                                    <c:set var="startPage" value="${currentPage - 2 > 0 ? currentPage - 2 : 1}"/>
-                                    <c:set var="endPage" value="${currentPage + 2 <= totalPages ? currentPage + 2 : totalPages}"/>
-                                    <c:if test="${startPage > 1}">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center mt-4">
+                                    <c:if test="${currentPage > 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="SearchCVsServlet?page=1&address=${param.address}&position=${param.position}&numberExp=${param.numberExp}">1</a>
-                                        </li>
-                                        <c:if test="${startPage > 2}">
-                                            <li class="page-item disabled"><span class="page-link">...</span></li>
-                                            </c:if>
-                                        </c:if>
-                                        <c:forEach var="i" begin="${startPage}" end="${endPage}">
-                                        <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                            <a class="page-link" href="SearchCVsServlet?page=${i}&address=${param.address}&position=${param.position}&numberExp=${param.numberExp}">${i}</a>
-                                        </li>
-                                    </c:forEach>
-                                    <c:if test="${endPage < totalPages}">
-                                        <c:if test="${endPage < totalPages - 1}">
-                                            <li class="page-item disabled"><span class="page-link">...</span></li>
-                                            </c:if>
-                                        <li class="page-item">
-                                            <a class="page-link" href="SearchCVsServlet?page=${totalPages}&address=${param.address}&position=${param.position}&numberExp=${param.numberExp}">${totalPages}</a>
+                                            <a class="page-link" href="applied-cvs?page=${currentPage - 1}" aria-label="Previous">
+                                                <span aria-hidden="true">«</span>
+                                            </a>
                                         </li>
                                     </c:if>
-                                    <!-- Next Button -->
-                                    <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                                        <a class="page-link" href="SearchCVsServlet?page=${currentPage + 1}&address=${param.address}&position=${param.position}&numberExp=${param.numberExp}">Tiếp</a>
-                                    </li>
+                                    <c:forEach begin="1" end="${totalPages}" var="i">
+                                        <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                            <a class="page-link" href="applied-cvs?page=${i}">${i}</a>
+                                        </li>
+                                    </c:forEach>
+                                    <c:if test="${currentPage < totalPages}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="applied-cvs?page=${currentPage + 1}" aria-label="Next">
+                                                <span aria-hidden="true">»</span>
+                                            </a>
+                                        </li>
+                                    </c:if>
                                 </ul>
                             </nav>
                         </c:if>
@@ -355,24 +343,24 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX+vR+Vc4jQkC+hVqc2pM8ODewa9" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
         <script>
-                                    function showView(view) {
-                                        const gridView = document.getElementById('cvGrid');
-                                        const tableView = document.getElementById('cvTable');
-                                        const gridButton = document.querySelector('.view-options button:nth-child(1)');
-                                        const listButton = document.querySelector('.view-options button:nth-child(2)');
+            function showView(view) {
+                const gridView = document.getElementById('cvGrid');
+                const tableView = document.getElementById('cvTable');
+                const gridButton = document.querySelector('.view-options button:nth-child(1)');
+                const listButton = document.querySelector('.view-options button:nth-child(2)');
 
-                                        if (view === 'grid') {
-                                            gridView.style.display = 'flex';
-                                            tableView.style.display = 'none';
-                                            gridButton.classList.add('active');
-                                            listButton.classList.remove('active');
-                                        } else {
-                                            gridView.style.display = 'none';
-                                            tableView.style.display = 'block';
-                                            gridButton.classList.remove('active');
-                                            listButton.classList.add('active');
-                                        }
-                                    }
+                if (view === 'grid') {
+                    gridView.style.display = 'flex';
+                    tableView.style.display = 'none';
+                    gridButton.classList.add('active');
+                    listButton.classList.remove('active');
+                } else {
+                    gridView.style.display = 'none';
+                    tableView.style.display = 'block';
+                    gridButton.classList.remove('active');
+                    listButton.classList.add('active');
+                }
+            }
         </script>
     </body>
 </html>

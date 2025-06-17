@@ -3,44 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/RegisterAccount_Database.java</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Job/getListJobPost.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/DeleteJobPostDAO.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/EncodePassword.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Employer.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Candidate.java</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/CV.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/IsAdminDAO.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/ListServlet.java</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/LoginAccount.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/EmployerDAO.java</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/CandidateDAO.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/CVDAO.java</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/GetForgetPassword.java</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/navbar.jsp</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Account.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/CandidateDAO.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/adduser.jsp</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/RegisterAccount.java</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/UserChangePassword.java</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/LogOut.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/viewuser.jsp</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/ViewServlet.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/index.jsp</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/RegisterCandidateUser.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/DeleteServlet.java</file>
-=======
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/candidateCV_view/manageCreatedCV.jsp</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_CV/manageCreatedCVServlet.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/ViewJobPost/DisplayListPostJob.jsp</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/index.jsp</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/web/jobPost_view/job-detail.jsp</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Apply/applyServlet.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Candidate.java</file>
->>>>>>> 7431efb5788100ca242ec624c2ad1197c5810ad0
-=======
-            <file>file:/E:/Project%20Webstie%20CV/SWP391-GR5/Project_RecruitmentWebsite/web/index.jsp</file>
-            <file>file:/E:/Project%20Webstie%20CV/SWP391-GR5/Project_RecruitmentWebsite/web/ViewJobPost/DisplayListPostJob.jsp</file>
-            <file>file:/E:/Project%20Webstie%20CV/SWP391-GR5/Project_RecruitmentWebsite/web/ViewActionMenu/DisplayListJobPostSaveByCandidate.jsp</file>
->>>>>>> 9898075efa523f9ea3d7722756c5bfc9c46126ac
         </group>
     </open-files>
 </project-private>

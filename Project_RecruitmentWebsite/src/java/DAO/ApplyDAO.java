@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package DAO;
+
 import Models.*;
 import dal.DBContext;
 import java.sql.*;
@@ -13,8 +14,6 @@ import java.util.List;
  *
  * @author PC
  */
-
-
 public class ApplyDAO extends DBContext {
 
     public void insertApply(Apply apply) {
@@ -110,4 +109,44 @@ public class ApplyDAO extends DBContext {
         apply.setStep(rs.getString("Step"));
         return apply;
     }
+
+    public List<Apply> getAppliesByCandidateID(int candidateID) {
+        List<Apply> list = new ArrayList<>();
+        String sql = "SELECT * FROM Apply WHERE Candidate_ID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, candidateID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(extractApply(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Apply> getAppliesWithJobPostByCandidateID(int candidateID) {
+        List<Apply> list = new ArrayList<>();
+        String sql = "SELECT a.*, j.Title, j.Position, j.Offer_Min, j.Offer_Max "
+                + "FROM Apply a JOIN JobPost j ON a.JobPost_ID = j.JobPost_ID "
+                + "WHERE a.Candidate_ID = ? ORDER BY a.Apply_ID DESC";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, candidateID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Apply apply = extractApply(rs);
+                // Gán thêm thông tin từ JobPost
+                apply.setJobTitle(rs.getString("Title"));
+                apply.setJobPosition(rs.getString("Position"));
+                apply.setOfferMin(rs.getDouble("Offer_Min"));
+                apply.setOfferMax(rs.getDouble("Offer_Max"));
+                list.add(apply);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }
