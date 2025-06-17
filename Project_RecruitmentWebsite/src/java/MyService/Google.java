@@ -1,5 +1,6 @@
-package Models;
+package MyService;
 
+import Models.GoogleInfo;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;

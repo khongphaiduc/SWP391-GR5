@@ -1,4 +1,3 @@
-
 package dal;
 
 import java.sql.Connection;
@@ -17,17 +16,13 @@ public class DBContext {
             String user = "sa";
             String pass = "123";
 
-
-
 //            String url = "jdbc:sqlserver://DESKTOP-NQH197\\NGUYENQUANGHUYSV:1433;databaseName=swp_final5;";
-
-
 //            String url = "jdbc:sqlserver://LAPTOP-MK;databaseName=CV02";
-
 //            String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=GenZTimViec9";
-            String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=GenZTimViec10";
+         //   String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=GenZTimViec14";
 
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+             String url = "jdbc:sqlserver://10.33.61.112:1433;databaseName=GenZTimViec14;user=sa;password=123";
+           Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -43,4 +38,3 @@ public class DBContext {
         System.out.println(s.check());
     }
 }
-
