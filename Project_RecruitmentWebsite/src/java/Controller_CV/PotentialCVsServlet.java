@@ -1,4 +1,4 @@
-package Controllers;
+package Controller_CV;
 
 import DAO.PotentialDAO;
 import Models.CV;

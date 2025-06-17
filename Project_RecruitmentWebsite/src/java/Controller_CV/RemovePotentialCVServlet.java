@@ -25,13 +25,16 @@ public class RemovePotentialCVServlet extends HttpServlet {
             }
 
             PotentialDAO dao = new PotentialDAO();
-            if (dao.removePotentialCV(cvId, employerId)) {
-                request.setAttribute("message", "Đã xóa CV khỏi danh sách tiềm năng thành công!");
-            } else {
-                request.setAttribute("error", "Không thể xóa CV khỏi danh sách tiềm năng.");
+            boolean remove = dao.removePotentialCV(cvId, employerId);
+            if (remove) {               
+                request.getSession().setAttribute("message", "✅ Đã xóa CV khỏi danh sách tiềm năng thành công!");
+                String referer = request.getHeader("Referer");
+                response.sendRedirect(referer != null ? referer : "potential.jsp");
+            } else {                            
+                request.getSession().setAttribute("message", "⚠ Không thể xóa CV khỏi danh sách tiềm năng.");
+                String referer = request.getHeader("Referer");
+                response.sendRedirect(referer != null ? referer : "potential.jsp");              
             }
-
-            response.sendRedirect("potential-cvs");
         } catch (NumberFormatException e) {
             request.setAttribute("error", "ID CV không hợp lệ.");
             request.getRequestDispatcher("error.jsp").forward(request, response);

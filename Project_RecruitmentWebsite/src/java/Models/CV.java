@@ -28,6 +28,11 @@ public class CV {
     private String gender;
     InputStream FileData;
     private String mimeType;
+    
+    private JobPost jobPost;
+    public JobPost getJobPost() { return jobPost; }
+    public void setJobPost(JobPost jobPost) { this.jobPost = jobPost; }
+    
 
     public CV(int cvId, int candidateId, String fullName, String address, String email, String position, int numberExp, String education, String field, double currentSalary, Date birthday, String nationality, String gender, InputStream FileData, String mimeType) {
         this.cvId = cvId;
@@ -45,6 +50,7 @@ public class CV {
         this.gender = gender;
         this.FileData = FileData;
         this.mimeType = mimeType;
+        
     }
 
     
