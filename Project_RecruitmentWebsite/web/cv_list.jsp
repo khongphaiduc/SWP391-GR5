@@ -2,12 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.*, Models.CV" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Danh sách CV Tiềm Năng</title>
+        <title>Danh sách CV đã ứng tuyển</title>
         <!-- Bootstrap 5 CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <style>
@@ -128,9 +129,27 @@
                 max-width: 100%;
             }
 
+            .cv-card .cv-action-link {
+                font-size: 17px; /* Consistent font size */
+                color: #28a745;
+                font-weight: 500;
+                text-decoration: none;
+                background: none;
+                border: none; /* No border */
+                padding: 5px 10px; /* Uniform padding */
+                cursor: pointer;
+                transition: color 0.3s;
+            }
+
+            .cv-card .cv-action-link:hover {
+                color: #218838;
+                text-decoration: underline;
+            }
+
             .cv-card .button-container {
                 display: flex;
                 justify-content: center;
+                align-items: center; /* Vertically center buttons */
                 gap: 10px; /* Space between buttons */
                 margin-top: 10px;
             }
@@ -173,6 +192,7 @@
         </style>
     </head>
     <body>
+
         <!-- Include Navbar -->
         <%@ include file="navbar.jsp" %>
 
@@ -211,9 +231,22 @@
                 <!-- Main Content -->
                 <div class="col-md-9">
                     <div class="main-content">
-                        <h2>Danh sách CV Tiềm Năng</h2>
+                        <c:if test="${not empty cvList}">
+                            <c:set var="cv" value="${cvList[0]}" /> <!-- chỉ cần lấy từ một cv được apply vào job -->
+                        </c:if>
+                        
+                        <h2>Danh sách CV đã ứng tuyển vào: ${cv.jobPost.title}</h2>
+
+                        <!-- Display success or error messages -->
+                        <c:if test="${not empty message}">
+                            <div class="alert alert-success">${message}</div>
+                        </c:if>
+                        <c:if test="${not empty error}">
+                            <div class="alert alert-danger">${error}</div>
+                        </c:if>
+
                         <div class="results-info">
-                            <span>Số lượng: <strong>${fn:length(potentialCVs)}</strong> CV</span>
+                            <span>Số lượng: <strong>${fn:length(cvList)}</strong> CV</span>
                             <div class="view-options">
                                 <button class="btn btn-outline-secondary active" onclick="showView('grid')">Grid</button>
                                 <button class="btn btn-outline-secondary" onclick="showView('list')">List</button>
@@ -223,8 +256,8 @@
                         <!-- Grid View -->
                         <div class="row cv-grid" id="cvGrid">
                             <c:choose>
-                                <c:when test="${not empty potentialCVs}">
-                                    <c:forEach var="cv" items="${potentialCVs}">
+                                <c:when test="${not empty cvList}">
+                                    <c:forEach var="cv" items="${cvList}">
                                         <div class="col-md-4 col-sm-6 mb-4">
                                             <div class="cv-card">
                                                 <img src="img/avata.jpg" alt="CV Icon">
@@ -232,12 +265,12 @@
                                                 <p>${cv.email}</p>
                                                 <p>Vị trí: ${cv.position}</p>
                                                 <p>Kinh nghiệm: ${cv.numberExp} năm</p>
-                                                <p title="${cv.jobPost.title}">Ứng tuyển vào: ${cv.jobPost.title}</p>  <!--honner chuột sẽ hiện thông báo title-->
+                                                <p title="${cv.jobPost.title}">Ứng tuyển vào: ${cv.jobPost.title}</p>
                                                 <div class="button-container">
-                                                    <a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-success">Xem</a>
-                                                    <form action="remove-potential-cv" method="post" style="display:inline;">
+                                                    <a href="view-cv-detail?cvId=${cv.cvId}" class="cv-action-link">Xem CV</a>
+                                                    <form action="save-potential-cvs" method="post">
                                                         <input type="hidden" name="cvId" value="${cv.cvId}">
-                                                        <button type="submit" class="btn btn-sm btn-danger">Xoá</button>
+                                                        <button type="submit" class="cv-action-link">Lưu CV</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -246,7 +279,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <div class="col-12 text-center">
-                                        <p>Chưa có CV nào được lưu là tiềm năng.</p>
+                                        <p>Không có CV nào được ứng tuyển vào ${cv.jobPost.title}</p>
                                     </div>
                                 </c:otherwise>
                             </c:choose>
@@ -268,8 +301,8 @@
                                 </thead>
                                 <tbody>
                                     <c:choose>
-                                        <c:when test="${not empty potentialCVs}">
-                                            <c:forEach var="cv" items="${potentialCVs}">
+                                        <c:when test="${not empty cvList}">
+                                            <c:forEach var="cv" items="${cvList}">
                                                 <tr>
                                                     <td>${cv.cvId}</td>
                                                     <td>${cv.fullName}</td>
@@ -278,10 +311,10 @@
                                                     <td>${cv.numberExp} năm</td>
                                                     <td>Ứng tuyển vào: ${cv.jobPost.title}</td>
                                                     <td>
-                                                        <a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-success">Xem</a>
-                                                        <form action="remove-potential-cv" method="post" style="display:inline;">
+                                                        <a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
+                                                        <form action="save-potential-cvs" method="post" style="display:inline;">
                                                             <input type="hidden" name="cvId" value="${cv.cvId}">
-                                                            <button type="submit" class="btn btn-sm btn-danger">Xoá</button>
+                                                            <button type="submit" class="btn btn-sm btn-outline-primary">Lưu CV</button>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -289,7 +322,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <tr>
-                                                <td colspan="7" class="text-center">Chưa có CV nào được lưu là tiềm năng.</td>
+                                                <td colspan="6" class="text-center">Không có CV nào được ứng tuyển.</td>
                                             </tr>
                                         </c:otherwise>
                                     </c:choose>
@@ -303,19 +336,19 @@
                                 <ul class="pagination justify-content-center mt-4">
                                     <c:if test="${currentPage > 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="potential-cvs?page=${currentPage - 1}" aria-label="Previous">
+                                            <a class="page-link" href="applied-cvs?page=${currentPage - 1}" aria-label="Previous">
                                                 <span aria-hidden="true">«</span>
                                             </a>
                                         </li>
                                     </c:if>
                                     <c:forEach begin="1" end="${totalPages}" var="i">
                                         <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="potential-cvs?page=${i}">${i}</a>
+                                            <a class="page-link" href="applied-cvs?page=${i}">${i}</a>
                                         </li>
                                     </c:forEach>
                                     <c:if test="${currentPage < totalPages}">
                                         <li class="page-item">
-                                            <a class="page-link" href="potential-cvs?page=${currentPage + 1}" aria-label="Next">
+                                            <a class="page-link" href="applied-cvs?page=${currentPage + 1}" aria-label="Next">
                                                 <span aria-hidden="true">»</span>
                                             </a>
                                         </li>
@@ -332,28 +365,28 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX+vR+Vc4jQkC+hVqc2pM8ODewa9" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
         <script>
-            function showView(view) {
-                const gridView = document.getElementById('cvGrid');
-                const tableView = document.getElementById('cvTable');
-                const gridButton = document.querySelector('.view-options button:nth-child(1)');
-                const listButton = document.querySelector('.view-options button:nth-child(2)');
+                                    function showView(view) {
+                                        const gridView = document.getElementById('cvGrid');
+                                        const tableView = document.getElementById('cvTable');
+                                        const gridButton = document.querySelector('.view-options button:nth-child(1)');
+                                        const listButton = document.querySelector('.view-options button:nth-child(2)');
 
-                if (view === 'grid') {
-                    gridView.style.display = 'flex';
-                    tableView.style.display = 'none';
-                    gridButton.classList.add('active');
-                    listButton.classList.remove('active');
-                } else {
-                    gridView.style.display = 'none';
-                    tableView.style.display = 'block';
-                    gridButton.classList.remove('active');
-                    listButton.classList.add('active');
-                }
-            }
+                                        if (view === 'grid') {
+                                            gridView.style.display = 'flex';
+                                            tableView.style.display = 'none';
+                                            gridButton.classList.add('active');
+                                            listButton.classList.remove('active');
+                                        } else {
+                                            gridView.style.display = 'none';
+                                            tableView.style.display = 'block';
+                                            gridButton.classList.remove('active');
+                                            listButton.classList.add('active');
+                                        }
+                                    }
         </script>
         <!-- Thong báo -->
-        <c:if test="${not empty sessionScope.message}">
-            <div id="toastMsg" class="toast-custom">${sessionScope.message}</div>
+        <c:if test="${not empty sessionScope.toastMessage}">
+            <div id="toastMsg" class="toast-custom">${sessionScope.toastMessage}</div>
             <script>
                 // auto hide
                 window.addEventListener("DOMContentLoaded", function () {
@@ -383,7 +416,7 @@
                     font-weight: bold;
                 }
             </style>
-            <c:remove var="message" scope="session"/>
+            <c:remove var="toastMessage" scope="session"/>
         </c:if>
     </body>
 </html>

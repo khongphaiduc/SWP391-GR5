@@ -277,7 +277,7 @@ public class CVDAO extends DBContext {
     }
 
 //hàm search Cv for employer
-    public List<CV> searchCVsForEmployer(int employerId, String address, Integer numberExp, String position, String keyword) {
+    public List<CV> searchCVsForEmployer(int employerId, String address, Integer numberExp, String position, String keyword, String field) {
     List<CV> result = new ArrayList<>();
     StringBuilder sql = new StringBuilder(
         "SELECT CV.CV_ID, CV.Candidate_ID, CV.Full_Name, CV.Address, CV.Email, "
@@ -300,7 +300,7 @@ public class CVDAO extends DBContext {
         sql.append(" AND CV.Position LIKE ?");
     }
     if (keyword != null && !keyword.trim().isEmpty()) {
-        sql.append(" AND (CV.Full_Name LIKE ? OR CV.Position LIKE ? OR CV.Education LIKE ? OR CV.Field LIKE ?)");
+        sql.append(" AND (CV.Address LIKE ? OR CV.Position LIKE ? OR CV.Education LIKE ? OR CV.Gender LIKE ? OR CV.Field LIKE ?)");
     }
 
     try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
@@ -318,10 +318,11 @@ public class CVDAO extends DBContext {
         }
         if (keyword != null && !keyword.trim().isEmpty()) {
             String likeKeyword = "%" + keyword + "%";
-            ps.setString(paramIndex++, likeKeyword); // Full_Name
+            ps.setString(paramIndex++, likeKeyword); // Address 
             ps.setString(paramIndex++, likeKeyword); // Position
             ps.setString(paramIndex++, likeKeyword); // Education
-            ps.setString(paramIndex++, likeKeyword); // Field
+            ps.setString(paramIndex++, likeKeyword); // Gender
+            ps.setString(paramIndex++, likeKeyword);
         }
 
         ResultSet rs = ps.executeQuery();
@@ -377,49 +378,57 @@ public class CVDAO extends DBContext {
 
     // 2. Lấy danh sách CV apply vào JobPost_ID
     public List<CV> getCVsByJobPostId(int jobPostId) {
-        List<CV> cvList = new ArrayList<>();
+    List<CV> cvList = new ArrayList<>();
 
-        String sql = "SELECT CV.CV_ID, CV.Candidate_ID, CV.Full_Name, CV.Address, CV.Email, "
-                   + "CV.Position, CV.Number_exp, CV.Education, CV.Field, CV.Current_Salary, "
-                   + "CV.Birthday, CV.Nationality, CV.Gender, CV.FileData, CV.MimeType "
-                   + "FROM Apply A "
-                   + "INNER JOIN CV ON A.CV_ID = CV.CV_ID "
-                   + "WHERE A.JobPost_ID = ?";
+    String sql = "SELECT CV.CV_ID, CV.Candidate_ID, CV.Full_Name, CV.Address, CV.Email, "
+               + "CV.Position, CV.Number_exp, CV.Education, CV.Field, CV.Current_Salary, "
+               + "CV.Birthday, CV.Nationality, CV.Gender, CV.FileData, CV.MimeType, "
+               + "JP.Title "
+               + "FROM Apply A "
+               + "INNER JOIN CV ON A.CV_ID = CV.CV_ID "
+               + "INNER JOIN JobPost JP ON A.JobPost_ID = JP.JobPost_ID "
+               + "WHERE A.JobPost_ID = ?";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, jobPostId);
-            ResultSet rs = stmt.executeQuery();
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setInt(1, jobPostId);
+        ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                CV cv = new CV();
-                cv.setCvId(rs.getInt("CV_ID"));
-                cv.setCandidateId(rs.getInt("Candidate_ID"));
-                cv.setFullName(rs.getString("Full_Name"));
-                cv.setAddress(rs.getString("Address"));
-                cv.setEmail(rs.getString("Email"));
-                cv.setPosition(rs.getString("Position"));
-                cv.setNumberExp(rs.getInt("Number_exp"));
-                cv.setEducation(rs.getString("Education"));
-                cv.setField(rs.getString("Field"));
-                cv.setCurrentSalary(rs.getDouble("Current_Salary"));
-                cv.setBirthday(rs.getDate("Birthday"));
-                cv.setNationality(rs.getString("Nationality"));
-                cv.setGender(rs.getString("Gender"));
+        while (rs.next()) {
+            CV cv = new CV();
+            cv.setCvId(rs.getInt("CV_ID"));
+            cv.setCandidateId(rs.getInt("Candidate_ID"));
+            cv.setFullName(rs.getString("Full_Name"));
+            cv.setAddress(rs.getString("Address"));
+            cv.setEmail(rs.getString("Email"));
+            cv.setPosition(rs.getString("Position"));
+            cv.setNumberExp(rs.getInt("Number_exp"));
+            cv.setEducation(rs.getString("Education"));
+            cv.setField(rs.getString("Field"));
+            cv.setCurrentSalary(rs.getDouble("Current_Salary"));
+            cv.setBirthday(rs.getDate("Birthday"));
+            cv.setNationality(rs.getString("Nationality"));
+            cv.setGender(rs.getString("Gender"));
 
-                Blob blob = rs.getBlob("FileData");
-                if (blob != null) {
-                    cv.setFileData(blob.getBinaryStream());
-                }
-                cv.setMimeType(rs.getString("MimeType"));
-
-                cvList.add(cv);
+            Blob blob = rs.getBlob("FileData");
+            if (blob != null) {
+                cv.setFileData(blob.getBinaryStream());
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            cv.setMimeType(rs.getString("MimeType"));
 
-        return cvList;
+            // Gắn JobPost Title nếu cần sử dụng trong hiển thị
+            JobPost jobPost = new JobPost();
+            jobPost.setTitle(rs.getString("Title"));
+            cv.setJobPost(jobPost);
+
+            cvList.add(cv);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return cvList;
+}
+
 
     // 3. Kết hợp: chỉ lấy CV nếu jobPost thuộc employer
     public List<CV> getSecureCVsByJobPost(int jobPostId, int employerId) {
@@ -451,7 +460,15 @@ public class CVDAO extends DBContext {
                     System.out.println("Kinh nghiệm: " + cv.getNumberExp() + " năm");
                     System.out.println("Trình độ học vấn: " + cv.getEducation());
                     System.out.println("Quốc tịch: " + cv.getNationality());
+                    JobPost jp = cv.getJobPost();
+                    if(jp != null){
+                        System.out.println("Tiêu đề: " + jp.getTitle());
                 }
+                    
+                    
+                    
+            }
+                
             }
 
 //        int employerId = 1;

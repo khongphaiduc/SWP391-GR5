@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.*, Models.CV" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -212,7 +213,7 @@
                     <div class="main-content">
                         <h2>Danh sách CV Tiềm Năng</h2>
                         <div class="results-info">
-                            <span>Hiển thị ${startIndex + 1} đến ${endIndex} của ${totalCVs} CV</span>
+                            <span>Số lượng: <strong>${fn:length(potentialCVs)}</strong> CV</span>
                             <div class="view-options">
                                 <button class="btn btn-outline-secondary active" onclick="showView('grid')">Grid</button>
                                 <button class="btn btn-outline-secondary" onclick="showView('list')">List</button>

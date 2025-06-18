@@ -397,8 +397,11 @@
                     <div class="job-item-header">
                         <div class="job-item-title">
                             <i class="fas fa-briefcase"></i>
-                            <%= job.getTitle() %>
+                            <a href="${pageContext.request.contextPath}/cv-list?jobPostId=<%= job.getJobPost_ID() %>" style="color: white; text-decoration: underline;">
+                                <%= job.getTitle() %>
+                            </a>
                         </div>
+
                         <div class="job-item-position">
                             <%= job.getPosition() %>
                         </div>
@@ -492,13 +495,13 @@
             <div class="job-pagination-wrapper">
                 <div class="job-pagination">
                     <% for (int i = 1; i <= totalPages; i++) { %>
-                        <% if (i == currentPage) { %>
-                            <span class="job-current-page"><%= i %></span>
-                        <% } else { %>
-                            <a href="manageCreatedJob?page=<%= i %>"><%= i %></a>
-                        <% } %>
+                    <% if (i == currentPage) { %>
+                    <span class="job-current-page"><%= i %></span>
+                    <% } else { %>
+                    <a href="manageCreatedJob?page=<%= i %>"><%= i %></a>
                     <% } %>
-                    
+                    <% } %>
+
                     <div class="job-page-size-control">
                         <span>Hiển thị:</span>
                         <form action="manageCreatedJob" style="display: flex; align-items: center; gap: 8px;">
