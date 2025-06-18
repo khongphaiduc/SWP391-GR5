@@ -52,6 +52,14 @@
         <servlet-name>CandidateApplyListServlet</servlet-name>
         <servlet-class>Controller_Apply.CandidateApplyListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ajaxServlet</servlet-name>
+        <servlet-class>Controller_VNPay.ajaxServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>vnpayReturn</servlet-name>
+        <servlet-class>Controller_VNPay.vnpayReturn</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -103,5 +111,13 @@
     <servlet-mapping>
         <servlet-name>CandidateApplyListServlet</servlet-name>
         <url-pattern>/CandidateApplyList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ajaxServlet</servlet-name>
+        <url-pattern>/ajaxServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>vnpayReturn</servlet-name>
+        <url-pattern>/vnpayReturn</url-pattern>
     </servlet-mapping>
 </web-app>

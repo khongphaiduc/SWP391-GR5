@@ -18,8 +18,8 @@
         <!-- Font Awesome for icons (optional) -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-        
-<!--         css thằng thông báo -->
+
+        <!--         css thằng thông báo -->
         <style>
             .notification {
                 position: fixed;
@@ -141,8 +141,8 @@
             </div>
         </div>
         <script src="script.js"></script>
-        
-<!--        script thongo báo -->
+
+        <!--        script thongo báo -->
         <script>
             window.addEventListener('DOMContentLoaded', function () {
                 var noti = document.getElementById('notification');
