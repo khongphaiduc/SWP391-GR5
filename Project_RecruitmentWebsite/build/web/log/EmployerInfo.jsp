@@ -6,6 +6,8 @@
 %>
 <html lang="vi">
     <head>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <meta charset="UTF-8">
         <title>Hồ sơ cá nhân - Đặc biệt</title>
         <style>
@@ -277,11 +279,14 @@
                 }
             }
         </style>
+
+
+
     </head>
     <body>
 
         <div class="profile-container">
-          
+
 
             <div class="profile-main">
                 <img class="company-avatar" src="viewLogo?name=<%= employer.getNameEmployer() %>" alt="Company Logo" id="companyLogoImg">
@@ -456,5 +461,27 @@
                 });
             });
         </script>
+        <%
+   String successMessage = (String) request.getAttribute("successMessage");
+   String errorMessage = (String) request.getAttribute("errorMessage");
+        %>
+        <script>
+            <% if (successMessage != null) { %>
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: '<%= successMessage %>',
+                confirmButtonText: 'OK'
+            });
+            <% } else if (errorMessage != null) { %>
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: '<%= errorMessage %>',
+                confirmButtonText: 'OK'
+            });
+            <% } %>
+        </script>
+
     </body>
 </html>

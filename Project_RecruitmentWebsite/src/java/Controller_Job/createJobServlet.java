@@ -70,6 +70,7 @@ public class createJobServlet extends HttpServlet {
         } else {
             EmployerDAO employerDAO = new EmployerDAO();
             if (employerDAO.getEmployerByName(username).getCompanyName() == null) {
+                request.setAttribute("errorMessage", "Bạn cần điền thông tin công ty trước khi đăng tuyển");
                 request.getRequestDispatcher("employerProfile").forward(request, response);
             } else {
 
