@@ -348,18 +348,7 @@
         </style>
     </head>
     <body>
-        <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
-        <% String successMessage = (String) request.getAttribute("successMessage"); %>
-
-        <% if (errorMessage != null) { %>
-        <div class="alert alert-error">
-            <%= errorMessage %>
-        </div>
-        <% } else if (successMessage != null) { %>
-        <div class="alert alert-success">
-            <%= successMessage %>
-        </div>
-        <% } %>
+      
 
         <div class="profile-container">
             <div class="profile-main">
@@ -388,14 +377,14 @@
                             <%= candidate.getBirthday().toString() %>
                             <div class="age-display">
                                 <script>
-                                        const birthDate = new Date('<%= candidate.getBirthday().toString() %>');
-                                        const today = new Date();
-                                        let age = today.getFullYear() - birthDate.getFullYear();
-                                        const monthDiff = today.getMonth() - birthDate.getMonth();
-                                        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                                            age--;
-                                        }
-                                        document.write('(' + age + ' tuổi)');
+                                    const birthDate = new Date('<%= candidate.getBirthday().toString() %>');
+                                    const today = new Date();
+                                    let age = today.getFullYear() - birthDate.getFullYear();
+                                    const monthDiff = today.getMonth() - birthDate.getMonth();
+                                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                                        age--;
+                                    }
+                                    document.write('(' + age + ' tuổi)');
                                 </script>
                             </div>
                             <% } else { %>
@@ -467,7 +456,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Ngày sinh</label>
+                            <label class="form-label">Ngày sinh(16-65 tuổi)</label>
                             <input type="date" name="birthday" id="candidateBirthdayInput" class="form-input" required>
                         </div>
                     </div>
@@ -505,7 +494,6 @@
             function openEditModal() {
                 document.getElementById('profileEditModal').style.display = 'flex';
 
-                // Pre-fill form with current data
                 document.getElementById('candidateNameInput').value = '<%=candidate.getCandidateName() != null ? candidate.getCandidateName() : ""%>';
                 document.getElementById('candidateEmailInput').value = '<%=candidate.getEmail() != null ? candidate.getEmail() : ""%>';
                 document.getElementById('candidateAddressInput').value = '<%=candidate.getAddress() != null ? candidate.getAddress() : ""%>';
@@ -567,20 +555,31 @@
                     }
                 });
 
-                // Close modal when clicking outside
-                document.getElementById('profileEditModal').addEventListener('click', function (event) {
-                    if (event.target === this) {
-                        closeEditModal();
-                    }
-                });
-
-                // Handle ESC key to close modal
-                document.addEventListener('keydown', function (event) {
-                    if (event.key === 'Escape') {
-                        closeEditModal();
-                    }
-                });
+                
             });
         </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <%
+            String successMessage = (String) request.getAttribute("successMessage");
+            String errorMessage = (String) request.getAttribute("errorMessage");
+        %>
+        <script>
+            <% if (successMessage != null) { %>
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: '<%= successMessage %>',
+                confirmButtonText: 'OK'
+            });
+            <% } else if (errorMessage != null) { %>
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: '<%= errorMessage %>',
+                confirmButtonText: 'Thử lại'
+            });
+            <% } %>
+        </script>
+
     </body>
 </html>

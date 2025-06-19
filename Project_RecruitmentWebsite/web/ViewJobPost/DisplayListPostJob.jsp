@@ -1070,7 +1070,7 @@
                     const jobPostId = this.getAttribute("data-id");   // lấy id
                     console.log(" ID:", jobPostId);
 
-                    fetch(`SaveJobPost?idJobPost=` + jobPostId, {// dcm bug lon fix mãi mới xong
+                    fetch(`SaveJobPost?idJobPost=` + jobPostId, {     // dcm bug lon fix mãi mới xong
                         method: "GET"
                     })
                             .then(response => {

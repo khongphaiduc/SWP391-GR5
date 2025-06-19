@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.*, Models.CV" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -45,6 +46,7 @@
             .sidebar .btn-find-job {
                 background-color: #28a745;
                 border: none;
+                color: #fff; /* Set text color to white */
                 font-weight: 500;
                 padding: 10px;
                 border-radius: 5px;
@@ -53,6 +55,7 @@
 
             .sidebar .btn-find-job:hover {
                 background-color: #218838;
+                color: #fff; /* Ensure text remains white on hover */
             }
 
             /* Main Content */
@@ -95,6 +98,7 @@
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
                 text-align: center;
                 transition: transform 0.3s, box-shadow 0.3s;
+                min-height: 280px; /* Fixed minimum height for uniformity */
             }
 
             .cv-card:hover {
@@ -118,12 +122,17 @@
                 font-size: 14px;
                 color: #666;
                 margin-bottom: 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis; /* Truncate long text with ellipsis */
+                max-width: 100%;
             }
 
-            .cv-card .details-link {
-                font-size: 20px;
-                color: #28a745;
-                font-weight: 500;
+            .cv-card .button-container {
+                display: flex;
+                justify-content: center;
+                gap: 10px; /* Space between buttons */
+                margin-top: 10px;
             }
 
             /* CV Table (List View) */
@@ -173,28 +182,28 @@
                 <div class="col-md-3">
                     <div class="sidebar">
                         <form action="SearchCVsServlet" method="get">
-                            <h3>Search by Keywords</h3>
-                            <input type="text" name="keyword" class="form-control" placeholder="E.g. Front-end Developer" value="${param.keyword}">
+                            <h3>Tìm kiếm theo keywords</h3>
+                            <input type="text" name="keyword" class="form-control" placeholder="VD: Lập Trình Viên, Hà Nội, ..." value="${param.keyword}">
 
                             <div class="mt-4">
-                                <h3>Search by Location</h3>
-                                <input type="text" name="address" class="form-control" placeholder="Search Location" value="${param.address}">
+                                <h3>Tìm kiếm theo địa chỉ</h3>
+                                <input type="text" name="address" class="form-control" placeholder="VD: Hà Nội" value="${param.address}">
                             </div>
 
                             <div class="mt-4">
-                                <h3>Search by Position</h3>
-                                <input type="text" name="position" class="form-control" placeholder="Position" value="${param.position}">
+                                <h3>Tìm kiếm theo vị trí</h3>
+                                <input type="text" name="position" class="form-control" placeholder="VD: Lập Trình Viên" value="${param.position}">
                             </div>
 
                             <div class="mt-4">
-                                <h3>Years of Experience</h3>
-                                <input type="number" name="numberExp" class="form-control" placeholder="e.g. 3" value="${param.numberExp}">
+                                <h3>Năm kinh nghiệm</h3>
+                                <input type="number" name="numberExp" class="form-control" placeholder="VD: 3" value="${param.numberExp}">
                             </div>
 
                             <!-- Hidden employerId -->
                             <input type="hidden" name="employerId" value="${sessionScope.employerId != null ? sessionScope.employerId : ''}">
 
-                            <button type="submit" class="btn btn-find-job w-100 mt-4">Find CV</button>
+                            <button type="submit" class="btn btn-find-job w-100 mt-4">Tìm CV</button>
                         </form>
                     </div>
                 </div>
@@ -203,17 +212,8 @@
                 <div class="col-md-9">
                     <div class="main-content">
                         <h2>Danh sách CV Tiềm Năng</h2>
-
-                        <!-- Display success or error messages -->
-                        <c:if test="${not empty message}">
-                            <div class="alert alert-success">${message}</div>
-                        </c:if>
-                        <c:if test="${not empty error}">
-                            <div class="alert alert-danger">${error}</div>
-                        </c:if>
-
                         <div class="results-info">
-                            <span>Hiển thị ${startIndex + 1} đến ${endIndex} của ${totalCVs} CV</span>
+                            <span>Số lượng: <strong>${fn:length(potentialCVs)}</strong> CV</span>
                             <div class="view-options">
                                 <button class="btn btn-outline-secondary active" onclick="showView('grid')">Grid</button>
                                 <button class="btn btn-outline-secondary" onclick="showView('list')">List</button>
@@ -232,11 +232,14 @@
                                                 <p>${cv.email}</p>
                                                 <p>Vị trí: ${cv.position}</p>
                                                 <p>Kinh nghiệm: ${cv.numberExp} năm</p>
-                                                <a href="view-cv-detail?cvId=${cv.cvId}" class="details-link">Xem</a> <br>
-                                                <form action="remove-potential-cv" method="post" style="display:inline;">
-                                                    <input type="hidden" name="cvId" value="${cv.cvId}">
-                                                    <button type="submit" class="btn btn-sm btn-danger mt-2">Xoá</button>
-                                                </form>
+                                                <p title="${cv.jobPost.title}">Ứng tuyển vào: ${cv.jobPost.title}</p>  <!--honner chuột sẽ hiện thông báo title-->
+                                                <div class="button-container">
+                                                    <a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-success">Xem</a>
+                                                    <form action="remove-potential-cv" method="post" style="display:inline;">
+                                                        <input type="hidden" name="cvId" value="${cv.cvId}">
+                                                        <button type="submit" class="btn btn-sm btn-danger">Xoá</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </c:forEach>
@@ -259,6 +262,7 @@
                                         <th>Email</th>
                                         <th>Vị trí</th>
                                         <th>Kinh nghiệm</th>
+                                        <th>Việc đã ứng tuyển</th>
                                         <th>Hành động</th>
                                     </tr>
                                 </thead>
@@ -272,11 +276,12 @@
                                                     <td>${cv.email}</td>
                                                     <td>${cv.position}</td>
                                                     <td>${cv.numberExp} năm</td>
+                                                    <td>Ứng tuyển vào: ${cv.jobPost.title}</td>
                                                     <td>
-                                                        <a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-primary">Xem</a>
+                                                        <a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-success">Xem</a>
                                                         <form action="remove-potential-cv" method="post" style="display:inline;">
                                                             <input type="hidden" name="cvId" value="${cv.cvId}">
-                                                            <button type="submit" class="btn btn-sm btn-danger" href="remove-potential-cv">Xoá</button>
+                                                            <button type="submit" class="btn btn-sm btn-danger">Xoá</button>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -284,7 +289,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <tr>
-                                                <td colspan="6" class="text-center">Chưa có CV nào được lưu là tiềm năng.</td>
+                                                <td colspan="7" class="text-center">Chưa có CV nào được lưu là tiềm năng.</td>
                                             </tr>
                                         </c:otherwise>
                                     </c:choose>
@@ -346,5 +351,39 @@
                 }
             }
         </script>
+        <!-- Thong báo -->
+        <c:if test="${not empty sessionScope.message}">
+            <div id="toastMsg" class="toast-custom">${sessionScope.message}</div>
+            <script>
+                // auto hide
+                window.addEventListener("DOMContentLoaded", function () {
+                    const toast = document.getElementById("toastMsg");
+                    if (toast) {
+                        toast.style.opacity = 1;
+                        setTimeout(() => {
+                            toast.style.opacity = 0;
+                            setTimeout(() => toast.remove(), 500);
+                        }, 3000);
+                    }
+                });
+            </script>
+            <style>
+                .toast-custom {
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background-color: #28a745;
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 6px;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                    z-index: 9999;
+                    opacity: 0;
+                    transition: opacity 0.5s ease-in-out;
+                    font-weight: bold;
+                }
+            </style>
+            <c:remove var="message" scope="session"/>
+        </c:if>
     </body>
 </html>

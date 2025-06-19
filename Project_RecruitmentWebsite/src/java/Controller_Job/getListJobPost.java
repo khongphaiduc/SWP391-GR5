@@ -54,7 +54,7 @@ public class getListJobPost extends HttpServlet {
             SaveJobPostOfCandidate saveJob = new SaveJobPostOfCandidate();
             int numberJobPost = 0;
             String user = (String) session.getAttribute("username");
-
+            
             // kiểm tra xem đăng nhập chưa và lấy số lượng post đã lưu 
             if (user != null) {
                 String IdUser = saveJob.getCandidateIDByName(user);
