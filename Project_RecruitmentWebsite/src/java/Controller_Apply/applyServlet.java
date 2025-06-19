@@ -144,7 +144,7 @@ public class applyServlet extends HttpServlet {
         } else {
             request.setAttribute("message", "Bạn đã ứng tuyển công việc này rồi.");
         }
-        request.setAttribute("jobPost", jobPost);
+        request.setAttribute("jobPost", jobPostDAO.getJobPostWithEmployerById(jobId));
         request.getRequestDispatcher("jobPost_view/job-detail.jsp").forward(request, response);
     }
 

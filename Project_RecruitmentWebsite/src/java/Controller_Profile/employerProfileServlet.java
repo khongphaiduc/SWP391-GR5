@@ -129,7 +129,7 @@ public class employerProfileServlet extends HttpServlet {
                 description == null || description.trim().isEmpty()) {
                 
                 request.setAttribute("errorMessage", "Vui lòng điền đầy đủ thông tin bắt buộc.");
-                doGet(request, response); // Load lại trang với thông báo lỗi
+                doGet(request, response); 
                 return;
             }
             
@@ -188,11 +188,9 @@ public class employerProfileServlet extends HttpServlet {
                 }
             }
             
-            // Load lại employer data sau khi update
             Employer employer = employerDAO.getEmployerByName(username);
             request.setAttribute("employer", employer);
             
-            // Forward về trang profile với thông báo
             request.getRequestDispatcher("log/EmployerInfo.jsp").forward(request, response);
             
         } catch (Exception e) {
@@ -206,7 +204,6 @@ public class employerProfileServlet extends HttpServlet {
                 request.setAttribute("employer", employer);
                 request.getRequestDispatcher("log/EmployerInfo.jsp").forward(request, response);
             } catch (Exception ex) {
-                // Nếu không thể load được data, redirect về trang chính
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
             }
         }

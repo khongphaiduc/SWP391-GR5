@@ -25,8 +25,8 @@ public class ViewAppliedCVsServlet extends HttpServlet {
         } else {
             EmployerDAO edao = new EmployerDAO();
             Employer employer = edao.getEmployerByName(username);
-            //int employerId = employer.getEmployerId();
-            int employerId = 1;
+            int employerId = employer.getEmployerId();
+            //int employerId = 1;
             session.setAttribute("employerId", employerId);
             CVDAO cvdao = new CVDAO();
             List<CV> appliedCVs = cvdao.getAppliedCVsByEmployer(employerId);
