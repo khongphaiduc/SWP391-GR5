@@ -4,6 +4,7 @@
  */
 package Controller_Log;
 
+import MyService.Google;
 import Models.*;
 import DAO.*;
 import Models.GoogleInfo;

@@ -2,29 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller_Job;
+package Controller_Chat;
 
-import DAO.CVDAO;
-import DAO.CandidateDAO;
-import DAO.JobPostDAO;
-import Models.CV;
-import Models.Candidate;
-import Models.JobPost;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import DAO_Chat.*;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
- * @author PC
+ * @author Admin
  */
-public class detailJobServlet extends HttpServlet {
+@WebServlet(name = "SendMessage", urlPatterns = {"/SendMessage"})
+public class SendMessage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +38,10 @@ public class detailJobServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet detailJobServlet</title>");
+            out.println("<title>Servlet SendMessage</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet detailJobServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SendMessage at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,25 +59,7 @@ public class detailJobServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
 
-        int postId = Integer.parseInt(request.getParameter("postId"));
-        JobPostDAO jobPostDAO = new JobPostDAO();
-        JobPost jobPost = jobPostDAO.getJobPostWithEmployerById(postId);
-
-        String username = (String) session.getAttribute("username");
-
-        if (username != null && "Candidate".equals(session.getAttribute("role"))) {
-            CandidateDAO candidateDAO = new CandidateDAO();
-            Candidate candidate = candidateDAO.getCandidateByName(username);
-            int candidateId = candidate.getCandidateId();
-            CVDAO cvdao = new CVDAO();
-            List<CV> cvList = cvdao.getCVByCandidate(candidateId);
-            request.setAttribute("cvList", cvList);
-        }
-
-        request.setAttribute("jobPost", jobPost);
-        request.getRequestDispatcher("jobPost_view/job-detail.jsp").forward(request, response);
     }
 
     /**
@@ -96,7 +73,34 @@ public class detailJobServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        try {
+            SendDAO sendMessage = new SendDAO();
+            String senderId = request.getParameter("senderId");
+            String senderRole = request.getParameter("senderRole");
+            String receiverId = request.getParameter("receiverId");
+            String receiverRole = request.getParameter("receiverRole");
+            String content = request.getParameter("content");
+
+            System.out.println("1 "+senderId);
+            System.out.println("2 "+senderRole);
+            System.out.println("3 "+receiverId);
+            System.out.println("4 "+receiverRole);
+
+            
+            boolean result = sendMessage.insertMessage(senderId, senderRole, receiverId, receiverRole, content);
+            
+            
+            if(result){
+                response.setStatus(200);
+              
+            }else{
+                response.setStatus(500);
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Bug SenMessage :" + e.getMessage());
+        }
     }
 
     /**

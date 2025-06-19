@@ -38,7 +38,7 @@ public class CVDAO extends DBContext {
             stmt.setDate(9, new java.sql.Date(birthday.getTime()));
             stmt.setString(10, nationality);
             stmt.setString(11, gender);
-            stmt.setInt(12, candidateId); // candidateId = 1 (test)
+            stmt.setInt(12, candidateId); 
             stmt.setBlob(13, inputStream);
             stmt.setString(14, mimeType);
             int row = stmt.executeUpdate();
