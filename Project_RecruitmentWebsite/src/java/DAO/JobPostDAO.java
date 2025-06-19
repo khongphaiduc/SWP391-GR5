@@ -134,5 +134,96 @@ public class JobPostDAO extends DBContext {
         }
         return null;
     }
+     public List<JobPost> getAllJobPost() {
+         List<JobPost> list = new ArrayList<>();
+        String sql = "SELECT * FROM JobPost ";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                JobPost job = new JobPost();
+                job.setJobPost_ID(rs.getInt("JobPost_ID"));
+                job.setTitle(rs.getString("Title"));
+                job.setDescription(rs.getString("Description"));
+                job.setPosition(rs.getString("Position"));
+                job.setLocation(rs.getString("Location"));
+                job.setOffer_Min(rs.getDouble("Offer_Min"));
+                job.setOffer_Max(rs.getDouble("Offer_Max"));
+                job.setNumber_exp(rs.getInt("Number_exp"));
+                job.setVisible(rs.getBoolean("Visible"));
+                job.setTypeJob(rs.getString("TypeJob"));
+                job.setDayCre(rs.getDate("DayCreate"));
+                job.setEmployer_ID(rs.getInt("Employer_ID"));
+                job.setCategory(rs.getString("Category"));
+                list.add(job);
+                return list;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+     public List<JobPost> getJobPostByPage(int offset, int recordsPerPage){
+         List<JobPost> list = new ArrayList<>();
+         String sql = "SELECT * FROM JobPost ORDER BY JobPost_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+      try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, offset);
+        ps.setInt(2, recordsPerPage);
+        ResultSet rs = ps.executeQuery();
 
+        while (rs.next()) {
+            JobPost job = new JobPost();
+            job.setJobPost_ID(rs.getInt("JobPost_ID"));
+                job.setTitle(rs.getString("Title"));
+                job.setDescription(rs.getString("Description"));
+                job.setPosition(rs.getString("Position"));
+                job.setLocation(rs.getString("Location"));
+                job.setOffer_Min(rs.getDouble("Offer_Min"));
+                job.setOffer_Max(rs.getDouble("Offer_Max"));
+                job.setNumber_exp(rs.getInt("Number_exp"));
+                job.setVisible(rs.getBoolean("Visible"));
+                job.setTypeJob(rs.getString("TypeJob"));
+                job.setDayCre(rs.getDate("DayCreate"));
+                job.setEmployer_ID(rs.getInt("Employer_ID"));
+                job.setCategory(rs.getString("Category"));
+                list.add(job);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return list;
+}  
+          public int countJobPost() {
+    int count = 0;
+    String sql = "SELECT COUNT(*) FROM JobPost";
+    try (PreparedStatement stmt = connection.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+        if (rs.next()) {
+            count = rs.getInt(1);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return count;
+}
+           public static void main(String[] args) {
+        // Khởi tạo EmployerDAO
+        JobPostDAO dao = new JobPostDAO();
+
+        // Tham số test
+        String searchKeyword = "A"; // Từ khóa tìm kiếm
+        int page = 1;                 // Trang hiện tại
+        int recordsPerPage = 10;      // Số bản ghi trên mỗi trang
+        int offset = (page - 1) * recordsPerPage;
+
+        // Test 1: Lấy tất cả Employers
+        System.out.println("--- Test lấy tất cả Employers ---");
+        List<JobPost> all = dao.getJobPostByPage(offset, recordsPerPage) ;
+        for (JobPost emp : all) {
+            System.out.println("ID: " + emp.getJobPost_ID()+ ", Name: " + emp.getCategory()+ ", Email: ");
+        }
+        System.out.println("Tổng số Employers: " + all.size());
+
+  
+    }
 }

@@ -3,14 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/AdminDAO.java</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/adduser.jsp</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/RegisterAccount.java</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Admin.java</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/AddAdmin.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/adminhome.jsp</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/JobPost.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_JobPost/ListJobServlet.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/viewuser.jsp</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/IsAdminDAO.java</file>
-            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/RegisterCandidateUser.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/SearchServlet.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_JobPost/DeleteJobServlet.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/JobPostDAO.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/ListServlet.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/EmployerDAO.java</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/viewjobpost.jsp</file>
+            <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/DeleteServlet.java</file>
         </group>
     </open-files>
 </project-private>

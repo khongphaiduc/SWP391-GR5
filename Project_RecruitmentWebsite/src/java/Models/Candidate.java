@@ -1,6 +1,10 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Models;
 
-import java.util.Date;
+import java.io.InputStream;
 
 public class Candidate {
 
@@ -11,26 +15,27 @@ public class Candidate {
     private java.sql.Date birthday;
     private String nationality;
     private String passwordHash;
-    private byte[] avatar;
+    private InputStream avatar;
 
+    // Constructors
     public Candidate() {
     }
 
 
-
-    public Candidate(int candidateId, String candidateName, String address, String email, Date birthday, String nationality, String passwordHash, byte[] avatar) {
-
+    public Candidate(int candidateId, String candidateName, String address, String email,
+            java.sql.Date birthday, String nationality, String passwordHash, InputStream avatar) {
 
         this.candidateId = candidateId;
         this.candidateName = candidateName;
         this.address = address;
         this.email = email;
-        this.birthday = (java.sql.Date) birthday;
+        this.birthday = birthday;
         this.nationality = nationality;
         this.passwordHash = passwordHash;
         this.avatar = avatar;
     }
 
+    // Getters and Setters
     public int getCandidateId() {
         return candidateId;
     }
@@ -85,28 +90,20 @@ public class Candidate {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
-
     }
 
-    public byte[] getAvatar() {
+    public InputStream getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(byte[] avatar) {
+    public void setAvatar(InputStream avatar) {
         this.avatar = avatar;
     }
 
-    @Override
-    public String toString() {
-        return "Candidate{" + "candidateId=" + candidateId + ", candidateName=" + candidateName + ", address=" + address + ", email=" + email + ", birthday=" + birthday + ", nationality=" + nationality + ", password_hash=" + passwordHash + ", avatar=" + avatar + '}';
-    }
-
-   
-   
-    
 
 
 
 
 }
+
 

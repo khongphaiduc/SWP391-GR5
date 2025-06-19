@@ -3,6 +3,7 @@
 <%@ page import="Models.Employer" %>
 <%@ page import="Models.Candidate" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%
     List<Employer> employers = (List<Employer>) request.getAttribute("employers");
     List<Candidate> candidates = (List<Candidate>) request.getAttribute("candidates");
@@ -23,6 +24,7 @@
         <link rel="stylesheet" href="css/style.css"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <style>
             :root {
                 --primary-color: #16a34a;
@@ -495,12 +497,10 @@
                                         <div class="d-flex align-items-center">
                                             <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
                                                  style="width: 40px; height: 40px; font-size: 0.9rem; color: white; font-weight: 600;">
-                                                ${emp.employerName.substring(0, 1).toUpperCase()}
-
-
+                                                ${emp.nameEmployer.substring(0, 1).toUpperCase()}
                                             </div>
                                             <div>
-                                                <div class="fw-bold">${emp.employerName}</div>
+                                                <div class="fw-bold">${emp.nameEmployer}</div>
                                                 <small class="text-muted">Member since 2024</small>
                                             </div>
                                         </div>
@@ -598,6 +598,28 @@
 
 
                 </div>
+            </div>
+                          <!--            hiển thị Action Menu-->
+            <div class="floating-actions-v2">
+
+        <%
+        // Kiểm tra session và vai trò Admin
+        if (session.getAttribute("username") != null && 
+            session.getAttribute("role") != null && 
+            session.getAttribute("role").equals("Admin")) {
+    %>
+        <div class="fab-item fab-heart" title="Admin">
+            <a href="<%= request.getContextPath() %>/adminhome.jsp" target="_self" id="favorite-btn-v2" class="fab-btn">
+                <i class="bi bi-gear-fill"></i>
+                <c:if test="${username != null}">
+                    <span class="fab-badge" id="favorite-count-v2">${numberJobPost}</span>
+                </c:if>
+            </a>
+            <span class="fab-hover-label">Admin</span>
+        </div>
+    <%
+        }
+    %>
             </div>
         </div>
 

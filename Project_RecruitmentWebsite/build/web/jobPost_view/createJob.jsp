@@ -178,7 +178,7 @@
                     allowClear: true
                 });
             });
-            
+
             function formatCurrencyInput(input) {
                 let value = input.value.replace(/\D/g, '');
                 if (value === '') {
@@ -187,6 +187,25 @@
                 }
                 input.value = new Intl.NumberFormat('vi-VN').format(value);
             }
+            document.addEventListener("DOMContentLoaded", function () {
+                function cleanCurrency(value) {
+                    return parseInt(value.replace(/,/g, '')) || 0;
+                }
+
+                document.querySelector("form").addEventListener("submit", function (e) {
+                    const minInput = document.querySelector("input[name='offerMin']");
+                    const maxInput = document.querySelector("input[name='offerMax']");
+
+                    const minSalary = cleanCurrency(minInput.value);
+                    const maxSalary = cleanCurrency(maxInput.value);
+
+                    if (minSalary > maxSalary) {
+                        alert("Lương tối đa phải lớn hơn hoặc bằng lương tối thiểu.");
+                        maxInput.focus();
+                        e.preventDefault();
+                    }
+                });
+            });
         </script>
     </head>
     <body>
@@ -243,11 +262,11 @@
 
                     <!-- Right Column -->
                     <div class="form-column">
-                        <label>Lương tối thiểu (VNĐ)</label>
-                        <input type="text" name="offerMin" step="1000" min="0" placeholder="Nhập lương tối thiểu" required oninput="formatCurrencyInput(this)">
+                        <label>Lương tối thiểu (triệu VNĐ)</label>
+                        <input type="text" name="offerMin" step="1" min="0" placeholder="Nhập lương tối thiểu" required oninput="formatCurrencyInput(this)">
 
-                        <label>Lương tối đa (VNĐ)</label>
-                        <input type="text" name="offerMax" step="1000" min="0" placeholder="Nhập lương tối đa" required oninput="formatCurrencyInput(this)">
+                        <label>Lương tối đa (triệu VNĐ)</label>
+                        <input type="text" name="offerMax" step="1" min="0" placeholder="Nhập lương tối đa" required oninput="formatCurrencyInput(this)">
 
                         <label>Số năm kinh nghiệm yêu cầu</label>
                         <input type="number" name="numberExp" min="0" placeholder="Nhập số năm kinh nghiệm" required>

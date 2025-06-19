@@ -1,14 +1,10 @@
 package DAO;
 
-import Models.Candidate;
 
-
-
-
-
-
-import dal.DBContext;
+import Models.*;
 import java.sql.*;
+import dal.DBContext;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +17,7 @@ public class CandidateDAO extends DBContext {
 
         try {
 
-
             String sql = "SELECT * FROM Candidate WHERE CandidateName = ?";
-
 
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, candidateName);
@@ -39,10 +33,18 @@ public class CandidateDAO extends DBContext {
                 candidate.setNationality(rs.getString("Nationality"));
 
 
+
                 candidate.setPasswordHash(rs.getString("Password_hash")); // nếu có
-                candidate.setAvatar(rs.getBytes("Avatar")); // nếu có
+     
 
    
+
+
+                candidate.setPasswordHash(rs.getString("Password_hash"));
+                Blob avatarBlob = rs.getBlob("Avatar");
+                if (avatarBlob != null) {
+                    candidate.setAvatar(avatarBlob.getBinaryStream());
+                }
 
             }
 
@@ -50,14 +52,14 @@ public class CandidateDAO extends DBContext {
             e.printStackTrace();
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-
-        
-
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
-
 
             }
         }
@@ -107,6 +109,39 @@ public int getTotalCandidatesByName(String name) {
 }
 
 
+    public boolean updateCandidate(Candidate candidate) {
+        PreparedStatement stmt = null;
+        boolean updated = false;
+        try {
+            String sql = "UPDATE Candidate SET CandidateName = ?, Address = ?, Email = ?, Birthday = ?, Nationality = ?, Password_hash = ?, avatar = ? WHERE Candidate_ID = ?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, candidate.getCandidateName());
+            stmt.setString(2, candidate.getAddress());
+            stmt.setString(3, candidate.getEmail());
+            stmt.setDate(4, candidate.getBirthday());
+            stmt.setString(5, candidate.getNationality());
+            stmt.setString(6, candidate.getPasswordHash());
+            stmt.setBlob(7, candidate.getAvatar());
+            stmt.setInt(8, candidate.getCandidateId());
+
+            int rowsAffected = stmt.executeUpdate();
+            updated = (rowsAffected > 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return updated;
+    }
+     
+    
+
 
    public List<Candidate> getCandidatesByPage(int offset, int recordsPerPage) {
     List<Candidate> list = new ArrayList<>();
@@ -127,7 +162,7 @@ public int getTotalCandidatesByName(String name) {
             c.setBirthday(rs.getDate("Birthday"));
             c.setNationality(rs.getString("Nationality"));
             c.setPasswordHash(rs.getString("Password_hash"));
-            c.setAvatar(rs.getBytes("Avatar")); // nếu có
+       
             list.add(c);
         }
     } catch (SQLException e) {
@@ -164,7 +199,7 @@ public int countCandidates() {
                 can.setBirthday(rs.getDate("Birthday"));
                 can.setNationality(rs.getString("Nationality"));
                 can.setPasswordHash(rs.getString("Password_hash"));
-                can.setAvatar(rs.getBytes("Avatar"));
+           
                 return can;
             }
         } catch (Exception e) {
@@ -197,8 +232,7 @@ public int countCandidates() {
             can.setBirthday(rs.getDate("Birthday"));
             can.setNationality(rs.getString("Nationality"));
             can.setPasswordHash(rs.getString("Password_hash"));
-            can.setAvatar(rs.getBytes("Avatar"));
-            list.add(can);
+                  list.add(can);
         }
     } catch (Exception e) {
         e.printStackTrace();
@@ -207,4 +241,6 @@ public int countCandidates() {
 }
 
 
+
 }
+

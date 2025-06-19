@@ -89,6 +89,7 @@ public class SaveJobPostOfCandidate extends DBContext {
 //        System.out.println(o.getCandidateIDByName("Nguyễn Văn A"));
 
         // System.out.println(o.saveJobPost("12","14"));
-        System.out.println(o.getNumberJobPostSavedByCandidate("16"));
+//        System.out.println(o.getNumberJobPostSavedByCandidate("16"));
+System.out.println(o.getCandidateIDByName("ptrungduc1011@gmail.com"));
     }
 }

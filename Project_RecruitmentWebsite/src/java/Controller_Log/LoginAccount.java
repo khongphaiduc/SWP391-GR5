@@ -60,8 +60,8 @@ public class LoginAccount extends HttpServlet {
                 String idCandidate = candidateDAO.getIDbyAccountNameCandidate(nameAccount);
                 if (result) {
                     session.setAttribute("username", nameAccount);   // lưu account name 
-                    session.setAttribute("role", "Candidate");       // lưu id
-                    session.setAttribute("idUser", idCandidate);     // lưu role
+                    session.setAttribute("role", "Candidate");       // lưu role 
+                    session.setAttribute("idUser", idCandidate);     // lưu id
                     response.sendRedirect("Index");
                 } else {
                     status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";

@@ -67,8 +67,8 @@ public class ListServlet extends HttpServlet {
 
         EmployerDAO employerDAO = new EmployerDAO();
         CandidateDAO candidateDAO = new CandidateDAO();
-        int totalCan = candidateDAO.getAllCandidates().size();
-        int totalEmp = employerDAO.getAllEmployers().size();
+        int totalCan = candidateDAO.countCandidates();
+        int totalEmp = employerDAO.countEmployers();
         int totalUser = totalCan + totalEmp;
         int page = 1;
         int recordsPerPage = 10;

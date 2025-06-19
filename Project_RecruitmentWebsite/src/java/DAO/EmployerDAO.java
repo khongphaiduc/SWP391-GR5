@@ -8,6 +8,7 @@ package DAO;
 
 import Models.Employer;
 import dal.DBContext;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,30 @@ import java.util.List;
  * @author PC
  */
 public class EmployerDAO extends DBContext {
+     public Employer getEmployerById(int id) {
+        String sql = "SELECT * FROM Employer WHERE Employer_ID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Employer emp = new Employer();
+                emp.setEmployerId(rs.getInt("Employer_ID"));
+                emp.setNameEmployer(rs.getString("EmployerName"));
+                emp.setEmail(rs.getString("Email"));
+                emp.setPasswordHash(rs.getString("Password_hash"));
+                emp.setCompanyName(rs.getString("Company_Name"));
+                emp.setDescription(rs.getString("Description"));
+                emp.setLocation(rs.getString("Location"));
+                emp.setUrlWebsite(rs.getString("URL_Website"));
+                emp.setCompanySize(rs.getString("CompanySize"));
+     
+                return emp;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 
@@ -31,7 +56,6 @@ public class EmployerDAO extends DBContext {
 
 
             String sql = "SELECT * FROM Employer WHERE EmployerName = ?";
-
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, nameEmployer);
 
@@ -40,7 +64,9 @@ public class EmployerDAO extends DBContext {
             if (rs.next()) {
                 employer = new Employer();
                 employer.setEmployerId(rs.getInt("Employer_ID"));
-                employer.setEmployerName(rs.getString("EmployerName"));
+
+                employer.setNameEmployer(rs.getString("EmployerName"));
+
                 employer.setEmail(rs.getString("Email"));
                 employer.setPasswordHash(rs.getString("Password_hash"));
                 employer.setCompanyName(rs.getString("Company_Name"));
@@ -48,24 +74,20 @@ public class EmployerDAO extends DBContext {
                 employer.setLocation(rs.getString("Location"));
                 employer.setUrlWebsite(rs.getString("URL_Website"));
                 employer.setCompanySize(rs.getString("CompanySize"));
-                employer.setImgLogo(rs.getBytes("imgLogo"));
-            }
 
-        } catch (SQLException e) {
+                Blob logoBlob = rs.getBlob("imgLogo");
+                if (logoBlob != null) {
+                    employer.setImgLogo(logoBlob.getBinaryStream());
+                }
+
+                employer.setPhoneNumber(rs.getString("PhoneNumber"));
+            }
+        } catch (Exception e) {
+            System.err.println("Error in getEmployerByName: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
 
+            closeResources(rs, stmt);
 
         }
 
@@ -84,7 +106,7 @@ public class EmployerDAO extends DBContext {
         while (rs.next()) {
             Employer emp = new Employer();
             emp.setEmployerId(rs.getInt("Employer_ID"));
-            emp.setEmployerName(rs.getString("EmployerName"));
+            emp.setNameEmployer(rs.getString("EmployerName"));
             emp.setEmail(rs.getString("Email"));
             employers.add(emp);
         }
@@ -115,8 +137,198 @@ public int getTotalEmployersByName(String name) {
 
 
 
+    /**
+     * Update employer với image
+     */
+    public boolean updateEmployer(String nameEmployer, String email, String description,
+            String location, String urlWebsite, String companyName,
+            InputStream imgLogoStream, String phoneNumber) {
 
-  public List<Employer> getEmployersByPage(int offset, int recordsPerPage) {
+        PreparedStatement stmt = null;
+        boolean isUpdated = false;
+
+        try {
+            String sql = "UPDATE Employer SET Email = ?, Description = ?, Location = ?, "
+                    + "URL_Website = ?, Company_Name = ?, PhoneNumber = ?, imgLogo = ? "
+                    + "WHERE EmployerName = ?";
+
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, email);
+            stmt.setString(2, description);
+            stmt.setString(3, location);
+            stmt.setString(4, urlWebsite);
+            stmt.setString(5, companyName);
+            stmt.setString(6, phoneNumber);
+            stmt.setBlob(7, imgLogoStream);
+            stmt.setString(8, nameEmployer);
+
+            int rows = stmt.executeUpdate();
+            isUpdated = rows > 0;
+
+            System.out.println("Update with image - Rows affected: " + rows);
+
+        } catch (SQLException e) {
+            System.err.println("SQL Error in updateEmployer (with image): " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            closeStatement(stmt);
+        }
+
+        return isUpdated;
+    }
+
+    /**
+     * Update employer không có image (chỉ update text fields)
+     */
+    public boolean updateEmployerWithoutImage(String nameEmployer, String email,
+            String description, String location, String urlWebsite,
+            String companyName, String phoneNumber) {
+
+        PreparedStatement stmt = null;
+        boolean isUpdated = false;
+
+        try {
+            String sql = "UPDATE Employer SET Email = ?, Description = ?, Location = ?, "
+                    + "URL_Website = ?, Company_Name = ?, PhoneNumber = ? "
+                    + "WHERE EmployerName = ?";
+
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, email);
+            stmt.setString(2, description);
+            stmt.setString(3, location);
+            stmt.setString(4, urlWebsite);
+            stmt.setString(5, companyName);
+            stmt.setString(6, phoneNumber);
+            stmt.setString(7, nameEmployer);
+
+            int rows = stmt.executeUpdate();
+            isUpdated = rows > 0;
+
+            System.out.println("Update without image - Rows affected: " + rows);
+
+        } catch (SQLException e) {
+            System.err.println("SQL Error in updateEmployerWithoutImage: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            closeStatement(stmt);
+        }
+
+        return isUpdated;
+    }
+
+    /**
+     * Kiểm tra email đã tồn tại chưa (để validate khi update)
+     */
+    public boolean isEmailExists(String email, String currentEmployerName) {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean exists = false;
+
+        try {
+            String sql = "SELECT COUNT(*) FROM Employer WHERE Email = ? AND EmployerName != ?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, email);
+            stmt.setString(2, currentEmployerName);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                exists = rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error checking email existence: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            closeResources(rs, stmt);
+        }
+
+        return exists;
+    }
+
+    /**
+     * Kiểm tra phone number đã tồn tại chưa
+     */
+    public boolean isPhoneExists(String phoneNumber, String currentEmployerName) {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean exists = false;
+
+        try {
+            String sql = "SELECT COUNT(*) FROM Employer WHERE PhoneNumber = ? AND EmployerName != ?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, phoneNumber);
+            stmt.setString(2, currentEmployerName);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                exists = rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error checking phone existence: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            closeResources(rs, stmt);
+        }
+
+        return exists;
+    }
+
+    /**
+     * Helper method để đóng resources
+     */
+    private void closeResources(ResultSet rs, PreparedStatement stmt) {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error closing resources: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Helper method để đóng statement
+     */
+    private void closeStatement(PreparedStatement stmt) {
+        try {
+            if (stmt != null) {
+                stmt.close();
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error closing statement: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+      public List<Employer> getAllEmployers() {
+    List<Employer> list = new ArrayList<>();
+    String sql = "SELECT * FROM Employer";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Employer emp = new Employer();
+            emp.setEmployerId(rs.getInt("Employer_ID"));
+            emp.setNameEmployer(rs.getString("EmployerName"));
+            emp.setEmail(rs.getString("Email"));
+            emp.setPasswordHash(rs.getString("Password_hash"));
+            emp.setCompanyName(rs.getString("Company_Name"));
+            emp.setDescription(rs.getString("Description"));
+            emp.setLocation(rs.getString("Location"));
+            emp.setUrlWebsite(rs.getString("URL_Website"));
+            emp.setCompanySize(rs.getString("CompanySize"));
+
+            list.add(emp);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+    
+     public List<Employer> getEmployersByPage(int offset, int recordsPerPage) {
     List<Employer> list = new ArrayList<>();
     String sql = "SELECT * FROM Employer ORDER BY Employer_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
@@ -128,7 +340,7 @@ public int getTotalEmployersByName(String name) {
         while (rs.next()) {
             Employer e = new Employer();
             e.setEmployerId(rs.getInt("Employer_ID"));
-            e.setEmployerName(rs.getString("EmployerName"));
+            e.setNameEmployer(rs.getString("EmployerName"));
             e.setEmail(rs.getString("Email"));
             e.setPasswordHash(rs.getString("Password_hash"));
             e.setCompanyName(rs.getString("Company_Name"));
@@ -136,17 +348,15 @@ public int getTotalEmployersByName(String name) {
             e.setLocation(rs.getString("Location"));
             e.setUrlWebsite(rs.getString("URL_Website"));
             e.setCompanySize(rs.getString("CompanySize"));
-            e.setImgLogo(rs.getBytes("ImgLogo"));
+      
             list.add(e);
         }
     } catch (SQLException e) {
         e.printStackTrace();
     }
     return list;
-}
-
-
-public int countEmployers() {
+}  
+     public int countEmployers() {
     int count = 0;
     String sql = "SELECT COUNT(*) FROM Employer";
     try (PreparedStatement stmt = connection.prepareStatement(sql);
@@ -159,6 +369,20 @@ public int countEmployers() {
     }
     return count;
 }
+     public void deleteEmployer(int id) {
+        String sql = "DELETE FROM Employer WHERE Employer_ID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+     
+
+
+
+
  public static void main(String[] args) {
         // Khởi tạo EmployerDAO
         EmployerDAO employerDAO = new EmployerDAO();
@@ -173,7 +397,7 @@ public int countEmployers() {
         System.out.println("--- Test lấy tất cả Employers ---");
         List<Employer> allEmployers = employerDAO.getAllEmployers();
         for (Employer emp : allEmployers) {
-            System.out.println("ID: " + emp.getEmployerId() + ", Name: " + emp.getEmployerName() + ", Email: " + emp.getEmail());
+            System.out.println("ID: " + emp.getEmployerId() + ", Name: " + emp.getNameEmployer()+ ", Email: " + emp.getEmail());
         }
         System.out.println("Tổng số Employers: " + allEmployers.size());
 
@@ -182,7 +406,7 @@ public int countEmployers() {
         List<Employer> employersByPage = employerDAO.getEmployersByPage(offset, recordsPerPage);
         System.out.println("Kết quả trang " + page + " (mỗi trang " + recordsPerPage + " bản ghi):");
         for (Employer emp : employersByPage) {
-            System.out.println("ID: " + emp.getEmployerId() + ", Name: " + emp.getEmployerName() + ", Email: " + emp.getEmail());
+            System.out.println("ID: " + emp.getEmployerId() + ", Name: " + emp.getNameEmployer() + ", Email: " + emp.getEmail());
         }
 
         // Test 3: Tìm kiếm Employers theo tên
@@ -190,39 +414,16 @@ public int countEmployers() {
         List<Employer> searchResults = employerDAO.searchEmployersByName(searchKeyword, offset, recordsPerPage);
         int totalSearchResults = employerDAO.getTotalEmployersByName(searchKeyword);
         for (Employer emp : searchResults) {
-            System.out.println("ID: " + emp.getEmployerId() + ", Name: " + emp.getEmployerName() + ", Email: " + emp.getEmail());
+            System.out.println("ID: " + emp.getEmployerId() + ", Name: " + emp.getNameEmployer() + ", Email: " + emp.getEmail());
         }
         System.out.println("Tổng số Employers khớp với từ khóa: " + totalSearchResults);
     }
-   public Employer getEmployerById(int id) {
-        String sql = "SELECT * FROM Employer WHERE Employer_ID = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Employer emp = new Employer();
-                emp.setEmployerId(rs.getInt("Employer_ID"));
-                emp.setEmployerName(rs.getString("EmployerName"));
-                emp.setEmail(rs.getString("Email"));
-                emp.setPasswordHash(rs.getString("Password_hash"));
-                emp.setCompanyName(rs.getString("Company_Name"));
-                emp.setDescription(rs.getString("Description"));
-                emp.setLocation(rs.getString("Location"));
-                emp.setUrlWebsite(rs.getString("URL_Website"));
-                emp.setCompanySize(rs.getString("CompanySize"));
-                emp.setImgLogo(rs.getBytes("imgLogo"));
-                return emp;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 
     public void updateEmployer(Employer emp) {
         String sql = "UPDATE Employer SET EmployerName=?, Email=?, Password_hash=?, Company_Name=?, Description=?, Location=?, URL_Website=?, CompanySize=?, imgLogo=? WHERE Employer_ID=?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, emp.getEmployerName());
+            ps.setString(1, emp.getNameEmployer());
             ps.setString(2, emp.getEmail());
             ps.setString(3, emp.getPasswordHash());
             ps.setString(4, emp.getCompanyName());
@@ -230,49 +431,16 @@ public int countEmployers() {
             ps.setString(6, emp.getLocation());
             ps.setString(7, emp.getUrlWebsite());
             ps.setString(8, emp.getCompanySize());
-            ps.setBytes(9, emp.getImgLogo());
+
             ps.setInt(10, emp.getEmployerId());
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-    public void deleteEmployer(int id) {
-        String sql = "DELETE FROM Employer WHERE Employer_ID = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public List<Employer> getAllEmployers() {
-    List<Employer> list = new ArrayList<>();
-    String sql = "SELECT * FROM Employer";
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Employer emp = new Employer();
-            emp.setEmployerId(rs.getInt("Employer_ID"));
-            emp.setEmployerName(rs.getString("EmployerName"));
-            emp.setEmail(rs.getString("Email"));
-            emp.setPasswordHash(rs.getString("Password_hash"));
-            emp.setCompanyName(rs.getString("Company_Name"));
-            emp.setDescription(rs.getString("Description"));
-            emp.setLocation(rs.getString("Location"));
-            emp.setUrlWebsite(rs.getString("URL_Website"));
-            emp.setCompanySize(rs.getString("CompanySize"));
-            emp.setImgLogo(rs.getBytes("imgLogo"));
-            list.add(emp);
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return list;
 }
-    
 
 
+ 
 
-}
+ 
