@@ -104,4 +104,10 @@
         <servlet-name>CandidateApplyListServlet</servlet-name>
         <url-pattern>/CandidateApplyList</url-pattern>
     </servlet-mapping>
+<web-app version="6.0"
+         xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+</web-app>
+
 </web-app>

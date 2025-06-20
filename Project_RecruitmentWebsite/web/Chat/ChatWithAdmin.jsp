@@ -1,7 +1,7 @@
 <%-- 
-    Document   : ChatWithAdmin
+    Document   : ChatWithAdmin  
     Created on : Jun 16, 2025, 1:16:20 PM
-    Author     : Admin
+    Author     : Admin b
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -51,6 +51,7 @@
         </div>
 
         <script>
+
             const dividUser = document.querySelector('[data-userId]');
             const dividRole = document.querySelector('[data-userRole]');
             const idUser = dividUser.getAttribute('data-userId');

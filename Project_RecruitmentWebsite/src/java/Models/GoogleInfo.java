@@ -83,6 +83,4 @@ public class GoogleInfo {
         this.locale = locale;
     }
 
-    
-    
 }

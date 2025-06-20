@@ -36,7 +36,7 @@ public class EncodePassword {
 
     public static void main(String[] args) throws MessagingException {
 
-        System.out.println(encodePasswordbyHash("12345"));
+        System.out.println(encodePasswordbyHash("12"));
     }
 
 }
