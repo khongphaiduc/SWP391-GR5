@@ -106,14 +106,12 @@ public class employerProfileServlet extends HttpServlet {
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
         
-        // Kiểm tra authentication
         if (username == null || !"Employer".equals(role)) {
             response.sendRedirect(request.getContextPath() + "/log/login.jsp");
             return;
         }
         
         try {
-            // Lấy parameters từ form
             String companyName = request.getParameter("companyName");
             String email = request.getParameter("email");
             String phoneNumber = request.getParameter("phoneNumber");
@@ -121,7 +119,6 @@ public class employerProfileServlet extends HttpServlet {
             String description = request.getParameter("description");
             String website = request.getParameter("urlWebsite");
             
-            // Validate dữ liệu đầu vào
             if (companyName == null || companyName.trim().isEmpty() ||
                 email == null || email.trim().isEmpty() ||
                 phoneNumber == null || phoneNumber.trim().isEmpty() ||
@@ -135,7 +132,6 @@ public class employerProfileServlet extends HttpServlet {
             
             EmployerDAO employerDAO = new EmployerDAO();
             
-            // Kiểm tra email và phone number trùng lặp
             if (employerDAO.isEmailExists(email.trim(), username)) {
                 request.setAttribute("errorMessage", "Email này đã được sử dụng bởi tài khoản khác.");
                 doGet(request, response);
@@ -149,18 +145,14 @@ public class employerProfileServlet extends HttpServlet {
             }
             
             
-            // Xử lý file upload
             Part filePart = request.getPart("file");
             
             if (filePart != null && filePart.getSize() > 0) {
-                // Có file được upload
                 String mimeType = filePart.getContentType();
                 
-                // Validate file type và size
                 if (mimeType != null && mimeType.startsWith("image/") && filePart.getSize() < 5000000) { // 5MB limit
                     InputStream inputStream = filePart.getInputStream();
                     
-                    // Update với file mới
                     boolean updateSuccess = employerDAO.updateEmployer(username, email, description, 
                             location, website, companyName, inputStream, phoneNumber);
                     
@@ -177,7 +169,6 @@ public class employerProfileServlet extends HttpServlet {
                     return;
                 }
             } else {
-                // Không có file upload, chỉ update thông tin text
                 boolean updateSuccess = employerDAO.updateEmployerWithoutImage(username, email, 
                         description, location, website, companyName, phoneNumber);
                 
@@ -197,7 +188,6 @@ public class employerProfileServlet extends HttpServlet {
             e.printStackTrace();
             request.setAttribute("errorMessage", "Có lỗi xảy ra: " + e.getMessage());
             
-            // Load lại employer data để hiển thị trang
             try {
                 EmployerDAO employerDAO = new EmployerDAO();
                 Employer employer = employerDAO.getEmployerByName(username);
