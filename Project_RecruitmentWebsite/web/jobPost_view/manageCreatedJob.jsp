@@ -345,6 +345,7 @@
         </style>
     </head>
     <body>
+
         <div class="container">
             <div class="header">
                 <h1><i class="fas fa-briefcase"></i> Danh sách tin tuyển dụng</h1>
@@ -363,17 +364,19 @@
                     <div class="job-header">
                         <div class="job-title">
                             <i class="fas fa-briefcase"></i>
-                            <a href="${pageContext.request.contextPath}/cv-list?jobPostId=<%= job.getJobPost_ID() %>" style="color: white; text-decoration: underline;">
+                            <a href="${pageContext.request.contextPath}/cv-list?jobPostId=<%= job.getJobPost_ID() %>" 
+                               style="color: black; text-decoration: none; transition: transform 0.3s, text-decoration 0.3s; display: inline-block;" 
+                               onmouseover="this.style.transform = 'translateY(-2px)'; this.style.textDecoration = 'underline';" 
+                               onmouseout="this.style.transform = 'none'; this.style.textDecoration = 'none';"
+                               title="Click để xem danh sách CV của tin tuyển dụng">
                                 <%= job.getTitle() %>
                             </a>
+
                         </div>
 
-
                         <div class="job-item-position">
-
                             <div class="job-position">
-                                >>>>>>> b7aaaaddf37a469d9faf74f33f90c10c8c2134b2
-                                <%= job.getPosition() %>
+                                Vị trí: <%= job.getPosition() %>
                             </div>
                         </div>
 

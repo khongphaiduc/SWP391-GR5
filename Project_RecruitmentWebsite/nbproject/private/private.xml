@@ -2,6 +2,7 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/EmployerDAO.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
@@ -11,5 +12,8 @@
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/web/viewuser.jsp</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/ListServlet.java</file>
         </group>
+=======
+        <group/>
+>>>>>>> mkhanhs
     </open-files>
 </project-private>

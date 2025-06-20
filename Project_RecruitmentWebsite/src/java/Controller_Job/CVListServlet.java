@@ -60,7 +60,9 @@ public class CVListServlet extends HttpServlet {
             jobPostId = Integer.parseInt(jobPostIdStr);
         } catch (NumberFormatException e) {
             request.setAttribute("error", "ID công việc không hợp lệ.");
+            //response.sendRedirect("error.jsp");
             request.getRequestDispatcher("error.jsp").forward(request, response);
+            
             return;
         }
 

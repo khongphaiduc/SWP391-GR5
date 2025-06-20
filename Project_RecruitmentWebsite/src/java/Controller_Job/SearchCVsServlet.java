@@ -14,6 +14,12 @@ import java.util.List;
 @WebServlet(name = "SearchCVsServlet", urlPatterns = {"/SearchCVsServlet"})
 public class SearchCVsServlet extends HttpServlet {
 
+    private String normalize(String input) {
+        if (input == null) return null;
+        input = input.trim();
+        return input.replaceAll("\\s+", " ");
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,18 +47,18 @@ public class SearchCVsServlet extends HttpServlet {
             int employerId = employer.getEmployerId();
             session.setAttribute("employerId", employerId); // lưu vào session để dùng cho các servlet khác
 
-            // Lấy tham số tìm kiếm từ request
-            String keyword = request.getParameter("keyword");
-            String address = request.getParameter("address");
+            // Lấy và chuẩn hóa tham số tìm kiếm từ request
+            String keyword = normalize(request.getParameter("keyword"));
+            String address = normalize(request.getParameter("address"));
             String numberExpStr = request.getParameter("numberExp");
-            String position = request.getParameter("position");
-            String field = request.getParameter("field");
+            String position = normalize(request.getParameter("position"));
+            String field = normalize(request.getParameter("field"));
 
             // Chuyển đổi kinh nghiệm sang kiểu số (nullable)
             Integer numberExp = null;
             if (numberExpStr != null && !numberExpStr.trim().isEmpty()) {
                 try {
-                    numberExp = Integer.parseInt(numberExpStr);
+                    numberExp = Integer.parseInt(numberExpStr.trim());
                 } catch (NumberFormatException e) {
                     request.setAttribute("error", "Số năm kinh nghiệm không hợp lệ.");
                     request.getRequestDispatcher("/error.jsp").forward(request, response);
@@ -64,16 +70,27 @@ public class SearchCVsServlet extends HttpServlet {
             CVDAO cvDao = new CVDAO();
             List<CV> appliedCVs = cvDao.searchCVsForEmployer(employerId, address, numberExp, position, keyword, field);
 
-            // Log
-            System.out.println("Số CV tìm thấy: " + appliedCVs.size());
+            // Log chi tiết
+            System.out.println("Tìm kiếm CV với:");
+            System.out.println("  Employer ID: " + employerId);
+            System.out.println("  keyword: " + keyword);
+            System.out.println("  address: " + address);
+            System.out.println("  numberExp: " + numberExp);
+            System.out.println("  position: " + position);
+            System.out.println("  field: " + field);
+            System.out.println("  Số CV tìm thấy: " + appliedCVs.size());
 
-            // Truyền dữ liệu sang JSP
+            // Gán dữ liệu cho JSP
             request.setAttribute("appliedCVs", appliedCVs);
             request.setAttribute("keyword", keyword);
             request.setAttribute("address", address);
             request.setAttribute("numberExp", numberExp);
             request.setAttribute("position", position);
             request.setAttribute("field", field);
+
+            if (appliedCVs.isEmpty()) {
+                request.setAttribute("message", "Không tìm thấy CV phù hợp với tiêu chí tìm kiếm.");
+            }
 
             request.getRequestDispatcher("/applied-cv-list.jsp").forward(request, response);
 
