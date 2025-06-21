@@ -342,7 +342,8 @@
                     websocket.send(JSON.stringify({
                         type: 'private',
                         to: currentUser,
-                        message: text
+                        message: text,
+                        image:''
                     }));
                 }
 
@@ -403,9 +404,13 @@
                 console.error("WebSocket lỗi:", err);
             };
 
-            websocket.onclose = function () {
-                console.warn("WebSocket đã đóng.");
-            };
+       websocket.onclose = function (event) {
+    console.warn("WebSocket đã đóng.");
+    console.log("Code: ", event.code);
+    console.log("Reason: ", event.reason);
+    console.log("Was clean close? ", event.wasClean);
+};
+
 
             renderUserList();
             renderChatMessages();
