@@ -35,9 +35,6 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.jakarta.json-api-2.1.3.jar}</file>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.jakarta.json-api-2.1.3.jar-1}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>

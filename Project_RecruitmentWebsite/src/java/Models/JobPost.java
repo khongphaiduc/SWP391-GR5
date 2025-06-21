@@ -21,6 +21,15 @@ public class JobPost {
     private String typeJob;
     private byte[] imgLogo;
     private int saveIdJobPost;
+    private Employer employer;
+
+    public Employer getEmployer() {
+        return employer;
+    }
+
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
+    }
 
     public JobPost(int jobPost_ID, String title, String description, String category,
             String position, String location, double offer_Min, double offer_Max,
@@ -202,7 +211,5 @@ public class JobPost {
     public String toString() {
         return "JobPost{" + "jobPost_ID=" + jobPost_ID + ", title=" + title + ", description=" + description + ", position=" + position + ", location=" + location + ", offer_Min=" + offer_Min + ", offer_Max=" + offer_Max + ", number_exp=" + number_exp + ", visible=" + visible + ", category=" + category + ", dayCre=" + dayCre + ", company=" + company + ", employer_ID=" + employer_ID + ", typeJob=" + typeJob + ", imgLogo=" + imgLogo + ", saveIdJobPost=" + saveIdJobPost + '}';
     }
-
- 
 
 }

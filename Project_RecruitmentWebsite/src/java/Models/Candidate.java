@@ -21,8 +21,10 @@ public class Candidate {
     public Candidate() {
     }
 
+
     public Candidate(int candidateId, String candidateName, String address, String email,
             java.sql.Date birthday, String nationality, String passwordHash, InputStream avatar) {
+
         this.candidateId = candidateId;
         this.candidateName = candidateName;
         this.address = address;
@@ -97,4 +99,11 @@ public class Candidate {
     public void setAvatar(InputStream avatar) {
         this.avatar = avatar;
     }
+
+
+
+
+
 }
+
+

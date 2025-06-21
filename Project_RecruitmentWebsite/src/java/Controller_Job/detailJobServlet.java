@@ -68,7 +68,7 @@ public class detailJobServlet extends HttpServlet {
 
         int postId = Integer.parseInt(request.getParameter("postId"));
         JobPostDAO jobPostDAO = new JobPostDAO();
-        JobPost jobPost = jobPostDAO.getJobPostById(postId);
+        JobPost jobPost = jobPostDAO.getJobPostWithEmployerById(postId);
 
         String username = (String) session.getAttribute("username");
 

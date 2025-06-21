@@ -13,9 +13,11 @@ import java.io.InputStream;
 public class Employer {
 
     private int employerId;
+
     private String nameEmployer;
     private String email;
     private String passwordHash;
+
     private String companyName;
     private String description;
     private String location;
@@ -33,7 +35,7 @@ public class Employer {
     }
     
 
-    // Constructors
+
     public Employer() {
     }
 
@@ -41,7 +43,9 @@ public class Employer {
             String companyName, String description, String location,
             String urlWebsite, String companySize, InputStream imgLogo) {
         this.employerId = employerId;
+
         this.nameEmployer = nameEmployer;
+
         this.email = email;
         this.passwordHash = passwordHash;
         this.companyName = companyName;
@@ -52,7 +56,6 @@ public class Employer {
         this.imgLogo = imgLogo;
     }
 
-    // Getters and Setters
     public int getEmployerId() {
         return employerId;
     }

@@ -8,6 +8,7 @@ import DAO.ApplyDAO;
 import DAO.CandidateDAO;
 import Models.Apply;
 import Models.Candidate;
+import Models.JobPost;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -82,7 +83,6 @@ public class CandidateApplyListServlet extends HttpServlet {
 
         int candidateID = candidate.getCandidateId();
         List<Apply> applies = applyDAO.getAppliesWithJobPostByCandidateID(candidateID);
-        request.setAttribute("applies", applies);
 
          //paging
             String pageParam = request.getParameter("page");
@@ -107,8 +107,12 @@ public class CandidateApplyListServlet extends HttpServlet {
                 toIndex = Math.min(pageSize, totalApply);
                 page = 1;
             }
-        
-        request.getRequestDispatcher("candidateApply_view/candidateApplyList.jsp").forward(request, response);
+         List<Apply> paginatedList = applies.subList(fromIndex, toIndex);
+
+            request.setAttribute("applies", paginatedList);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("totalPages", totalPages);
+        request.getRequestDispatcher("ApplyCV_view/candidateApplyList.jsp").forward(request, response);
     }
 
     /**

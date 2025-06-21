@@ -16,507 +16,526 @@
             }
 
             body {
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-                background-color: #f4f4f4;
-                min-height: 100vh;
-                padding: 0;
+                font-family: 'Inter', sans-serif;
+                background-color: #f5f5f5;
+                color: #333;
+                line-height: 1.6;
             }
 
-            .job-container {
+            .container {
                 max-width: 1200px;
                 margin: 0 auto;
-                padding: 0 20px;
-                padding-top: 70px; /* Adjust for sticky navbar height */
+                padding: 80px 20px 20px;
             }
 
-            .job-header-section {
+            .header {
                 text-align: center;
-                margin: 40px 0;
-                color: #2e4f4f;
+                margin-bottom: 30px;
             }
 
-            .job-header-section h1 {
-                font-size: 2.5rem;
-                font-weight: 700;
+            .header h1 {
+                font-size: 2rem;
+                color: #00c853;
                 margin-bottom: 10px;
-                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                text-transform: uppercase;
-            }
-
-            .job-header-section p {
-                font-size: 1.1rem;
-                opacity: 0.9;
-                font-weight: 300;
-            }
-
-            .job-list-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-                gap: 24px;
-                margin-bottom: 40px;
-            }
-
-            .job-item-card {
-                background: white;
-                border-radius: 16px;
-                box-shadow: 0 4px 16px rgba(46, 79, 79, 0.08);
-                overflow: hidden;
-                transition: all 0.3s ease;
-                border: 1px solid rgba(46, 79, 79, 0.1);
-            }
-
-            .job-item-card:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 8px 32px rgba(46, 79, 79, 0.15);
-                border-color: rgba(46, 79, 79, 0.2);
-            }
-
-            .job-item-header {
-                background: linear-gradient(135deg, #2e4f4f 0%, #1a3c3c 100%);
-                padding: 20px;
-                color: white;
-                position: relative;
-            }
-
-            .job-item-header::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 4px;
-                background: linear-gradient(90deg, #2e4f4f, #1a3c3c);
-            }
-
-            .job-item-title {
-                font-size: 1.4rem;
                 font-weight: 600;
+            }
+
+            .header p {
+                color: #6c757d;
+                font-size: 1rem;
+            }
+
+            .job-list {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+
+            .job-card {
+                background: white;
+                border: 1px solid #e0e0e0;
+                border-radius: 8px;
+                padding: 24px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                transition: box-shadow 0.3s ease;
+            }
+
+            .job-card:hover {
+                box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            }
+
+            .job-header {
+                border-bottom: 2px solid #00c853;
+                padding-bottom: 16px;
+                margin-bottom: 20px;
+            }
+
+            .job-title {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: #2c3e50;
                 margin-bottom: 8px;
                 display: flex;
                 align-items: center;
-                gap: 8px;
-                text-transform: uppercase;
+                gap: 10px;
             }
 
-            .job-item-position {
-                font-size: 1rem;
-                opacity: 0.9;
-                font-weight: 400;
+            .job-position {
+                font-size: 1.1rem;
+                color: #00c853;
+                font-weight: 500;
             }
 
-            .job-item-body {
-                padding: 24px;
-            }
-
-            .job-info-grid {
+            .job-info {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
                 gap: 16px;
-                margin-bottom: 24px;
+                margin-bottom: 20px;
             }
 
-            .job-info-item {
+            .info-item {
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
                 gap: 12px;
                 padding: 12px;
                 background: #f8f9fa;
-                border-radius: 8px;
-                border-left: 4px solid #2e4f4f;
+                border-radius: 6px;
+                border-left: 3px solid #00c853;
             }
 
-            .job-info-icon {
-                width: 36px;
-                height: 36px;
-                background: linear-gradient(135deg, #2e4f4f, #1a3c3c);
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: white;
-                font-size: 14px;
-                flex-shrink: 0;
+            .info-icon {
+                color: #00c853;
+                font-size: 16px;
+                margin-top: 2px;
+                min-width: 16px;
             }
 
-            .job-info-content {
+            .info-content {
                 flex: 1;
             }
 
-            .job-info-label {
-                font-size: 0.75rem;
-                color: #666;
+            .info-label {
+                font-size: 0.85rem;
+                color: #7f8c8d;
+                font-weight: 500;
+                margin-bottom: 4px;
                 text-transform: uppercase;
-                font-weight: 500;
                 letter-spacing: 0.5px;
-                margin-bottom: 2px;
             }
 
-            .job-info-value {
-                font-size: 0.9rem;
-                color: #333;
+            .info-value {
+                font-size: 0.95rem;
+                color: #2c3e50;
                 font-weight: 500;
+                word-wrap: break-word;
             }
 
-            .job-item-actions {
+            .info-value a {
+                color: #00c853;
+                text-decoration: none;
+            }
+
+            .info-value a:hover {
+                text-decoration: underline;
+            }
+
+            .job-actions {
                 display: flex;
                 gap: 12px;
-                padding-top: 20px;
-                border-top: 1px solid #eee;
+                padding-top: 16px;
+                border-top: 1px solid #e0e0e0;
             }
 
-            .job-item-actions form {
+            .job-actions form {
                 flex: 1;
-                margin: 0;
             }
 
-            .job-btn {
+            .btn {
                 width: 100%;
-                padding: 12px 16px;
-                border-radius: 8px;
-                font-weight: 600;
+                padding: 12px 20px;
+                border: none;
+                border-radius: 6px;
+                font-size: 0.95rem;
+                font-weight: 500;
+                cursor: pointer;
                 text-decoration: none;
                 text-align: center;
-                transition: all 0.3s ease;
-                font-size: 0.9rem;
-                border: none;
-                cursor: pointer;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 6px;
-                box-sizing: border-box;
+                gap: 8px;
+                transition: all 0.3s ease;
             }
 
-            .job-btn-edit {
-                background: linear-gradient(135deg, #2e4f4f, #1a3c3c);
+            .btn-edit {
+                background-color: #00c853;
                 color: white;
             }
 
-            .job-btn-edit:hover {
-                background: linear-gradient(135deg, #1a3c3c, #143333);
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(46, 79, 79, 0.3);
+            .btn-edit:hover {
+                background-color: #00a63f;
+                transform: translateY(-1px);
             }
 
-            .job-btn-delete {
-                background: linear-gradient(135deg, #ff6b6b, #e53e3e);
+            .btn-delete {
+                background-color: #e74c3c;
                 color: white;
             }
 
-            .job-btn-delete:hover {
-                background: linear-gradient(135deg, #ff5252, #d32f2f);
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+            .btn-delete:hover {
+                background-color: #c0392b;
+                transform: translateY(-1px);
             }
 
-            .job-no-results {
+            .no-jobs {
                 text-align: center;
+                padding: 60px 20px;
                 background: white;
-                padding: 60px 40px;
-                border-radius: 16px;
-                box-shadow: 0 4px 16px rgba(46, 79, 79, 0.08);
-                border: 1px solid rgba(46, 79, 79, 0.1);
-                margin: 0 auto;
-                max-width: 600px;
+                border-radius: 8px;
+                border: 1px solid #e0e0e0;
             }
 
-            .job-no-results i {
+            .no-jobs i {
                 font-size: 4rem;
-                color: #2e4f4f;
+                color: #bdc3c7;
                 margin-bottom: 20px;
-                display: block;
             }
 
-            .job-no-results h3 {
+            .no-jobs h3 {
                 font-size: 1.5rem;
-                color: #333;
+                color: #2c3e50;
                 margin-bottom: 10px;
-                font-weight: 600;
-                text-transform: uppercase;
             }
 
-            .job-no-results p {
-                color: #666;
+            .no-jobs p {
+                color: #7f8c8d;
                 font-size: 1rem;
             }
 
-            .job-pagination-wrapper {
+            .pagination-wrapper {
                 background: white;
-                padding: 24px;
-                border-radius: 16px;
-                box-shadow: 0 4px 16px rgba(46, 79, 79, 0.08);
-                margin-top: 30px;
-                border: 1px solid rgba(46, 79, 79, 0.1);
+                padding: 20px;
+                border-radius: 8px;
+                border: 1px solid #e0e0e0;
+                margin-top: 20px;
             }
 
-            .job-pagination {
+            .pagination {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 12px;
+                gap: 8px;
                 flex-wrap: wrap;
             }
 
-            .job-pagination a, .job-pagination span {
-                padding: 10px 16px;
-                border-radius: 8px;
+            .pagination a, .pagination span {
+                padding: 8px 12px;
+                border-radius: 4px;
                 text-decoration: none;
-                font-weight: 600;
-                transition: all 0.3s ease;
-                min-width: 44px;
+                font-weight: 500;
+                min-width: 40px;
                 text-align: center;
+                transition: all 0.3s ease;
             }
 
-            .job-pagination a {
+            .pagination a {
                 background: #f8f9fa;
-                color: #333;
-                border: 1px solid #e9ecef;
+                color: #2c3e50;
+                border: 1px solid #e0e0e0;
             }
 
-            .job-pagination a:hover {
-                background: #2e4f4f;
+            .pagination a:hover {
+                background: #00c853;
                 color: white;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(46, 79, 79, 0.2);
             }
 
-            .job-pagination .job-current-page {
-                background: linear-gradient(135deg, #2e4f4f, #1a3c3c);
+            .pagination .current-page {
+                background: #00c853;
                 color: white;
-                box-shadow: 0 4px 12px rgba(46, 79, 79, 0.3);
             }
 
-            .job-page-size-control {
+            .page-size-control {
                 display: flex;
                 align-items: center;
-                gap: 12px;
+                gap: 8px;
                 margin-left: 20px;
                 padding-left: 20px;
-                border-left: 2px solid #e9ecef;
+                border-left: 1px solid #e0e0e0;
             }
 
-            .job-page-size-control input {
+            .page-size-control input {
                 width: 60px;
-                padding: 8px 12px;
-                border: 1px solid #ddd;
-                border-radius: 6px;
+                padding: 6px 8px;
+                border: 1px solid #e0e0e0;
+                border-radius: 4px;
                 text-align: center;
+            }
+
+            .page-size-control button {
+                padding: 6px 12px;
+                background: #00c853;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
                 font-weight: 500;
             }
 
-            .job-page-size-control button {
-                padding: 8px 16px;
-                background: linear-gradient(135deg, #2e4f4f, #1a3c3c);
-                color: white;
-                border: none;
-                border-radius: 6px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
+            .page-size-control button:hover {
+                background: #00a63f;
             }
 
-            .job-page-size-control button:hover {
-                transform: translateY(-1px);
-                box-shadow: 0 4px 12px rgba(46, 79, 79, 0.3);
+            .status-badge {
+                display: inline-block;
+                padding: 4px 8px;
+                border-radius: 12px;
+                font-size: 0.8rem;
+                font-weight: 500;
+                text-transform: uppercase;
+            }
+
+            .status-visible {
+                background: #e8f5e8;
+                color: #2e7d32;
+            }
+
+            .status-hidden {
+                background: #f8d7da;
+                color: #721c24;
             }
 
             /* Responsive */
             @media (max-width: 768px) {
-                .job-container {
-                    padding: 0 15px;
+                .container {
+                    padding: 80px 15px 15px;
                 }
 
-                .job-header-section h1 {
-                    font-size: 2rem;
-                }
-
-                .job-list-grid {
+                .job-info {
                     grid-template-columns: 1fr;
-                    gap: 20px;
                 }
 
-                .job-info-grid {
-                    grid-template-columns: 1fr;
-                    gap: 12px;
-                }
-
-                .job-item-actions {
+                .job-actions {
                     flex-direction: column;
                 }
 
-                .job-btn {
-                    padding: 14px 16px;
-                }
-
-                .job-pagination {
+                .pagination {
                     flex-direction: column;
-                    gap: 16px;
+                    gap: 15px;
                 }
 
-                .job-page-size-control {
+                .page-size-control {
                     margin-left: 0;
                     padding-left: 0;
                     border-left: none;
-                    border-top: 2px solid #e9ecef;
-                    padding-top: 16px;
+                    border-top: 1px solid #e0e0e0;
+                    padding-top: 15px;
                 }
             }
 
             @media (max-width: 480px) {
-                .job-item-header {
+                .job-title {
+                    font-size: 1.3rem;
+                }
+
+                .job-card {
                     padding: 16px;
-                }
-
-                .job-item-title {
-                    font-size: 1.2rem;
-                    text-align: center;
-                }
-
-                .job-item-position {
-                    text-align: center;
                 }
             }
         </style>
     </head>
     <body>
-        <div class="job-container">
-            <div class="job-header-section">
-                <h1><i class="fas fa-briefcase"></i> DANH SÁCH TIN TUYỂN DỤNG</h1>
-                <p>Danh sách tất cả tin tuyển dụng của bạn</p>
+
+        <div class="container">
+            <div class="header">
+                <h1><i class="fas fa-briefcase"></i> Danh sách tin tuyển dụng</h1>
+                <p>Quản lý tất cả tin tuyển dụng của bạn</p>
             </div>
 
             <%
                 List<JobPost> jobList = (List<JobPost>) request.getAttribute("jobList");
                 if (jobList != null && !jobList.isEmpty()) {
             %>
-            <div class="job-list-grid">
+            <div class="job-list">
                 <%
                     for (JobPost job : jobList) {
                 %>
-                <div class="job-item-card">
-                    <div class="job-item-header">
-                        <div class="job-item-title">
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
                             <i class="fas fa-briefcase"></i>
-                            <%= job.getTitle() %>
+                            <a href="${pageContext.request.contextPath}/cv-list?jobPostId=<%= job.getJobPost_ID() %>" 
+                               style="color: black; text-decoration: none; transition: transform 0.3s, text-decoration 0.3s; display: inline-block;" 
+                               onmouseover="this.style.transform = 'translateY(-2px)'; this.style.textDecoration = 'underline';" 
+                               onmouseout="this.style.transform = 'none'; this.style.textDecoration = 'none';"
+                               title="Click để xem danh sách CV của tin tuyển dụng">
+                                <%= job.getTitle() %>
+                            </a>
+
                         </div>
+
                         <div class="job-item-position">
-                            <%= job.getPosition() %>
-                        </div>
-                    </div>
-                    <div class="job-item-body">
-                        <div class="job-info-grid">
-                            <div class="job-info-item">
-                                <div class="job-info-icon">
-                                    <i class="fas fa-building"></i>
-                                </div>
-                                <div class="job-info-content">
-                                    <div class="job-info-label">Công ty</div>
-                                    <div class="job-info-value"><%= job.getCompapy() %></div>
-                                </div>
-                            </div>
-                            <div class="job-info-item">
-                                <div class="job-info-icon">
-                                    <i class="fas fa-sitemap"></i>
-                                </div>
-                                <div class="job-info-content">
-                                    <div class="job-info-label">Ngành nghề</div>
-                                    <div class="job-info-value"><%= job.getCategory() %></div>
-                                </div>
-                            </div>
-                            <div class="job-info-item">
-                                <div class="job-info-icon">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div class="job-info-content">
-                                    <div class="job-info-label">Địa điểm</div>
-                                    <div class="job-info-value"><%= job.getLocation() %></div>
-                                </div>
-                            </div>
-                            <div class="job-info-item">
-                                <div class="job-info-icon">
-                                    <i class="fas fa-money-bill-wave"></i>
-                                </div>
-                                <div class="job-info-content">
-                                    <div class="job-info-label">Mức lương</div>
-                                    <div class="job-info-value"><%= job.getOffer_Min() %> - <%= job.getOffer_Max() %></div>
-                                </div>
-                            </div>
-                            <div class="job-info-item">
-                                <div class="job-info-icon">
-                                    <i class="fas fa-hourglass"></i>
-                                </div>
-                                <div class="job-info-content">
-                                    <div class="job-info-label">Kinh nghiệm</div>
-                                    <div class="job-info-value"><%= job.getNumber_exp() %> năm</div>
-                                </div>
-                            </div>
-                            <div class="job-info-item">
-                                <div class="job-info-icon">
-                                    <i class="fas fa-eye"></i>
-                                </div>
-                                <div class="job-info-content">
-                                    <div class="job-info-label">Trạng thái</div>
-                                    <div class="job-info-value"><%= job.isVisible() ? "Hiển thị" : "Ẩn" %></div>
-                                </div>
+                            <div class="job-position">
+                                Vị trí: <%= job.getPosition() %>
                             </div>
                         </div>
-                        <div class="job-item-actions">
-                            <form method="post" action="manageCreatedJob" style="flex: 1; margin: 0;">
+
+                        <div class="job-info">
+                            <div class="info-item">
+                                <i class="fas fa-building info-icon"></i>
+                                <div class="info-content">
+                                    <div class="info-label">Công ty</div>
+                                    <div class="info-value"><%= job.getEmployer().getCompanyName() %></div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <i class="fas fa-sitemap info-icon"></i>
+                                <div class="info-content">
+                                    <div class="info-label">Ngành nghề</div>
+                                    <div class="info-value"><%= job.getCategory() %></div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <i class="fas fa-map-marker-alt info-icon"></i>
+                                <div class="info-content">
+                                    <div class="info-label">Địa điểm</div>
+                                    <div class="info-value"><%= job.getLocation() %></div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <i class="fas fa-money-bill-wave info-icon"></i>
+                                <div class="info-content">
+                                    <div class="info-label">Mức lương</div>
+                                    <div class="info-value"><%= job.getOffer_Min() %> - <%= job.getOffer_Max() %></div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <i class="fas fa-hourglass info-icon"></i>
+                                <div class="info-content">
+                                    <div class="info-label">Kinh nghiệm</div>
+                                    <div class="info-value"><%= job.getNumber_exp() %> năm</div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <i class="fas fa-calendar-alt info-icon"></i>
+                                <div class="info-content">
+                                    <div class="info-label">Ngày đăng</div>
+                                    <div class="info-value"><%= job.getDayCre() %></div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <i class="fas fa-globe info-icon"></i>
+                                <div class="info-content">
+                                    <div class="info-label">Website công ty</div>
+                                    <div class="info-value">
+                                        <a href="<%= job.getEmployer().getUrlWebsite() %>" target="_blank">
+                                            <%= job.getEmployer().getUrlWebsite() %>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <i class="fas fa-users info-icon"></i>
+                                <div class="info-content">
+                                    <div class="info-label">Quy mô công ty</div>
+                                    <div class="info-value"><%= job.getEmployer().getCompanySize() %></div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <i class="fas fa-envelope info-icon"></i>
+                                <div class="info-content">
+                                    <div class="info-label">Email công ty</div>
+                                    <div class="info-value">
+                                        <a href="mailto:<%= job.getEmployer().getEmail() %>"><%= job.getEmployer().getEmail() %></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <i class="fas fa-eye info-icon"></i>
+                                <div class="info-content">
+                                    <div class="info-label">Trạng thái</div>
+                                    <div class="info-value">
+                                        <span class="status-badge <%= job.isVisible() ? "status-visible" : "status-hidden" %>">
+                                            <%= job.isVisible() ? "Hiển thị" : "Ẩn" %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="job-actions">
+                            <form method="post" action="manageCreatedJob">
                                 <input type="hidden" name="action" value="edit" />
                                 <input type="hidden" name="jobId" value="<%= job.getJobPost_ID() %>" />
-                                <button type="submit" class="job-btn job-btn-edit">
+                                <button type="submit" class="btn btn-edit">
                                     <i class="fas fa-edit"></i> Chỉnh sửa
                                 </button>
                             </form>
-                            <form method="post" action="manageCreatedJob" style="flex: 1; margin: 0;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa tin này?');">
+                            <form method="post" action="manageCreatedJob" onsubmit="return confirm('Bạn có chắc chắn muốn xóa tin này?');">
                                 <input type="hidden" name="action" value="delete" />
                                 <input type="hidden" name="jobId" value="<%= job.getJobPost_ID() %>" />
-                                <button type="submit" class="job-btn job-btn-delete">
+                                <button type="submit" class="btn btn-delete">
                                     <i class="fas fa-trash"></i> Xóa
                                 </button>
                             </form>
                         </div>
                     </div>
+                    <%
+                        }
+                    %>
                 </div>
-                <%
-                    }
+
+                <% 
+                    Integer currentPage = (Integer) request.getAttribute("currentPage");
+                    Integer totalPages = (Integer) request.getAttribute("totalPages");
+                    Integer pageSize = (Integer) session.getAttribute("pageSize");
+                    if (totalPages != null) {
                 %>
-            </div>
-
-            <% 
-                Integer currentPage = (Integer) request.getAttribute("currentPage");
-                Integer totalPages = (Integer) request.getAttribute("totalPages");
-                Integer pageSize = (Integer) session.getAttribute("pageSize");
-                if (totalPages != null) {
-            %>
-            <div class="job-pagination-wrapper">
-                <div class="job-pagination">
-                    <% for (int i = 1; i <= totalPages; i++) { %>
+                <div class="pagination-wrapper">
+                    <div class="pagination">
+                        <% for (int i = 1; i <= totalPages; i++) { %>
                         <% if (i == currentPage) { %>
-                            <span class="job-current-page"><%= i %></span>
-                        <% } else { %>
-                            <a href="manageCreatedJob?page=<%= i %>"><%= i %></a>
-                        <% } %>
-                    <% } %>
-                    
-                    <div class="job-page-size-control">
-                        <span>Hiển thị:</span>
-                        <form action="manageCreatedJob" style="display: flex; align-items: center; gap: 8px;">
-                            <input type="number" name="pageSize" value="<%=pageSize%>" min="1" max="20">
-                            <button type="submit">OK</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <% } %>
 
-            <% } else { %>
-            <div class="job-no-results">
-                <i class="fas fa-briefcase"></i>
-                <h3>CHƯA CÓ TIN TUYỂN DỤNG</h3>
-                <p>Không có tin tuyển dụng nào được tìm thấy. Hãy tạo tin tuyển dụng đầu tiên của bạn!</p>
-            </div>
-            <% } %>
-        </div>
-    </body>
-</html>
+                        <span class="job-current-page"><%= i %></span>
+
+                        <span class="current-page"><%= i %></span>
+
+                        <% } else { %>
+                        <a href="manageCreatedJob?page=<%= i %>"><%= i %></a>
+                        <% } %>
+                        <% } %>
+
+
+                        <div class="job-page-size-control">
+
+                            <div class="page-size-control">
+
+                                <span>Hiển thị:</span>
+                                <form action="manageCreatedJob" style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="number" name="pageSize" value="<%=pageSize%>" min="1" max="20">
+                                    <button type="submit">OK</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+
+                    <% } else { %>
+                    <div class="no-jobs">
+                        <i class="fas fa-briefcase"></i>
+                        <h3>Chưa có tin tuyển dụng</h3>
+                        <p>Không có tin tuyển dụng nào được tìm thấy. Hãy tạo tin tuyển dụng đầu tiên của bạn!</p>
+                    </div>
+                    <% } %>
+                </div>
+                </body>
+                </html>

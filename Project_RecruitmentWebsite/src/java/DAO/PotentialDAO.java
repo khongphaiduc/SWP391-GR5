@@ -1,6 +1,7 @@
 package DAO;
 
 import Models.CV;
+import Models.JobPost;
 import dal.DBContext;
 import java.sql.*;
 import java.util.ArrayList;
@@ -56,10 +57,16 @@ public class PotentialDAO extends DBContext {
     // Get potential CVs by employer ID with pagination
     public List<CV> getPotentialCVsByEmployerId(int employerId, int page, int pageSize) {
         List<CV> result = new ArrayList<>();
-        String sql = "SELECT CV.* FROM CV "
-                + "JOIN Potential ON CV.CV_ID = Potential.CV_ID "
-                + "WHERE Potential.Employer_ID = ? "
-                + "ORDER BY CV.CV_ID "
+        String sql = "  SELECT DISTINCT CV.CV_ID, CV.Candidate_ID, CV.Full_Name, CV.Address, CV.Email, \n"
+                + "       CV.Position, CV.Number_exp, CV.Education, CV.Field, CV.Current_Salary, \n"
+                + "       CV.Birthday, CV.Nationality, CV.Gender, CV.FileData, CV.MimeType, \n"
+                + "       JP.JobPost_ID, JP.Title, JP.Position AS JP_Position, JP.Location\n"
+                + "FROM Potential P\n"
+                + "JOIN CV ON P.CV_ID = CV.CV_ID\n"
+                + "JOIN Apply A ON CV.CV_ID = A.CV_ID\n"
+                + "JOIN JobPost JP ON A.JobPost_ID = JP.JobPost_ID\n"
+                + "WHERE P.Employer_ID = ?\n"
+                + "ORDER BY CV.CV_ID\n"
                 + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -97,6 +104,14 @@ public class PotentialDAO extends DBContext {
                 }
 
                 cv.setMimeType(rs.getString("MimeType"));
+                // Tạo và gắn JobPost
+                JobPost jobPost = new JobPost();
+                jobPost.setJobPost_ID(rs.getInt("JobPost_ID"));
+                jobPost.setTitle(rs.getString("Title"));
+                jobPost.setPosition(rs.getString("JP_Position"));
+                jobPost.setLocation(rs.getString("Location"));
+
+                cv.setJobPost(jobPost);
                 result.add(cv);
             }
         } catch (SQLException e) {
@@ -119,7 +134,7 @@ public class PotentialDAO extends DBContext {
         }
         return 0;
     }
- 
+
     public static void main(String[] args) {
         PotentialDAO potentialDAO = new PotentialDAO();
 
@@ -143,7 +158,7 @@ public class PotentialDAO extends DBContext {
         }
 
         System.out.println("\n=== DANH SÁCH CV TIỀM NĂNG CỦA EMPLOYER " + testEmployerId + " ===");
-        List<CV> potentialCVs = potentialDAO.getPotentialCVsByEmployerId(testEmployerId,1,10);
+        List<CV> potentialCVs = potentialDAO.getPotentialCVsByEmployerId(testEmployerId, 1, 10);
 
         if (potentialCVs.isEmpty()) {
             System.out.println("⚠️ Chưa có CV nào được đánh dấu là tiềm năng.");
@@ -154,6 +169,8 @@ public class PotentialDAO extends DBContext {
                 System.out.println("   ➤ Email      : " + cv.getEmail());
                 System.out.println("   ➤ Vị trí     : " + cv.getPosition());
                 System.out.println("   ➤ Kinh nghiệm: " + cv.getNumberExp() + " năm");
+                JobPost jp = new JobPost();
+                System.out.println(" JobTitle: " + jp.getTitle());
                 System.out.println("-----------------------------------------------");
             }
         }

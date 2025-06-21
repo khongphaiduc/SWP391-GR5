@@ -1,5 +1,6 @@
 package DAO;
 
+import Models.Employer;
 import Models.JobPost;
 import java.sql.*;
 import java.util.ArrayList;
@@ -133,6 +134,262 @@ public class JobPostDAO extends DBContext {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<JobPost> getAllJobPost() {
+        List<JobPost> list = new ArrayList<>();
+        String sql = "SELECT * FROM JobPost ";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                JobPost job = new JobPost();
+                job.setJobPost_ID(rs.getInt("JobPost_ID"));
+                job.setTitle(rs.getString("Title"));
+                job.setDescription(rs.getString("Description"));
+                job.setPosition(rs.getString("Position"));
+                job.setLocation(rs.getString("Location"));
+                job.setOffer_Min(rs.getDouble("Offer_Min"));
+                job.setOffer_Max(rs.getDouble("Offer_Max"));
+                job.setNumber_exp(rs.getInt("Number_exp"));
+                job.setVisible(rs.getBoolean("Visible"));
+                job.setTypeJob(rs.getString("TypeJob"));
+                job.setDayCre(rs.getDate("DayCreate"));
+                job.setEmployer_ID(rs.getInt("Employer_ID"));
+                job.setCategory(rs.getString("Category"));
+                list.add(job);
+                return list;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<JobPost> getJobPostByPage(int offset, int recordsPerPage) {
+        List<JobPost> list = new ArrayList<>();
+        String sql = "SELECT * FROM JobPost ORDER BY JobPost_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, offset);
+            ps.setInt(2, recordsPerPage);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                JobPost job = new JobPost();
+                job.setJobPost_ID(rs.getInt("JobPost_ID"));
+                job.setTitle(rs.getString("Title"));
+                job.setDescription(rs.getString("Description"));
+                job.setPosition(rs.getString("Position"));
+                job.setLocation(rs.getString("Location"));
+                job.setOffer_Min(rs.getDouble("Offer_Min"));
+                job.setOffer_Max(rs.getDouble("Offer_Max"));
+                job.setNumber_exp(rs.getInt("Number_exp"));
+                job.setVisible(rs.getBoolean("Visible"));
+                job.setTypeJob(rs.getString("TypeJob"));
+                job.setDayCre(rs.getDate("DayCreate"));
+                job.setEmployer_ID(rs.getInt("Employer_ID"));
+                job.setCategory(rs.getString("Category"));
+                list.add(job);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int countJobPost() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM JobPost";
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    /*       public static void main(String[] args) {
+        // Khởi tạo EmployerDAO
+        JobPostDAO dao = new JobPostDAO();
+
+        // Tham số test
+        String searchKeyword = "A"; // Từ khóa tìm kiếm
+        int page = 1;                 // Trang hiện tại
+        int recordsPerPage = 10;      // Số bản ghi trên mỗi trang
+        int offset = (page - 1) * recordsPerPage;
+
+        // Test 1: Lấy tất cả Employers
+        System.out.println("--- Test lấy tất cả Employers ---");
+        List<JobPost> all = dao.getJobPostByPage(offset, recordsPerPage) ;
+        for (JobPost emp : all) {
+            System.out.println("ID: " + emp.getJobPost_ID()+ ", Name: " + emp.getCategory()+ ", Email: ");
+        }
+        System.out.println("Tổng số Employers: " + all.size());
+
+  
+    }
+     */
+
+    public List<JobPost> getAllJobPostsWithEmployer() {
+        List<JobPost> jobPosts = new ArrayList<>();
+
+        String sql = "SELECT jp.*, e.Employer_ID, e.EmployerName, e.Email, e.Password_hash, e.Company_Name, "
+                + "e.Description AS EmployerDesc, e.Location AS EmployerLocation, e.URL_Website, "
+                + "e.CompanySize, e.PhoneNumber, e.imgLogo "
+                + "FROM JobPost jp "
+                + "JOIN Employer e ON jp.Employer_ID = e.Employer_ID "
+                + "ORDER BY jp.DayCreate DESC";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                JobPost job = new JobPost();
+                job.setJobPost_ID(rs.getInt("JobPost_ID"));
+                job.setEmployer_ID(rs.getInt("Employer_ID"));
+                job.setTitle(rs.getString("Title"));
+                job.setDescription(rs.getString("Description"));
+                job.setCategory(rs.getString("Category"));
+                job.setPosition(rs.getString("Position"));
+                job.setLocation(rs.getString("Location"));
+                job.setOffer_Min(rs.getDouble("Offer_Min"));
+                job.setOffer_Max(rs.getDouble("Offer_Max"));
+                job.setNumber_exp(rs.getInt("Number_exp"));
+                job.setVisible(rs.getBoolean("Visible"));
+                job.setTypeJob(rs.getString("TypeJob"));
+                job.setDayCre(rs.getDate("DayCreate"));
+
+                Employer emp = new Employer();
+                emp.setEmployerId(rs.getInt("Employer_ID"));
+                emp.setNameEmployer(rs.getString("EmployerName"));
+                emp.setEmail(rs.getString("Email"));
+                emp.setPasswordHash(rs.getString("Password_hash"));
+                emp.setCompanyName(rs.getString("Company_Name"));
+                emp.setDescription(rs.getString("EmployerDesc"));
+                emp.setLocation(rs.getString("EmployerLocation"));
+                emp.setUrlWebsite(rs.getString("URL_Website"));
+                emp.setCompanySize(rs.getString("CompanySize"));
+                emp.setPhoneNumber(rs.getString("PhoneNumber"));
+
+                Blob logoBlob = rs.getBlob("imgLogo");
+                if (logoBlob != null) {
+                    emp.setImgLogo(logoBlob.getBinaryStream());
+                }
+
+                job.setEmployer(emp);
+                jobPosts.add(job);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jobPosts;
+    }
+
+    public JobPost getJobPostWithEmployerById(int jobPostId) {
+        String sql = "SELECT jp.*, e.Employer_ID, e.EmployerName, e.Email, e.Password_hash, e.Company_Name, "
+                + "e.Description AS EmployerDesc, e.Location AS EmployerLocation, e.URL_Website, "
+                + "e.CompanySize, e.PhoneNumber, e.imgLogo "
+                + "FROM JobPost jp "
+                + "JOIN Employer e ON jp.Employer_ID = e.Employer_ID "
+                + "WHERE jp.JobPost_ID = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, jobPostId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                JobPost job = new JobPost();
+                job.setJobPost_ID(rs.getInt("JobPost_ID"));
+                job.setEmployer_ID(rs.getInt("Employer_ID"));
+                job.setTitle(rs.getString("Title"));
+                job.setDescription(rs.getString("Description"));
+                job.setCategory(rs.getString("Category"));
+                job.setPosition(rs.getString("Position"));
+                job.setLocation(rs.getString("Location"));
+                job.setOffer_Min(rs.getDouble("Offer_Min"));
+                job.setOffer_Max(rs.getDouble("Offer_Max"));
+                job.setNumber_exp(rs.getInt("Number_exp"));
+                job.setVisible(rs.getBoolean("Visible"));
+                job.setTypeJob(rs.getString("TypeJob"));
+                job.setDayCre(rs.getDate("DayCreate"));
+
+                Employer emp = new Employer();
+                emp.setEmployerId(rs.getInt("Employer_ID"));
+                emp.setNameEmployer(rs.getString("EmployerName"));
+                emp.setEmail(rs.getString("Email"));
+                emp.setPasswordHash(rs.getString("Password_hash"));
+                emp.setCompanyName(rs.getString("Company_Name"));
+                emp.setDescription(rs.getString("EmployerDesc"));
+                emp.setLocation(rs.getString("EmployerLocation"));
+                emp.setUrlWebsite(rs.getString("URL_Website"));
+                emp.setCompanySize(rs.getString("CompanySize"));
+                emp.setPhoneNumber(rs.getString("PhoneNumber"));
+
+                Blob logoBlob = rs.getBlob("imgLogo");
+                if (logoBlob != null) {
+                    emp.setImgLogo(logoBlob.getBinaryStream());
+                }
+
+                job.setEmployer(emp);
+                return job;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<JobPost> getJobPostWithEmployerByEmployerId(int employerId) {
+        List<JobPost> jobList = new ArrayList<>();
+
+        String sql = "SELECT jp.*, e.Company_Name, e.email, e.URL_Website, e.companySize, e.imgLogo \n"
+                + "                FROM JobPost jp \n"
+                + "                JOIN Employer e ON jp.employer_id = e.employer_id \n"
+                + "                WHERE jp.employer_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, employerId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    JobPost job = new JobPost();
+                    job.setJobPost_ID(rs.getInt("JobPost_ID"));
+                    job.setEmployer_ID(rs.getInt("Employer_ID"));
+                    job.setTitle(rs.getString("Title"));
+                    job.setDescription(rs.getString("Description"));
+                    job.setCategory(rs.getString("Category"));
+                    job.setPosition(rs.getString("Position"));
+                    job.setLocation(rs.getString("Location"));
+                    job.setOffer_Min(rs.getDouble("Offer_Min"));
+                    job.setOffer_Max(rs.getDouble("Offer_Max"));
+                    job.setNumber_exp(rs.getInt("Number_exp"));
+                    job.setVisible(rs.getBoolean("Visible"));
+                    job.setTypeJob(rs.getString("TypeJob"));
+                    job.setDayCre(rs.getDate("DayCreate"));
+
+                    Employer employer = new Employer();
+                    employer.setEmployerId(employerId);
+                    employer.setCompanyName(rs.getString("Company_Name"));
+                    employer.setEmail(rs.getString("email"));
+                    employer.setUrlWebsite(rs.getString("URL_Website"));
+                    employer.setCompanySize(rs.getString("companySize"));
+                    Blob logoBlob = rs.getBlob("imgLogo");
+                    if (logoBlob != null) {
+                        employer.setImgLogo(logoBlob.getBinaryStream());
+                    }
+
+                    job.setEmployer(employer);
+                    jobList.add(job);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log cho dev
+        }
+
+        return jobList;
     }
 
 }
