@@ -3,6 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
 <<<<<<< HEAD
+        <group/>
+=======
+<<<<<<< HEAD
         <group>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/EmployerDAO.java</file>
             <file>file:/D:/SWPGIT/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
@@ -15,5 +18,6 @@
 =======
         <group/>
 >>>>>>> mkhanhs
+>>>>>>> 07694c10e7a4144a6f84f7f555ffdd385ef709c1
     </open-files>
 </project-private>

@@ -36,7 +36,7 @@ public class SendDAO extends DBContext {
     public static void main(String[] args) {
         SendDAO o = new SendDAO();
      //   System.out.println(o.insertMessage("21", "Candidate", "1", "Admin", "anh đức đây"));
-          System.out.println(o.insertMessage("1", "Admin", "21", "Candidate", "gọi cc gi"));
+          System.out.println(o.insertMessage("1", "Admin", "21", "Candidate", "clm emssasdasd"));
     }
 
 }

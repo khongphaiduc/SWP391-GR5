@@ -721,18 +721,38 @@
                 </div>
                 <div class="fab-item" title="Góp ý">
                     <a  href="<%= request.getContextPath() %>/ViewActionMenu/Feedback.jsp" target="_self" class="fab-btn">
-               <i class="bi bi-envelope-fill"></i>
+                        <i class="bi bi-envelope-fill"></i>
                     </a>
-               <span class="fab-hover-label">Góp ý GenZTimViec</span>
+                    <span class="fab-hover-label">Góp ý GenZTimViec</span>
                 </div>
-                        
+
                 <div class="fab-item" title="Tin Nhắn">
-                    <a  href="<%= request.getContextPath() %>/Chat/ChatWithAdmin.jsp" target="_self" class="fab-btn">
-                        <i class="bi bi-chat-dots"></i>
-                    </a>
-                    <span class="fab-hover-label">Chat với chung tôi</span>
+
+                    <c:if test="${role eq 'Admin'}">
+                        <a  href="<%= request.getContextPath() %>/WebsocketChatWithUser" target="_blank" class="fab-btn">
+                            <i class="bi bi-chat-dots"></i>
+                        </a>
+                        <span class="fab-hover-label">Hệ Thông Chat Với User </span>
+                    </c:if>
+
+
+                    <c:if test="${role!='Admin' && role !=null}">
+                        <a  href="<%= request.getContextPath() %>/WebsocketChatWithSupportTeam" target="_blank" class="fab-btn">
+                            <i class="bi bi-chat-dots"></i>
+                        </a>
+                        <span class="fab-hover-label">Vào Phòng Chat</span>
+                    </c:if>
+
+                    <c:if test="${role==null}">
+                        <a  href="<%= request.getContextPath() %>/log/login.jsp" target="_self" class="fab-btn">
+                            <i class="bi bi-chat-dots"></i>
+                        </a>
+                  
+                    </c:if>
+
+
                 </div>
-                        
+
                 <div class="fab-item" title="Hỗ trợ" style="z-index:10000;">
                     <button class="fab-btn" id="openSupportPanel" type="button">
                         <i class="bi bi-headset"></i>
@@ -761,7 +781,7 @@
                             <i class="bi bi-question-circle"></i> Các câu hỏi thường gặp
                         </a>
                         <a class="support-popup-link" href="SupportUser" target="_blank">
-                          	<i class="bi bi-file-earmark-text"></i>Gửi Report
+                            <i class="bi bi-file-earmark-text"></i>Gửi Report
                         </a>
                         <a class="support-popup-link" href="#" id="contactButton">
                             <i class="bi bi-telephone"></i> Liên hệ GenZTimViec
