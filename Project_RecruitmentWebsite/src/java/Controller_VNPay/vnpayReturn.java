@@ -76,8 +76,8 @@ import java.util.logging.Logger;
                 request.setAttribute("transResult", transSuccess);
                 request.getRequestDispatcher("order_view/paymentResult.jsp").forward(request, response);
             } else {
-                //RETURN PAGE ERROR
-                System.out.println("GD KO HOP LE (invalid signature)");
+                request.setAttribute("transResult", false);
+                request.getRequestDispatcher("order_view/paymentResult.jsp").forward(request, response);
             }
         }
     }

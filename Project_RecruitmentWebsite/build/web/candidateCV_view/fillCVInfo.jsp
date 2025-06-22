@@ -1,5 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@page import="java.time.*" %> 
+<%@ page import="Models.Candidate" %>
+<%@ page import="java.time.*" %>
+<%
+    Candidate candidate = (Candidate) request.getAttribute("candidate");
+    LocalDate today = LocalDate.now();
+    LocalDate maxDate = today.minusYears(18);
+    LocalDate minDate = today.minusYears(65);
+%>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -25,12 +32,6 @@
                 background-color: #2e4f4f;
                 color: #fff;
                 padding: 20px;
-            }
-            .sidebar h2 {
-                font-size: 24px;
-                margin-bottom: 20px;
-                border-bottom: 2px solid #fff;
-                padding-bottom: 10px;
             }
             .main-content {
                 width: 70%;
@@ -95,15 +96,6 @@
             }
         </style>
         <script>
-            function formatCurrencyInput(input) {
-                let value = input.value.replace(/\D/g, '');
-                if (value === '') {
-                    input.value = '';
-                    return;
-                }
-                input.value = new Intl.NumberFormat('vi-VN').format(value);
-            }
-
             document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('avatar-file').addEventListener('change', function (event) {
                     const file = event.target.files[0];
@@ -123,37 +115,30 @@
                     }
                 });
             });
-
         </script>
     </head>
     <body>
-
         <form action="submitCV" method="post" enctype="multipart/form-data">
             <div class="cv-container">
-                <!-- Sidebar for Personal Information -->
+                <!-- Sidebar -->
                 <div class="sidebar">
-                    <!-- Profile Picture Upload at Top -->
                     <div class="form-section upload-section">
-                        <label for="image">Ảnh đại diện</label>
-                        <input type="file" class="form-control"  id="avatar-file" name="CVFile" required>
+                        <label for="avatar-file">Ảnh đại diện</label>
+                        <input type="file" id="avatar-file" name="CVFile" required>
                         <div style="display:flex;align-items:center;gap:7px;margin:8px 0;">
                             <img id="avatar-preview" src="" alt="Preview" style="display:none;width:60px;height:60px;border-radius:50%;border:2px solid #eee;">
-                            <span id="avatar-filename" style="font-size:0.95em;color:#888;"></span>
+                            <span id="avatar-filename" style="font-size:0.95em;color:#ccc;"></span>
                         </div>
                     </div>
-                    <h2>----------------</h2>
                     <div class="form-section">
-                        <label for="birthday" class="form-label">Ngày sinh</label>
-                        <%
-                            java.time.LocalDate today = java.time.LocalDate.now();
-                        %>
-
-
-                        <input type="date" class="form-control" id="birthday" name="birthday" max="<%= today.toString() %>" required>
+                        <label for="birthday">Ngày sinh</label>
+                        <input type="date" id="birthday" name="birthday"
+                               min="<%= minDate %>" max="<%= maxDate %>"
+                               value="<%= (candidate != null && candidate.getBirthday() != null) ? candidate.getBirthday().toString() : "" %>" required>
                     </div>
                     <div class="form-section">
-                        <label for="gender" class="form-label">Giới tính</label>
-                        <select class="form-control" id="gender" name="gender" required>
+                        <label for="gender">Giới tính</label>
+                        <select id="gender" name="gender" required>
                             <option value="">-- Chọn giới tính --</option>
                             <option value="Nam">Nam</option>
                             <option value="Nữ">Nữ</option>
@@ -161,75 +146,66 @@
                         </select>
                     </div>
                     <div class="form-section">
-                        <label for="nationality" class="form-label">Quốc tịch</label>
-                        <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Nhập quốc tịch" required>
+                        <label for="nationality">Quốc tịch</label>
+                        <input type="text" id="nationality" name="nationality" value="<%= candidate != null ? candidate.getNationality() : "" %>" required>
                     </div>
                     <div class="form-section">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email của bạn" required>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="<%= candidate != null ? candidate.getEmail() : "" %>" required>
                     </div>
                     <div class="form-section">
-                        <label for="address" class="form-label">Địa chỉ</label>
-                        <input type="text" class="form-control" id="address" name="address" placeholder="Nhập địa chỉ của bạn" required>
+                        <label for="address">Địa chỉ</label>
+                        <input type="text" id="address" name="address" value="<%= candidate != null ? candidate.getAddress() : "" %>" required>
                     </div>
                 </div>
 
                 <!-- Main Content -->
                 <div class="main-content">
-
                     <% String message = (String) request.getAttribute("message");
-            if (message != null) { %>
+                   if (message != null) { %>
                     <div class="message-box"><%= message %></div>
                     <% } %>
 
-                    <!-- Personal Information -->
                     <div class="form-section">
                         <div class="section-title">THÔNG TIN CÁ NHÂN</div>
-                        <label for="fullName" class="form-label">Họ và tên</label>
-                        <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Nhập họ và tên" required>
+                        <label for="fullName">Họ và tên</label>
+                        <input type="text" id="fullName" name="fullName" required>
                     </div>
 
-                    <!-- Career Objective -->
                     <div class="form-section">
                         <div class="section-title">MỤC TIÊU NGHỀ NGHIỆP</div>
-                        <label for="position" class="form-label">Vị trí mong muốn</label>
-                        <input type="text" class="form-control" id="position" name="position" placeholder="Nhập vị trí ứng tuyển" required>
+                        <label for="position">Vị trí mong muốn</label>
+                        <input type="text" id="position" name="position" required>
                     </div>
 
-                    <!-- Work Experience -->
                     <div class="form-section">
                         <div class="section-title">KINH NGHIỆM LÀM VIỆC</div>
-                        <label for="numberExp" class="form-label">Số năm kinh nghiệm</label>
-                        <input type="number" class="form-control" min=0 id="numberExp" name="numberExp" placeholder="Nhập số năm kinh nghiệm" required>
+                        <label for="numberExp">Số năm kinh nghiệm</label>
+                        <input type="number" id="numberExp" name="numberExp" min="0" max="65" required>
                     </div>
 
-                    <!-- Education -->
                     <div class="form-section">
                         <div class="section-title">HỌC VẤN</div>
-                        <label for="education" class="form-label">Trình độ học vấn</label>
-                        <input type="text" class="form-control" id="education" name="education" placeholder="Nhập trình độ học vấn" required>
+                        <label for="education">Trình độ học vấn</label>
+                        <input type="text" id="education" name="education" required>
                     </div>
 
-                    <!-- Skills -->
                     <div class="form-section">
                         <div class="section-title">KỸ NĂNG</div>
-                        <label for="field" class="form-label">Lĩnh vực chuyên môn</label>
-                        <input type="text" class="form-control" id="field" name="field" placeholder="Nhập lĩnh vực chuyên môn" required>
+                        <label for="field">Lĩnh vực chuyên môn</label>
+                        <input type="text" id="field" name="field" required>
                     </div>
 
-                    <!-- Salary -->
                     <div class="form-section">
                         <div class="section-title">MỨC LƯƠNG HIỆN TẠI</div>
-                        <label for="currentSalary" class="form-label">Mức lương hiện tại (VND)</label>
-                        <input type="number" min="0" step="0.01" id="currentSalary" name="currentSalary"  placeholder="Nhập mức lương hiện tại (VD: 10000000)" required>
-
+                        <label for="currentSalary">Mức lương hiện tại (VND)</label>
+                        <input type="number" id="currentSalary" name="currentSalary" min="0" step="1000" required>
                     </div>
 
-                    <!-- Submit Button -->
                     <button type="submit" class="submit-btn">Lưu CV</button>
-                    </form>
                 </div>
             </div>
-            <%@ include file="footer.jsp" %>
+        </form>
+        <%@ include file="footer.jsp" %>
     </body>
 </html>
