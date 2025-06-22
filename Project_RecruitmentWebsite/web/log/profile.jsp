@@ -352,7 +352,7 @@
 
         <div class="profile-container">
             <div class="profile-main">
-                <img class="candidate-avatar" src="viewLogo?name=<%= candidate.getCandidateName() %>" alt="Avatar" id="candidateAvatarImg" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjZjBmNGZmIi8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iNDAiIHI9IjIwIiBmaWxsPSIjNGE5MGUyIi8+CjxwYXRoIGQ9Ik0yMCA5MEM3MCA3MCA5MCA3MCA5MCA5MEgyMFoiIGZpbGw9IiM0YTkwZTIiLz4KPC9zdmc+'">
+                <img class="candidate-avatar" src="viewLogo?name=<%= candidate.getCandidateName() %>"  id="candidateAvatarImg" alt="Chưa cập nhật">
 
                 <h2 class="candidate-name">
                     <%= candidate.getCandidateName() != null && !candidate.getCandidateName().trim().isEmpty() ? candidate.getCandidateName() : "Chưa cập nhật" %>

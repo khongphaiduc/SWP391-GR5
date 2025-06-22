@@ -66,9 +66,20 @@ public class detailJobServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
 
+    
+        if(request.getParameter("postId").isEmpty() || request.getParameter("postId") == null){
+            request.setAttribute("errorMessage", "Tin tuyển dụng không tồn tại hoặc đã bị xoá.");
+            request.getRequestDispatcher("404.jsp").forward(request, response);
+            return;
+        }
         int postId = Integer.parseInt(request.getParameter("postId"));
         JobPostDAO jobPostDAO = new JobPostDAO();
         JobPost jobPost = jobPostDAO.getJobPostWithEmployerById(postId);
+        if (jobPost == null) {
+            request.setAttribute("errorMessage", "Tin tuyển dụng không tồn tại hoặc đã bị xoá.");
+            request.getRequestDispatcher("404.jsp").forward(request, response);
+            return;
+        }
 
         String username = (String) session.getAttribute("username");
 
