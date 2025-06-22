@@ -1,9 +1,3 @@
-<%-- 
-    Document   : payment.jsp
-    Created on : 6 Mar 2025, 4:28:59 pm
-    Author     : admin
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
@@ -21,11 +15,31 @@
     </style>
 </head>
 <body>
-    <h2>Danh Sách Sản Phẩm Thanh Toán</h2>
-    
+    <h2>Thanh Toán Dịch Vụ</h2>
 
+    <!-- Bảng hiển thị dịch vụ cứng -->
+    <table>
+        <thead>
+            <tr>
+                <th>Mã dịch vụ</th>
+                <th>Tên dịch vụ</th>
+                <th>Giá</th>
+                <th>Mô tả</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Gói Đăng Tin VIP</td>
+                <td>500,000 VND</td>
+                <td>Đăng tin tuyển dụng ngay!</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Form thanh toán -->
     <form action="ajaxServlet" method="post">
-        <input type="number" name="totalBill" require>
+        <input type="hidden" name="totalBill" value="500000">
         <button type="submit">Đặt Mua</button>
     </form>
 </body>
