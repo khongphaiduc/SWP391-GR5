@@ -155,6 +155,7 @@
         </style>
     </head>
     <body>
+         <jsp:include page="/IconActionMenu.jsp" />
         <a id="nameSupport" data-name="ducadmin" style="display:none"></a>
         <div class="container chat-container">
             <div class="row h-100 w-100">
@@ -181,7 +182,7 @@
                         </div>
 
                         <a style="display: none" id="dataInfor" data-info="${infoUser.picture}"></a>    
-                        
+
                         <div class="chat-messages" id="chatMessages">
                             <div style="text-align:center;color:#aaa;margin-top:2em;">Chọn khách hàng bên trái để bắt đầu chat</div>
 
@@ -218,9 +219,9 @@
             </div>
         </div>
         <script>
-            const  IgmageUser = document.getElementById('dataInfor').dataset.info;  
+            const  IgmageUser = document.getElementById('dataInfor').dataset.info;        // lấy ảnh user
             let users = []; // Tự động thêm user khi nhận message
-            let conversations = {}; // { userId: [ {from, message, time}, ... ] }         // lưu lại  cuộc chat riêng của từng  thằng user
+            let conversations = {}; // { userId: [ {from, message, image}, ... ] }         // lưu lại  cuộc chat riêng của từng  thằng user
             let unread = {}; // { userId: true/false }                : dùng để dánh dấu xem tin nhắn đã xem hay chưa 
             let currentUser = null;  // đại  diện cho đang làm việc với khác hàng nào 
 
@@ -296,10 +297,13 @@
                     if (isSent) {
                         //  support  là người gửi
                         html = `
-                <div class="chat-message sent">
-                    <div>
-                        <div class="msg-bubble sent-bubble">` + msg.message + `</div>
-                    
+                <div class="chat-message sent justify-content-end">
+                    <div class="d-flex align-items-end justify-content-end gap-2">
+                        <div>
+                            <div class="msg-bubble sent-bubble">`+msg.message+`</div>
+                            
+                        </div>
+                        <img src="https://i.pinimg.com/736x/7f/0b/cb/7f0bcbfae4229af3ae9e492e8742eedc.jpg" class="avatar" style="width:28px;height:28px;">
                     </div>
                 </div>
             `;
@@ -307,6 +311,8 @@
                         //  Khi user khác là người gửi
                         html = `
                 <div class="chat-message received">
+              <img src="` + msg.avatar + `" class="avatar" style="width:28px;height:28px;">
+                        <div>
                     <div>
                         <div class="msg-bubble received-bubble">` + msg.message + `</div>
                       
@@ -336,14 +342,14 @@
 
                 if (!conversations[currentUser])
                     conversations[currentUser] = [];
-                conversations[currentUser].push({from: nameSupport, message: text, time: getTimeNow()});
+                conversations[currentUser].push({from: nameSupport, message: text, avatar: IgmageUser});
 
                 if (websocket.readyState === WebSocket.OPEN) {
                     websocket.send(JSON.stringify({
                         type: 'private',
                         to: currentUser,
                         message: text,
-                        image:''
+                        image: 'https://i.pinimg.com/736x/7f/0b/cb/7f0bcbfae4229af3ae9e492e8742eedc.jpg'
                     }));
                 }
 
@@ -384,13 +390,13 @@
                         users.push({
                             id: fromUser,
                             name: fromUser,
-                            avatar:  image
+                            avatar: image
                         });
                         renderUserList();  // kiểm tra nếu chưa có trong users thì reder lại 
                     }
                     if (!conversations[fromUser])
                         conversations[fromUser] = [];   // kiểm tra xem có tồn tại đoạn trò chuyện trước đó không nếu không thì tao 1 object mới đê lưu
-                    conversations[fromUser].push({from: fromUser, message: message, time: getTimeNow()});
+                    conversations[fromUser].push({from: fromUser, message: message, avatar: image});
                     if (currentUser === fromUser) {
                         renderChatMessages();  // nếu thằng gửi và thằng mà support đang chat là cùng 1 thằng thì nó render lại 
                     } else {
@@ -404,12 +410,12 @@
                 console.error("WebSocket lỗi:", err);
             };
 
-       websocket.onclose = function (event) {
-    console.warn("WebSocket đã đóng.");
-    console.log("Code: ", event.code);
-    console.log("Reason: ", event.reason);
-    console.log("Was clean close? ", event.wasClean);
-};
+            websocket.onclose = function (event) {
+                console.warn("WebSocket đã đóng.");
+                console.log("Code: ", event.code);
+                console.log("Reason: ", event.reason);
+                console.log("Was clean close? ", event.wasClean);
+            };
 
 
             renderUserList();

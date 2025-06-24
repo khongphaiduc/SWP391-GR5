@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import DAO.*;
-import jakarta.servlet.http.HttpSession;
+
 // pham trung duc : xóa jobpost đã lưu 
 
 @WebServlet(name = "DeleteJobPostSaved", urlPatterns = {"/DeleteJobPostSaved"})
@@ -36,30 +36,27 @@ public class DeleteJobPostSaved extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            HttpSession session = request.getSession();
-            boolean remove = true;
-            boolean checkRound1 = false;
             DeleteJobPostDAO deleteJobPostSaveDAO = new DeleteJobPostDAO();
             String idJobPost = request.getParameter("idJobPost");
 
             if (idJobPost != null) {
-                remove = true;
-                session.setAttribute("remove",remove);
+
                 boolean result = deleteJobPostSaveDAO.deleteJobPost(idJobPost);
+
                 if (result) {
-                    checkRound1 = true;
-                    session.setAttribute("check", checkRound1);
-                    response.sendRedirect("DisplayListJobPostSaveOfCandidate");
+
+                    response.setStatus(200);
                     return;
                 } else {
-                    checkRound1 = false;
-                    session.setAttribute("check", checkRound1);
-                    response.sendRedirect("DisplayListJobPostSaveOfCandidate");
+
+                    response.setStatus(500);
                     return;
                 }
+
             }
 
         } catch (Exception e) {
+            System.out.println("Bug ở deleteJobPostSaved và Content là :" + e.getMessage());
             response.sendRedirect("DisplayListJobPostSaveOfCandidate");
         }
 

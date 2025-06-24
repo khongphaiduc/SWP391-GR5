@@ -17,14 +17,14 @@ import java.io.InputStream;
 import DAO.*;
 import jakarta.servlet.annotation.MultipartConfig;
 
-@WebServlet(name = "SupportUser", urlPatterns = {"/SupportUser"})
-@MultipartConfig(
-        fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
-        maxFileSize = 1024 * 1024 * 10, // 10 MB
-        maxRequestSize = 1024 * 1024 * 15 // 15 MB
+@WebServlet(name = "FeebBackAndSupport", urlPatterns = {"/FeebBackAndSupport"})
+@MultipartConfig( //@MultipartConfig trong Java Servlet được sử dụng để cấu hình việc xử lý dữ liệu gửi lên từ form có enctype là multipart/form-data
+        fileSizeThreshold = 1024 * 1024 * 1, // Nếu file upload lớn hơn ngưỡng này, nó sẽ được ghi tạm vào file trong ổ đĩa, còn nhỏ hơn thì giữ trong bộ nhớ (RAM).
+        maxFileSize = 1024 * 1024 * 90, // Kích thước tối đa cho mỗi file được upload (tính bằng byte).
+        maxRequestSize = 1024 * 1024 * 90 // Kích thước tối đa của toàn bộ request bao gồm nhiều file và các trường form khác.
 )
 
-public class SupportUser extends HttpServlet {
+public class FeebBackAndSupport extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -46,7 +46,7 @@ public class SupportUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("ViewActionMenu/SupportUser.jsp").forward(request, response);
+        request.getRequestDispatcher("ViewActionMenu/FeedbackAndReport.jsp").forward(request, response);
     }
 
     @Override
@@ -59,39 +59,42 @@ public class SupportUser extends HttpServlet {
             HttpSession session = request.getSession();
             String idUser = (String) session.getAttribute("idUser");
             String idRole = (String) session.getAttribute("role");
-            
+
             String content = request.getParameter("content");
-            String titel = request.getParameter("title");
+            String titel = request.getParameter("titel");
             String idAdminSupport = "1";
             Part imageFIle = request.getPart("fileReport");
-            String checktype =imageFIle.getContentType();
-            
-            if(checktype.startsWith("/image")){
-                
+            String checktype = imageFIle.getContentType();
+
+            if (checktype.startsWith("video/")) {
+                request.setAttribute("statusReport", "Vui lòng chỉ gửi hình ảnh");
+                 request.setAttribute("content", content);
+                request.getRequestDispatcher("ViewActionMenu/FeedbackAndReport.jsp").forward(request, response);
+                return;
             }
-            
-            if(imageFIle==null){
-                 request.setAttribute("statusReport", "Ối Rồi Ôi Có Bug");
-                 request.getRequestDispatcher("ViewActionMenu/SupportUser.jsp").forward(request, response);
-                 return ;
+
+            if (imageFIle == null) {
+                request.setAttribute("statusReport", "Ối Rồi Ôi Có Bug");
+                request.getRequestDispatcher("ViewActionMenu/FeedbackAndReport.jsp").forward(request, response);
+                return;
             }
-            
+
             InputStream image = imageFIle.getInputStream();   // chuyển từ ảnh về chuối nhị phân
             long sizeImage = imageFIle.getSize();
 
             SupportUserDAO reportDAO = new SupportUserDAO();
 
-            result = reportDAO.sendReport(idUser, idRole, titel, content, image, sizeImage, idAdminSupport);
+            result = reportDAO.sendReportAndFeebBack(idUser, idRole, titel, content, image, sizeImage, idAdminSupport);
 
             System.out.println(result == true ? "Gửi thành công " : "Fail cmnr");
-            statusReport = result == true ? "Xin lỗi vì trải nghiệm không tốt chúng tôi sẽ liên hệ lại với bạn sớm nhất ^*^" : "Gửi Thất Bại";
+            statusReport = result == true ? "Người hỗ trợ của chúng tỗi sẽ liên hệ lại với bạn thông qua số điện thoại,xin quý khách để ý điện thoại  " : "Gửi Thất Bại";
             request.setAttribute("statusReport", statusReport);
-
-            request.getRequestDispatcher("ViewActionMenu/SupportUser.jsp").forward(request, response);
-        } catch (Exception e) {       
-            String statusReport =e.getMessage();
+            request.getRequestDispatcher("ViewActionMenu/FeedbackAndReport.jsp").forward(request, response);
+        } catch (Exception e) {
+            String statusReport = e.getMessage();
             request.setAttribute("statusReport", statusReport);
-            request.getRequestDispatcher("ViewActionMenu/SupportUser.jsp").forward(request, response);
+            System.out.println("Bug " + statusReport);
+            request.getRequestDispatcher("ViewActionMenu/FeedbackAndReport.jsp").forward(request, response);
         }
 
     }

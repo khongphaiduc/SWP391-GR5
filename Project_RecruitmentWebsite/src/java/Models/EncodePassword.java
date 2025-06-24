@@ -4,7 +4,6 @@ import java.security.MessageDigest;
 import java.util.Base64;
 import jakarta.mail.*;
 
-
 public class EncodePassword {
 
     public static String encodePasswordbyHash(String password) {

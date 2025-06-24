@@ -11,29 +11,42 @@
         <link rel="stylesheet" href="<%= request.getContextPath() %>/css/FeedBackCSS.css">
     </head>
     <body>
+          <jsp:include page="/IconActionMenu.jsp" />
+
         <div class="animated-bg"></div>
         <div class="feedback-container">
             <div class="feedback-title">
                 <span class="icon-rot"><i class="bi bi-chat-dots"></i></span>
-                Gửi ý kiến đóng góp tới GenZTimViec
+                Tạo Yêu Cầu Hỗ Trợ
             </div>
             <div class="feedback-desc">
-                Chúng tôi luôn lắng nghe mọi phản hồi để cải thiện sản phẩm tốt hơn!
+                Chúng tôi luôn lắng nghe và phản hổi cho bạn một cách sớm nhất 
             </div>
-            <form action="<%= request.getContextPath() %>/FeedBackSV" method="post">
+            <form action="<%= request.getContextPath() %>/FeebBackAndSupport" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title" class="form-label">Tiêu đề</label>
                     <select name="titel" class="form-select" id="title" required>
                         <option value="" selected disabled>Chọn tiêu đề phản hồi</option>
                         <option value="Góp ý tính năng">Góp ý tính năng</option>
                         <option value="Báo lỗi">Ý Kiến Về Giao Diện</option>
+                        <option value="Góp ý tính năng">Lỗi Thanh Toán</option>
+                        <option value="Báo lỗi">Lỗi Không Tạo Được CV</option>
+                        <option value="Báo lỗi">Service không hoạt động</option>
                         <option value="Khác">Khác</option>
                     </select>
                 </div>
+
                 <div class="mb-3">
-                    <label for="feedback" class="form-label">Nội dung chi tiết <span class="text-danger">*</span></label>
+                    <label for="feedback" class="form-label">Ảnh Mô Tả<span class="text-danger">*</span></label>
+                    <input type="file" name="fileReport" required onchange="validateFIle(this)">
+                </div>
+
+                <div class="mb-3">
+                    <label for="content" class="form-label" >Nội dung chi tiết <span class="text-danger">*</span></label>
                     <textarea name="content" class="form-control" id="feedback" rows="4" required placeholder="Vui lòng mô tả chi tiết góp ý, vấn đề hoặc đề xuất cải thiện..."></textarea>
                 </div>
+
+
                 <div class="d-flex gap-3 mt-2">
                     <a  href="<%= request.getContextPath() %>/Index" target="_self" class="btn-cancel flex-grow-1" style="text-decoration: none ;display: flex;justify-content: center">
                         <span class="btn-wave"></span>
@@ -41,7 +54,7 @@
                     </a>
                     <button type="submit" class="btn-green flex-grow-1">
                         <span class="btn-wave"></span>
-                        <i class="bi bi-send-fill me-1"></i> Gửi Feedback
+                        <i class="bi bi-send-fill me-1"></i> Gửi 
                     </button>
                 </div>
                 <div class="feedback-note">
@@ -52,7 +65,7 @@
             </form>
             <!-- Tab trạng thái gửi feedback -->
             <%
-                String statusSendFeedback = (String) request.getAttribute("statusSendFeedback");
+                String statusSendFeedback = (String) request.getAttribute("statusReport");
                 if (statusSendFeedback != null && !statusSendFeedback.trim().isEmpty()) {
             %>
             <div class="feedback-status-tab" id="feedbackStatusTab">
@@ -79,6 +92,26 @@
                     }, 3200); // 200ms hiệu ứng + 3000ms hiển thị
                 }
             });
+
+
+
+            function validateFIle(input) {
+
+
+                const  myFile = input.files[0];
+
+
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+
+                if (!allowedTypes.includes(myFile.type)) {
+                    alert("Chỉ được phép upload hình ảnh (.jpg, .png, .gif, .webp).");
+                    input.value = ""; // reset input
+                }
+
+
+
+            }
         </script>
     </body>
 </html>

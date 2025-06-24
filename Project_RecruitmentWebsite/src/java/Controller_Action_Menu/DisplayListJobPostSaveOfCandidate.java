@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import DAO.*;
+import com.google.gson.Gson;
 import jakarta.servlet.http.HttpSession;
 // pham trung duc   : dung để lấy jobpost đã lưu và hiển thị
 
@@ -74,25 +75,19 @@ public class DisplayListJobPostSaveOfCandidate extends HttpServlet {
             int end = Math.min(start + numberJobOfPage, totalJobs);
 
             var jobsOnPage = listJobPost.subList(start, end);
-
-            request.setAttribute("listJobPostSave", jobsOnPage);
+           
+            
+            
+            
+            var list =new Gson().toJson(jobsOnPage);
+            
+            System.out.println("vài cái này bijh null rồi "+list);
+            
+            request.setAttribute("listJobPostSave", list);                   //lưu listJopPost
             request.setAttribute("currentPage", currentpage);
             request.setAttribute("totalPages", totalPages);
 
             // -------------------------------------------------------
-            // Số lượng jobPost đã lưu 
-            SaveJobPostOfCandidate saveJob = new SaveJobPostOfCandidate();
-            int numberJobPost = 0;
-
-            // kiểm tra xem đăng nhập chưa và lấy số lượng post đã lưu 
-            if (user != null) {
-                String IdUser = saveJob.getCandidateIDByName(user);
-                numberJobPost = saveJob.getNumberJobPostSavedByCandidate(IdUser);
-            }
-
-            session.setAttribute("numberJobPost", numberJobPost);    // số lượng jobpost của thằng user
-            // -------------------------------------------------------
-
             request.getRequestDispatcher("ViewActionMenu/DisplayListJobPostSaveByCandidate.jsp").forward(request, response);
         } catch (Exception e) {
             System.out.println("Loi nay cu em :" + e.getMessage());

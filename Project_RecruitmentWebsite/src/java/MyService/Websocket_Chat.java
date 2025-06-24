@@ -1,13 +1,17 @@
 package MyService;
 
+import Models.Message;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +22,8 @@ public class Websocket_Chat {
     private static final Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
     private static final Map<String, Session> userSessions = new ConcurrentHashMap<>();
     private static final Map<Session, String> sessionToUser = new ConcurrentHashMap<>();
+
+    private static final Map<String, List<Message>> chatLogs = new ConcurrentHashMap<>();
 
     @OnOpen
     public void onOpen(Session session) {
@@ -51,10 +57,15 @@ public class Websocket_Chat {
                             .add("message", msg)
                             .add("image", image)
                             .build().toString());
+
+//             chatLogs.computeIfAbsent(from + "_" + to, k -> new ArrayList<>())
+//                   .add(new Message(from, to, msg, image, LocalDateTime.now().toString()));
+
                 } else {
                     sender.getBasicRemote().sendText(Json.createObjectBuilder()
                             .add("from", "system")
-                            .add("message", "️Người dùng '" + to + "' không online.")
+                            .add("message", "️Người dùng '" + to + "' không online.vbkfghjk")
+                            .add("image", image)
                             .build().toString());
                 }
                 break;

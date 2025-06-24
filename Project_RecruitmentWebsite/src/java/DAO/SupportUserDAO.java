@@ -9,21 +9,20 @@ import java.sql.*;
 public class SupportUserDAO extends DBContext {
 
     // gửi báo cáo 
-    public boolean sendReport(String senderID, String senderRole, String title, String content, InputStream image, long imageSize, String adminID) {
+    public boolean sendReportAndFeebBack(String senderID, String senderRole, String title, String content, InputStream image, long imageSize, String adminID) {
         try {
             String sql = "INSERT INTO [dbo].[FeedbackReport] "
-                    + "([sender_id], [sender_role], [type], [title], [content], [status], [image_Report], [Admin_ID]) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "([sender_id], [sender_role], [title], [content], [status], [image_Report], [Admin_ID]) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement push = connection.prepareStatement(sql);
             push.setString(1, senderID);
             push.setString(2, senderRole);
-            push.setString(3, "Report");
-            push.setString(4, title);
-            push.setString(5, content);
-            push.setString(6, "pending");
-            push.setBinaryStream(7, image, imageSize); // tối ưu hơn
-            push.setString(8, adminID);
+            push.setString(3, title);
+            push.setString(4, content);
+            push.setString(5, "pending");
+            push.setBinaryStream(6, image, imageSize); // tối ưu hơn
+            push.setString(7, adminID);
 
             int result = push.executeUpdate();
 
@@ -40,7 +39,7 @@ public class SupportUserDAO extends DBContext {
         try {
             SupportUserDAO dao = new SupportUserDAO(); 
 
-            String senderID = "123";
+            String senderID = "1";
             String senderRole = "candidate";
             String title = "Test báo cáo";
             String content = "Nội dung báo cáo test";
@@ -51,7 +50,7 @@ public class SupportUserDAO extends DBContext {
             InputStream image = new FileInputStream(file);
             long imageSize = file.length();
 
-            boolean result = dao.sendReport(senderID, senderRole, title, content, image, imageSize, adminID);
+            boolean result = dao.sendReportAndFeebBack(senderID, senderRole, title, content, image, imageSize, adminID);
             System.out.println("Kết quả: " + (result ? "Thành công" : "Thất bại"));
 
         } catch (Exception e) {
@@ -59,4 +58,7 @@ public class SupportUserDAO extends DBContext {
         }
     }
     
+    
+    
+       
 }

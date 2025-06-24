@@ -132,6 +132,8 @@
                 }
             });
 
+            //http://14.225.205.73:8080/Project_RecruitmentWebsite/
+
             // Kiểm tra mật khẩu trùng khớp
             const signupForm = document.getElementById('signupForm');
             const password = document.getElementById('password');
