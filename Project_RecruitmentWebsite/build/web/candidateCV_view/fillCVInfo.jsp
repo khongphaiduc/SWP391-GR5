@@ -1,8 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="Models.CV" %>
 <%@ page import="Models.Candidate" %>
 <%@ page import="java.time.*" %>
 <%
+    boolean isEdit = request.getAttribute("editedCV") != null;
+    CV cv = (CV) request.getAttribute("editedCV");
     Candidate candidate = (Candidate) request.getAttribute("candidate");
+
     LocalDate today = LocalDate.now();
     LocalDate maxDate = today.minusYears(18);
     LocalDate minDate = today.minusYears(65);
@@ -12,7 +16,7 @@
 <head>
     <meta charset="UTF-8">
     <jsp:include page="/navbar.jsp" />
-    <title>Điền thông tin CV</title>
+    <title><%= isEdit ? "Chỉnh sửa CV" : "Tạo mới CV" %></title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
         .cv-container { display: flex; max-width: 900px; margin: 40px auto; background: #fff; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
@@ -52,15 +56,21 @@
     </script>
 </head>
 <body>
-    <form action="submitCV" method="post" enctype="multipart/form-data">
+    <form action="<%= isEdit ? "viewCV" : "submitCV" %>" method="post" enctype="multipart/form-data">
+        <% if (isEdit && cv != null) { %>
+            <input type="hidden" name="action" value="edit">
+            <input type="hidden" name="cvId" value="<%= cv.getCvId() %>">
+        <% } %>
+
         <div class="cv-container">
             <!-- Sidebar -->
             <div class="sidebar">
                 <div class="form-section upload-section">
                     <label for="avatar-file">Ảnh đại diện</label>
-                    <input type="file" id="avatar-file" name="CVFile" required>
+                    <input type="file" id="avatar-file" name="CVFile" <%= isEdit ? "" : "required" %>>
                     <div style="display:flex;align-items:center;gap:7px;margin:8px 0;">
-                        <img id="avatar-preview" src="" alt="Preview" style="display:none;width:60px;height:60px;border-radius:50%;border:2px solid #eee;">
+                        <img id="avatar-preview" src="<%= isEdit ? "viewCV?cvId=" + cv.getCvId() : "" %>" alt="Preview"
+                             style="<%= isEdit ? "" : "display:none;" %>;width:60px;height:60px;border-radius:50%;border:2px solid #eee;">
                         <span id="avatar-filename" style="font-size:0.95em;color:#ccc;"></span>
                     </div>
                 </div>
@@ -68,28 +78,31 @@
                     <label for="birthday">Ngày sinh</label>
                     <input type="date" id="birthday" name="birthday"
                            min="<%= minDate %>" max="<%= maxDate %>"
-                           value="<%= (candidate != null && candidate.getBirthday() != null) ? candidate.getBirthday().toString() : "" %>" required>
+                           value="<%= isEdit ? cv.getBirthday() : (candidate != null ? candidate.getBirthday().toString() : "") %>" required>
                 </div>
                 <div class="form-section">
                     <label for="gender">Giới tính</label>
                     <select id="gender" name="gender" required>
                         <option value="">-- Chọn giới tính --</option>
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
-                        <option value="Khác">Khác</option>
+                        <option value="Nam" <%= "Nam".equals(isEdit ? cv.getGender() : "") ? "selected" : "" %>>Nam</option>
+                        <option value="Nữ" <%= "Nữ".equals(isEdit ? cv.getGender() : "") ? "selected" : "" %>>Nữ</option>
+                        <option value="Khác" <%= "Khác".equals(isEdit ? cv.getGender() : "") ? "selected" : "" %>>Khác</option>
                     </select>
                 </div>
                 <div class="form-section">
                     <label for="nationality">Quốc tịch</label>
-                    <input type="text" id="nationality" name="nationality" value="<%= candidate != null ? candidate.getNationality() : "" %>" required>
+                    <input type="text" id="nationality" name="nationality"
+                           value="<%= isEdit ? cv.getNationality() : (candidate != null ? candidate.getNationality() : "") %>" required>
                 </div>
                 <div class="form-section">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="<%= candidate != null ? candidate.getEmail() : "" %>" required>
+                    <input type="email" id="email" name="email"
+                           value="<%= isEdit ? cv.getEmail() : (candidate != null ? candidate.getEmail() : "") %>" required>
                 </div>
                 <div class="form-section">
                     <label for="address">Địa chỉ</label>
-                    <input type="text" id="address" name="address" value="<%= candidate != null ? candidate.getAddress() : "" %>" required>
+                    <input type="text" id="address" name="address"
+                           value="<%= isEdit ? cv.getAddress() : (candidate != null ? candidate.getAddress() : "") %>" required>
                 </div>
             </div>
 
@@ -103,40 +116,46 @@
                 <div class="form-section">
                     <div class="section-title">THÔNG TIN CÁ NHÂN</div>
                     <label for="fullName">Họ và tên</label>
-                    <input type="text" id="fullName" name="fullName" required>
+                    <input type="text" id="fullName" name="fullName"
+                           value="<%= isEdit ? cv.getFullName() :  "" %>" required>
                 </div>
 
                 <div class="form-section">
                     <div class="section-title">MỤC TIÊU NGHỀ NGHIỆP</div>
                     <label for="position">Vị trí mong muốn</label>
-                    <input type="text" id="position" name="position" required>
+                    <input type="text" id="position" name="position"
+                           value="<%= isEdit ? cv.getPosition() : "" %>" required>
                 </div>
 
                 <div class="form-section">
                     <div class="section-title">KINH NGHIỆM LÀM VIỆC</div>
                     <label for="numberExp">Số năm kinh nghiệm</label>
-                    <input type="number" id="numberExp" name="numberExp" min="0" max="65" required>
+                    <input type="number" id="numberExp" name="numberExp" min="0" max="65"
+                           value="<%= isEdit ? cv.getNumberExp() : "" %>" required>
                 </div>
 
                 <div class="form-section">
                     <div class="section-title">HỌC VẤN</div>
                     <label for="education">Trình độ học vấn</label>
-                    <input type="text" id="education" name="education" required>
+                    <input type="text" id="education" name="education"
+                           value="<%= isEdit ? cv.getEducation() : "" %>" required>
                 </div>
 
                 <div class="form-section">
                     <div class="section-title">KỸ NĂNG</div>
                     <label for="field">Lĩnh vực chuyên môn</label>
-                    <input type="text" id="field" name="field" required>
+                    <input type="text" id="field" name="field"
+                           value="<%= isEdit ? cv.getField() : "" %>" required>
                 </div>
 
                 <div class="form-section">
                     <div class="section-title">MỨC LƯƠNG HIỆN TẠI</div>
                     <label for="currentSalary">Mức lương hiện tại (VND)</label>
-                    <input type="number" id="currentSalary" name="currentSalary" min="0" step="1000" required>
+                    <input type="number" id="currentSalary" name="currentSalary" min="0" step="1000"
+                           value="<%= isEdit ? cv.getCurrentSalary() : "" %>" required>
                 </div>
 
-                <button type="submit" class="submit-btn">Lưu CV</button>
+                <button type="submit" class="submit-btn"><%= isEdit ? "Lưu thay đổi" : "Lưu CV" %></button>
             </div>
         </div>
     </form>

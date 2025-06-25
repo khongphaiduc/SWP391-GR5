@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller_VNPay;
 
 import Controller_VNPay.Config;
@@ -13,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
@@ -27,10 +27,14 @@ import java.util.logging.Logger;
  *
  * @author HP
  */
-    public class vnpayReturn extends HttpServlet {
+public class vnpayReturn extends HttpServlet {
+
     OrderDAO orderDao = new OrderDAO();
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -38,8 +42,10 @@ import java.util.logging.Logger;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
+
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             Map fields = new HashMap();
             for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {
                 String fieldName = URLEncoder.encode((String) params.nextElement(), StandardCharsets.US_ASCII.toString());
@@ -59,11 +65,9 @@ import java.util.logging.Logger;
             String signValue = Config.hashAllFields(fields);
             if (signValue.equals(vnp_SecureHash)) {
                 String paymentCode = request.getParameter("vnp_TransactionNo");
-                
-                int orderId = Integer.parseInt(request.getParameter("vnp_TxnRef"));  
-              
-              
-                
+
+                int orderId = Integer.parseInt(request.getParameter("vnp_TxnRef"));
+
                 boolean transSuccess = false;
                 if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
                     //update banking system
@@ -71,22 +75,20 @@ import java.util.logging.Logger;
                     transSuccess = true;
                 } else {
                     orderDao.updateOrderStatus(orderId, "failed");
-                    
+
                 }
-                request.setAttribute("transResult", transSuccess);
-                request.getRequestDispatcher("order_view/paymentResult.jsp").forward(request, response);
+                session.setAttribute("transResult", transSuccess);
+                response.sendRedirect("order_view/paymentResult.jsp");
             } else {
-
-                request.setAttribute("transResult", false);
-
-                request.getRequestDispatcher("order_view/paymentResult.jsp").forward(request, response);
+                response.sendRedirect("order_view/paymentResult.jsp");
             }
         }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -94,16 +96,15 @@ import java.util.logging.Logger;
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(vnpayReturn.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    } 
+            throws ServletException, IOException {
 
-    /** 
+        doPost(request, response);
+
+    }
+
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -111,7 +112,7 @@ import java.util.logging.Logger;
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
@@ -119,8 +120,9 @@ import java.util.logging.Logger;
         }
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

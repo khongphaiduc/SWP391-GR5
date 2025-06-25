@@ -51,6 +51,7 @@ public class LocationProvider {
         list.add("Vĩnh Long");
         list.add("Khác");
        
+       
         return list;
     }
 }

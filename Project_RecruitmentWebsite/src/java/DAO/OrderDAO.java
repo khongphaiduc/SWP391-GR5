@@ -22,7 +22,7 @@ public class OrderDAO extends DBContext {
             if (rows > 0) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     if (rs.next()) {
-                        return rs.getInt(1);  // Trả về Order_ID vừa được tạo
+                        return rs.getInt(1);  
                     }
                 }
             }

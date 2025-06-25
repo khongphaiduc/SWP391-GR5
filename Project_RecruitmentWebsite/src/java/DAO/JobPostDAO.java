@@ -231,7 +231,6 @@ public class JobPostDAO extends DBContext {
   
     }
      */
-
     public List<JobPost> getAllJobPostsWithEmployer() {
         List<JobPost> jobPosts = new ArrayList<>();
 
@@ -272,10 +271,7 @@ public class JobPostDAO extends DBContext {
                 emp.setCompanySize(rs.getString("CompanySize"));
                 emp.setPhoneNumber(rs.getString("PhoneNumber"));
 
-                Blob logoBlob = rs.getBlob("imgLogo");
-                if (logoBlob != null) {
-                    emp.setImgLogo(logoBlob.getBinaryStream());
-                }
+                emp.setImgLogo(rs.getString("imgLogo"));
 
                 job.setEmployer(emp);
                 jobPosts.add(job);
@@ -325,10 +321,7 @@ public class JobPostDAO extends DBContext {
                 emp.setCompanySize(rs.getString("CompanySize"));
                 emp.setPhoneNumber(rs.getString("PhoneNumber"));
 
-                Blob logoBlob = rs.getBlob("imgLogo");
-                if (logoBlob != null) {
-                    emp.setImgLogo(logoBlob.getBinaryStream());
-                }
+                 emp.setImgLogo(rs.getString("imgLogo"));
 
                 job.setEmployer(emp);
                 return job;
@@ -375,10 +368,7 @@ public class JobPostDAO extends DBContext {
                     employer.setEmail(rs.getString("email"));
                     employer.setUrlWebsite(rs.getString("URL_Website"));
                     employer.setCompanySize(rs.getString("companySize"));
-                    Blob logoBlob = rs.getBlob("imgLogo");
-                    if (logoBlob != null) {
-                        employer.setImgLogo(logoBlob.getBinaryStream());
-                    }
+                     employer.setImgLogo(rs.getString("imgLogo"));
 
                     job.setEmployer(employer);
                     jobList.add(job);
