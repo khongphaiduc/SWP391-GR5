@@ -4,6 +4,7 @@ import Models.Candidate;
 import DAO.CandidateDAO;
 import DAO.RegisterCandidateUser;
 import DAO.RegisterEmployerUser;
+import MyService.ImageUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
@@ -112,9 +113,12 @@ public class candidateProfileServlet extends HttpServlet {
             candidate.setBirthday(birthday);
 
             Part avatarPart = request.getPart("avatar");
+           
+
             if (avatarPart != null && avatarPart.getSize() > 0) {
-                InputStream inputStream = avatarPart.getInputStream();
-                candidate.setAvatar(inputStream);
+                String appPath = request.getServletContext().getRealPath("");
+                String savedRelativePath = ImageUtil.saveImage(avatarPart, appPath, "candidates");
+                candidate.setAvatar(savedRelativePath);
             }
 
             boolean updateSuccess = candidateDAO.updateCandidate(candidate);

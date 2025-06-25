@@ -72,6 +72,7 @@ public class submitCVServlet extends HttpServlet {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
+            request.setAttribute("isEdit", false);
             request.setAttribute("candidate", candidateDAO.getCandidateByName(username));
             request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
         }

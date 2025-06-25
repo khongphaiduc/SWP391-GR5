@@ -415,7 +415,7 @@
         <div class="cv-container">
             <div class="cv-header-section">
                 <h1><i class="fas fa-file-alt"></i> DANH SÁCH CV</h1>
-                <p>Danh sách tất cả CV đã tạo của bạn</p>
+                <p>Danh sách tất cả CV ứng tuyển</p>
             </div>
 
             <%

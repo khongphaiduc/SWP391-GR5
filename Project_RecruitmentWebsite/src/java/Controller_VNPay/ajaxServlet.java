@@ -99,7 +99,8 @@ public class ajaxServlet extends HttpServlet {
             return;
         } else {
             PrintWriter out = resp.getWriter();
-
+            
+            
             String bankCode = req.getParameter("bankCode");
             double amountDouble = Double.parseDouble(req.getParameter("totalBill"));
 
@@ -110,10 +111,11 @@ public class ajaxServlet extends HttpServlet {
             Order order = new Order();
             order.setEmployerId(userId);
             order.setAmount(amountDouble);
-            order.setServiceId(1);
+            order.setServiceId(1); //hard code 
             order.setPayMethod("VNPAY");
             order.setDate(new Date());
 
+            out.print(order);
             int orderId = -1;
             try {
                 orderId = orderDao.insertOrder(order);
@@ -123,7 +125,7 @@ public class ajaxServlet extends HttpServlet {
 
 
             // Các thông tin cấu hình VNPAY
-            String vnp_TxnRef = orderId + "";//dky ma rieng
+            String vnp_TxnRef = orderId + "";
             String vnp_IpAddr = Config.getIpAddress(req);
             long amount = (long) (amountDouble * 100);
 
@@ -182,13 +184,13 @@ public class ajaxServlet extends HttpServlet {
                     }
                 }
             }
-            resp.getWriter().println(hashData);
+//            resp.getWriter().println(hashData);
 
             String queryUrl = query.toString();
             String vnp_SecureHash = Config.hmacSHA512(Config.secretKey, hashData.toString());
             queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
 
-            resp.getWriter().println(vnp_SecureHash);
+//            resp.getWriter().println(vnp_SecureHash);
 
             String paymentUrl = Config.vnp_PayUrl + "?" + queryUrl;
             resp.sendRedirect(paymentUrl);

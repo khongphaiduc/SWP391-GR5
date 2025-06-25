@@ -84,4 +84,11 @@ public class Order {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" + "orderId=" + orderId + ", employerId=" + employerId + ", serviceId=" + serviceId + ", amount=" + amount + ", payMethod=" + payMethod + ", date=" + date + ", status=" + status + '}';
+    }
+    
+    
 }

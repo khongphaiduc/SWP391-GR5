@@ -23,8 +23,17 @@ public class Employer {
     private String location;
     private String urlWebsite;
     private String companySize;
-    private InputStream imgLogo;
+    private String imgLogo;
     private String phoneNumber;
+    private String taxCode;
+
+    public String getTaxCode() {
+        return taxCode;
+    }
+
+    public void setTaxCode(String taxCode) {
+        this.taxCode = taxCode;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -33,15 +42,13 @@ public class Employer {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    
-
 
     public Employer() {
     }
 
     public Employer(int employerId, String nameEmployer, String email, String passwordHash,
             String companyName, String description, String location,
-            String urlWebsite, String companySize, InputStream imgLogo) {
+            String urlWebsite, String companySize, String imgLogo) {
         this.employerId = employerId;
 
         this.nameEmployer = nameEmployer;
@@ -128,11 +135,18 @@ public class Employer {
         this.companySize = companySize;
     }
 
-    public InputStream getImgLogo() {
+    public String getImgLogo() {
         return imgLogo;
     }
 
-    public void setImgLogo(InputStream imgLogo) {
+    public void setImgLogo(String imgLogo) {
         this.imgLogo = imgLogo;
     }
+
+    @Override
+    public String toString() {
+        return "Employer{" + "employerId=" + employerId + ", nameEmployer=" + nameEmployer + ", email=" + email + ", passwordHash=" + passwordHash + ", companyName=" + companyName + ", description=" + description + ", location=" + location + ", urlWebsite=" + urlWebsite + ", companySize=" + companySize + ", imgLogo=" + imgLogo + ", phoneNumber=" + phoneNumber + ", taxCode=" + taxCode + '}';
+    }
+    
+    
 }

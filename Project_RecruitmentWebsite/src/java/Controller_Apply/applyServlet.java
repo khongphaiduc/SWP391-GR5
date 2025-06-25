@@ -137,7 +137,7 @@ public class applyServlet extends HttpServlet {
             apply.setCandidate_ID(candidateID);
             apply.setCV_ID(cvID);
             apply.setStatus("Đã nộp");
-            apply.setStep("Chờ duyệt");
+            apply.setStep("Đã nhận hồ sơ");
 
             applyDAO.insertApply(apply);
             request.setAttribute("message", "Ứng tuyển thành công!");
