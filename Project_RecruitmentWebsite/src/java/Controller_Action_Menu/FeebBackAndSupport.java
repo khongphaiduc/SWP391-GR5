@@ -62,7 +62,7 @@ public class FeebBackAndSupport extends HttpServlet {
 
             String content = request.getParameter("content");
             String titel = request.getParameter("titel");
-            String idAdminSupport = "1";
+            String idAdminSupport = "1";                 // gửi  tới 
             Part imageFIle = request.getPart("fileReport");
             String checktype = imageFIle.getContentType();
 

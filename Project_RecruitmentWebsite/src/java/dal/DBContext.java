@@ -13,17 +13,16 @@ public class DBContext {
     public DBContext() {
 
         try {
-            String user = "sa";
-            String pass = "10112004";
+//            String user = "sa";
+//            String pass = "123";
 
 //            String url = "jdbc:sqlserver://DESKTOP-NQH197\\NGUYENQUANGHUYSV:1433;databaseName=swp_final5;";
 //            String url = "jdbc:sqlserver://LAPTOP-MK;databaseName=CV02";
             //   String url = System.getenv("SQL_Path_GenZTimViec");
-//            String user = System.getenv("user");
-//            String pass = System.getenv("pass");
-
-           String url = "jdbc:sqlserver://14.225.220.135;databaseName=GenZTimViec;";
-         //   String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=GenZTimViec16";
+            String user = System.getenv("user");
+            String pass = System.getenv("pass");
+            String url = "jdbc:sqlserver://14.225.220.135;databaseName=GenZTimViec;";
+            //String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=GenZTimViec17";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {

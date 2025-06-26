@@ -155,8 +155,8 @@
         </style>
     </head>
     <body>
-         <jsp:include page="/IconActionMenu.jsp" />
-        <a id="nameSupport" data-name="ducadmin" style="display:none"></a>
+        <jsp:include page="/IconActionMenu.jsp" />
+        <a id="nameSupport" data-name="ducadmin" style="display:none"></a>          <!--    tên  người support -->
         <div class="container chat-container">
             <div class="row h-100 w-100">
                 <div class="col-3 user-list p-0">
@@ -258,15 +258,55 @@
                 });
             }
 
-            function selectUser(userId) {
+
+
+
+            //load lại danh sách User đã chat từ database lên cho thằng suppport 
+            window.addEventListener("DOMContentLoaded", function () {
+                fetch(`/Project_RecruitmentWebsite/ReloadUserListSideSupprter?support=` + nameSupport)
+                        .then(res => res.json())   // chuyển từ String json về object (json thực sự)
+                        .then(data => {
+                            data.forEach(user => {
+                                users.push({
+                                    id: user.id,
+                                    name: user.name,
+                                    avatar: 'https://cdn.tuoitre.vn/thumb_w/640/471584752817336320/2023/2/13/tieu-su-ca-si-rose-blackpink-12-167628252304049682913.jpg'
+                                });
+                            });
+                            renderUserList();   // load lại cái list vừa chuy vấn từ database lên
+                        })
+                        .catch(err => console.error("Lỗi tải lại danh sách khách hàng đã chat :", err));
+                renderUserList();
+            });
+
+
+            function selectUser(userId) { // userID = Username
                 currentUser = userId;
                 unread[userId] = false;  // khi support chọn thì đánh dấu lại là đã đọc
                 renderUserList();
                 renderChatHeader();
                 renderChatMessages();
-                chatInput.disabled = false;
+                chatInput.disabled = false;   // cho phép  người dùng tương tác qua lại phần từ đó mà không bị vô hiệu hóa 
                 sendBtn.disabled = false;
                 chatInput.focus(); //Khi chạy đoạn đó, con trỏ (caret) sẽ tự động nhảy vào ô nhập tin nhắn.
+
+
+                // load lại tin nhắn khi mà thằng support choice thằng user
+                fetch(`/Project_RecruitmentWebsite/ReloadMessageSideSupporter?user1=` + nameSupport + `&user2=` + currentUser)
+                        .then(res => res.json())
+                        .then(data => {
+                            const  newMessages  = conversations[currentUser] || [];  // các tin vừa nhận qua  websocket
+                            const oldMessages= data.map(msg => ({           // oldMessages là 1 mảng các json
+                                    from: msg.from,
+                                    message: msg.message,
+                                    avatar: ''
+                                }));
+                            conversations[currentUser] = [...oldMessages, ...newMessages]; // GHÉP chứ không ghi đè
+                            renderChatMessages();
+                        })
+                        .catch(err => console.error("Lỗi lấy lịch sử chat:", err));
+
+
             }
 
             function renderChatHeader() {
@@ -288,9 +328,9 @@
                     sendBtn.disabled = true;
                     return;
                 }
-                const msgs = conversations[currentUser] || [];
+                const msgs = conversations[currentUser] || [];       // đoạn chat
                 msgs.forEach(msg => {
-                    const isSent = msg.from === nameSupport; // ✅ ĐÚNG
+                    const isSent = msg.from === nameSupport;
                     console.log("content:", msg.message);
                     let html;
 
@@ -300,7 +340,7 @@
                 <div class="chat-message sent justify-content-end">
                     <div class="d-flex align-items-end justify-content-end gap-2">
                         <div>
-                            <div class="msg-bubble sent-bubble">`+msg.message+`</div>
+                            <div class="msg-bubble sent-bubble">` + msg.message + `</div>
                             
                         </div>
                         <img src="https://i.pinimg.com/736x/7f/0b/cb/7f0bcbfae4229af3ae9e492e8742eedc.jpg" class="avatar" style="width:28px;height:28px;">
@@ -308,10 +348,15 @@
                 </div>
             `;
                     } else {
-                        //  Khi user khác là người gửi
+                        //    JavaScript sẽ kiểm tra giá trị bên trái (msg.avatar)
+                        //Nếu bên trái là giá trị truthy (không null, không undefined, không "", không 0, không NaN, không false), thì lấy luôn giá trị đó
+
+                        const avaterTemprary = msg.avatar || 'https://th.bing.com/th/id/OIP.aCCV39ZpySAqOD_yvp1C2wHaJQ?rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3';
+
+
                         html = `
                 <div class="chat-message received">
-              <img src="` + msg.avatar + `" class="avatar" style="width:28px;height:28px;">
+              <img src="` + avaterTemprary + `" class="avatar" style="width:28px;height:28px;">
                         <div>
                     <div>
                         <div class="msg-bubble received-bubble">` + msg.message + `</div>
@@ -349,7 +394,7 @@
                         type: 'private',
                         to: currentUser,
                         message: text,
-                        image: 'https://i.pinimg.com/736x/7f/0b/cb/7f0bcbfae4229af3ae9e492e8742eedc.jpg'
+                        avatar: 'https://i.pinimg.com/736x/7f/0b/cb/7f0bcbfae4229af3ae9e492e8742eedc.jpg'
                     }));
                 }
 

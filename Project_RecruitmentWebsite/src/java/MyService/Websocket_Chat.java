@@ -1,5 +1,6 @@
 package MyService;
 
+import DAO_Chat.DB_Chat;
 import Models.Message;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -47,7 +48,7 @@ public class Websocket_Chat {
             case "private": {
                 String to = json.getString("to");
                 String msg = json.getString("message");
-                String image = json.getString("image");
+                String image = json.getString("avatar");
                 String from = sessionToUser.get(sender);
                 Session receiver = userSessions.get(to);
 
@@ -55,17 +56,17 @@ public class Websocket_Chat {
                     receiver.getBasicRemote().sendText(Json.createObjectBuilder()
                             .add("from", from)
                             .add("message", msg)
-                            .add("image", image)
+                            .add("avatar", image)
                             .build().toString());
-
-//             chatLogs.computeIfAbsent(from + "_" + to, k -> new ArrayList<>())
-//                   .add(new Message(from, to, msg, image, LocalDateTime.now().toString()));
+                    // lưu tạm thời đoạn chat vào map
+                    chatLogs.computeIfAbsent(from + "_" + to, k -> new ArrayList<>()) // kiểm tra key đã tồn hay or chưa , nếu chưa thì tạo mới  và gán cho 1 cái list
+                            .add(new Message(from, to, msg, image));  // nếu key đã tồn tại thì thêm vào list của key đấy
 
                 } else {
                     sender.getBasicRemote().sendText(Json.createObjectBuilder()
                             .add("from", "system")
                             .add("message", "️Người dùng '" + to + "' không online.vbkfghjk")
-                            .add("image", image)
+                            .add("avatar", image)
                             .build().toString());
                 }
                 break;
@@ -94,12 +95,32 @@ public class Websocket_Chat {
 
     @OnClose
     public void onClose(Session session) {
-        clients.remove(session);
+        clients.remove(session);   // xóa user ra khởi danh sách online 
         String username = sessionToUser.remove(session);
         if (username != null) {
             userSessions.remove(username);
             System.out.println(username + " đã ngắt kết nối.");
+
+            // Lưu các cuộc trò chuyện liên quan vào DB
+            List<Message> listToSave = new ArrayList<>();  //  khi thằng user đóng connect  thì lấy lấy cái đoạn chat của thằng đấy và lưu tạm vào listToSave
+            for (String key : chatLogs.keySet()) {
+                if (key.startsWith(username + "_") || key.endsWith("_" + username)) {
+                    listToSave.addAll(chatLogs.get(key));
+                }
+            }
+
+            if (!listToSave.isEmpty()) {
+                DB_Chat dao = new DB_Chat();
+                for (Message msg : listToSave) {
+                    dao.saveMessage(msg);
+                }
+                System.out.println("Đã lưu " + listToSave.size() + " tin nhắn của " + username);
+                // Xoá các đoạn chat của thằng user đó ra khỏi bộ nhớ sau khi đã lưu vào DB
+                chatLogs.keySet().removeIf(key -> key.startsWith(username + "_") || key.endsWith("_" + username));
+            }
         }
+
+
         System.out.println("Client disconnected: " + session.getId());
     }
 

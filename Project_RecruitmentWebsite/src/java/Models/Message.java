@@ -4,37 +4,25 @@ package Models;
 public class Message {
 
     public String from;
-    public String roleFrom;
     public String to;
-    public String roleTo;
     public String message;
     public String image;
     public String time;
 
-    public Message(String from, String roleFrom, String to, String roleTo, String message, String image, String time) {
+    public Message(String from, String to, String message, String image) {
         this.from = from;
-        this.roleFrom = roleFrom;
         this.to = to;
-        this.roleTo = roleTo;
         this.message = message;
         this.image = image;
-        this.time = time;
+       
     }
 
     public void setFrom(String from) {
         this.from = from;
     }
 
-    public void setRoleFrom(String roleFrom) {
-        this.roleFrom = roleFrom;
-    }
-
     public void setTo(String to) {
         this.to = to;
-    }
-
-    public void setRoleTo(String roleTo) {
-        this.roleTo = roleTo;
     }
 
     public void setMessage(String message) {
@@ -53,16 +41,8 @@ public class Message {
         return from;
     }
 
-    public String getRoleFrom() {
-        return roleFrom;
-    }
-
     public String getTo() {
         return to;
-    }
-
-    public String getRoleTo() {
-        return roleTo;
     }
 
     public String getMessage() {
@@ -79,8 +59,9 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" + "from=" + from + ", roleFrom=" + roleFrom + ", to=" + to + ", roleTo=" + roleTo + ", message=" + message + ", image=" + image + ", time=" + time + '}';
+        return "Message{" + "from=" + from + ", to=" + to + ", message=" + message + ", image=" + image + ", time=" + time + '}';
     }
+
 
 
 }

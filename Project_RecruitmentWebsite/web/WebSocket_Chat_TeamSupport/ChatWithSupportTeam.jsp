@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="<%= request.getContextPath() %>/css/chatWithAdminCss.css">
     </head>
     <body>
-         <jsp:include page="/IconActionMenu.jsp" />
+        <jsp:include page="/IconActionMenu.jsp" />
         <a id="idUser" data-id="${idUser}" style="display: none"></a>
         <a id="nameUser" data-name="${username}" style="display: none"></a>
         <div class="chat-container">
@@ -43,7 +43,7 @@
         <script>
             const IgmageUser = document.getElementById('dataInfor').dataset.info;
             const iduser = document.getElementById('idUser').dataset.id;
-            const nameuser = document.getElementById('nameUser').dataset.name;
+            const nameuser = document.getElementById('nameUser').dataset.name;  // tên  user
             const SUPPORT_USERNAME = 'ducadmin';
             const SUPPORT_AVATAR = "https://5sfashion.vn/storage/upload/images/ckeditor/4KG2VgKFDJWqdtg4UMRqk5CnkJVoCpe5QMd20Pf7.jpg";
 
@@ -74,9 +74,9 @@
 
                 websocket.send(JSON.stringify({
                     type: 'private',
-                    to: SUPPORT_USERNAME,
-                    message: message,
-                    image: IgmageUser
+                    to: SUPPORT_USERNAME, // tên người nhận              
+                    message: message, // nội dung tin nhắn
+                    avatar: IgmageUser                // avatar người gửi 
                 }));
 
                 contentchat.value = '';
@@ -88,37 +88,60 @@
                 try {
                     data = JSON.parse(event.data);
                 } catch (e) {
-                    data = {from: '', message: event.data, image: ''};
+                    data = {from: '', message: event.data, avatar: ''};
                 }
                 // Chỉ nhận tin nhắn từ support hoặc hệ thống
                 if (data.from && data.from !== nameuser) {
                     const div = document.createElement('div');
                     div.classList.add('message', 'support');
-                    div.innerHTML = `<img class="avatar" src="` + data.image + `" alt="Support avatar"><div class="content">` + data.message + `</div>`;
+                    div.innerHTML = `<img class="avatar" src="` + data.avatar + `" alt="Support avatar"><div class="content">` + data.message + `</div>`;
                     chatbody.appendChild(div);
                     chatbody.scrollTop = chatbody.scrollHeight;
                 }
             };
         </script>
-        
-<!--        lưu vào database-->
+
+
+
+        <!--        reload lại tin nhẵn cũ-->
         <script>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+            window.addEventListener("DOMContentLoaded", function () {
+                fetch("/Project_RecruitmentWebsite/ReloadMessageSideUser?username=" + nameuser)
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log("Lịch sử chat:", data);
+                            console.log("tên :" + nameuser);
+                            data.forEach(msg => {
+                                console.log("content "+msg.message);
+                                const div = document.createElement('div');
+                                div.classList.add('message');
+                                div.classList.add(msg.from === nameuser ? 'user' : 'support');
+
+                             let avatarTemporary  ;
+                             
+                             if(msg.from === nameuser){
+                                 // avatar thằng user
+                                 avatarTemporary ='https://th.bing.com/th/id/OIP.zq0n_-NQa8XL8mWG4JNp5gHaHa?rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3';
+                             }else{
+                                 //avatar thằng admin
+                                  avatarTemporary ='https://cdn.tuoitre.vn/thumb_w/640/471584752817336320/2023/2/13/tieu-su-ca-si-rose-blackpink-12-167628252304049682913.jpg';
+                             }
+
+
+                                div.innerHTML = `<img class="avatar" src="` +  avatarTemporary + `" alt="Support avatar"><div class="content">` + msg.message + `</div>`;
+
+                                chatbody.appendChild(div);
+                            });
+                            chatbody.scrollTop = chatbody.scrollHeight;
+                        })
+                        .catch(err => console.error("Lỗi tải lại lịch sử chat:", err));
+            });
         </script>
-        
-        
-        
-        
-<!--        tin nhắn tự động-->
+
+
+
+
+        <!--        tin nhắn tự động-->
         <script>
 
             const thongbao1 = document.getElementById('1');
@@ -136,15 +159,11 @@
                     <div class="content">Hãy gửi lời chào tới đội ngũ hỗ trợ để chúng tôi có thể kết nối với bạn</div>`
             }, 2500);
 
-            setTimeout(function () {
-                thongbao3.innerHTML = `  <img class="avatar" src="https://5sfashion.vn/storage/upload/images/ckeditor/4KG2VgKFDJWqdtg4UMRqk5CnkJVoCpe5QMd20Pf7.jpg" alt="Support avatar">
-                    <div class="content">Cuộc hội thoại này sẽ không được lưu lại , vui lòng chỉ đóng khi vấn để của bạn đã được giải quyết .</div>`
-            }, 4500);
 
             setTimeout(function () {
-                thongbao4.innerHTML = `  <img class="avatar" src="https://5sfashion.vn/storage/upload/images/ckeditor/4KG2VgKFDJWqdtg4UMRqk5CnkJVoCpe5QMd20Pf7.jpg" alt="Support avatar">
+                thongbao3.innerHTML = `  <img class="avatar" src="https://5sfashion.vn/storage/upload/images/ckeditor/4KG2VgKFDJWqdtg4UMRqk5CnkJVoCpe5QMd20Pf7.jpg" alt="Support avatar">
                     <div class="content">Chúc Bạn Một Ngày Tốt Lành Xin Cảm Ơn.</div>`
-            }, 5500);
+            }, 3500);
 
 
 
