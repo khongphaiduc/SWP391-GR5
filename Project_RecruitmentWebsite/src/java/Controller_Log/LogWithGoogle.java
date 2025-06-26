@@ -50,7 +50,7 @@ public class LogWithGoogle extends HttpServlet {
             String accessToken = mygoogle.getToken(code);    // lấy token từ code 
 
             GoogleInfo infoUser = mygoogle.getUserInfo(accessToken);   // gửi token cho thằng gg và nó gửi về josn và chuyển về object GoogleInfo
-
+            System.out.println("email của bạn là :" + infoUser.getEmail());
             // case cả 2 đã  đăng ký trước đó
             if (candidate.isEmaiCandidateUser(infoUser.getEmail())) {
                 session.setAttribute("role", "Candidate");

@@ -10,20 +10,19 @@ public class ImageUtil {
     // Thư mục chứa ảnh (tương đối với thư mục web)
     private static final String DEFAULT_UPLOAD_DIR = "img";
 
-    
-    public static String saveImage(Part part, String uploadRootPath, String subFolder) throws IOException {
-        String fileName = extractFileName(part);
-        if (fileName == null || fileName.isEmpty()) {
+    public static String saveImage(Part part, String uploadRootPath, String subFolder) throws IOException { // part : ảnh cần được lưu
+        String fileName = extractFileName(part);                   
+        if (fileName == null || fileName.isEmpty()) {              
             return null;
         }
 
         // Tạo tên file duy nhất
         String savedFileName = System.currentTimeMillis() + "_" + fileName;
         String uploadPath = uploadRootPath + File.separator + DEFAULT_UPLOAD_DIR + File.separator + subFolder;
-
-        File uploadDir = new File(uploadPath);
+        //File.separator  là ký tự \ (nếu ở window) và / (nếu ở linux)
+        File uploadDir = new File(uploadPath);   
         if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
+            uploadDir.mkdirs();                                 // chính thức tạo mới 
         }
 
         // Ghi file
@@ -37,7 +36,7 @@ public class ImageUtil {
      * Trích xuất tên file từ Part
      */
     private static String extractFileName(Part part) {
-        String contentDisp = part.getHeader("content-disposition");
+        String contentDisp = part.getHeader("content-disposition");//content-disposition: form-data; name="file"; filename="abc.txt"
         for (String s : contentDisp.split(";")) {
             if (s.trim().startsWith("filename")) {
                 return s.substring(s.indexOf('=') + 2, s.length() - 1); // Bỏ dấu "

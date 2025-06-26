@@ -44,6 +44,6 @@ public class getListSaveJobPost extends DBContext {
 
     public static void main(String[] args) {
         getListSaveJobPost o = new getListSaveJobPost();
-        o.getListJobPostSaved("16").forEach(a -> System.out.println(a));
+        o.getListJobPostSaved("3").forEach(a -> System.out.println(a));
     }
 }

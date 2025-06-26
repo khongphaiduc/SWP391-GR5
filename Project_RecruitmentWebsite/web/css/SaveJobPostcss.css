@@ -158,16 +158,16 @@ body {
     min-height: 36px;
 }
 .btn-gradient {
-    background: linear-gradient(90deg,#3ecf4c,#178a29 80%);
-    color: #fff;
-    border: none;
+    background: linear-gradient(90deg,#33ff33,#66ff66 80%);
+    color: #dcfbe3;
     transition: background 0.2s, box-shadow 0.18s;
     box-shadow: 0 2px 10px 0 rgba(62,207,76,0.12);
 }
 .btn-gradient:hover, .btn-gradient:focus {
-    background: linear-gradient(90deg,#178a29,#3ecf4c 80%);
-    color: #fff;
+    background: linear-gradient(90deg,#ffff33,#ffff33 80%);
+    color: #dcfbe3;
     box-shadow: 0 4px 16px 0 rgba(23,138,41,0.10);
+    border-radius:40px;
 }
 .btn-outline-danger {
     border-radius: 50px;

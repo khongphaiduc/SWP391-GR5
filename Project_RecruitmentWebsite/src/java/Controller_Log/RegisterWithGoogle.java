@@ -42,7 +42,8 @@ public class RegisterWithGoogle extends HttpServlet {
 
             GoogleInfo userInfo = (GoogleInfo) session.getAttribute("infoUser");
             String role = request.getParameter("role");
-
+            String name = userInfo.getName();
+            System.out.println(name);
             // case thằng user chọn candidate
             if (role.equals("Candidate")) {
                 candidate.RegisterCandidateByGoogle(userInfo.getEmail());

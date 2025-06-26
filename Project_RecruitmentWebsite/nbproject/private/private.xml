@@ -3,30 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Profile/candidateProfileServlet.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Profile/employerProfileServlet.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Apply/searchListApplyServlet.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/ApplyCV_view/candidateApplyList.jsp</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/CVDAO.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/JobPostDAO.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_CV/downloadCVServlet.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Apply/CandidateApplyListServlet.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/log/profile.jsp</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/EmployerDAO.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/FeedBackDAO.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_CV/manageCreatedCVServlet.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_CV/submitCVServlet.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/ApplyDAO.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Candidate.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/ViewJobPost/DisplayListPostJob.jsp</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Job/createJobServlet.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Employer.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/candidateCV_view/fillCVInfo.jsp</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/log/EmployerInfo.jsp</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/CV.java</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/ApplyCV_view/applyCVList.jsp</file>
-            <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/CandidateDAO.java</file>
+            <file>file:/E:/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/SupportUserDAO.java</file>
+            <file>file:/E:/SWP391-GR5/Project_RecruitmentWebsite/src/java/MyService/ImageUtil.java</file>
+            <file>file:/E:/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Action_Menu/FeebBackAndSupport.java</file>
+            <file>file:/E:/SWP391-GR5/Project_RecruitmentWebsite/web/ViewActionMenu/FeedbackAndReport.jsp</file>
         </group>
     </open-files>
 </project-private>

@@ -104,7 +104,7 @@ public class RegisterCandidateUser extends DBContext {
         return false;
     }
 
-    // đăng nhập  Employers  (đẫ test)
+    // đăng nhập  Candidate (đẫ test)
     public boolean LogInAccountCandidate(String account, String password) {
         try {
             String query = "SELECT s1.Password_hash,s1.CandidateName\n"
