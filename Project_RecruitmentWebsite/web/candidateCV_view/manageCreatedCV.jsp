@@ -479,8 +479,8 @@
                     </div>
                 </div>
                 <div class="cv-item-actions">
-                    <a href="viewCV?cvId=<%= cv.getCvId() %>" class="cv-btn cv-btn-view" target="_blank" style="flex: 1;">
-                        <i class="fas fa-eye"></i> Xem CV
+                    <a href="downloadCV?cvId=<%= cv.getCvId() %>" class="cv-btn cv-btn-view" target="_blank" style="flex: 1;">
+                        <i class="fas fa-eye"></i> Tải CV
                     </a>
                     <form method="post" action="manageCreatedCV" style="flex: 1; margin: 0;">
                         <input type="hidden" name="action" value="edit" />

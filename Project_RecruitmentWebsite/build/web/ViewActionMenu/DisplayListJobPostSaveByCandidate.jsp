@@ -105,7 +105,6 @@
         <!--     thông báo -->
         <script>
 
-            // DOMContentLoaded là 1 sự kiện chỉ chạy khi load page 
             function attachDeleteEvents() {
                 const removeButtons = document.querySelectorAll('.userRemove');
                 removeButtons.forEach(button => {
@@ -114,7 +113,7 @@
                         const idSaveJobPost = this.dataset.idsavejobpost;
                         fetch(`/Project_RecruitmentWebsite/DeleteJobPostSaved?idJobPost=` + idSaveJobPost)
                                 .then(response => {
-                                    if (response.status === 200) {
+                                    if (response.status === 200) {  // xóa thành  công để thì return  về 200
                                         const indexToRemove = listJobPost.findIndex(job => job.saveIdJobPost == idSaveJobPost);
                                         if (indexToRemove !== -1) {
                                             listJobPost.splice(indexToRemove, 1);

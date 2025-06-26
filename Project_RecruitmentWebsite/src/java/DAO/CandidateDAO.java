@@ -41,10 +41,9 @@ public class CandidateDAO extends DBContext {
 
 
                 candidate.setPasswordHash(rs.getString("Password_hash"));
-                Blob avatarBlob = rs.getBlob("Avatar");
-                if (avatarBlob != null) {
-                    candidate.setAvatar(avatarBlob.getBinaryStream());
-                }
+                
+                candidate.setAvatar(rs.getString("Avatar"));
+               
 
             }
 
@@ -121,7 +120,7 @@ public int getTotalCandidatesByName(String name) {
             stmt.setDate(4, candidate.getBirthday());
             stmt.setString(5, candidate.getNationality());
             stmt.setString(6, candidate.getPasswordHash());
-            stmt.setBlob(7, candidate.getAvatar());
+            stmt.setString(7, candidate.getAvatar());
             stmt.setInt(8, candidate.getCandidateId());
 
             int rowsAffected = stmt.executeUpdate();

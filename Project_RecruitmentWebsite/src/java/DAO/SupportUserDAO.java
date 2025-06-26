@@ -6,22 +6,30 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.*;
 // InputStream  1 lớp giúp chuyển hóa từ các file thành đoạn mã nhị phân 
+
 public class SupportUserDAO extends DBContext {
 
     // gửi báo cáo 
-    public boolean sendReportAndFeebBack(String senderID, String senderRole, String title, String content, InputStream image, long imageSize, String adminID) {
+    public boolean sendReportAndFeebBack(String senderID, String senderRole, String phone, String title, String content, String urlImage, String adminID) {
         try {
-            String sql = "INSERT INTO [dbo].[FeedbackReport] "
-                    + "([sender_id], [sender_role], [title], [content], [status], [image_Report], [Admin_ID]) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO [dbo].[FeedbackReport]\n"
+                    + "           ([sender_id]\n"
+                    + "           ,[sender_role]\n"
+                    + "           ,[phone_sender]\n"
+                    + "           ,[title]\n"
+                    + "           ,[content]\n"
+                    + "           ,[image_Report]\n"
+                    + "           ,[Admin_ID])\n"
+                    + "     VALUES\n"
+                    + "           (?,?,?,?,?,?,?)";
 
             PreparedStatement push = connection.prepareStatement(sql);
             push.setString(1, senderID);
             push.setString(2, senderRole);
-            push.setString(3, title);
-            push.setString(4, content);
-            push.setString(5, "pending");
-            push.setBinaryStream(6, image, imageSize); // tối ưu hơn
+            push.setString(3, phone);
+            push.setString(4, title);
+            push.setString(5, content);
+            push.setString(6, urlImage);
             push.setString(7, adminID);
 
             int result = push.executeUpdate();
@@ -30,14 +38,14 @@ public class SupportUserDAO extends DBContext {
             return result != 0;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Bug ở SupportUserDAO :"+e.getMessage());
         }
         return false;
     }
 
     public static void main(String[] args) {
         try {
-            SupportUserDAO dao = new SupportUserDAO(); 
+            SupportUserDAO dao = new SupportUserDAO();
 
             String senderID = "1";
             String senderRole = "candidate";
@@ -45,20 +53,16 @@ public class SupportUserDAO extends DBContext {
             String content = "Nội dung báo cáo test";
             String adminID = "1";
 
-          
             File file = new File("D:\\logo.png");
             InputStream image = new FileInputStream(file);
             long imageSize = file.length();
 
-            boolean result = dao.sendReportAndFeebBack(senderID, senderRole, title, content, image, imageSize, adminID);
+            boolean result = dao.sendReportAndFeebBack(senderID, senderRole, title, title, content, title, adminID);
             System.out.println("Kết quả: " + (result ? "Thành công" : "Thất bại"));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    
-    
-       
+
 }

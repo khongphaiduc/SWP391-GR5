@@ -25,7 +25,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-           
+
         <link href="<%= request.getContextPath() %>/css/ActionMenuCSS.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
     </head>
@@ -59,10 +59,21 @@
                 <span class="fab-hover-label">Danh sách việc làm đã lưu</span>
             </div>
             <div class="fab-item" title="Góp ý">
-                <a  href="<%= request.getContextPath() %>/ViewActionMenu/FeedbackAndReport.jsp" target="_self" class="fab-btn">
-                    <i class="bi bi-envelope-fill"></i>
-                </a>
-                <span class="fab-hover-label">Báo Cáo và Góp ý</span>
+
+                <c:if test="${username!=null}">
+                    <a  href="<%= request.getContextPath() %>/ViewActionMenu/FeedbackAndReport.jsp" target="_self" class="fab-btn">
+                        <i class="bi bi-envelope-fill"></i>
+                    </a>
+                    <span class="fab-hover-label">Báo Cáo và Góp ý</span>
+                </c:if>
+                    
+                <c:if test="${username == null}">
+                    <a  href="<%= request.getContextPath() %>/log/login.jsp" target="_self" class="fab-btn">
+                        <i class="bi bi-envelope-fill"></i>
+                    </a>
+                    <span class="fab-hover-label">Báo Cáo và Góp ý</span>
+                </c:if>
+
             </div>
 
             <div class="fab-item" title="Tin Nhắn">

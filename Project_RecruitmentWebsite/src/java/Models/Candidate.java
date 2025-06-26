@@ -15,7 +15,7 @@ public class Candidate {
     private java.sql.Date birthday;
     private String nationality;
     private String passwordHash;
-    private InputStream avatar;
+    private String avatar;
 
     // Constructors
     public Candidate() {
@@ -23,7 +23,8 @@ public class Candidate {
 
 
     public Candidate(int candidateId, String candidateName, String address, String email,
-            java.sql.Date birthday, String nationality, String passwordHash, InputStream avatar) {
+            java.sql.Date birthday, String nationality, String passwordHash, 
+            String avatar) {
 
         this.candidateId = candidateId;
         this.candidateName = candidateName;
@@ -92,11 +93,11 @@ public class Candidate {
         this.passwordHash = passwordHash;
     }
 
-    public InputStream getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(InputStream avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 

@@ -67,11 +67,13 @@ public class submitCVServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
-
+        CandidateDAO candidateDAO = new CandidateDAO();
         if (username == null || !"Candidate".equals(role)) {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
+            request.setAttribute("isEdit", false);
+            request.setAttribute("candidate", candidateDAO.getCandidateByName(username));
             request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
         }
     }

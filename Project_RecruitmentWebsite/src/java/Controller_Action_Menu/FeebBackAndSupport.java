@@ -13,14 +13,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import java.io.InputStream;
 import DAO.*;
 import jakarta.servlet.annotation.MultipartConfig;
+import MyService.*;
 
 @WebServlet(name = "FeebBackAndSupport", urlPatterns = {"/FeebBackAndSupport"})
 @MultipartConfig( //@MultipartConfig trong Java Servlet được sử dụng để cấu hình việc xử lý dữ liệu gửi lên từ form có enctype là multipart/form-data
         fileSizeThreshold = 1024 * 1024 * 1, // Nếu file upload lớn hơn ngưỡng này, nó sẽ được ghi tạm vào file trong ổ đĩa, còn nhỏ hơn thì giữ trong bộ nhớ (RAM).
-        maxFileSize = 1024 * 1024 * 90, // Kích thước tối đa cho mỗi file được upload (tính bằng byte).
+        maxFileSize = 1024 * 1024 * 10, // Kích thước tối đa cho mỗi file được upload (tính bằng byte).
         maxRequestSize = 1024 * 1024 * 90 // Kích thước tối đa của toàn bộ request bao gồm nhiều file và các trường form khác.
 )
 
@@ -59,9 +59,10 @@ public class FeebBackAndSupport extends HttpServlet {
             HttpSession session = request.getSession();
             String idUser = (String) session.getAttribute("idUser");
             String idRole = (String) session.getAttribute("role");
-
+           
             String content = request.getParameter("content");
             String titel = request.getParameter("titel");
+            String phoneSender = request.getParameter("phone");
             String idAdminSupport = "1";                 // gửi  tới 
             Part imageFIle = request.getPart("fileReport");
             String checktype = imageFIle.getContentType();
@@ -79,12 +80,12 @@ public class FeebBackAndSupport extends HttpServlet {
                 return;
             }
 
-            InputStream image = imageFIle.getInputStream();   // chuyển từ ảnh về chuối nhị phân
-            long sizeImage = imageFIle.getSize();
-
             SupportUserDAO reportDAO = new SupportUserDAO();
 
-            result = reportDAO.sendReportAndFeebBack(idUser, idRole, titel, content, image, sizeImage, idAdminSupport);
+            // sửa 
+            
+            String urlforderSaveImageFeedBack = ImageUtil.saveImage(imageFIle,"D:/","FeedbackAndSuopport");
+            result = reportDAO.sendReportAndFeebBack(idUser, idRole, phoneSender, titel, content, urlforderSaveImageFeedBack, idAdminSupport);
 
             System.out.println(result == true ? "Gửi thành công " : "Fail cmnr");
             statusReport = result == true ? "Người hỗ trợ của chúng tỗi sẽ liên hệ lại với bạn thông qua số điện thoại,xin quý khách để ý điện thoại  " : "Gửi Thất Bại";
