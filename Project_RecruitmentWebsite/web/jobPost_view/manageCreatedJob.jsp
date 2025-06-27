@@ -2,7 +2,7 @@
 <%@ page import="java.util.*, Models.*" %>
 <html>
     <head>
-        <jsp:include page="/navbar.jsp" />
+       
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Danh sách tin tuyển dụng</title>
@@ -345,7 +345,7 @@
         </style>
     </head>
     <body>
-
+        <jsp:include page="/navbar.jsp" />
         <div class="container">
             <div class="header">
                 <h1><i class="fas fa-briefcase"></i> Danh sách tin tuyển dụng</h1>

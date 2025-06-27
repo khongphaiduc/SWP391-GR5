@@ -1,0 +1,17 @@
+/Project_RecruitmentWebsite/build/ 
+# Ignore compiled files
+*.class
+
+# Ignore build directory
+/Project_RecruitmentWebsite/build/
+/build/
+/**/build/
+
+# Ignore IDE-specific folders
+.vscode/
+.idea/
+nbproject/private/
+
+# Ignore OS-generated files
+.DS_Store
+Thumbs.db

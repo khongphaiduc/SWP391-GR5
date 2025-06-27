@@ -23,7 +23,7 @@ public class CVDAO extends DBContext {
             Double currentSalary, Date birthday, int candidateId,
             String nationality, String gender, String inputStream, String mimeType) {
         try {
-            String sql = "INSERT INTO CV (full_Name, address, email, position, number_Exp, education, field, current_Salary, birthday, nationality, gender, candidate_Id, FilePath, MimeType) "
+            String sql = "INSERT INTO CV (full_Name, address, email, position, number_Exp, education, field, current_Salary, birthday, nationality, gender, candidate_Id, FileData, MimeType) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -76,7 +76,7 @@ public class CVDAO extends DBContext {
                 cv.setBirthday(rs.getDate("Birthday"));
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
-                cv.setFileData(rs.getString("FilePath"));
+                cv.setFileData(rs.getString("FileData"));
                 
                 cvList.add(cv);
             }
@@ -117,7 +117,7 @@ public class CVDAO extends DBContext {
                 cv.setBirthday(rs.getDate("Birthday"));
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
-                cv.setFileData(rs.getString("FilePath"));
+                cv.setFileData(rs.getString("FileData"));
                 cvList.add(cv);
             }
 
@@ -151,7 +151,7 @@ public class CVDAO extends DBContext {
                     + " current_Salary=?, birthday=?, nationality=?, gender=?");
 
             if (inputStream != null) {
-                sql.append(", FilePath = ?, MimeType = ?");
+                sql.append(", FileData = ?, MimeType = ?");
             }
 
             sql.append(" WHERE CV_ID=?");
