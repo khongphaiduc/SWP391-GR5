@@ -94,13 +94,14 @@ public class employerProfileServlet extends HttpServlet {
             if (filePart != null && filePart.getSize() > 0) {
                 String mimeType = filePart.getContentType();
                 if (mimeType != null && mimeType.startsWith("image/") && filePart.getSize() < 5000000) {
-                    Employer oldEmployer = employerDAO.getEmployerByName(username); 
-                    String oldImgPath = oldEmployer.getImgLogo(); 
+                   
 
                     String buildPath = request.getServletContext().getRealPath("/");
                     File webFolder = new File(buildPath).getParentFile().getParentFile();
                     String uploadPath = webFolder.getAbsolutePath() + "/web/img/employers";
 
+                    Employer oldEmployer = employerDAO.getEmployerByName(username); 
+                    String oldImgPath = oldEmployer.getImgLogo(); 
                     ImageUtil.deleteOldImage(uploadPath.replace("/employers", ""), oldImgPath);
 
 

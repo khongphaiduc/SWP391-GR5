@@ -129,13 +129,17 @@ public class viewCVServlet extends HttpServlet {
                     File webFolder = new File(buildPath).getParentFile().getParentFile();
                     String uploadPath = webFolder.getAbsolutePath() + "/web/img/cvs";
                     String savedRelativePath = ImageUtil.saveImageToWeb(filePart, uploadPath, "cvs");
+                    
+                    CV oldCV = dao.getCVById(cvId); 
+                    String oldImgPath = oldCV.getFileData(); 
+                    ImageUtil.deleteOldImage(uploadPath.replace("/cvs", ""), oldImgPath);
 
                     updated = dao.editCVById(cvId, fullName, address, email,
                             position, numberExp, education,
                             field, currentSalary, birthday, nationality, gender,
                             savedRelativePath, mimeType);
                 } else {
-                    request.setAttribute("error", "Bạn cần chọn file ảnh(.png, jpg) nhỏ hơn 1MB để đăng lên");
+                    request.setAttribute("error", "Bạn cần chọn file ảnh(.png, jpg) nhỏ hơn 3MB để đăng lên");
                     request.getRequestDispatcher("candidateCV_view/editCV.jsp").forward(request, response);
                 }
             } else {
