@@ -9,14 +9,13 @@ import java.util.List;
 public class OrderDAO extends DBContext {
 
     public int insertOrder(Order o) throws SQLException {
-        String sql = "INSERT INTO Orders (Employer_ID, Service_ID, Amount, PayMethod, Status, Date) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Orders (Employer_ID, Service_ID, Amount, PayMethod, Status) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, o.getEmployerId());
             ps.setInt(2, o.getServiceId());
             ps.setDouble(3, o.getAmount());
             ps.setString(4, o.getPayMethod());
             ps.setString(5, o.getStatus()); 
-            ps.setTimestamp(6, new Timestamp(o.getDate().getTime()));
 
             int rows = ps.executeUpdate();
             if (rows > 0) {

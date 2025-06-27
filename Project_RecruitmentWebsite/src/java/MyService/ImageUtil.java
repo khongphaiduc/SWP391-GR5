@@ -4,33 +4,29 @@ import jakarta.servlet.http.Part;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ImageUtil {
-
-    // Thư mục chứa ảnh (tương đối với thư mục web)
-    private static final String DEFAULT_UPLOAD_DIR = "img";
-
-    
-    public static String saveImage(Part part, String uploadRootPath, String subFolder) throws IOException {
+    public static String saveImageToWeb(Part part, String fullUploadPath, String subFolder) throws IOException {
         String fileName = extractFileName(part);
         if (fileName == null || fileName.isEmpty()) {
             return null;
         }
 
-        // Tạo tên file duy nhất
         String savedFileName = System.currentTimeMillis() + "_" + fileName;
-        String uploadPath = uploadRootPath + File.separator + DEFAULT_UPLOAD_DIR + File.separator + subFolder;
-
-        File uploadDir = new File(uploadPath);
+        File uploadDir = new File(fullUploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();
         }
 
-        // Ghi file
-        part.write(uploadPath + File.separator + savedFileName);
-
-        // Trả về đường dẫn tương đối để lưu vào DB
-        return subFolder + "/" + savedFileName;
+        part.write(new File(uploadDir, savedFileName).getAbsolutePath());
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ImageUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return subFolder + "/" + savedFileName; //  lưu vào DB
     }
 
     /**
@@ -45,11 +41,15 @@ public class ImageUtil {
         }
         return null;
     }
+    
+    public static void deleteOldImage(String uploadRootPath, String relativePath) {
+        if (relativePath == null || relativePath.trim().isEmpty()) return;
 
-    /**
-     * Trả về URL ảnh tương đối dùng cho <img>
-     */
-    public static String getImageUrl(String relativePath, String contextPath) {
-        return contextPath + "/" + DEFAULT_UPLOAD_DIR + "/" + relativePath;
+        File oldFile = new File(uploadRootPath + File.separator + relativePath.replace("/", File.separator));
+        if (oldFile.exists()) {
+            oldFile.delete(); 
+        }
     }
+
+    
 }

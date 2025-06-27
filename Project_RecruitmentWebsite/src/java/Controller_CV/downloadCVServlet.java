@@ -24,10 +24,12 @@ public class downloadCVServlet extends HttpServlet {
         CVDAO dao = new CVDAO();
         CV cv = dao.getCVById(cvId);
 
-        if (cv == null) return;
+        if (cv == null) {
+            return;
+        }
 
         response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "attachment; filename=CV_" + cvId + ".pdf");
+        response.setHeader("Content-Disposition", "inline; filename=CV_" + cvId + ".pdf");
 
         Document doc = new Document(PageSize.A4, 0, 0, 20, 20);
         OutputStream out = response.getOutputStream();
@@ -56,16 +58,23 @@ public class downloadCVServlet extends HttpServlet {
             leftCell.setMinimumHeight(doc.getPageSize().getHeight() - 40);
 
             // Ảnh đại diện
-            InputStream is = cv.getFileData();
-            if (is != null) {
-                Image avatar = Image.getInstance(IOUtils.toByteArray(is));
-                avatar.scaleToFit(120, 120);
-                avatar.setAlignment(Element.ALIGN_CENTER);
-                Paragraph imgPara = new Paragraph();
-                imgPara.add(new Chunk(avatar, 0, 0, true));
-                imgPara.setAlignment(Element.ALIGN_CENTER);
-                imgPara.setSpacingAfter(25);
-                leftCell.addElement(imgPara);
+            String avatarPath = cv.getFileData();
+
+            if (avatarPath != null && !avatarPath.trim().isEmpty()) {
+                String realImagePath = getServletContext().getRealPath("/img/" + avatarPath);
+
+                try {
+                    Image avatar = Image.getInstance(realImagePath);
+                    avatar.scaleToFit(120, 120);
+                    avatar.setAlignment(Element.ALIGN_CENTER);
+
+                    Paragraph imgPara = new Paragraph(new Chunk(avatar, 0, 0, true));
+                    imgPara.setAlignment(Element.ALIGN_CENTER);
+                    imgPara.setSpacingAfter(25);
+                    leftCell.addElement(imgPara);
+                } catch (Exception e) {
+                    leftCell.addElement(new Paragraph("(Không thể hiển thị ảnh)", whiteFont));
+                }
             }
 
             // Thông tin cá nhân

@@ -111,11 +111,12 @@ public class ajaxServlet extends HttpServlet {
             Order order = new Order();
             order.setEmployerId(userId);
             order.setAmount(amountDouble);
-            order.setServiceId(1); //hard code 
+            order.setServiceId(2); //hard code 
             order.setPayMethod("VNPAY");
             order.setDate(new Date());
+            order.setStatus("pending");
 
-            out.print(order);
+            out.println(order);
             int orderId = -1;
             try {
                 orderId = orderDao.insertOrder(order);
@@ -125,7 +126,10 @@ public class ajaxServlet extends HttpServlet {
 
 
             // Các thông tin cấu hình VNPAY
-            String vnp_TxnRef = orderId + "";
+            String vnp_TxnRef = orderId + System.currentTimeMillis() +"";
+            
+            out.print(vnp_TxnRef);
+            
             String vnp_IpAddr = Config.getIpAddress(req);
             long amount = (long) (amountDouble * 100);
 

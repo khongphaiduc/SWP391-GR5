@@ -352,7 +352,6 @@
 
         <div class="profile-container">
             <div class="profile-main">
-<!--                <img class="candidate-avatar" src="viewLogo?name=<%= candidate.getCandidateName() %>"  id="candidateAvatarImg" alt="Chưa cập nhật">-->
                 <img class="candidate-avatar" src="${pageContext.request.contextPath}/img/<%= candidate.getAvatar() %>" id="candidateAvatarImg" alt="Chưa cập nhật" />
 
                 <h2 class="candidate-name">

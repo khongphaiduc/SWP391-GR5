@@ -285,7 +285,7 @@ public class JobPostDAO extends DBContext {
     public JobPost getJobPostWithEmployerById(int jobPostId) {
         String sql = "SELECT jp.*, e.Employer_ID, e.EmployerName, e.Email, e.Password_hash, e.Company_Name, "
                 + "e.Description AS EmployerDesc, e.Location AS EmployerLocation, e.URL_Website, "
-                + "e.CompanySize, e.PhoneNumber, e.imgLogo "
+                + " e.PhoneNumber, e.imgLogo "
                 + "FROM JobPost jp "
                 + "JOIN Employer e ON jp.Employer_ID = e.Employer_ID "
                 + "WHERE jp.JobPost_ID = ?";
@@ -318,7 +318,6 @@ public class JobPostDAO extends DBContext {
                 emp.setDescription(rs.getString("EmployerDesc"));
                 emp.setLocation(rs.getString("EmployerLocation"));
                 emp.setUrlWebsite(rs.getString("URL_Website"));
-                emp.setCompanySize(rs.getString("CompanySize"));
                 emp.setPhoneNumber(rs.getString("PhoneNumber"));
 
                  emp.setImgLogo(rs.getString("imgLogo"));

@@ -21,9 +21,9 @@ public class CVDAO extends DBContext {
     public boolean addCV(String fullName, String address, String email,
             String position, int numberExp, String education, String field,
             Double currentSalary, Date birthday, int candidateId,
-            String nationality, String gender, InputStream inputStream, String mimeType) {
+            String nationality, String gender, String inputStream, String mimeType) {
         try {
-            String sql = "INSERT INTO CV (full_Name, address, email, position, number_Exp, education, field, current_Salary, birthday, nationality, gender, candidate_Id, FileData, MimeType) "
+            String sql = "INSERT INTO CV (full_Name, address, email, position, number_Exp, education, field, current_Salary, birthday, nationality, gender, candidate_Id, FilePath, MimeType) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -39,7 +39,7 @@ public class CVDAO extends DBContext {
             stmt.setString(10, nationality);
             stmt.setString(11, gender);
             stmt.setInt(12, candidateId);
-            stmt.setBlob(13, inputStream);
+            stmt.setString(13, inputStream);
             stmt.setString(14, mimeType);
             int row = stmt.executeUpdate();
             return row > 0;
@@ -76,10 +76,8 @@ public class CVDAO extends DBContext {
                 cv.setBirthday(rs.getDate("Birthday"));
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
-                Blob fileBlob = rs.getBlob("FileData");
-                if (fileBlob != null) {
-                    cv.setFileData(fileBlob.getBinaryStream());
-                }
+                cv.setFileData(rs.getString("FilePath"));
+                
                 cvList.add(cv);
             }
 
@@ -119,10 +117,7 @@ public class CVDAO extends DBContext {
                 cv.setBirthday(rs.getDate("Birthday"));
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
-                Blob fileBlob = rs.getBlob("FileData");
-                if (fileBlob != null) {
-                    cv.setFileData(fileBlob.getBinaryStream());
-                }
+                cv.setFileData(rs.getString("FilePath"));
                 cvList.add(cv);
             }
 
@@ -149,14 +144,14 @@ public class CVDAO extends DBContext {
     public boolean editCVById(int cvId, String fullName, String address, String email,
             String position, int numberExp, String education, String field,
             Double currentSalary, Date birthday, String nationality, String gender,
-            InputStream inputStream, String mimeType) {
+            String inputStream, String mimeType) {
         try {
             StringBuilder sql = new StringBuilder("UPDATE CV SET full_Name=?, address=?, email=?,"
                     + " position=?, number_Exp=?, education=?, field=?,"
                     + " current_Salary=?, birthday=?, nationality=?, gender=?");
 
             if (inputStream != null) {
-                sql.append(", FileData = ?, MimeType = ?");
+                sql.append(", FilePath = ?, MimeType = ?");
             }
 
             sql.append(" WHERE CV_ID=?");
@@ -177,7 +172,7 @@ public class CVDAO extends DBContext {
 
             int index = 12;
             if (inputStream != null) {
-                stmt.setBlob(index++, inputStream);
+                stmt.setString(index++, inputStream);
                 stmt.setString(index++, mimeType);
             }
 
@@ -252,10 +247,7 @@ public class CVDAO extends DBContext {
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
 
-                Blob blob = rs.getBlob("FileData");
-                if (blob != null) {
-                    cv.setFileData(blob.getBinaryStream());
-                }
+               cv.setFileData(rs.getString("FileData"));
                 cv.setMimeType(rs.getString("MimeType"));
 
                 // Tạo và gắn JobPost
@@ -376,10 +368,7 @@ public class CVDAO extends DBContext {
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
 
-                Blob blob = rs.getBlob("FileData");
-                if (blob != null) {
-                    cv.setFileData(blob.getBinaryStream());
-                }
+                cv.setFileData(rs.getString("FileData"));
 
                 cv.setMimeType(rs.getString("MimeType"));
 
@@ -450,10 +439,7 @@ public class CVDAO extends DBContext {
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
 
-                Blob blob = rs.getBlob("FileData");
-                if (blob != null) {
-                    cv.setFileData(blob.getBinaryStream());
-                }
+                cv.setFileData(rs.getString("FileData"));
                 cv.setMimeType(rs.getString("MimeType"));
 
                 // Gắn JobPost Title nếu cần sử dụng trong hiển thị

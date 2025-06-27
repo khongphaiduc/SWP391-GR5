@@ -429,7 +429,7 @@
                 <div class="cv-item-card">
                     <div class="cv-item-header">
                         <div class="cv-item-preview">
-                            <img src="viewCV?cvId=<%= cv.getCvId() %>" alt="CV Preview" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgODAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZjhmOWZhIi8+CjxwYXRoIGQ9Ik00MCA1MEwyNSA2MEw1NSA2MFoiIGZpbGw9IiNkZGQiLz4KPHN2Zz4K'">
+                            <img src="<%= request.getContextPath() + "/img/" + cv.getFileData() %>" alt="CV Preview" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgODAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZjhmOWZhIi8+CjxwYXRoIGQ9Ik00MCA1MEwyNSA2MEw1NSA2MFoiIGZpbGw9IiNkZGQiLz4KPHN2Zz4K'">
                         </div>
                         <div class="cv-item-title">
                             <i class="fas fa-user"></i>

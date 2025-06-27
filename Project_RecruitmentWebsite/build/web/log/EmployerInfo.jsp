@@ -286,8 +286,10 @@
     <body>
         <div class="profile-container">
             <div class="profile-main">
-<!--                <img class="company-avatar" src="viewLogo?name=<%= employer.getNameEmployer() %>" alt="Company Logo" id="companyLogoImg">-->
-                <img class="company-avatar" src="${pageContext.request.contextPath}/img/<%= employer.getImgLogo() %>" id="companyLogoImg" alt="Chưa cập nhật" />
+                <img class="company-avatar"
+                     src="<%= request.getContextPath() + "/img/" + employer.getImgLogo() %>"
+                     id="companyLogoImg"
+                     alt="Chưa cập nhật" />
                 <h2 class="company-name">
                     <%= employer.getNameEmployer() != null && !employer.getNameEmployer().trim().isEmpty() ? employer.getNameEmployer() : "Chưa cập nhật" %>
                 </h2>

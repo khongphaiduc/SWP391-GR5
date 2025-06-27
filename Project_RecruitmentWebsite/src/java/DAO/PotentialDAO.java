@@ -91,17 +91,7 @@ public class PotentialDAO extends DBContext {
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
 
-                try {
-                    Blob blob = rs.getBlob("FileData");
-                    if (blob != null && blob.length() > 0) {
-                        cv.setFileData(blob.getBinaryStream());
-                    } else {
-                        cv.setFileData(null);
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    cv.setFileData(null);
-                }
+                cv.setFileData(rs.getString("FileData"));
 
                 cv.setMimeType(rs.getString("MimeType"));
                 // Tạo và gắn JobPost

@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
@@ -113,11 +114,19 @@ public class candidateProfileServlet extends HttpServlet {
             candidate.setBirthday(birthday);
 
             Part avatarPart = request.getPart("avatar");
-           
 
-            if (avatarPart != null && avatarPart.getSize() > 0) {
-                String appPath = request.getServletContext().getRealPath("");
-                String savedRelativePath = ImageUtil.saveImage(avatarPart, appPath, "candidates");
+            if (avatarPart != null && avatarPart.getSize() > 0 && avatarPart.getSize() < 5000000) {
+
+                Candidate oldCandidate = candidateDAO.getCandidateByName(username);
+                String oldImgPath = oldCandidate.getAvatar();
+
+                String buildPath = request.getServletContext().getRealPath("/");
+                File webFolder = new File(buildPath).getParentFile().getParentFile();
+                String uploadPath = webFolder.getAbsolutePath() + "/web/img/candidates";
+
+                ImageUtil.deleteOldImage(uploadPath.replace("/candidates", ""), oldImgPath);
+
+                String savedRelativePath = ImageUtil.saveImageToWeb(avatarPart, uploadPath, "candidates");
                 candidate.setAvatar(savedRelativePath);
             }
 
