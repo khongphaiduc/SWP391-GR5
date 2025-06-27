@@ -61,8 +61,15 @@
         <servlet-name>vnpayReturn</servlet-name>
         <servlet-class>Controller_VNPay.vnpayReturn</servlet-class>
     </servlet>
-
     <!-- Mapping -->
+    <servlet>
+        <servlet-name>downloadCVServlet</servlet-name>
+        <servlet-class>Controller_CV.downloadCVServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>searchListApplyServlet</servlet-name>
+        <servlet-class>Controller_Apply.searchListApplyServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -123,4 +130,16 @@
         <servlet-name>vnpayReturn</servlet-name>
         <url-pattern>/vnpayReturn</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadCVServlet</servlet-name>
+        <url-pattern>/downloadCV</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>searchListApplyServlet</servlet-name>
+        <url-pattern>/searchListApply</url-pattern>
+    </servlet-mapping>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
 </web-app>
