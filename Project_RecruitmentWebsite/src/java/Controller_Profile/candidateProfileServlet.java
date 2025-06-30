@@ -126,7 +126,7 @@ public class candidateProfileServlet extends HttpServlet {
 
                 ImageUtil.deleteOldImage(uploadPath.replace("/candidates", ""), oldImgPath);
 
-                String savedRelativePath = ImageUtil.saveImageToWeb(avatarPart, uploadPath, "candidates");
+                String savedRelativePath = ImageUtil.saveImage(avatarPart, uploadPath, "candidates");
                 candidate.setAvatar(savedRelativePath);
             }
 

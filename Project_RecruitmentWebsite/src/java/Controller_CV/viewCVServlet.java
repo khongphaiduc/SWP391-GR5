@@ -128,7 +128,7 @@ public class viewCVServlet extends HttpServlet {
                     String buildPath = request.getServletContext().getRealPath("/");
                     File webFolder = new File(buildPath).getParentFile().getParentFile();
                     String uploadPath = webFolder.getAbsolutePath() + "/web/img/cvs";
-                    String savedRelativePath = ImageUtil.saveImageToWeb(filePart, uploadPath, "cvs");
+                    String savedRelativePath = ImageUtil.saveImage(filePart, uploadPath, "cvs");
                     
                     CV oldCV = dao.getCVById(cvId); 
                     String oldImgPath = oldCV.getFileData(); 

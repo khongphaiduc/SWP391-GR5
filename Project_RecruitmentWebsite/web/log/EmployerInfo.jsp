@@ -428,13 +428,14 @@
         <script>
             function openEditModal() {
                 document.getElementById('profileEditModal').style.display = 'flex';
-                document.getElementById('companyEmailInput').value = '<%=employer.getEmail()%>';
-                document.getElementById('companyPhoneInput').value = '<%=employer.getPhoneNumber()%>';
-                document.getElementById('companyNameInput').value = '<%=employer.getCompanyName()%>';
-                document.getElementById('companyDescInput').value = '<%=employer.getDescription()%>';
-                document.getElementById('companyUrlInput').value = '<%=employer.getUrlWebsite()%>';
-                document.getElementById('companyAddressInput').value = '<%=employer.getLocation()%>';
-                document.getElementById('companyTaxCodeInput').value = '<%=employer.getTaxCode()%>';
+                document.getElementById('companyEmailInput').value = '<%= employer.getEmail() != null ? employer.getEmail() : "" %>';
+                document.getElementById('companyPhoneInput').value = '<%= employer.getPhoneNumber() != null ? employer.getPhoneNumber() : "" %>';
+                document.getElementById('companyNameInput').value = '<%= employer.getCompanyName() != null ? employer.getCompanyName() : "" %>';
+                document.getElementById('companyDescInput').value = '<%= employer.getDescription() != null ? employer.getDescription() : "" %>';
+                document.getElementById('companyUrlInput').value = '<%= employer.getUrlWebsite() != null ? employer.getUrlWebsite() : "" %>';
+                document.getElementById('companyAddressInput').value = '<%= employer.getLocation() != null ? employer.getLocation() : "" %>';
+                document.getElementById('companyTaxCodeInput').value = '<%= employer.getTaxCode() != null ? employer.getTaxCode() : "" %>';
+
             }
 
             function closeEditModal() {
@@ -473,8 +474,8 @@
             });
         </script>
         <%
-   String successMessage = (String) request.getAttribute("successMessage");
-   String errorMessage = (String) request.getAttribute("errorMessage");
+        String successMessage = (String) request.getAttribute("successMessage");
+        String errorMessage = (String) request.getAttribute("errorMessage");
         %>
         <script>
             <% if (successMessage != null) { %>

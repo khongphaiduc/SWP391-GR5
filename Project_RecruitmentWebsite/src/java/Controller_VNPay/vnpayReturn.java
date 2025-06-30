@@ -66,7 +66,9 @@ public class vnpayReturn extends HttpServlet {
             if (signValue.equals(vnp_SecureHash)) {
                 String paymentCode = request.getParameter("vnp_TransactionNo");
 
-                int orderId = Integer.parseInt(request.getParameter("vnp_TxnRef"));
+                String fullTxnRef = request.getParameter("vnp_TxnRef");
+                String orderIdStr = fullTxnRef.split("_")[0]; // Lấy phần trước dấu "_"
+                int orderId = Integer.parseInt(orderIdStr);
 
                 boolean transSuccess = false;
                 if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {

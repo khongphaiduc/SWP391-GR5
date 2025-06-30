@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ImageUtil {
-    public static String saveImageToWeb(Part part, String fullUploadPath, String subFolder) throws IOException {
+    public static String saveImage(Part part, String fullUploadPath, String subFolder) throws IOException {
         String fileName = extractFileName(part);
         if (fileName == null || fileName.isEmpty()) {
             return null;

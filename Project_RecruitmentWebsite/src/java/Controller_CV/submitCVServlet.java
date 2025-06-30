@@ -124,16 +124,16 @@ public class submitCVServlet extends HttpServlet {
             String buildPath = request.getServletContext().getRealPath("/");
             File webFolder = new File(buildPath).getParentFile().getParentFile();
             String uploadPath = webFolder.getAbsolutePath() + "/web/img/cvs";
-            String savedRelativePath = ImageUtil.saveImageToWeb(filePart, uploadPath, "cvs");
+            String savedRelativePath = ImageUtil.saveImage(filePart, uploadPath, "cvs");
 
             boolean success = cvdao.addCV(fullName, address, email, position, numberExp, education,
                     field, currentSalary, birthday, candidateId, nationality, gender, savedRelativePath, mimeType);
 
             if (success) {
-                request.setAttribute("message", "Lưu CV thành công");
+                request.setAttribute("successMessage", "Lưu CV thành công");
                 request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
             } else {
-                request.setAttribute("message", "Lưu CV thất bại");
+                request.setAttribute("errorMessage", "Lưu CV thất bại");
                 request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
             }
         } else {

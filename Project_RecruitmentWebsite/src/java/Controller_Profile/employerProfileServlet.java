@@ -106,7 +106,7 @@ public class employerProfileServlet extends HttpServlet {
 
 
                     response.getWriter().print(uploadPath);
-                    String savedRelativePath = ImageUtil.saveImageToWeb(filePart, uploadPath, "employers");
+                    String savedRelativePath = ImageUtil.saveImage(filePart, uploadPath, "employers");
 
                     updateSuccess = employerDAO.updateEmployer(
                             username, email, description, location,

@@ -127,7 +127,7 @@ public class ApplyDAO extends DBContext {
 
     public List<Apply> getAppliesWithJobPostByCandidateID(int candidateID) {
         List<Apply> list = new ArrayList<>();
-        String sql = "SELECT a.*, j.Title, j.Position, j.Offer_Min, j.Offer_Max "
+        String sql = "SELECT a.*, j.Title, j.Location, j.Position ,j.Offer_Min, j.Offer_Max "
                 + "FROM Apply a JOIN JobPost j ON a.JobPost_ID = j.JobPost_ID "
                 + "WHERE a.Candidate_ID = ? ORDER BY a.Apply_ID DESC";
 
@@ -138,9 +138,10 @@ public class ApplyDAO extends DBContext {
                 Apply apply = extractApply(rs);
                 // Gán thêm thông tin từ JobPost
                 apply.setJobTitle(rs.getString("Title"));
-                apply.setJobPosition(rs.getString("Position"));
+                apply.setLocation(rs.getString("Location"));
                 apply.setOfferMin(rs.getDouble("Offer_Min"));
                 apply.setOfferMax(rs.getDouble("Offer_Max"));
+                apply.setJobPosition(rs.getString("Position"));
                 list.add(apply);
             }
         } catch (Exception e) {

@@ -137,8 +137,8 @@
                         <div style="display:flex;align-items:center;gap:7px;margin:8px 0;">
                             <%
                                 String imgSrc = "";
-                                if (isEdit) {
-                                imgSrc = request.getContextPath() + "/img/" + cv.getFileData();
+                                if (isEdit && cv != null && cv.getFileData() != null) {
+                                    imgSrc = request.getContextPath() + "/img/" + cv.getFileData();
                                 }
                             %>
                             <img id="avatar-preview" src="<%= imgSrc %>" alt="Preview"
@@ -151,38 +151,38 @@
                         <label for="birthday">Ngày sinh</label>
                         <input type="date" id="birthday" name="birthday"
                                min="<%= minDate %>" max="<%= maxDate %>"
-                               value="<%= isEdit ? cv.getBirthday() : (candidate != null ? candidate.getBirthday().toString() : "") %>" required>
+                               value="<%= isEdit && cv != null && cv.getBirthday() != null ? cv.getBirthday() : (candidate != null && candidate.getBirthday() != null ? candidate.getBirthday().toString() : "") %>" required>
                     </div>
                     <div class="form-section">
                         <label for="gender">Giới tính</label>
                         <select id="gender" name="gender" required>
                             <option value="">-- Chọn giới tính --</option>
-                            <option value="Nam" <%= "Nam".equals(isEdit ? cv.getGender() : "") ? "selected" : "" %>>Nam</option>
-                            <option value="Nữ" <%= "Nữ".equals(isEdit ? cv.getGender() : "") ? "selected" : "" %>>Nữ</option>
-                            <option value="Khác" <%= "Khác".equals(isEdit ? cv.getGender() : "") ? "selected" : "" %>>Khác</option>
+                            <option value="Nam" <%= "Nam".equals(isEdit && cv != null ? cv.getGender() : "") ? "selected" : "" %>>Nam</option>
+                            <option value="Nữ" <%= "Nữ".equals(isEdit && cv != null ? cv.getGender() : "") ? "selected" : "" %>>Nữ</option>
+                            <option value="Khác" <%= "Khác".equals(isEdit && cv != null ? cv.getGender() : "") ? "selected" : "" %>>Khác</option>
                         </select>
                     </div>
                     <div class="form-section">
                         <label for="nationality">Quốc tịch</label>
                         <input type="text" id="nationality" name="nationality"
-                               value="<%= isEdit ? cv.getNationality() : (candidate != null ? candidate.getNationality() : "") %>" required>
+                               value="<%= isEdit && cv != null && cv.getNationality() != null ? cv.getNationality() : (candidate != null && candidate.getNationality() != null ? candidate.getNationality() : "") %>" required>
                     </div>
                     <div class="form-section">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email"
-                               value="<%= isEdit ? cv.getEmail() : (candidate != null ? candidate.getEmail() : "") %>" required>
+                               value="<%= isEdit && cv != null && cv.getEmail() != null ? cv.getEmail() : (candidate != null && candidate.getEmail() != null ? candidate.getEmail() : "") %>" required>
                     </div>
                     <div class="form-section">
                         <label for="address">Địa chỉ</label>
                         <input type="text" id="address" name="address"
-                               value="<%= isEdit ? cv.getAddress() : (candidate != null ? candidate.getAddress() : "") %>" required>
+                               value="<%= isEdit && cv != null && cv.getAddress() != null ? cv.getAddress() : (candidate != null && candidate.getAddress() != null ? candidate.getAddress() : "") %>" required>
                     </div>
                 </div>
 
                 <!-- Main Content -->
                 <div class="main-content">
                     <% String message = (String) request.getAttribute("message");
-                   if (message != null) { %>
+               if (message != null) { %>
                     <div class="message-box"><%= message %></div>
                     <% } %>
 
@@ -190,42 +190,42 @@
                         <div class="section-title">THÔNG TIN CÁ NHÂN</div>
                         <label for="fullName">Họ và tên</label>
                         <input type="text" id="fullName" name="fullName"
-                               value="<%= isEdit ? cv.getFullName() :  "" %>" required>
+                               value="<%= isEdit && cv != null && cv.getFullName() != null ? cv.getFullName() : "" %>" required>
                     </div>
 
                     <div class="form-section">
                         <div class="section-title">MỤC TIÊU NGHỀ NGHIỆP</div>
                         <label for="position">Vị trí mong muốn</label>
                         <input type="text" id="position" name="position"
-                               value="<%= isEdit ? cv.getPosition() : "" %>" required>
+                               value="<%= isEdit && cv != null && cv.getPosition() != null ? cv.getPosition() : "" %>" required>
                     </div>
 
                     <div class="form-section">
                         <div class="section-title">KINH NGHIỆM LÀM VIỆC</div>
                         <label for="numberExp">Số năm kinh nghiệm</label>
                         <input type="number" id="numberExp" name="numberExp" min="0" max="65"
-                               value="<%= isEdit ? cv.getNumberExp() : "" %>" required>
+                               value="<%= isEdit && cv != null ? cv.getNumberExp() : "" %>" required>
                     </div>
 
                     <div class="form-section">
                         <div class="section-title">HỌC VẤN</div>
                         <label for="education">Trình độ học vấn</label>
                         <input type="text" id="education" name="education"
-                               value="<%= isEdit ? cv.getEducation() : "" %>" required>
+                               value="<%= isEdit && cv != null && cv.getEducation() != null ? cv.getEducation() : "" %>" required>
                     </div>
 
                     <div class="form-section">
                         <div class="section-title">KỸ NĂNG</div>
                         <label for="field">Lĩnh vực chuyên môn</label>
                         <input type="text" id="field" name="field"
-                               value="<%= isEdit ? cv.getField() : "" %>" required>
+                               value="<%= isEdit && cv != null && cv.getField() != null ? cv.getField() : "" %>" required>
                     </div>
 
                     <div class="form-section">
                         <div class="section-title">MỨC LƯƠNG HIỆN TẠI</div>
                         <label for="currentSalary">Mức lương hiện tại (VND)</label>
                         <input type="number" id="currentSalary" name="currentSalary" min="0" step="1000"
-                               value="<%= isEdit ? cv.getCurrentSalary() : "" %>" required>
+                               value="<%= isEdit && cv != null ? cv.getCurrentSalary() : "" %>" required>
                     </div>
 
                     <button type="submit" class="submit-btn"><%= isEdit ? "Lưu thay đổi" : "Lưu CV" %></button>
@@ -233,5 +233,28 @@
             </div>
         </form>
         <%@ include file="footer.jsp" %>
+        
+        
+        <%
+        String successMessage = (String) request.getAttribute("successMessage");
+        String errorMessage = (String) request.getAttribute("errorMessage");
+        %>
+        <script>
+            <% if (successMessage != null) { %>
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: '<%= successMessage %>',
+                confirmButtonText: 'OK'
+            });
+            <% } else if (errorMessage != null) { %>
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: '<%= errorMessage %>',
+                confirmButtonText: 'OK'
+            });
+            <% } %>
+        </script>
     </body>
 </html>
