@@ -62,7 +62,7 @@
             const contentchat = document.getElementById('chatInput');
 
             chatForm.addEventListener('submit', function (event) {
-                event.preventDefault();
+                event.preventDefault(); 
                 const message = contentchat.value.trim();
                 if (message === "")
                     return;
@@ -72,11 +72,13 @@
                 div.innerHTML = `<img class="avatar" src="` + IgmageUser + `" alt="User avatar" onerror="this.src='/images/user-avatar.png'"><div class="content">` + message + `</div>`;
                 chatbody.appendChild(div);
 
+
+//
                 websocket.send(JSON.stringify({
                     type: 'private',
-                    to: SUPPORT_USERNAME, // tên người nhận              
-                    message: message, // nội dung tin nhắn
-                    avatar: IgmageUser                // avatar người gửi 
+                    to: SUPPORT_USERNAME,           
+                    message: message,
+                    avatar: IgmageUser              
                 }));
 
                 contentchat.value = '';
@@ -121,7 +123,7 @@
                              
                              if(msg.from === nameuser){
                                  // avatar thằng user
-                                 avatarTemporary ='https://th.bing.com/th/id/OIP.zq0n_-NQa8XL8mWG4JNp5gHaHa?rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3';
+                                 avatarTemporary =IgmageUser;
                              }else{
                                  //avatar thằng admin
                                   avatarTemporary ='https://cdn.tuoitre.vn/thumb_w/640/471584752817336320/2023/2/13/tieu-su-ca-si-rose-blackpink-12-167628252304049682913.jpg';

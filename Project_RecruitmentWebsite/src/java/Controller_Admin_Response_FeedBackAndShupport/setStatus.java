@@ -1,8 +1,7 @@
-package Controller_ReloadMessageSideUser;
 
-import DAO_Chat.getUserListChatWithSupport;
-import jakarta.json.Json;
-import jakarta.json.JsonArrayBuilder;
+package Controller_Admin_Response_FeedBackAndShupport;
+
+import DAO.ReportDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -10,10 +9,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
-@WebServlet(name = "ReloadUserListSideSupprter", urlPatterns = {"/ReloadUserListSideSupprter"})
-public class ReloadUserListSideSupprter extends HttpServlet {
+@WebServlet(name = "setStatus", urlPatterns = {"/setStatus"})
+public class setStatus extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -23,10 +21,10 @@ public class ReloadUserListSideSupprter extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ReloadUserListSideSupprter</title>");
+            out.println("<title>Servlet setStatus</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ReloadUserListSideSupprter at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet setStatus at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -35,27 +33,23 @@ public class ReloadUserListSideSupprter extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         try {
-            getUserListChatWithSupport dbUserList = new getUserListChatWithSupport();
-            String support = request.getParameter("support");  // tìm  những thằng nào đã từng chát với user
+            String idReport = request.getParameter("idReport");
+            String newStatus = request.getParameter("newStatus");
 
-            List<String> listUser = dbUserList.getUserListChatWithSupports(support);
+            ReportDAO resportDAO = new ReportDAO();
 
-            JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+            boolean result = resportDAO.setNewStatusReport(newStatus, idReport);
 
-            for (String s : listUser) {
-                arrayBuilder.add(Json.createObjectBuilder()
-                        .add("id", s)
-                        .add("name", s)
-                        .add("avatar", " "));
+            if (result) {
+                response.setStatus(200);
+            } else {
+                response.setStatus(500);
             }
-            response.setContentType("application/json");
-            response.getWriter().write(arrayBuilder.build().toString());
-        } catch (Exception e) {
-            System.out.println("Bug tại Servlet ReloadUserListSideSupprter : " + e.getMessage());
-        }
 
+        } catch (Exception e) {
+            System.out.println("Bug tại servlet setStatus :"+e.getMessage());
+        }
     }
 
     @Override

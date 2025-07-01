@@ -59,17 +59,17 @@ public class FeebBackAndSupport extends HttpServlet {
             HttpSession session = request.getSession();
             String idUser = (String) session.getAttribute("idUser");
             String idRole = (String) session.getAttribute("role");
-           
+
             String content = request.getParameter("content");
             String titel = request.getParameter("titel");
             String phoneSender = request.getParameter("phone");
-            String idAdminSupport = "1";                 // gửi  tới 
+
             Part imageFIle = request.getPart("fileReport");
             String checktype = imageFIle.getContentType();
 
             if (checktype.startsWith("video/")) {
                 request.setAttribute("statusReport", "Vui lòng chỉ gửi hình ảnh");
-                 request.setAttribute("content", content);
+                request.setAttribute("content", content);
                 request.getRequestDispatcher("ViewActionMenu/FeedbackAndReport.jsp").forward(request, response);
                 return;
             }
@@ -83,9 +83,8 @@ public class FeebBackAndSupport extends HttpServlet {
             SupportUserDAO reportDAO = new SupportUserDAO();
 
             // sửa 
-            
-            String urlforderSaveImageFeedBack = ImageUtil.saveImage(imageFIle,"D:/","FeedbackAndSuopport");
-            result = reportDAO.sendReportAndFeebBack(idUser, idRole, phoneSender, titel, content, urlforderSaveImageFeedBack, idAdminSupport);
+            String urlforderSaveImageFeedBack = ImageUtil.saveImage(imageFIle, "D:/", "FeedbackAndSuopport");   // lưu ảnh 
+            result = reportDAO.sendReportAndFeebBack(idUser, idRole, phoneSender, titel, content, urlforderSaveImageFeedBack, null);
 
             System.out.println(result == true ? "Gửi thành công " : "Fail cmnr");
             statusReport = result == true ? "Người hỗ trợ của chúng tỗi sẽ liên hệ lại với bạn thông qua số điện thoại,xin quý khách để ý điện thoại  " : "Gửi Thất Bại";
