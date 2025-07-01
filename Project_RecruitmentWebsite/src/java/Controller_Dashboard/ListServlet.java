@@ -2,9 +2,11 @@ package Controller_Dashboard;
 
 import DAO.CandidateDAO;
 import DAO.EmployerDAO;
+import DAO.OrderDAO;
 import DAO.ServiceDAO;
 import Models.Candidate;
 import Models.Employer;
+import Models.Order;
 import Models.Service;
 
 import java.io.IOException;
@@ -73,6 +75,10 @@ public class ListServlet extends HttpServlet {
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("type", type);
+
+        OrderDAO dao = new OrderDAO();
+        List<Order> orders = dao.getAllOrdersWithEmployerAndService();
+        request.setAttribute("orders", orders);
 
         request.getRequestDispatcher("viewuser.jsp").forward(request, response);
     }

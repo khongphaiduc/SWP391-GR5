@@ -14,10 +14,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.OutputStream;
 import Models.*;
+import MyService.ImageUtil;
 import dal.*;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import java.io.File;
 import java.sql.*;
 
 /**
@@ -65,29 +67,29 @@ public class viewCVServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int cvId = Integer.parseInt(request.getParameter("cvId"));
-        CVDAO cvdao = new CVDAO();
-
-        CV cv = cvdao.getCVById(cvId);
-
-        if (cv != null && cv.getFileData() != null) {
-            String mimeType = cv.getMimeType();
-            response.setContentType(mimeType);
-
-            InputStream inputStream = cv.getFileData();
-            OutputStream out = response.getOutputStream();
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                out.write(buffer, 0, bytesRead);
-            }
-
-            inputStream.close();
-            out.flush();
-        } else {
-            response.getWriter().write("Không tìm thấy CV hoặc file.");
-        }
+//        int cvId = Integer.parseInt(request.getParameter("cvId"));
+//        CVDAO cvdao = new CVDAO();
+//
+//        CV cv = cvdao.getCVById(cvId);
+//
+//        if (cv != null && cv.getFileData() != null) {
+//            String mimeType = cv.getMimeType();
+//            response.setContentType(mimeType);
+//
+//            InputStream inputStream = cv.getFileData();
+//            OutputStream out = response.getOutputStream();
+//            byte[] buffer = new byte[4096];
+//            int bytesRead;
+//
+//            while ((bytesRead = inputStream.read(buffer)) != -1) {
+//                out.write(buffer, 0, bytesRead);
+//            }
+//
+//            inputStream.close();
+//            out.flush();
+//        } else {
+//            response.getWriter().write("Không tìm thấy CV hoặc file.");
+//        }
     }
 
     /**
@@ -116,21 +118,28 @@ public class viewCVServlet extends HttpServlet {
             Date birthday = Date.valueOf(request.getParameter("birthday"));
             String nationality = request.getParameter("nationality");
             String gender = request.getParameter("gender");
-            
-            
+
             Part filePart = request.getPart("CVFile");
-            InputStream inputStream = filePart.getInputStream();
             String mimeType = filePart.getContentType();
             CVDAO dao = new CVDAO();
             boolean updated = false;
             if (filePart != null && filePart.getSize() > 0) {
                 if (mimeType.startsWith("image/") && filePart.getSize() < 3000000) {
+                    String buildPath = request.getServletContext().getRealPath("/");
+                    File webFolder = new File(buildPath).getParentFile().getParentFile();
+                    String uploadPath = webFolder.getAbsolutePath() + "/web/img/cvs";
+                    String savedRelativePath = ImageUtil.saveImage(filePart, uploadPath, "cvs");
+                    
+                    CV oldCV = dao.getCVById(cvId); 
+                    String oldImgPath = oldCV.getFileData(); 
+                    ImageUtil.deleteOldImage(uploadPath.replace("/cvs", ""), oldImgPath);
+
                     updated = dao.editCVById(cvId, fullName, address, email,
                             position, numberExp, education,
                             field, currentSalary, birthday, nationality, gender,
-                            inputStream, mimeType);
+                            savedRelativePath, mimeType);
                 } else {
-                    request.setAttribute("error", "Bạn cần chọn file ảnh(.png, jpg) nhỏ hơn 1MB để đăng lên");
+                    request.setAttribute("error", "Bạn cần chọn file ảnh(.png, jpg) nhỏ hơn 3MB để đăng lên");
                     request.getRequestDispatcher("candidateCV_view/editCV.jsp").forward(request, response);
                 }
             } else {
@@ -143,7 +152,6 @@ public class viewCVServlet extends HttpServlet {
 //            PrintWriter out = response.getWriter();
 //            out.print(inputStream);
 //            out.print(updated);
-            
             if (updated) {
                 response.sendRedirect("manageCreatedCV");
             } else {

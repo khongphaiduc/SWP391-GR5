@@ -6,6 +6,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="java.text.DecimalFormatSymbols" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 
 
 <%
@@ -475,6 +477,25 @@
             </div>
         </div>
 
+
+        <div style="text-align: center;">
+        <!-- Nội dung căn giữa -->
+        <a href="adminOrder" style="
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;"
+            onmouseover="this.style.backgroundColor='#0056b3'"
+            onmouseout="this.style.backgroundColor='#007bff'">
+            📦 View Orders
+        </a>
+    </div>
+
         <!-- User Management Table Section -->
         <div class="container pb-5">
             <div class="table-section fade-in-up">
@@ -730,6 +751,7 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
+
                                             <form method="post" action="list" style="display:inline;">
                                                 <input type="hidden" name="action" value="toggleVisibility"/>
                                                 <input type="hidden" name="serviceId" value="${service.serviceId}"/>
@@ -746,13 +768,12 @@
                                                title="Edit Service">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-
-                                            <a class="action-btn btn-delete"
-                                               href="delete-servicepackage?id=${service.serviceId}"
-                                               onclick="return confirm('Are you sure you want to delete this service?');"
-                                               title="Delete Service">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
+                                                <a class="action-btn btn-delete"
+                                                   href="delete-servicepackage?id=${service.serviceId}"
+                                                   onclick="return confirm('Are you sure you want to delete this service?');"
+                                                   title="Delete Service">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
 
                                         </div>
                                     </td>
@@ -765,6 +786,7 @@
                             </c:if>
                         </tbody>
                     </table>
+
                     <div class="d-flex justify-content-center mt-4">
                         <nav>
                             <ul class="pagination">
@@ -814,43 +836,43 @@
         <!-- Scripts -->
         <script src="js/bootstrap.bundle.min.js"></script>
         <script>
-                                                   document.addEventListener('DOMContentLoaded', function () {
-                                                       // Animate stats on scroll
-                                                       const statsCards = document.querySelectorAll('.stats-card');
-                                                       const observer = new IntersectionObserver((entries) => {
-                                                           entries.forEach(entry => {
-                                                               if (entry.isIntersecting) {
-                                                                   entry.target.style.animationDelay = Math.random() * 100 + 'ms';
-                                                                   entry.target.classList.add('fade-in-up');
-                                                               }
+                                                       document.addEventListener('DOMContentLoaded', function () {
+                                                           // Animate stats on scroll
+                                                           const statsCards = document.querySelectorAll('.stats-card');
+                                                           const observer = new IntersectionObserver((entries) => {
+                                                               entries.forEach(entry => {
+                                                                   if (entry.isIntersecting) {
+                                                                       entry.target.style.animationDelay = Math.random() * 100 + 'ms';
+                                                                       entry.target.classList.add('fade-in-up');
+                                                                   }
+                                                               });
+                                                           });
+
+                                                           statsCards.forEach(card => {
+                                                               observer.observe(card);
+                                                           });
+
+                                                           // Enhanced delete confirmation for both tables
+                                                           document.querySelectorAll('.btn-delete').forEach(btn => {
+                                                               btn.addEventListener('click', function (e) {
+                                                                   e.preventDefault();
+                                                                   const name = this.closest('tr').querySelector('td:nth-child(2) .fw-bold')?.textContent || 'this item';
+                                                                   const isService = this.closest('.table-section').querySelector('h3').textContent.includes('Service');
+                                                                   const confirmMessage = isService
+                                                                           ? `Are you sure you want to delete the service "${name}"?\n\nThis action cannot be undone and will permanently remove all associated data.`
+                                                                           : `Are you sure you want to delete the account "${name}"?\n\nThis action cannot be undone and will permanently remove all associated data.`;
+                                                                   if (confirm(confirmMessage)) {
+                                                                       window.location.href = this.href;
+                                                                   }
+                                                               });
+                                                           });
+
+                                                           // Add tooltips for better UX
+                                                           const tooltipTriggerList = document.querySelectorAll('[title]');
+                                                           tooltipTriggerList.forEach(triggerEl => {
+                                                               new bootstrap.Tooltip(triggerEl);
                                                            });
                                                        });
-
-                                                       statsCards.forEach(card => {
-                                                           observer.observe(card);
-                                                       });
-
-                                                       // Enhanced delete confirmation for both tables
-                                                       document.querySelectorAll('.btn-delete').forEach(btn => {
-                                                           btn.addEventListener('click', function (e) {
-                                                               e.preventDefault();
-                                                               const name = this.closest('tr').querySelector('td:nth-child(2) .fw-bold')?.textContent || 'this item';
-                                                               const isService = this.closest('.table-section').querySelector('h3').textContent.includes('Service');
-                                                               const confirmMessage = isService
-                                                                       ? `Are you sure you want to delete the service "${name}"?\n\nThis action cannot be undone and will permanently remove all associated data.`
-                                                                       : `Are you sure you want to delete the account "${name}"?\n\nThis action cannot be undone and will permanently remove all associated data.`;
-                                                               if (confirm(confirmMessage)) {
-                                                                   window.location.href = this.href;
-                                                               }
-                                                           });
-                                                       });
-
-                                                       // Add tooltips for better UX
-                                                       const tooltipTriggerList = document.querySelectorAll('[title]');
-                                                       tooltipTriggerList.forEach(triggerEl => {
-                                                           new bootstrap.Tooltip(triggerEl);
-                                                       });
-                                                   });
         </script>
         <c:if test="${not empty message}">
             <div id="toast-message" class="toast-msg ${messageType == 'success' ? 'toast-success' : 'toast-error'}">

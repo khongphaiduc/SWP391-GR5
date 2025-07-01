@@ -314,6 +314,7 @@
 
                                 <div class="card-subtext mb-3">* Giá trên chưa bao gồm VAT</div>
                                 <form action="${pageContext.request.contextPath}/ajaxServlet" method="post">
+                                    <input type="hidden" name="serviceId" value="${s.serviceId}" />
                                     <input type="hidden" name="totalBill" value="${s.price}" />
                                     <input type="hidden" name="language" value="vn" />
                                     <button type="submit" class="btn btn-consult w-100 mb-3">Chọn mua dịch vụ</button>

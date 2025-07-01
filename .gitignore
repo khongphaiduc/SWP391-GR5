@@ -1,1 +1,60 @@
+<<<<<<< HEAD
+# ========== JAVA COMPILED FILES ==========
+*.class
+*.jar
+*.war
+*.ear
+
+# ========== BUILD OUTPUT ==========
+/build/
+/dist/
+/**/build/
+/**/dist/
+/Project_RecruitmentWebsite/build/
+/Project_RecruitmentWebsite/dist/
+
+# ========== IDE SETTINGS ==========
+# NetBeans
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# VSCode
+.vscode/
+
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========== OS-GENERATED FILES ==========
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# ========== LOG & TEMP ==========
+*.log
+*.tmp
+*.bak
+*.swp
+
+# ========== FILES YOU LIKELY DON’T WANT TO TRACK ==========
+*.class
+*.exe
+*.dll
+*.so
+*.out
+*.pyc
+*.pyo
+*.pdf
+
+# ========== USER-SPECIFIC FILES ==========
+*.user
+*.suo
+*.orig
+=======
 "nbproject/private/" 
+>>>>>>> 693a1228dbd1edafcb1b4dcef0e446c110375492

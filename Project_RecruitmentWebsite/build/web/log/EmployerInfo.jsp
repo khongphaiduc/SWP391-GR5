@@ -284,12 +284,12 @@
 
     </head>
     <body>
-
         <div class="profile-container">
-
-
             <div class="profile-main">
-                <img class="company-avatar" src="viewLogo?name=<%= employer.getNameEmployer() %>" alt="Company Logo" id="companyLogoImg">
+                <img class="company-avatar"
+                     src="<%= request.getContextPath() + "/img/" + employer.getImgLogo() %>"
+                     id="companyLogoImg"
+                     alt="Chưa cập nhật" />
                 <h2 class="company-name">
                     <%= employer.getNameEmployer() != null && !employer.getNameEmployer().trim().isEmpty() ? employer.getNameEmployer() : "Chưa cập nhật" %>
                 </h2>
@@ -328,6 +328,12 @@
                         <span class="info-label">Số điện thoại</span>
                         <span class="info-value">
                             <%= employer.getPhoneNumber() != null && !employer.getPhoneNumber().trim().isEmpty() ? employer.getPhoneNumber() : "Chưa cập nhật" %>
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Mã số thuế</span>
+                        <span class="info-value">
+                            <%= employer.getTaxCode() != null && !employer.getTaxCode().trim().isEmpty() ? employer.getTaxCode() : "Chưa cập nhật" %>
                         </span>
                     </div>
                 </div>
@@ -409,6 +415,10 @@
                             <span id="logoFilenameDisplay" class="avatar-filename"></span>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="form-label">Mã số thuế</label>
+                        <input type="text" name="taxCode" id="companyTaxCodeInput" class="form-input" required>
+                    </div>
 
                     <button type="submit" class="save-btn">Lưu thông tin</button>
                 </form>
@@ -418,12 +428,14 @@
         <script>
             function openEditModal() {
                 document.getElementById('profileEditModal').style.display = 'flex';
-                document.getElementById('companyEmailInput').value = '<%=employer.getEmail()%>';
-                document.getElementById('companyPhoneInput').value = '<%=employer.getPhoneNumber()%>';
-                document.getElementById('companyNameInput').value = '<%=employer.getCompanyName()%>';
-                document.getElementById('companyDescInput').value = '<%=employer.getDescription()%>';
-                document.getElementById('companyUrlInput').value = '<%=employer.getUrlWebsite()%>';
-                document.getElementById('companyAddressInput').value = '<%=employer.getLocation()%>';
+                document.getElementById('companyEmailInput').value = '<%= employer.getEmail() != null ? employer.getEmail() : "" %>';
+                document.getElementById('companyPhoneInput').value = '<%= employer.getPhoneNumber() != null ? employer.getPhoneNumber() : "" %>';
+                document.getElementById('companyNameInput').value = '<%= employer.getCompanyName() != null ? employer.getCompanyName() : "" %>';
+                document.getElementById('companyDescInput').value = '<%= employer.getDescription() != null ? employer.getDescription() : "" %>';
+                document.getElementById('companyUrlInput').value = '<%= employer.getUrlWebsite() != null ? employer.getUrlWebsite() : "" %>';
+                document.getElementById('companyAddressInput').value = '<%= employer.getLocation() != null ? employer.getLocation() : "" %>';
+                document.getElementById('companyTaxCodeInput').value = '<%= employer.getTaxCode() != null ? employer.getTaxCode() : "" %>';
+
             }
 
             function closeEditModal() {
@@ -462,8 +474,8 @@
             });
         </script>
         <%
-   String successMessage = (String) request.getAttribute("successMessage");
-   String errorMessage = (String) request.getAttribute("errorMessage");
+        String successMessage = (String) request.getAttribute("successMessage");
+        String errorMessage = (String) request.getAttribute("errorMessage");
         %>
         <script>
             <% if (successMessage != null) { %>

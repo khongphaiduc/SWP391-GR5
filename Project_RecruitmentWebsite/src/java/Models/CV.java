@@ -26,7 +26,7 @@ public class CV {
     private java.sql.Date birthday;
     private String nationality;
     private String gender;
-    InputStream FileData;
+    String FileData;
     private String mimeType;
 
     //thêm jobPost để lấy JobTitle
@@ -51,7 +51,10 @@ public class CV {
         this.step = step;
     }
 
-    public CV(int cvId, int candidateId, String fullName, String address, String email, String position, int numberExp, String education, String field, double currentSalary, Date birthday, String nationality, String gender, InputStream FileData, String mimeType) {
+    public CV(int cvId, int candidateId, String fullName, String address,
+            String email, String position, int numberExp, String education,
+            String field, double currentSalary, Date birthday,
+            String nationality, String gender, String FileData, String mimeType) {
         this.cvId = cvId;
         this.candidateId = candidateId;
         this.fullName = fullName;
@@ -73,11 +76,11 @@ public class CV {
     public CV() {
     }
 
-    public InputStream getFileData() {
+    public String getFileData() {
         return FileData;
     }
 
-    public void setFileData(InputStream FileData) {
+    public void setFileData(String FileData) {
         this.FileData = FileData;
     }
 

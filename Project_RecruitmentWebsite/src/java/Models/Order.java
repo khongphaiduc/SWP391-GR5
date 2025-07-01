@@ -11,6 +11,27 @@ public class Order {
     private String payMethod;
     private Date date;
     private String status;
+    
+    private Employer employer;
+    private Service service;
+
+    public Employer getEmployer() {
+        return employer;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
+    
+    
 
     public Order(int aInt, int aInt0, int aInt1, double aDouble, String string, String string0, Timestamp timestamp) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -84,4 +105,11 @@ public class Order {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" + "orderId=" + orderId + ", employerId=" + employerId + ", serviceId=" + serviceId + ", amount=" + amount + ", payMethod=" + payMethod + ", date=" + date + ", status=" + status + '}';
+    }
+    
+    
 }

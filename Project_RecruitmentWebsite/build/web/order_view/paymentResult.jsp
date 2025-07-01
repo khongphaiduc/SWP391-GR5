@@ -29,7 +29,18 @@
                         Bạn đã giao dịch thành công! 
                         <i class="fas fa-check-circle"></i>
                     </h3>
-                    <a href="index.jsp" style="font-size: 18px; margin-top: 15px;">Về trang chủ:</a>
+                    <a href="${pageContext.request.contextPath}/index.jsp" style="font-size: 18px; margin-top: 15px;">Về trang chủ</a>
+
+                </div>
+            </c:if>
+
+            <c:if test="${check}">
+                <div>
+                    <h3 style="font-weight: bold; color: #28a745;">
+                        Thao tác gây lỗi! 
+                        <i class="fas fa-check-circle"></i>
+                    </h3>
+                    <a href="${pageContext.request.contextPath}/index.jsp" style="font-size: 18px; margin-top: 15px;">Về trang chủ</a>
 
                 </div>
             </c:if>
@@ -41,7 +52,7 @@
                         Đơn hàng giao dịch thất bại!
                     </h3>
                     <p style="font-size: 18px; margin-top: 15px;">Cảm ơn quý khách đã dùng dịch vụ của chúng tôi.</p>
-                    <a href="index.jsp" style="font-size: 18px; margin-top: 15px;">Về trang chủ:</a>
+                    <a href="${pageContext.request.contextPath}/index.jsp" style="font-size: 18px; margin-top: 15px;">Về trang chủ</a>
                 </div>
             </c:if>
 
@@ -49,7 +60,7 @@
             <c:if test="${transResult == null}">
                 <div>
                     <h3 style="font-weight: bold; color: #ffc107;">
-                        Chúng tôi đã tiếp nhận đơn hàng, xin chờ quá trình xử lý!
+                        Thao tác của bạn gây lỗi!
                     </h3>
                     <a href="index.jsp" style="font-size: 18px; margin-top: 15px;">Về trang chủ:</a>
 

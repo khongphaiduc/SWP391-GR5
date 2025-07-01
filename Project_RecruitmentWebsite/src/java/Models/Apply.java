@@ -20,8 +20,62 @@ public class Apply {
     private String jobPosition;
     private double offerMin;
     private double offerMax;
+    private String location;
+    private String category;
+    private String typeJob;
+    private String companyName;
+    private int numberExp;
+    
+    public void setCv_ID(int cv_ID) {
+        this.cv_ID = cv_ID;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setTypeJob(String typeJob) {
+        this.typeJob = typeJob;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
 
 // Getter & Setter
+    public void setNumberExp(int numberExp) {
+        this.numberExp = numberExp;
+    }
+
+    public int getCv_ID() {
+        return cv_ID;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getTypeJob() {
+        return typeJob;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public int getNumberExp() {
+        return numberExp;
+    }
+    
+    
     public String getJobTitle() {
         return jobTitle;
     }

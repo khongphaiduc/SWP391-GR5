@@ -4,6 +4,7 @@ import Models.Candidate;
 import DAO.CandidateDAO;
 import DAO.RegisterCandidateUser;
 import DAO.RegisterEmployerUser;
+import MyService.ImageUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
@@ -112,9 +114,20 @@ public class candidateProfileServlet extends HttpServlet {
             candidate.setBirthday(birthday);
 
             Part avatarPart = request.getPart("avatar");
-            if (avatarPart != null && avatarPart.getSize() > 0) {
-                InputStream inputStream = avatarPart.getInputStream();
-                candidate.setAvatar(inputStream);
+
+            if (avatarPart != null && avatarPart.getSize() > 0 && avatarPart.getSize() < 5000000) {
+
+                Candidate oldCandidate = candidateDAO.getCandidateByName(username);
+                String oldImgPath = oldCandidate.getAvatar();
+
+                String buildPath = request.getServletContext().getRealPath("/");
+                File webFolder = new File(buildPath).getParentFile().getParentFile();
+                String uploadPath = webFolder.getAbsolutePath() + "/web/img/candidates";
+
+                ImageUtil.deleteOldImage(uploadPath.replace("/candidates", ""), oldImgPath);
+
+                String savedRelativePath = ImageUtil.saveImage(avatarPart, uploadPath, "candidates");
+                candidate.setAvatar(savedRelativePath);
             }
 
             boolean updateSuccess = candidateDAO.updateCandidate(candidate);

@@ -65,7 +65,7 @@ public class PotentialDAO extends DBContext {
                 + "       JP.JobPost_ID, JP.Title, JP.Position AS JP_Position, JP.Location, "
                 + "       A.Step "
                 + "FROM Potential P "
-                + "JOIN CV ON P.CV_ID = CV.CV_ID "
+                + "JOIN CV ON P.CV_ID = A.Apply_ID "
                 + "JOIN Apply A ON CV.CV_ID = A.CV_ID "
                 + "JOIN JobPost JP ON A.JobPost_ID = JP.JobPost_ID "
                 + "WHERE P.Employer_ID = ? "
@@ -94,17 +94,8 @@ public class PotentialDAO extends DBContext {
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
 
-                try {
-                    Blob blob = rs.getBlob("FileData");
-                    if (blob != null && blob.length() > 0) {
-                        cv.setFileData(blob.getBinaryStream());
-                    } else {
-                        cv.setFileData(null);
-                    }
-                } catch (Exception e) {
-                    cv.setFileData(null);
-                    e.printStackTrace();
-                }
+                cv.setFileData(rs.getString("FileData"));
+
 
                 cv.setMimeType(rs.getString("MimeType"));
 
@@ -268,18 +259,8 @@ public class PotentialDAO extends DBContext {
                 cv.setBirthday(rs.getDate("Birthday"));
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
-
-                try {
-                    Blob blob = rs.getBlob("FileData");
-                    if (blob != null && blob.length() > 0) {
-                        cv.setFileData(blob.getBinaryStream());
-                    } else {
-                        cv.setFileData(null);
-                    }
-                } catch (Exception e) {
-                    cv.setFileData(null);
-                    e.printStackTrace();
-                }
+                cv.setFileData(rs.getString("FileData"));
+                
 
                 cv.setMimeType(rs.getString("MimeType"));
 

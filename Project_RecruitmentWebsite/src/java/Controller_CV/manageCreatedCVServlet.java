@@ -88,7 +88,7 @@ public class manageCreatedCVServlet extends HttpServlet {
                 pageSize = Integer.parseInt(request.getParameter("pageSize"));
             }
             session.setAttribute("pageSize", pageSize);
-            
+
             int totalCV = cvList.size();
             int totalPages = (int) Math.ceil((double) totalCV / pageSize);
             int fromIndex = (page - 1) * pageSize;
@@ -127,9 +127,10 @@ public class manageCreatedCVServlet extends HttpServlet {
         CVDAO cvdao = new CVDAO();
         CV cv = cvdao.getCVById(cvId);
         if ("edit".equals(action)) {
+            request.setAttribute("isEdit", true);
 
             request.setAttribute("editedCV", cv);
-            request.getRequestDispatcher("candidateCV_view/editCV.jsp").forward(request, response);
+            request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
 
         } else if ("delete".equals(action)) {
 

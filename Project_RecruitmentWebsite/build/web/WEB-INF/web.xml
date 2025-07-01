@@ -66,6 +66,14 @@
         <servlet-name>downloadCVServlet</servlet-name>
         <servlet-class>Controller_CV.downloadCVServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>searchListApplyServlet</servlet-name>
+        <servlet-class>Controller_Apply.searchListApplyServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>adminOrder</servlet-name>
+        <servlet-class>Controller_Dashboard.adminOrder</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -130,9 +138,16 @@
         <servlet-name>downloadCVServlet</servlet-name>
         <url-pattern>/downloadCV</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>searchListApplyServlet</servlet-name>
+        <url-pattern>/searchListApply</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminOrder</servlet-name>
+        <url-pattern>/adminOrder</url-pattern>
+    </servlet-mapping>
     <error-page>
         <error-code>404</error-code>
         <location>/404.jsp</location>
     </error-page>
-
 </web-app>
