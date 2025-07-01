@@ -70,7 +70,8 @@ public class IsAdminDAO extends DBContext {
 
     public static void main(String[] args) {
         IsAdminDAO o = new IsAdminDAO();
-        System.out.println(o.isAdmin("admin"));
-        System.out.println(o.LogInAccountAdmin("admin", "12341234"));
+        //System.out.println(EncodePassword.encodePasswordbyHash("123456"));
+        System.out.println(o.isAdmin("admin99"));
+        System.out.println(o.LogInAccountAdmin("admin99", "123456"));
     }
 }

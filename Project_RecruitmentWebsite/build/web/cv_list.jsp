@@ -201,7 +201,8 @@
                 <!-- Sidebar -->
                 <div class="col-md-3">
                     <div class="sidebar">
-                        <form action="SearchCVsServlet" method="get">
+                        <form action="cv-list" method="get">
+                            <input type="hidden" name="jobPostId" value="${jobPostId}" />
                             <h3>Tìm kiếm theo keywords</h3>
                             <input type="text" name="keyword" class="form-control" placeholder="VD: Lập Trình Viên, Hà Nội, ..." value="${param.keyword}">
 
@@ -226,18 +227,13 @@
                             <button type="submit" class="btn btn-find-job w-100 mt-4">Tìm CV</button>
                         </form>
                     </div>
-                </div>
+                </div>         
 
-                <!-- Main Content -->
+                <!-- Trong phần MAIN CONTENT -->
                 <div class="col-md-9">
                     <div class="main-content">
-                        <c:if test="${not empty cvList}">
-                            <c:set var="cv" value="${cvList[0]}" /> <!-- chỉ cần lấy từ một cv được apply vào job -->
-                        </c:if>
-                        
-                        <h2>Danh sách CV đã ứng tuyển vào: ${cv.jobPost.title}</h2>
 
-                        <!-- Display success or error messages -->
+                        <!-- Thông báo -->
                         <c:if test="${not empty message}">
                             <div class="alert alert-success">${message}</div>
                         </c:if>
@@ -245,16 +241,30 @@
                             <div class="alert alert-danger">${error}</div>
                         </c:if>
 
-                        <div class="results-info">
-                            <span>Số lượng: <strong>${fn:length(cvList)}</strong> CV</span>
-                            <div class="view-options">
-                                <button class="btn btn-outline-secondary active" onclick="showView('grid')">Grid</button>
-                                <button class="btn btn-outline-secondary" onclick="showView('list')">List</button>
+                        <!-- Hiển thị tiêu đề JobPost nếu có ít nhất 1 CV -->
+                        <c:choose>
+                            <c:when test="${not empty cvList}">
+                                <c:set var="firstCV" value="${cvList[0]}" />
+                                <h2>Danh sách CV đã ứng tuyển vào: ${firstCV.jobPost.title}</h2>
+                            </c:when>
+                            <c:otherwise>
+                                <h2>Chưa có ứng viên nào ứng tuyển cho công việc này.</h2>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <!-- Số lượng và tùy chọn view -->
+                        <c:if test="${not empty cvList}">
+                            <div class="results-info">
+                                <span>Số lượng: <strong>${fn:length(cvList)}</strong> CV</span>
+                                <div class="view-options">
+                                    <button class="btn btn-outline-secondary active" onclick="showView('grid')">Grid</button>
+                                    <button class="btn btn-outline-secondary" onclick="showView('list')">List</button>
+                                </div>
                             </div>
-                        </div>
+                        </c:if>
 
                         <!-- Grid View -->
-                        <div class="row cv-grid" id="cvGrid">
+                        <div class="row cv-grid" id="cvGrid" style="display: flex;">
                             <c:choose>
                                 <c:when test="${not empty cvList}">
                                     <c:forEach var="cv" items="${cvList}">
@@ -278,15 +288,15 @@
                                     </c:forEach>
                                 </c:when>
                                 <c:otherwise>
-                                    <div class="col-12 text-center">
-                                        <p>Không có CV nào được ứng tuyển vào ${cv.jobPost.title}</p>
+                                    <div class="col-12 text-center text-muted py-4">
+                                        <em>Không có CV nào được ứng tuyển vào công việc này.</em>
                                     </div>
                                 </c:otherwise>
                             </c:choose>
                         </div>
 
                         <!-- List View -->
-                        <div class="cv-table" id="cvTable">
+                        <div class="cv-table" id="cvTable" style="display: none;">
                             <table class="table table-striped table-hover">
                                 <thead class="table-dark">
                                     <tr>
@@ -309,7 +319,7 @@
                                                     <td>${cv.email}</td>
                                                     <td>${cv.position}</td>
                                                     <td>${cv.numberExp} năm</td>
-                                                    <td>Ứng tuyển vào: ${cv.jobPost.title}</td>
+                                                    <td>${cv.jobPost.title}</td>
                                                     <td>
                                                         <a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
                                                         <form action="save-potential-cvs" method="post" style="display:inline;">
@@ -322,7 +332,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <tr>
-                                                <td colspan="6" class="text-center">Không có CV nào được ứng tuyển.</td>
+                                                <td colspan="7" class="text-center text-muted">Không có CV nào được ứng tuyển.</td>
                                             </tr>
                                         </c:otherwise>
                                     </c:choose>
@@ -330,93 +340,120 @@
                             </table>
                         </div>
 
-                        <!-- Pagination -->
-                        <c:if test="${totalPages > 1}">
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination justify-content-center mt-4">
-                                    <c:if test="${currentPage > 1}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="applied-cvs?page=${currentPage - 1}" aria-label="Previous">
-                                                <span aria-hidden="true">«</span>
-                                            </a>
-                                        </li>
-                                    </c:if>
-                                    <c:forEach begin="1" end="${totalPages}" var="i">
+                        <!-- Phân trang -->
+                        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+                        <c:if test="${totalPages >= 1}">
+                            <div class="container mt-4">
+                                <c:url var="baseUrl" value="cv-list" />
+
+                                <ul class="pagination justify-content-center">
+                                    <!-- Previous Page -->
+                                    <c:url var="prevUrl" value="${baseUrl}">
+                                        <c:param name="page" value="${currentPage - 1}" />
+                                        <c:param name="jobPostId" value="${jobPostId}" />
+                                        <c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}" /></c:if>
+                                        <c:if test="${not empty address}"><c:param name="address" value="${address}" /></c:if>
+                                        <c:if test="${not empty numberExp}"><c:param name="numberExp" value="${numberExp}" /></c:if>
+                                        <c:if test="${not empty position}"><c:param name="position" value="${position}" /></c:if>
+                                        <c:if test="${not empty field}"><c:param name="field" value="${field}" /></c:if>
+                                    </c:url>
+                                    <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                        <a class="page-link" href="${prevUrl}" aria-label="Previous">&laquo;</a>
+                                    </li>
+
+                                    <!-- Page Numbers -->
+                                    <c:forEach var="i" begin="1" end="${totalPages}">
+                                        <c:url var="pageUrl" value="${baseUrl}">
+                                            <c:param name="page" value="${i}" />
+                                            <c:param name="jobPostId" value="${jobPostId}" />
+                                            <c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}" /></c:if>
+                                            <c:if test="${not empty address}"><c:param name="address" value="${address}" /></c:if>
+                                            <c:if test="${not empty numberExp}"><c:param name="numberExp" value="${numberExp}" /></c:if>
+                                            <c:if test="${not empty position}"><c:param name="position" value="${position}" /></c:if>
+                                            <c:if test="${not empty field}"><c:param name="field" value="${field}" /></c:if>
+                                        </c:url>
                                         <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="applied-cvs?page=${i}">${i}</a>
+                                            <a class="page-link" href="${pageUrl}">${i}</a>
                                         </li>
                                     </c:forEach>
-                                    <c:if test="${currentPage < totalPages}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="applied-cvs?page=${currentPage + 1}" aria-label="Next">
-                                                <span aria-hidden="true">»</span>
-                                            </a>
-                                        </li>
-                                    </c:if>
+
+                                    <!-- Next Page -->
+                                    <c:url var="nextUrl" value="${baseUrl}">
+                                        <c:param name="page" value="${currentPage + 1}" />
+                                        <c:param name="jobPostId" value="${jobPostId}" />
+                                        <c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}" /></c:if>
+                                        <c:if test="${not empty address}"><c:param name="address" value="${address}" /></c:if>
+                                        <c:if test="${not empty numberExp}"><c:param name="numberExp" value="${numberExp}" /></c:if>
+                                        <c:if test="${not empty position}"><c:param name="position" value="${position}" /></c:if>
+                                        <c:if test="${not empty field}"><c:param name="field" value="${field}" /></c:if>
+                                    </c:url>
+                                    <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                        <a class="page-link" href="${nextUrl}" aria-label="Next">&raquo;</a>
+                                    </li>
                                 </ul>
-                            </nav>
+                            </div>
                         </c:if>
+
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Bootstrap 5 JS and Popper.js -->
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX+vR+Vc4jQkC+hVqc2pM8ODewa9" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-        <script>
-                                    function showView(view) {
-                                        const gridView = document.getElementById('cvGrid');
-                                        const tableView = document.getElementById('cvTable');
-                                        const gridButton = document.querySelector('.view-options button:nth-child(1)');
-                                        const listButton = document.querySelector('.view-options button:nth-child(2)');
+                <!-- Scripts giữ nguyên -->
+                <script>
+                                        function showView(view) {
+                                            const gridView = document.getElementById('cvGrid');
+                                            const tableView = document.getElementById('cvTable');
+                                            const gridButton = document.querySelector('.view-options button:nth-child(1)');
+                                            const listButton = document.querySelector('.view-options button:nth-child(2)');
 
-                                        if (view === 'grid') {
-                                            gridView.style.display = 'flex';
-                                            tableView.style.display = 'none';
-                                            gridButton.classList.add('active');
-                                            listButton.classList.remove('active');
-                                        } else {
-                                            gridView.style.display = 'none';
-                                            tableView.style.display = 'block';
-                                            gridButton.classList.remove('active');
-                                            listButton.classList.add('active');
+                                            if (view === 'grid') {
+                                                gridView.style.display = 'flex';
+                                                tableView.style.display = 'none';
+                                                gridButton.classList.add('active');
+                                                listButton.classList.remove('active');
+                                            } else {
+                                                gridView.style.display = 'none';
+                                                tableView.style.display = 'block';
+                                                gridButton.classList.remove('active');
+                                                listButton.classList.add('active');
+                                            }
                                         }
-                                    }
-        </script>
-        <!-- Thong báo -->
-        <c:if test="${not empty sessionScope.toastMessage}">
-            <div id="toastMsg" class="toast-custom">${sessionScope.toastMessage}</div>
-            <script>
-                // auto hide
-                window.addEventListener("DOMContentLoaded", function () {
-                    const toast = document.getElementById("toastMsg");
-                    if (toast) {
-                        toast.style.opacity = 1;
-                        setTimeout(() => {
-                            toast.style.opacity = 0;
-                            setTimeout(() => toast.remove(), 500);
-                        }, 3000);
-                    }
-                });
-            </script>
-            <style>
-                .toast-custom {
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background-color: #28a745;
-                    color: white;
-                    padding: 12px 20px;
-                    border-radius: 6px;
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-                    z-index: 9999;
-                    opacity: 0;
-                    transition: opacity 0.5s ease-in-out;
-                    font-weight: bold;
-                }
-            </style>
-            <c:remove var="toastMessage" scope="session"/>
-        </c:if>
-    </body>
-</html>
+                </script>
+
+                <!-- Thong báo -->
+                <c:if test="${not empty sessionScope.toastMessage}">
+                    <div id="toastMsg" class="toast-custom">${sessionScope.toastMessage}</div>
+                    <script>
+                        // auto hide
+                        window.addEventListener("DOMContentLoaded", function () {
+                            const toast = document.getElementById("toastMsg");
+                            if (toast) {
+                                toast.style.opacity = 1;
+                                setTimeout(() => {
+                                    toast.style.opacity = 0;
+                                    setTimeout(() => toast.remove(), 500);
+                                }, 3000);
+                            }
+                        });
+                    </script>
+                    <style>
+                        .toast-custom {
+                            position: fixed;
+                            top: 20px;
+                            right: 20px;
+                            background-color: #28a745;
+                            color: white;
+                            padding: 12px 20px;
+                            border-radius: 6px;
+                            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                            z-index: 9999;
+                            opacity: 0;
+                            transition: opacity 0.5s ease-in-out;
+                            font-weight: bold;
+                        }
+                    </style>
+                    <c:remove var="toastMessage" scope="session"/>
+                </c:if>
+                </body>
+                </html>

@@ -2,22 +2,28 @@
 <%@ page import="java.util.List" %>
 <%@ page import="Models.Employer" %>
 <%@ page import="Models.Candidate" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="Models.Service" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.text.DecimalFormatSymbols" %>
+
 
 <%
     List<Employer> employers = (List<Employer>) request.getAttribute("employers");
     List<Candidate> candidates = (List<Candidate>) request.getAttribute("candidates");
+    List<Service> services = (List<Service>) request.getAttribute("service");
 %>
 <%
     // Kiểm tra session
-    if (session.getAttribute("username") == null || !session.getAttribute("role").equals("Admin")) {
+    if (session.getAttribute("username") == null || session.getAttribute("role") == null || !session.getAttribute("role").equals("Admin")) {
         response.sendRedirect("log/login.jsp"); // Chuyển hướng về trang đăng nhập nếu chưa đăng nhập hoặc không phải admin
+        return;
     }
 %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>User Management - GenZTimViec.VN Admin</title>
+        <title>Admin Dashboard - GenZTimViec.VN</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
@@ -186,6 +192,7 @@
                 box-shadow: var(--shadow-md);
                 border: 1px solid var(--border-color);
                 overflow: hidden;
+                margin-bottom: 2rem;
             }
 
             .table-header {
@@ -356,6 +363,37 @@
             .table-container::-webkit-scrollbar-thumb:hover {
                 background: #3730a3;
             }
+            /*css message*/
+            .toast-msg {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 8px;
+                font-size: 0.95rem;
+                font-weight: 500;
+                z-index: 9999;
+                color: white;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                animation: fadeSlide 0.4s ease-in-out;
+            }
+            .toast-success {
+                background-color: #16a34a; /* green */
+            }
+            .toast-error {
+                background-color: #dc2626; /* red */
+            }
+            @keyframes fadeSlide {
+                from {
+                    opacity: 0;
+                    transform: translateX(50px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+
         </style>
     </head>
     <body>
@@ -416,48 +454,41 @@
                         <div class="stats-label">Total Users</div>
                     </div>
                 </div>
-                                  <div class="col-lg-4 col-md-4">
-                    <div class="stats-card fade-in-up">
-                        <div class="stats-icon warning">
-                            <i class="fas fa-user-shield"></i>
-                        </div>
-                        <div class="stats-number">
-                            ${totalCan}
-                        </div>
-                        <div class="stats-label">Candidates</div>
-                    </div>
-                </div>
-
                 <div class="col-lg-4 col-md-4">
                     <div class="stats-card fade-in-up">
                         <div class="stats-icon warning">
                             <i class="fas fa-user-shield"></i>
                         </div>
-                        <div class="stats-number">
-                            ${totalEmp}
+                        <div class="stats-number">${totalCan}</div>
+                        <div class="stats-label">Candidates</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="stats-card fade-in-up">
+                        <div class="stats-icon warning">
+                            <i class="fas fa-user-shield"></i>
                         </div>
+                        <div class="stats-number">${totalEmp}</div>
                         <div class="stats-label">Employers</div>
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <!-- Table Section -->
+        <!-- User Management Table Section -->
         <div class="container pb-5">
             <div class="table-section fade-in-up">
                 <div class="table-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3><i class="fas fa-users me-2"></i>User Management</h3>
-                               <div class="d-flex gap-2">
-
+                        <div class="d-flex gap-2">
                             <form action="adduser.jsp" method="get">
                                 <button class="btn btn-primary btn-sm">
                                     <i class="fas fa-plus me-1"></i>Add User
                                 </button>
                             </form>
                         </div>
-                          <div class="d-flex gap-2">
+                        <div class="d-flex gap-2">
                             <!-- Search Bar -->
                             <form method="get" action="search" class="search-bar">
                                 <input type="text" name="search" placeholder="Search by account name..." 
@@ -511,20 +542,17 @@
                                             ${emp.email}
                                         </div>
                                     </td>
-
                                     <td>
                                         <div class="action-buttons">
                                             <a class="action-btn btn-view" href="viewAccount?id=${emp.employerId}&type=employer" 
                                                title="View Details">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                       
                                             <a class="action-btn btn-delete" href="deleteAccount?id=${emp.employerId}&type=employer" 
                                                onclick="return confirm('Are you sure you want to delete this account?');"
-                                               title="Delete Account">
+                                               title="Delete">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
-
                                         </div>
                                     </td>
                                 </tr>
@@ -537,7 +565,7 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
-                                                 style="width: 40px; height: 40px; font-size: 0.9rem; color: white; font-weight: 600;">
+                                                 style="width: 40px; height: 40px; font-size: 0.9rem; font-weight: 600; color: white;">
                                                 ${can.candidateName.substring(0, 1).toUpperCase()}
                                             </div>
                                             <div>
@@ -552,20 +580,17 @@
                                             ${can.email}
                                         </div>
                                     </td>
-
                                     <td>
                                         <div class="action-buttons">
                                             <a class="action-btn btn-view" href="viewAccount?id=${can.candidateId}&type=candidate" 
                                                title="View Details">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                       
                                             <a class="action-btn btn-delete" href="deleteAccount?id=${can.candidateId}&type=candidate" 
                                                onclick="return confirm('Are you sure you want to delete this account?');"
-                                               title="Delete Account">
+                                               title="Delete">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
-
                                         </div>
                                     </td>
                                 </tr>
@@ -580,13 +605,11 @@
                                         <a class="page-link" href="list?page=${currentPage - 1}&type=${type}">Previous</a>
                                     </li>
                                 </c:if>
-
                                 <c:forEach begin="1" end="${totalPages}" var="i">
                                     <li class="page-item ${i == currentPage ? 'active' : ''}">
                                         <a class="page-link" href="list?page=${i}&type=${type}">${i}</a>
                                     </li>
                                 </c:forEach>
-
                                 <c:if test="${currentPage < totalPages}">
                                     <li class="page-item">
                                         <a class="page-link" href="list?page=${currentPage + 1}&type=${type}">Next</a>
@@ -595,71 +618,242 @@
                             </ul>
                         </nav>
                     </div>
-
-
                 </div>
             </div>
-                          <!--            hiển thị Action Menu-->
-            <div class="floating-actions-v2">
 
-        <%
-        // Kiểm tra session và vai trò Admin
-        if (session.getAttribute("username") != null && 
-            session.getAttribute("role") != null && 
-            session.getAttribute("role").equals("Admin")) {
-    %>
-        <div class="fab-item fab-heart" title="Admin">
-            <a href="<%= request.getContextPath() %>/adminhome.jsp" target="_self" id="favorite-btn-v2" class="fab-btn">
-                <i class="bi bi-gear-fill"></i>
-                <c:if test="${username != null}">
-                    <span class="fab-badge" id="favorite-count-v2">${numberJobPost}</span>
-                </c:if>
-            </a>
-            <span class="fab-hover-label">Admin</span>
-        </div>
-    <%
-        }
-    %>
+            <!-- Service Management Table Section -->
+            <div class="table-section fade-in-up">
+                <div class="table-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3><i class="fas fa-cogs me-2"></i>Service Management</h3>
+                        <div class="d-flex gap-2">
+                            <form action="${pageContext.request.contextPath}/page_service/addService.jsp" method="get">
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-plus me-1"></i>Add Service
+                                </button>
+                            </form>
+
+
+                        </div>
+                        <div class="d-flex gap-2">
+                            <!-- Search Bar -->
+                            <form method="get" action="admin/searchService" class="search-bar">
+                                <input type="text" name="search" placeholder="Search by service name..." 
+                                       value="${param.search}">
+                                <i class="fas fa-search"></i>
+                                <input type="hidden" name="type" value="${serviceType}">
+                                <input type="hidden" name="page" value="${currentServicePage}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <form method="get" action="view-list-service" class="mb-3 d-flex justify-content-end">
+                    <select name="serviceType" onchange="this.form.submit()" class="form-select w-auto">
+                        <option value="">-- Select Service Type --</option>
+                        <option value="premium" ${serviceType == 'premium' ? 'selected' : ''}>Premium</option>
+                        <option value="standard" ${serviceType == 'standard' ? 'selected' : ''}>Standard</option>
+                    </select>
+                </form>
+
+                <div class="table-container">
+                    <table class="table modern-table">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-hashtag me-2"></i>ID</th>
+                                <th><i class="fas fa-cog me-2"></i>Service Name</th>
+                                <th><i class="fas me-2"></i>Price (VNĐ) </th>
+                                <th><i class="fas fa-info-circle me-2"></i>Description</th>
+                                <th><i class="fas fa-tag me-2"></i>Promotion ID</th>
+                                <th><i class="fas fa-clock me-2"></i>Duration</th>
+                                <th><i class="fas fa-cogs me-2"></i>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="service" items="${serviceList}">
+                                <tr>
+                                    <td>
+                                        <span class="fw-bold text-primary">${service.serviceId}</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                                 style="width: 40px; height: 40px; font-size: 0.9rem; color: white; font-weight: 600;">
+                                                ${service.serviceName.substring(0, 1).toUpperCase()}
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">${service.serviceName}</div>
+                                                <small class="text-muted">Created in 2024</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <%
+                                            Models.Service s = (Models.Service) pageContext.getAttribute("service");
+                                            DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+                                            symbols.setGroupingSeparator('.');
+                                            DecimalFormat formatter = new DecimalFormat("#,###", symbols);
+                                            String formattedPrice = formatter.format(s.getPrice());
+                                        %>
+                                        <div class="d-flex align-items-center">
+                                            <span class="text-muted fw-bold me-2"></span>
+                                            <%= formattedPrice %> VNĐ
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex flex-column">
+                                            <c:forEach var="item" items="${service.descriptionList}">
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <i class="fas fa-info-circle text-muted me-2"></i>
+                                                    <span>${item}</span>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-tag text-muted me-2"></i>
+                                            <c:choose>
+                                                <c:when test="${not empty service.promotionId}">
+                                                    ${service.promotionId}
+                                                </c:when>
+                                                <c:otherwise>N/A</c:otherwise>
+                                            </c:choose>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-clock text-muted me-2"></i>
+                                            ${service.duration}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <a class="action-btn btn-view" href="admin/view-service?id=${service.serviceId}" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            <a class="action-btn btn-edit"
+   href="${pageContext.request.contextPath}/update-service?id=${service.serviceId}"
+   title="Edit Service">
+   <i class="fas fa-edit"></i>
+</a>
+
+                                            <a class="action-btn btn-delete"
+                                               href="delete-servicepackage?id=${service.serviceId}"
+                                               onclick="return confirm('Are you sure you want to delete this service?');"
+                                               title="Delete Service">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            <c:if test="${empty serviceList}">
+                                <tr>
+                                    <td colspan="7" class="text-center">No services found.</td>
+                                </tr>
+                            </c:if>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-center mt-4">
+                        <nav>
+                            <ul class="pagination">
+                                <c:if test="${currentServicePage > 1}">
+                                    <li class="page-item">
+                                        <a class="page-link" href="admin/view-list-service?page=${currentServicePage - 1}&type=${serviceType}">Previous</a>
+                                    </li>
+                                </c:if>
+                                <c:forEach begin="1" end="${totalServicePages}" var="i">
+                                    <li class="page-item ${i == currentServicePage ? 'active' : ''}">
+                                        <a class="page-link" href="admin/view-list-service?page=${i}&type=${serviceType}">${i}</a>
+                                    </li>
+                                </c:forEach>
+                                <c:if test="${currentServicePage < totalServicePages}">
+                                    <li class="page-item">
+                                        <a class="page-link" href="admin/view-list-service?page=${currentServicePage + 1}&type=${serviceType}">Next</a>
+                                    </li>
+                                </c:if>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Menu -->
+            <div class="floating-actions-v2">
+                <%
+                    if (session.getAttribute("username") != null && 
+                        session.getAttribute("role") != null && 
+                        session.getAttribute("role").equals("Admin")) {
+                %>
+                <div class="fab-item fab-heart" title="Admin">
+                    <a href="<%= request.getContextPath() %>/adminhome.jsp" target="_self" id="favorite-btn-v2" class="fab-btn">
+                        <i class="bi bi-gear-fill"></i>
+                        <c:if test="${username != null}">
+                            <span class="fab-badge" id="favorite-count-v2">${numberJobPost}</span>
+                        </c:if>
+                    </a>
+                    <span class="fab-hover-label">Admin</span>
+                </div>
+                <%
+                    }
+                %>
             </div>
         </div>
 
         <!-- Scripts -->
         <script src="js/bootstrap.bundle.min.js"></script>
         <script>
-                                                   // Add smooth scrolling and enhanced interactions
                                                    document.addEventListener('DOMContentLoaded', function () {
                                                        // Animate stats on scroll
                                                        const statsCards = document.querySelectorAll('.stats-card');
                                                        const observer = new IntersectionObserver((entries) => {
                                                            entries.forEach(entry => {
                                                                if (entry.isIntersecting) {
-                                                                   entry.target.style.animationDelay = Math.random() * 0.3 + 's';
+                                                                   entry.target.style.animationDelay = Math.random() * 100 + 'ms';
                                                                    entry.target.classList.add('fade-in-up');
                                                                }
                                                            });
                                                        });
- 
+
                                                        statsCards.forEach(card => {
                                                            observer.observe(card);
                                                        });
 
-                                                       // Enhanced delete confirmation
+                                                       // Enhanced delete confirmation for both tables
                                                        document.querySelectorAll('.btn-delete').forEach(btn => {
                                                            btn.addEventListener('click', function (e) {
                                                                e.preventDefault();
-                                                               const accountName = this.closest('tr').querySelector('td:nth-child(2) .fw-bold').textContent;
-                                                               if (confirm(`Are you sure you want to delete the account "${accountName}"?\n\nThis action cannot be undone and will permanently remove all associated data.`)) {
+                                                               const name = this.closest('tr').querySelector('td:nth-child(2) .fw-bold')?.textContent || 'this item';
+                                                               const isService = this.closest('.table-section').querySelector('h3').textContent.includes('Service');
+                                                               const confirmMessage = isService
+                                                                       ? `Are you sure you want to delete the service "${name}"?\n\nThis action cannot be undone and will permanently remove all associated data.`
+                                                                       : `Are you sure you want to delete the account "${name}"?\n\nThis action cannot be undone and will permanently remove all associated data.`;
+                                                               if (confirm(confirmMessage)) {
                                                                    window.location.href = this.href;
                                                                }
                                                            });
                                                        });
 
                                                        // Add tooltips for better UX
-                                                       const tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
-                                                       tooltipTriggerList.map(function (tooltipTriggerEl) {
-                                                           return new bootstrap.Tooltip(tooltipTriggerEl);
+                                                       const tooltipTriggerList = document.querySelectorAll('[title]');
+                                                       tooltipTriggerList.forEach(triggerEl => {
+                                                           new bootstrap.Tooltip(triggerEl);
                                                        });
                                                    });
         </script>
+        <c:if test="${not empty message}">
+            <div id="toast-message" class="toast-msg ${messageType == 'success' ? 'toast-success' : 'toast-error'}">
+                ${message}
+            </div>
+            <script>
+                setTimeout(function () {
+                    document.getElementById('toast-message').style.display = 'none';
+                }, 3000);
+            </script>
+            <%-- Xóa thông báo khỏi session sau khi hiển thị nếu bạn dùng session (ở đây dùng request.setAttribute nên không cần) --%>
+        </c:if>
+
     </body>
 </html>
