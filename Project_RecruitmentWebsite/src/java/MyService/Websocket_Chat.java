@@ -102,7 +102,7 @@ public class Websocket_Chat {
             System.out.println(username + " đã ngắt kết nối.");
 
             // Lưu các cuộc trò chuyện liên quan vào DB
-            List<Message> listToSave = new ArrayList<>();  //  khi thằng user đóng connect  thì lấy lấy cái đoạn chat của thằng đấy và lưu tạm vào listToSave
+            List<Message> listToSave = new ArrayList<>();  
             for (String key : chatLogs.keySet()) {
                 if (key.startsWith(username + "_") || key.endsWith("_" + username)) {
                     listToSave.addAll(chatLogs.get(key));
@@ -115,8 +115,8 @@ public class Websocket_Chat {
                     dao.saveMessage(msg);
                 }
                 System.out.println("Đã lưu " + listToSave.size() + " tin nhắn của " + username);
-                // Xoá các đoạn chat của thằng user đó ra khỏi bộ nhớ sau khi đã lưu vào DB
-                chatLogs.keySet().removeIf(key -> key.startsWith(username + "_") || key.endsWith("_" + username));
+                
+                chatLogs.keySet().removeIf(key -> key.startsWith(username + "_") || key.endsWith("_" + username)); //  xóa
             }
         }
 

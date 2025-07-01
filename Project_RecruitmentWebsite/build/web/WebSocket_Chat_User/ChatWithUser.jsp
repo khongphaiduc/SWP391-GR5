@@ -296,10 +296,13 @@
                         .then(res => res.json())
                         .then(data => {
                             const  newMessages  = conversations[currentUser] || [];  // các tin vừa nhận qua  websocket
+                           let avatarUSer ;
+                                        newMessages.forEach(s=>avatarUSer=s.avatar);
+                     console.log( 'đây là avatar sau khi load lại :'+avatarUSer );
                             const oldMessages= data.map(msg => ({           // oldMessages là 1 mảng các json
                                     from: msg.from,
                                     message: msg.message,
-                                    avatar: ''
+                                    avatar: avatarUSer
                                 }));
                             conversations[currentUser] = [...oldMessages, ...newMessages]; // GHÉP chứ không ghi đè
                             renderChatMessages();
@@ -424,20 +427,21 @@
                 try {
                     data = JSON.parse(event.data);
                 } catch (e) {
-                    data = {from: null, message: event.data};
+                    data = {from: null, message: event.data,avatar:null};
                 }
-                const fromUser = data.from;      // xem thằng nào gửi 
-                const message = data.message; // lấy đoạn hội thoại của thằng gửi 
-                const image = data.image;    // lấy ảnh thằng user
+                const fromUser = data.from;     
+                const message = data.message; 
+                const image = data.avatar; 
+                console.log("đây là ảnh user gửi đến"+image);
                 if (fromUser && fromUser !== nameSupport) {
-                    // Nếu user chưa có trong danh sách thì thêm vào
+                   
                     if (!users.some(u => u.id === fromUser)) {
                         users.push({
                             id: fromUser,
                             name: fromUser,
                             avatar: image
                         });
-                        renderUserList();  // kiểm tra nếu chưa có trong users thì reder lại 
+                        renderUserList();
                     }
                     if (!conversations[fromUser])
                         conversations[fromUser] = [];   // kiểm tra xem có tồn tại đoạn trò chuyện trước đó không nếu không thì tao 1 object mới đê lưu

@@ -28,10 +28,10 @@
                     <select name="titel" class="form-select" id="title" required>
                         <option value="" selected disabled>Chọn chủ đề</option>
                         <option value="Góp ý tính năng">Góp ý tính năng</option>
-                        <option value="Báo lỗi">Ý Kiến Về Giao Diện</option>
-                        <option value="Góp ý tính năng">Lỗi Thanh Toán</option>
-                        <option value="Báo lỗi">Lỗi Không Tạo Được CV</option>
-                        <option value="Báo lỗi">Service không hoạt động</option>
+                        <option value="Ý Kiến Về Giao Diện">Ý Kiến Về Giao Diện</option>
+                        <option value="Lỗi Thanh Toán">Lỗi Thanh Toán</option>
+                        <option value="Không tạo được cv">Lỗi Không Tạo Được CV</option>
+                        <option value="Website không phải hồi">Service không hoạt động</option>
                         <option value="Khác">Khác</option>
                     </select>
                 </div>

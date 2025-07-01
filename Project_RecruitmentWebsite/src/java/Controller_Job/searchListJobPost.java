@@ -84,10 +84,7 @@ public class searchListJobPost extends HttpServlet {
 
             int totalPages = (int) Math.ceil((double) totalJobs / numberJobOfPage); // tính  tổng số trang cần có 
 
-//            int totalPagesMax = 99;
-//
-//            int totalPages = Math.max(NumberPagesOfList, currentpage + 1);
-//            totalPages = Math.min(totalPagesMax, currentpage + 1);
+
 
             int start = (currentpage - 1) * numberJobOfPage;
             int end = Math.min(start + numberJobOfPage, totalJobs);
