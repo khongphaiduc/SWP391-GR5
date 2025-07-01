@@ -18,7 +18,7 @@ public class DBContext {
             String pass = "123";
 
 //            String url = "jdbc:sqlserver://DESKTOP-NQH197\\NGUYENQUANGHUYSV:1433;databaseName=swp_final7;";
-            String url = "jdbc:sqlserver://LAPTOP-MK;databaseName=CV05";
+              String url = "jdbc:sqlserver://LAPTOP-MK;databaseName=CV05";
 //            String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=GenZTimViec9";
 //            String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=GenZTimViec14";
 
