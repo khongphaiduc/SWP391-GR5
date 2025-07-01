@@ -10,9 +10,12 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.util.List;
-
+//nâng cao: Tự động ẩn pagination nếu chỉ có 1 trang
+//Thêm nút “Trang đầu” / “Trang cuối”
 @WebServlet(name = "SearchCVsServlet", urlPatterns = {"/SearchCVsServlet"})
 public class SearchCVsServlet extends HttpServlet {
+
+    private static final int PAGE_SIZE = 2;
 
     private String normalize(String input) {
         if (input == null) return null;
@@ -28,14 +31,12 @@ public class SearchCVsServlet extends HttpServlet {
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
 
-        // Kiểm tra login và vai trò
         if (username == null || !"Employer".equals(role)) {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         }
 
         try {
-            // Lấy Employer từ DB
             EmployerDAO edao = new EmployerDAO();
             Employer employer = edao.getEmployerByName(username);
             if (employer == null) {
@@ -45,16 +46,14 @@ public class SearchCVsServlet extends HttpServlet {
             }
 
             int employerId = employer.getEmployerId();
-            session.setAttribute("employerId", employerId); // lưu vào session để dùng cho các servlet khác
+            session.setAttribute("employerId", employerId);
 
-            // Lấy và chuẩn hóa tham số tìm kiếm từ request
             String keyword = normalize(request.getParameter("keyword"));
             String address = normalize(request.getParameter("address"));
             String numberExpStr = request.getParameter("numberExp");
             String position = normalize(request.getParameter("position"));
             String field = normalize(request.getParameter("field"));
 
-            // Chuyển đổi kinh nghiệm sang kiểu số (nullable)
             Integer numberExp = null;
             if (numberExpStr != null && !numberExpStr.trim().isEmpty()) {
                 try {
@@ -66,22 +65,35 @@ public class SearchCVsServlet extends HttpServlet {
                 }
             }
 
-            // Gọi DAO để tìm kiếm CV
+            // Phân trang
+            int currentPage = 1;
+            String pageParam = request.getParameter("page");
+            if (pageParam != null) {
+                try {
+                    currentPage = Integer.parseInt(pageParam);
+                    if (currentPage <= 0) currentPage = 1;
+                } catch (NumberFormatException ignored) {}
+            }
+            int offset = (currentPage - 1) * PAGE_SIZE;
+
+            // Gọi DAO
             CVDAO cvDao = new CVDAO();
-            List<CV> appliedCVs = cvDao.searchCVsForEmployer(employerId, address, numberExp, position, keyword, field);
+            List<CV> appliedCVs = cvDao.searchCVsForEmployer(
+                    employerId, address, numberExp, position, keyword, field, PAGE_SIZE, offset);
 
-            // Log chi tiết
-            System.out.println("Tìm kiếm CV với:");
-            System.out.println("  Employer ID: " + employerId);
-            System.out.println("  keyword: " + keyword);
-            System.out.println("  address: " + address);
-            System.out.println("  numberExp: " + numberExp);
-            System.out.println("  position: " + position);
-            System.out.println("  field: " + field);
-            System.out.println("  Số CV tìm thấy: " + appliedCVs.size());
+            int totalResults = cvDao.countSearchCVsForEmployer(
+                    employerId, address, numberExp, position, keyword, field);
+            int totalPages = (int) Math.ceil((double) totalResults / PAGE_SIZE);
 
-            // Gán dữ liệu cho JSP
+            // Log
+            System.out.println("🔍 Tìm kiếm CV - Trang " + currentPage + "/" + totalPages);
+            System.out.println("  Tổng CV: " + totalResults + ", PageSize: " + PAGE_SIZE + ", Offset: " + offset);
+
             request.setAttribute("appliedCVs", appliedCVs);
+            request.setAttribute("currentPage", currentPage);
+            request.setAttribute("totalPages", totalPages);
+
+            // Preserve filter
             request.setAttribute("keyword", keyword);
             request.setAttribute("address", address);
             request.setAttribute("numberExp", numberExp);
@@ -107,3 +119,4 @@ public class SearchCVsServlet extends HttpServlet {
         doGet(request, response);
     }
 }
+

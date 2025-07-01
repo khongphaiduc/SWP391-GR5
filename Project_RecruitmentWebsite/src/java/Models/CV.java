@@ -28,11 +28,28 @@ public class CV {
     private String gender;
     String FileData;
     private String mimeType;
-    
+
+    //thêm jobPost để lấy JobTitle
     private JobPost jobPost;
-    public JobPost getJobPost() { return jobPost; }
-    public void setJobPost(JobPost jobPost) { this.jobPost = jobPost; }
-    
+
+    public JobPost getJobPost() {
+        return jobPost;
+    }
+
+    public void setJobPost(JobPost jobPost) {
+        this.jobPost = jobPost;
+    }
+
+    //thêm step để lấy trạng thái 
+    private String step;
+
+    public String getStep() {
+        return step;
+    }
+
+    public void setStep(String step) {
+        this.step = step;
+    }
 
     public CV(int cvId, int candidateId, String fullName, String address,
             String email, String position, int numberExp, String education,
@@ -53,10 +70,8 @@ public class CV {
         this.gender = gender;
         this.FileData = FileData;
         this.mimeType = mimeType;
-        
-    }
 
-    
+    }
 
     public CV() {
     }

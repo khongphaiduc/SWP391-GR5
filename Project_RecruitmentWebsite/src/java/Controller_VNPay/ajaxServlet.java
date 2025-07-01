@@ -102,7 +102,8 @@ public class ajaxServlet extends HttpServlet {
             return;
         } else {
             PrintWriter out = resp.getWriter();
-
+            
+            int serviceId = Integer.parseInt(req.getParameter("serviceId"));
             String bankCode = req.getParameter("bankCode");
             double amountDouble = Double.parseDouble(req.getParameter("totalBill"));
 
@@ -113,7 +114,7 @@ public class ajaxServlet extends HttpServlet {
             Order order = new Order();
             order.setEmployerId(userId);
             order.setAmount(amountDouble);
-            order.setServiceId(2); //hard code 
+            order.setServiceId(serviceId); //hard code 
             order.setPayMethod("VNPAY");
             order.setDate(new Date());
             order.setStatus("pending");

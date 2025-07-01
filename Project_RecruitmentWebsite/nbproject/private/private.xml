@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/img/avata.jpg</file>
             <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Profile/employerProfileServlet.java</file>
             <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/img/about-1.jpg</file>
@@ -50,6 +51,23 @@
             <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/CV.java</file>
             <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/CandidateDAO.java</file>
             <file>file:/C:/Users/PC/OneDrive/Documents/FPT_Sem5/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/img/about-3.jpg</file>
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/admin/Desktop/SWP/test3/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
+            <file>file:/C:/Users/admin/Desktop/SWP/test3/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/ServiceDAO.java</file>
+            <file>file:/C:/Users/admin/Desktop/SWP/test3/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_VNPay/ajaxServlet.java</file>
+            <file>file:/C:/Users/admin/Desktop/SWP/test3/SWP391-GR5/Project_RecruitmentWebsite/web/page_service/addService.jsp</file>
+            <file>file:/C:/Users/admin/Desktop/SWP/test3/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Service.java</file>
+            <file>file:/C:/Users/admin/Desktop/SWP/test3/SWP391-GR5/Project_RecruitmentWebsite/web/page_service/servicePackageEmp.jsp</file>
+            <file>file:/C:/Users/admin/Desktop/SWP/test3/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_ServicePackage/ServiceForEmpServlet.java</file>
+=======
+            <file>file:/C:/Users/admin/Desktop/SWP/test3/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/ServiceDAO.java</file>
+            <file>file:/C:/Users/admin/Desktop/SWP/test3/SWP391-GR5/Project_RecruitmentWebsite/web/viewuser.jsp</file>
+            <file>file:/C:/Users/admin/Desktop/SWP/test3/SWP391-GR5/Project_RecruitmentWebsite/web/page_service/addService.jsp</file>
+>>>>>>> test5-code
+            <file>file:/C:/Users/admin/Desktop/SWP/test3/SWP391-GR5/Project_RecruitmentWebsite/web/page_service/updateService.jsp</file>
+            <file>file:/C:/Users/admin/Desktop/SWP/test3/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_ServicePackage/UpdateServiceServlet.java</file>
+>>>>>>> 693a1228dbd1edafcb1b4dcef0e446c110375492
         </group>
     </open-files>
 </project-private>

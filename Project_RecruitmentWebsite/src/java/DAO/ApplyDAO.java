@@ -29,6 +29,20 @@ public class ApplyDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    //khanh
+    public Apply getApplyByCvId(int cvId) {
+    String sql = "SELECT * FROM Apply WHERE CV_ID = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, cvId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return extractApply(rs);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null;
+}
 
     public Apply getApplyByID(int applyID) {
         String sql = "SELECT * FROM Apply WHERE Apply_ID = ?";
