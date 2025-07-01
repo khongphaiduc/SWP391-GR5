@@ -17,13 +17,13 @@ public class OrderDAO extends DBContext {
             ps.setInt(2, o.getServiceId());
             ps.setDouble(3, o.getAmount());
             ps.setString(4, o.getPayMethod());
-            ps.setString(5, o.getStatus()); 
+            ps.setString(5, o.getStatus());
 
             int rows = ps.executeUpdate();
             if (rows > 0) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     if (rs.next()) {
-                        return rs.getInt(1);  
+                        return rs.getInt(1);
                     }
                 }
             }
@@ -46,7 +46,7 @@ public class OrderDAO extends DBContext {
                             rs.getInt("Service_ID"),
                             rs.getDouble("Amount"),
                             rs.getString("PayMethod"),
-                            rs.getString("Status"),                     
+                            rs.getString("Status"),
                             rs.getTimestamp("Date")
                     );
                     list.add(o);
@@ -68,19 +68,18 @@ public class OrderDAO extends DBContext {
         }
         return false;
     }
-    
+
     public List<Order> getAllOrdersWithEmployerAndService() {
         List<Order> list = new ArrayList<>();
-        String sql = "SELECT o.Order_ID, o.Employer_ID, o.Service_ID, o.Amount, o.PayMethod, o.Status, o.Date, " +
-                     "e.EmployerName, e.Company_Name, e.Email, e.PhoneNumber, e.Location, e.URL_Website, e.imgLogo, " +
-                     "s.Service_Name, s.Price, s.Description, s.Duration " +
-                     "FROM Orders o " +
-                     "JOIN Employer e ON o.Employer_ID = e.Employer_ID " +
-                     "JOIN Service s ON o.Service_ID = s.Service_ID " +
-                     "ORDER BY o.Date DESC";
+        String sql = "SELECT o.Order_ID, o.Employer_ID, o.Service_ID, o.Amount, o.PayMethod, o.Status, o.Date, "
+                + "e.EmployerName, e.Company_Name, e.Email, e.PhoneNumber, e.Location, e.URL_Website, e.imgLogo, "
+                + "s.Service_Name, s.Price, s.Description, s.Duration "
+                + "FROM Orders o "
+                + "JOIN Employer e ON o.Employer_ID = e.Employer_ID "
+                + "JOIN Service s ON o.Service_ID = s.Service_ID "
+                + "ORDER BY o.Date DESC";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Order order = new Order();
@@ -121,4 +120,40 @@ public class OrderDAO extends DBContext {
 
         return list;
     }
+
+    public void updateExpiredOrdersBasedOnDuration() {
+        String sql = "UPDATE Orders SET Status = 'expired' "
+                + "WHERE Status = 'success' AND EXISTS ("
+                + "  SELECT 1 FROM Service "
+                + "  WHERE Service.Service_ID = Orders.Service_ID "
+                + "  AND DATEADD(DAY, Service.Duration, Orders.Date) <= GETDATE()"
+                + ")";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int rows = ps.executeUpdate();
+            System.out.println("Updated " + rows + " expired orders based on duration.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean hasSuccessfulOrderWithService(int employerId, int serviceId) {
+        String sql = "SELECT 1 FROM Orders WHERE Employer_ID = ? "
+                + "AND Service_ID = ? AND Status = 'success'";
+
+        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, employerId);
+            ps.setInt(2, serviceId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next(); // Có kết quả => đã tồn tại order phù hợp
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 }
