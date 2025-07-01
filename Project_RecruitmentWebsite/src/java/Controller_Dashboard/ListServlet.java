@@ -39,7 +39,9 @@ public class ListServlet extends HttpServlet {
         if (pageParam != null) {
             try {
                 page = Integer.parseInt(pageParam);
-                if (page < 1) page = 1;
+                if (page < 1) {
+                    page = 1;
+                }
             } catch (NumberFormatException e) {
                 page = 1;
             }
@@ -78,7 +80,29 @@ public class ListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        String action = request.getParameter("action");
+
+        if ("toggleVisibility".equals(action)) {
+            try {
+                int serviceId = Integer.parseInt(request.getParameter("serviceId"));
+                boolean visible = Boolean.parseBoolean(request.getParameter("visible"));
+
+                ServiceDAO dao = new ServiceDAO();
+                boolean updated = dao.updateServiceVisibility(serviceId, visible);
+
+                if (updated) {
+                    request.setAttribute("message", "Cập nhật trạng thái hiển thị thành công.");
+                } else {
+                    request.setAttribute("message", "Không thể cập nhật trạng thái.");
+                }
+            } catch (Exception e) {
+                request.setAttribute("message", "Lỗi cập nhật trạng thái: " + e.getMessage());
+            }
+        }
+
+        // Sau khi xử lý xong vẫn forward về lại danh sách như doGet()
+        doGet(request, response);
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

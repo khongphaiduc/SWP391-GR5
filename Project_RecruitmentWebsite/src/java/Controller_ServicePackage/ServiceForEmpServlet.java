@@ -1,98 +1,42 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package Controller_ServicePackage;
 
 import DAO.ServiceDAO;
 import Models.Service;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
-/**
- *
- * @author admin
- */
 @WebServlet(name = "ServiceForEmpServlet", urlPatterns = {"/service-for-emp"})
 public class ServiceForEmpServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServiceForEmpServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServiceForEmpServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServiceDAO dao = new ServiceDAO();
-        List<Service> serviceList = dao.getAllService();
 
-        // Chỉ giữ lại thông tin name, price, description (tùy thuộc vào view)
+        // Tạo DAO và lấy các dịch vụ đang hiển thị (Is_Visible = 1)
+        ServiceDAO dao = new ServiceDAO();
+        List<Service> serviceList = dao.getVisibleServicesForEmployer();
+
+        // Đưa danh sách vào request scope
         request.setAttribute("services", serviceList);
 
-        // Forward tới trang JSP hiển thị dịch vụ cho employer
-        //request.getRequestDispatcher("services.jsp").forward(request, response);
+        // Forward tới trang JSP hiển thị dịch vụ dành cho Employer
         request.getRequestDispatcher("/page_service/servicePackageEmp.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // Nếu cần hỗ trợ POST (tìm kiếm, filter), bạn có thể thêm xử lý tại đây.
+        doGet(request, response); // Tạm thời chuyển về GET
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Hiển thị các gói dịch vụ dành cho Employer (chỉ dịch vụ đang hoạt động)";
+    }
 }

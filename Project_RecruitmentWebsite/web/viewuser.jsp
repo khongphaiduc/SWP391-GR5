@@ -730,13 +730,22 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <a class="action-btn btn-view" href="admin/view-service?id=${service.serviceId}" title="View Details">
-                                                <i class="fas fa-eye"></i>
+                                            <form method="post" action="list" style="display:inline;">
+                                                <input type="hidden" name="action" value="toggleVisibility"/>
+                                                <input type="hidden" name="serviceId" value="${service.serviceId}"/>
+                                                <input type="hidden" name="visible" value="${!service.visible}"/>
+                                                <button type="submit"
+                                                        class="action-btn btn-view"
+                                                        title="${service.visible ? 'Ẩn dịch vụ này' : 'Hiện lại dịch vụ'}"
+                                                        onclick="return confirm('Bạn có chắc chắn muốn ${service.visible ? 'ẩn' : 'hiện'} dịch vụ này?');">
+                                                    <i class="fas ${service.visible ? 'fa-eye' : 'fa-eye-slash'}"></i>
+                                                </button>
+                                            </form>
                                             <a class="action-btn btn-edit"
-   href="${pageContext.request.contextPath}/update-service?id=${service.serviceId}"
-   title="Edit Service">
-   <i class="fas fa-edit"></i>
-</a>
+                                               href="${pageContext.request.contextPath}/update-service?id=${service.serviceId}"
+                                               title="Edit Service">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
 
                                             <a class="action-btn btn-delete"
                                                href="delete-servicepackage?id=${service.serviceId}"

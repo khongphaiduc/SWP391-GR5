@@ -31,15 +31,15 @@ public class Service {
     }
 
     //thêm
-//    private boolean isVisible;
-//
-//    public boolean isVisible() {
-//        return isVisible;
-//    }
-//
-//    public void setIsVisible(boolean isVisible) {
-//        this.isVisible = isVisible;
-//    }
+    private boolean isVisible;
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setIsVisible(boolean isVisible) {
+        this.isVisible = isVisible;
+    }
 
     public Service() {
     }
