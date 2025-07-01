@@ -48,7 +48,7 @@ public class IsAdminDAO extends DBContext {
                     + "  FROM [dbo].[Admin]\n"
                     + "  Where Username like ?";
 
-            String passwordHash = EncodePassword.encodePasswordbyHash(passwordAdmin);  // encode 
+           String passwordHash = EncodePassword.encodePasswordbyHash(passwordAdmin);  // encode 
 
             PreparedStatement push = connection.prepareStatement(query);
             push.setString(1, accountAdmin);
@@ -57,7 +57,7 @@ public class IsAdminDAO extends DBContext {
 
             while (rs.next()) {
                 String getpasswordEncodeInBase = rs.getString("Password_hash");
-                if (passwordHash.equals(getpasswordEncodeInBase)) {
+                if (passwordHash.equals(getpasswordEncodeInBase)) { // thay bien thanh passwordHash thanh passwordAdmin de chay 
                     return true;
                 }
             }
@@ -70,7 +70,8 @@ public class IsAdminDAO extends DBContext {
 
     public static void main(String[] args) {
         IsAdminDAO o = new IsAdminDAO();
-        System.out.println(o.isAdmin("phamtrungducadmin"));
-        System.out.println(o.LogInAccountAdmin("phamtrungducadmin", "12345"));
+        //System.out.println(EncodePassword.encodePasswordbyHash("123456"));
+        System.out.println(o.isAdmin("admin99"));
+        System.out.println(o.LogInAccountAdmin("admin99", "123456"));
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <!-- Các servlet -->
     <servlet>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <servlet-class>Controller_CV.manageCreatedCVServlet</servlet-class>
@@ -59,6 +60,11 @@
     <servlet>
         <servlet-name>vnpayReturn</servlet-name>
         <servlet-class>Controller_VNPay.vnpayReturn</servlet-class>
+    </servlet>
+    <!-- Mapping -->
+    <servlet>
+        <servlet-name>downloadCVServlet</servlet-name>
+        <servlet-class>Controller_CV.downloadCVServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
@@ -120,4 +126,13 @@
         <servlet-name>vnpayReturn</servlet-name>
         <url-pattern>/vnpayReturn</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadCVServlet</servlet-name>
+        <url-pattern>/downloadCV</url-pattern>
+    </servlet-mapping>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+
 </web-app>

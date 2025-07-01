@@ -70,7 +70,7 @@ public class RegisterAccount extends HttpServlet {
             if (role.equals("candidate")) {
 
                 // kiểm tra xem email đã tồn tại chưa 
-                if (candidateDAO.isEmaiCandidateUser(email)) {
+                if (candidateDAO.isEmaiCandidateUser(email) && !employersDAO.isEmaiEmployerUser(email)) {
                     status = "Email của bạn đã được đăng ký với một tài khoản khác";
                     request.setAttribute("status", status);
                     request.getRequestDispatcher("log/login.jsp").forward(request, response);
@@ -151,15 +151,17 @@ public class RegisterAccount extends HttpServlet {
                     // đăng ký 
 
                     boolean result = employersDAO.registerEmployers(nameAccount, email, employerPhone, passwordFist);
-
+                    System.out.println("Thằng result " + result);
+                             System.out.println("Đăng kÝ tài khoản thành công");
                     if (result) {
                         status = "Đăng ký thành công,mời bạn quay lại để đăng nhập !";
-                        request.setAttribute("status", status);
-                        request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                         response.sendRedirect("log/login.jsp");
+                         return ;
                     } else {
-                        status = "ối rồi ồi , đã có dác rồi nên không đăng ký thành công";
+                        status = "ối rồi ồi , đã có rác rồi nên không đăng ký thành công";
                         request.setAttribute("status", status);
                         request.getRequestDispatcher("log/login.jsp").forward(request, response);
+                        return ;
                     }
 
                 }

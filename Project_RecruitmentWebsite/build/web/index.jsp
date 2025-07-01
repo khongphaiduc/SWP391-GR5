@@ -209,8 +209,8 @@
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">For Employer</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="${pageContext.request.contextPath}/manageCreatedJob" class="dropdown-item">Quản lý tin tuyển</a> 
-
                                 <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
+                                <a href="${pageContext.request.contextPath}/service-for-emp" class="dropdown-item">Dịch Vụ</a>
                             </div>
                         </div>
                         <%}%>
@@ -690,6 +690,25 @@
 
             <!--            hiển thị Action Menu-->
             <div class="floating-actions-v2">
+
+        <%
+        // Kiểm tra session và vai trò Admin
+        if (session.getAttribute("username") != null && 
+            session.getAttribute("role") != null && 
+            session.getAttribute("role").equals("Admin")) {
+    %>
+        <div class="fab-item fab-heart" title="Admin Dashboard">
+            <a href="<%= request.getContextPath() %>/adminhome.jsp" target="_self" id="favorite-btn-v2" class="fab-btn">
+                <i class="bi bi-gear-fill"></i>
+                <c:if test="${username != null}">
+                    <span class="fab-badge" id="favorite-count-v2">${numberJobPost}</span>
+                </c:if>
+            </a>
+            <span class="fab-hover-label">Admin</span>
+        </div>
+    <%
+        }
+    %>
                 <div class="fab-item fab-heart" title="Việc làm yêu thích">
                     <a href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" id="favorite-btn-v2" class="fab-btn" >
                         <i class="bi bi-heart-fill"></i>
@@ -702,18 +721,38 @@
                 </div>
                 <div class="fab-item" title="Góp ý">
                     <a  href="<%= request.getContextPath() %>/ViewActionMenu/Feedback.jsp" target="_self" class="fab-btn">
-               <i class="bi bi-envelope-fill"></i>
+                        <i class="bi bi-envelope-fill"></i>
                     </a>
-               <span class="fab-hover-label">Góp ý GenZTimViec</span>
+                    <span class="fab-hover-label">Góp ý GenZTimViec</span>
                 </div>
-                        
+
                 <div class="fab-item" title="Tin Nhắn">
-                    <a  href="<%= request.getContextPath() %>/Chat/ChatWithAdmin.jsp" target="_self" class="fab-btn">
-                        <i class="bi bi-chat-dots"></i>
-                    </a>
-                    <span class="fab-hover-label">Chat với chung tôi</span>
+
+                    <c:if test="${role eq 'Admin'}">
+                        <a  href="<%= request.getContextPath() %>/WebsocketChatWithUser" target="_blank" class="fab-btn">
+                            <i class="bi bi-chat-dots"></i>
+                        </a>
+                        <span class="fab-hover-label">Hệ Thông Chat Với User </span>
+                    </c:if>
+
+
+                    <c:if test="${role!='Admin' && role !=null}">
+                        <a  href="<%= request.getContextPath() %>/WebsocketChatWithSupportTeam" target="_blank" class="fab-btn">
+                            <i class="bi bi-chat-dots"></i>
+                        </a>
+                        <span class="fab-hover-label">Vào Phòng Chat</span>
+                    </c:if>
+
+                    <c:if test="${role==null}">
+                        <a  href="<%= request.getContextPath() %>/log/login.jsp" target="_self" class="fab-btn">
+                            <i class="bi bi-chat-dots"></i>
+                        </a>
+                  
+                    </c:if>
+
+
                 </div>
-                        
+
                 <div class="fab-item" title="Hỗ trợ" style="z-index:10000;">
                     <button class="fab-btn" id="openSupportPanel" type="button">
                         <i class="bi bi-headset"></i>
@@ -742,7 +781,7 @@
                             <i class="bi bi-question-circle"></i> Các câu hỏi thường gặp
                         </a>
                         <a class="support-popup-link" href="SupportUser" target="_blank">
-                          	<i class="bi bi-file-earmark-text"></i>Gửi Report
+                            <i class="bi bi-file-earmark-text"></i>Gửi Report
                         </a>
                         <a class="support-popup-link" href="#" id="contactButton">
                             <i class="bi bi-telephone"></i> Liên hệ GenZTimViec

@@ -92,7 +92,9 @@ public class LoginAccount extends HttpServlet {
                 if (result) {
                     session.setAttribute("username", nameAccount);
                     session.setAttribute("role", "Admin");
-                    response.sendRedirect("Index");
+
+                    response.sendRedirect("list"); // sua tu index.jsp chay thang sang ListServlet(se chay den admin dashboard) voi url /list
+
                 } else {
                     status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
                     request.setAttribute("username", nameAccount);

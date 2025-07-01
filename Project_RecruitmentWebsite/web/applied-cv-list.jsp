@@ -327,31 +327,64 @@
                         </div>
 
                         <!-- Pagination -->
-                        <c:if test="${totalPages > 1}">
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination justify-content-center mt-4">
-                                    <c:if test="${currentPage > 1}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="applied-cvs?page=${currentPage - 1}" aria-label="Previous">
-                                                <span aria-hidden="true">«</span>
-                                            </a>
-                                        </li>
-                                    </c:if>
-                                    <c:forEach begin="1" end="${totalPages}" var="i">
+                        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+                       <%-- <c:if test="${totalPages > 1}">--%>
+                            <div class="container mt-4">
+                                <c:url var="baseUrl" value="${not empty keyword or not empty address or not empty numberExp or not empty position or not empty field 
+                                                              ? 'SearchCVsServlet' : 'view-applied-cvs'}" />
+
+                                <ul class="pagination justify-content-center">
+                                    <!-- Previous Page -->
+                                    <c:url var="prevUrl" value="${baseUrl}">
+                                        <c:param name="page" value="${currentPage - 1}" />
+                                        <c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}" /></c:if>
+                                        <c:if test="${not empty address}"><c:param name="address" value="${address}" /></c:if>
+                                        <c:if test="${not empty numberExp}"><c:param name="numberExp" value="${numberExp}" /></c:if>
+                                        <c:if test="${not empty position}"><c:param name="position" value="${position}" /></c:if>
+                                        <c:if test="${not empty field}"><c:param name="field" value="${field}" /></c:if>
+                                    </c:url>
+                                    <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                        <a class="page-link" href="${prevUrl}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+
+
+                                    <!-- Page Numbers -->
+                                    <c:forEach var="i" begin="1" end="${totalPages}">
+                                        <c:url var="pageUrl" value="${baseUrl}">
+                                            <c:param name="page" value="${i}" />
+                                            <c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}" /></c:if>
+                                            <c:if test="${not empty address}"><c:param name="address" value="${address}" /></c:if>
+                                            <c:if test="${not empty numberExp}"><c:param name="numberExp" value="${numberExp}" /></c:if>
+                                            <c:if test="${not empty position}"><c:param name="position" value="${position}" /></c:if>
+                                            <c:if test="${not empty field}"><c:param name="field" value="${field}" /></c:if>
+                                        </c:url>
                                         <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="applied-cvs?page=${i}">${i}</a>
+                                            <a class="page-link" href="${pageUrl}">${i}</a>
                                         </li>
                                     </c:forEach>
-                                    <c:if test="${currentPage < totalPages}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="applied-cvs?page=${currentPage + 1}" aria-label="Next">
-                                                <span aria-hidden="true">»</span>
-                                            </a>
-                                        </li>
-                                    </c:if>
+
+
+                                    <!-- Next Page -->
+                                    <c:url var="nextUrl" value="${baseUrl}">
+                                        <c:param name="page" value="${currentPage + 1}" />
+                                        <c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}" /></c:if>
+                                        <c:if test="${not empty address}"><c:param name="address" value="${address}" /></c:if>
+                                        <c:if test="${not empty numberExp}"><c:param name="numberExp" value="${numberExp}" /></c:if>
+                                        <c:if test="${not empty position}"><c:param name="position" value="${position}" /></c:if>
+                                        <c:if test="${not empty field}"><c:param name="field" value="${field}" /></c:if>
+                                    </c:url>
+                                    <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                        <a class="page-link" href="${nextUrl}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
                                 </ul>
-                            </nav>
-                        </c:if>
+                            </div>
+                      <%--</c:if>--%>
                     </div>
                 </div>
             </div>
@@ -361,24 +394,24 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX+vR+Vc4jQkC+hVqc2pM8ODewa9" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
         <script>
-            function showView(view) {
-                const gridView = document.getElementById('cvGrid');
-                const tableView = document.getElementById('cvTable');
-                const gridButton = document.querySelector('.view-options button:nth-child(1)');
-                const listButton = document.querySelector('.view-options button:nth-child(2)');
+                                    function showView(view) {
+                                        const gridView = document.getElementById('cvGrid');
+                                        const tableView = document.getElementById('cvTable');
+                                        const gridButton = document.querySelector('.view-options button:nth-child(1)');
+                                        const listButton = document.querySelector('.view-options button:nth-child(2)');
 
-                if (view === 'grid') {
-                    gridView.style.display = 'flex';
-                    tableView.style.display = 'none';
-                    gridButton.classList.add('active');
-                    listButton.classList.remove('active');
-                } else {
-                    gridView.style.display = 'none';
-                    tableView.style.display = 'block';
-                    gridButton.classList.remove('active');
-                    listButton.classList.add('active');
-                }
-            }
+                                        if (view === 'grid') {
+                                            gridView.style.display = 'flex';
+                                            tableView.style.display = 'none';
+                                            gridButton.classList.add('active');
+                                            listButton.classList.remove('active');
+                                        } else {
+                                            gridView.style.display = 'none';
+                                            tableView.style.display = 'block';
+                                            gridButton.classList.remove('active');
+                                            listButton.classList.add('active');
+                                        }
+                                    }
         </script>
         <!-- Thong báo -->
         <c:if test="${not empty sessionScope.toastMessage}">

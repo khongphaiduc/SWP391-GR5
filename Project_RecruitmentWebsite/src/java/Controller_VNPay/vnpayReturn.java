@@ -7,7 +7,6 @@ package Controller_VNPay;
 
 import Controller_VNPay.Config;
 import DAO.OrderDAO;
-import dao.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import Models.Order;
+
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,13 +71,15 @@ import java.util.logging.Logger;
                     transSuccess = true;
                 } else {
                     orderDao.updateOrderStatus(orderId, "failed");
+                    
                 }
-                
                 request.setAttribute("transResult", transSuccess);
                 request.getRequestDispatcher("order_view/paymentResult.jsp").forward(request, response);
             } else {
-                //RETURN PAGE ERROR
-                System.out.println("GD KO HOP LE (invalid signature)");
+
+                request.setAttribute("transResult", false);
+
+                request.getRequestDispatcher("order_view/paymentResult.jsp").forward(request, response);
             }
         }
     }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package Controller_Log;
 
 import MyService.Google;
@@ -17,22 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-/**
- *
- * @author Admin
- */
 @WebServlet(name = "LogWithGoogle", urlPatterns = {"/LogWithGoogle"})
 public class LogWithGoogle extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -55,7 +38,7 @@ public class LogWithGoogle extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            
+
             RegisterCandidateUser candidate = new RegisterCandidateUser();
             RegisterEmployerUser employer = new RegisterEmployerUser();
             HttpSession session = request.getSession();
@@ -68,25 +51,24 @@ public class LogWithGoogle extends HttpServlet {
 
             GoogleInfo infoUser = mygoogle.getUserInfo(accessToken);   // gửi token cho thằng gg và nó gửi về josn và chuyển về object GoogleInfo
 
-           // case cả 2 đã  đăng ký trước đó
-            
-            
+            // case cả 2 đã  đăng ký trước đó
             if (candidate.isEmaiCandidateUser(infoUser.getEmail())) {
                 session.setAttribute("role", "Candidate");
                 session.setAttribute("username", candidate.getNamAcountByEmailofCandidate(infoUser.getEmail()));  // lấy tên đang nhập của mail
-                session.setAttribute("idUser",candidate.getIDbyAccountNameCandidate(candidate.getNamAcountByEmailofCandidate(infoUser.getEmail())));
+                session.setAttribute("idUser", candidate.getIDbyAccountNameCandidate(candidate.getNamAcountByEmailofCandidate(infoUser.getEmail())));
+                session.setAttribute("infoUser", infoUser);
                 response.sendRedirect("Index");
             } else if (employer.isEmaiEmployerUser(infoUser.getEmail())) {
                 session.setAttribute("role", "Employer");
                 session.setAttribute("username", employer.getNamAcountByEmailofEmployer(infoUser.getEmail()));
-                session.setAttribute("idUser",candidate.getIDbyAccountNameCandidate(employer.getNamAcountByEmailofEmployer(infoUser.getEmail())));
+                session.setAttribute("idUser", candidate.getIDbyAccountNameCandidate(employer.getNamAcountByEmailofEmployer(infoUser.getEmail())));
+                session.setAttribute("infoUser", infoUser);
                 response.sendRedirect("Index");
-            }else{
+            } else {
                 session.setAttribute("infoUser", infoUser);    // lưu thằng vừa đăng  bằng gg vào session 
                 response.sendRedirect("log/ChooesRoleLogWGoogle.jsp");
             }
 
-           
         } catch (Exception e) {
             System.out.println(e.getMessage());
             response.sendRedirect("log/ChooesRoleLogWGoogle.jsp");
@@ -97,10 +79,7 @@ public class LogWithGoogle extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-        
-        
-        
+
     }
 
     @Override
