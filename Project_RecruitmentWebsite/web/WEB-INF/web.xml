@@ -78,6 +78,10 @@
         <servlet-name>OrderStatusScheduler</servlet-name>
         <servlet-class>MyService.OrderStatusScheduler</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderHistoryServlet</servlet-name>
+        <servlet-class>Controller_Order.OrderHistoryServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -153,6 +157,10 @@
     <servlet-mapping>
         <servlet-name>OrderStatusScheduler</servlet-name>
         <url-pattern>/OrderStatusScheduler</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderHistoryServlet</servlet-name>
+        <url-pattern>/OrderHistory</url-pattern>
     </servlet-mapping>
     <error-page>
         <error-code>404</error-code>

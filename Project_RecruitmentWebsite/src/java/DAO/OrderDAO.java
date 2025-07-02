@@ -5,6 +5,7 @@ import Models.Order;
 import Models.Service;
 import dal.DBContext;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,12 @@ public class OrderDAO extends DBContext {
 
     public List<Order> getOrdersByEmployerId(int employerId) throws SQLException {
         List<Order> list = new ArrayList<>();
-        String sql = "SELECT * FROM Orders WHERE Employer_ID = ?";
+        String sql = "SELECT o.Order_ID, o.Employer_ID, o.Service_ID, o.Amount, o.PayMethod, o.Status, o.Date, "
+                + "s.Service_Name, s.Duration "
+                + "FROM Orders o "
+                + "JOIN Service s ON o.Service_ID = s.Service_ID "
+                + "WHERE o.Employer_ID = ?";
+
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, employerId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -49,7 +55,17 @@ public class OrderDAO extends DBContext {
                             rs.getString("Status"),
                             rs.getTimestamp("Date")
                     );
+
+                    o.setServiceName(rs.getString("Service_Name"));
+                    o.setDuration(rs.getInt("Duration"));
+
+                    // Tính ngày hết hạn: Date + Duration
+                    LocalDateTime orderDate = rs.getTimestamp("Date").toLocalDateTime();
+                    LocalDateTime expiredDate = orderDate.plusDays(o.getDuration());
+                    o.setExpiredDate(Timestamp.valueOf(expiredDate)); 
+
                     list.add(o);
+
                 }
             }
         }
@@ -140,7 +156,7 @@ public class OrderDAO extends DBContext {
         String sql = "SELECT 1 FROM Orders WHERE Employer_ID = ? "
                 + "AND Service_ID = ? AND Status = 'success'";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, employerId);
             ps.setInt(2, serviceId);

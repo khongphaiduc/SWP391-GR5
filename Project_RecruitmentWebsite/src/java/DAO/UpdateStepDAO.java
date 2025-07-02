@@ -44,7 +44,7 @@ public class UpdateStepDAO extends DBContext{
     public static void main(String[] args) {
     UpdateStepDAO dao = new UpdateStepDAO();
 
-    int applyId = 5;          // ID hồ sơ Apply bạn muốn test
+    int applyId = 8;          // ID hồ sơ Apply bạn muốn test
     String newStep = "Đã phỏng vấn"; // Bước mới bạn muốn cập nhật
     int employerId = 4;         // ID của Employer (phải là chủ JobPost)
 

@@ -2,7 +2,6 @@
 <%@ page import="java.util.*, Models.*" %>
 <html>
     <head>
-       
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Danh sách tin tuyển dụng</title>
@@ -22,25 +21,25 @@
                 line-height: 1.6;
             }
 
-            .container {
+            .job-container {
                 max-width: 1200px;
                 margin: 0 auto;
                 padding: 80px 20px 20px;
             }
 
-            .header {
+            .job-header {
                 text-align: center;
                 margin-bottom: 30px;
             }
 
-            .header h1 {
+            .job-header h1 {
                 font-size: 2rem;
                 color: #00c853;
                 margin-bottom: 10px;
                 font-weight: 600;
             }
 
-            .header p {
+            .job-header p {
                 color: #6c757d;
                 font-size: 1rem;
             }
@@ -65,7 +64,7 @@
                 box-shadow: 0 4px 16px rgba(0,0,0,0.15);
             }
 
-            .job-header {
+            .job-card-header {
                 border-bottom: 2px solid #00c853;
                 padding-bottom: 16px;
                 margin-bottom: 20px;
@@ -94,7 +93,7 @@
                 margin-bottom: 20px;
             }
 
-            .info-item {
+            .job-info-item {
                 display: flex;
                 align-items: flex-start;
                 gap: 12px;
@@ -104,18 +103,18 @@
                 border-left: 3px solid #00c853;
             }
 
-            .info-icon {
+            .job-info-icon {
                 color: #00c853;
                 font-size: 16px;
                 margin-top: 2px;
                 min-width: 16px;
             }
 
-            .info-content {
+            .job-info-content {
                 flex: 1;
             }
 
-            .info-label {
+            .job-info-label {
                 font-size: 0.85rem;
                 color: #7f8c8d;
                 font-weight: 500;
@@ -124,19 +123,19 @@
                 letter-spacing: 0.5px;
             }
 
-            .info-value {
+            .job-info-value {
                 font-size: 0.95rem;
                 color: #2c3e50;
                 font-weight: 500;
                 word-wrap: break-word;
             }
 
-            .info-value a {
+            .job-info-value a {
                 color: #00c853;
                 text-decoration: none;
             }
 
-            .info-value a:hover {
+            .job-info-value a:hover {
                 text-decoration: underline;
             }
 
@@ -151,7 +150,7 @@
                 flex: 1;
             }
 
-            .btn {
+            .job-btn {
                 width: 100%;
                 padding: 12px 20px;
                 border: none;
@@ -168,27 +167,27 @@
                 transition: all 0.3s ease;
             }
 
-            .btn-edit {
+            .job-btn-edit {
                 background-color: #00c853;
                 color: white;
             }
 
-            .btn-edit:hover {
+            .job-btn-edit:hover {
                 background-color: #00a63f;
                 transform: translateY(-1px);
             }
 
-            .btn-delete {
+            .job-btn-delete {
                 background-color: #e74c3c;
                 color: white;
             }
 
-            .btn-delete:hover {
+            .job-btn-delete:hover {
                 background-color: #c0392b;
                 transform: translateY(-1px);
             }
 
-            .no-jobs {
+            .job-no-jobs {
                 text-align: center;
                 padding: 60px 20px;
                 background: white;
@@ -196,24 +195,24 @@
                 border: 1px solid #e0e0e0;
             }
 
-            .no-jobs i {
+            .job-no-jobs i {
                 font-size: 4rem;
                 color: #bdc3c7;
                 margin-bottom: 20px;
             }
 
-            .no-jobs h3 {
+            .job-no-jobs h3 {
                 font-size: 1.5rem;
                 color: #2c3e50;
                 margin-bottom: 10px;
             }
 
-            .no-jobs p {
+            .job-no-jobs p {
                 color: #7f8c8d;
                 font-size: 1rem;
             }
 
-            .pagination-wrapper {
+            .job-pagination-wrapper {
                 background: white;
                 padding: 20px;
                 border-radius: 8px;
@@ -221,7 +220,7 @@
                 margin-top: 20px;
             }
 
-            .pagination {
+            .job-pagination {
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -229,7 +228,7 @@
                 flex-wrap: wrap;
             }
 
-            .pagination a, .pagination span {
+            .job-pagination a, .job-pagination span {
                 padding: 8px 12px;
                 border-radius: 4px;
                 text-decoration: none;
@@ -239,23 +238,23 @@
                 transition: all 0.3s ease;
             }
 
-            .pagination a {
+            .job-pagination a {
                 background: #f8f9fa;
                 color: #2c3e50;
                 border: 1px solid #e0e0e0;
             }
 
-            .pagination a:hover {
+            .job-pagination a:hover {
                 background: #00c853;
                 color: white;
             }
 
-            .pagination .current-page {
+            .job-current-page {
                 background: #00c853;
                 color: white;
             }
 
-            .page-size-control {
+            .job-page-size-control {
                 display: flex;
                 align-items: center;
                 gap: 8px;
@@ -264,7 +263,7 @@
                 border-left: 1px solid #e0e0e0;
             }
 
-            .page-size-control input {
+            .job-page-size-control input {
                 width: 60px;
                 padding: 6px 8px;
                 border: 1px solid #e0e0e0;
@@ -272,7 +271,7 @@
                 text-align: center;
             }
 
-            .page-size-control button {
+            .job-page-size-control button {
                 padding: 6px 12px;
                 background: #00c853;
                 color: white;
@@ -282,11 +281,11 @@
                 font-weight: 500;
             }
 
-            .page-size-control button:hover {
+            .job-page-size-control button:hover {
                 background: #00a63f;
             }
 
-            .status-badge {
+            .job-status-badge {
                 display: inline-block;
                 padding: 4px 8px;
                 border-radius: 12px;
@@ -295,19 +294,19 @@
                 text-transform: uppercase;
             }
 
-            .status-visible {
+            .job-status-visible {
                 background: #e8f5e8;
                 color: #2e7d32;
             }
 
-            .status-hidden {
+            .job-status-hidden {
                 background: #f8d7da;
                 color: #721c24;
             }
 
             /* Responsive */
             @media (max-width: 768px) {
-                .container {
+                .job-container {
                     padding: 80px 15px 15px;
                 }
 
@@ -319,12 +318,12 @@
                     flex-direction: column;
                 }
 
-                .pagination {
+                .job-pagination {
                     flex-direction: column;
                     gap: 15px;
                 }
 
-                .page-size-control {
+                .job-page-size-control {
                     margin-left: 0;
                     padding-left: 0;
                     border-left: none;
@@ -346,8 +345,8 @@
     </head>
     <body>
         <jsp:include page="/navbar.jsp" />
-        <div class="container">
-            <div class="header">
+        <div class="job-container">
+            <div class="job-header">
                 <h1><i class="fas fa-briefcase"></i> Danh sách tin tuyển dụng</h1>
                 <p>Quản lý tất cả tin tuyển dụng của bạn</p>
             </div>
@@ -361,7 +360,7 @@
                     for (JobPost job : jobList) {
                 %>
                 <div class="job-card">
-                    <div class="job-header">
+                    <div class="job-card-header">
                         <div class="job-title">
                             <i class="fas fa-briefcase"></i>
                             <a href="${pageContext.request.contextPath}/cv-list?jobPostId=<%= job.getJobPost_ID() %>" 
@@ -371,7 +370,6 @@
                                title="Click để xem danh sách CV của tin tuyển dụng">
                                 <%= job.getTitle() %>
                             </a>
-
                         </div>
 
                         <div class="job-item-position">
@@ -381,59 +379,59 @@
                         </div>
 
                         <div class="job-info">
-                            <div class="info-item">
-                                <i class="fas fa-building info-icon"></i>
-                                <div class="info-content">
-                                    <div class="info-label">Công ty</div>
-                                    <div class="info-value"><%= job.getEmployer().getCompanyName() %></div>
+                            <div class="job-info-item">
+                                <i class="fas fa-building job-info-icon"></i>
+                                <div class="job-info-content">
+                                    <div class="job-info-label">Công ty</div>
+                                    <div class="job-info-value"><%= job.getEmployer().getCompanyName() %></div>
                                 </div>
                             </div>
 
-                            <div class="info-item">
-                                <i class="fas fa-sitemap info-icon"></i>
-                                <div class="info-content">
-                                    <div class="info-label">Ngành nghề</div>
-                                    <div class="info-value"><%= job.getCategory() %></div>
+                            <div class="job-info-item">
+                                <i class="fas fa-sitemap job-info-icon"></i>
+                                <div class="job-info-content">
+                                    <div class="job-info-label">Ngành nghề</div>
+                                    <div class="job-info-value"><%= job.getCategory() %></div>
                                 </div>
                             </div>
 
-                            <div class="info-item">
-                                <i class="fas fa-map-marker-alt info-icon"></i>
-                                <div class="info-content">
-                                    <div class="info-label">Địa điểm</div>
-                                    <div class="info-value"><%= job.getLocation() %></div>
+                            <div class="job-info-item">
+                                <i class="fas fa-map-marker-alt job-info-icon"></i>
+                                <div class="job-info-content">
+                                    <div class="job-info-label">Địa điểm</div>
+                                    <div class="job-info-value"><%= job.getLocation() %></div>
                                 </div>
                             </div>
 
-                            <div class="info-item">
-                                <i class="fas fa-money-bill-wave info-icon"></i>
-                                <div class="info-content">
-                                    <div class="info-label">Mức lương</div>
-                                    <div class="info-value"><%= job.getOffer_Min() %> - <%= job.getOffer_Max() %></div>
+                            <div class="job-info-item">
+                                <i class="fas fa-money-bill-wave job-info-icon"></i>
+                                <div class="job-info-content">
+                                    <div class="job-info-label">Mức lương</div>
+                                    <div class="job-info-value"><%= job.getOffer_Min() %> - <%= job.getOffer_Max() %></div>
                                 </div>
                             </div>
 
-                            <div class="info-item">
-                                <i class="fas fa-hourglass info-icon"></i>
-                                <div class="info-content">
-                                    <div class="info-label">Kinh nghiệm</div>
-                                    <div class="info-value"><%= job.getNumber_exp() %> năm</div>
+                            <div class="job-info-item">
+                                <i class="fas fa-hourglass job-info-icon"></i>
+                                <div class="job-info-content">
+                                    <div class="job-info-label">Kinh nghiệm</div>
+                                    <div class="job-info-value"><%= job.getNumber_exp() %> năm</div>
                                 </div>
                             </div>
 
-                            <div class="info-item">
-                                <i class="fas fa-calendar-alt info-icon"></i>
-                                <div class="info-content">
-                                    <div class="info-label">Ngày đăng</div>
-                                    <div class="info-value"><%= job.getDayCre() %></div>
+                            <div class="job-info-item">
+                                <i class="fas fa-calendar-alt job-info-icon"></i>
+                                <div class="job-info-content">
+                                    <div class="job-info-label">Ngày đăng</div>
+                                    <div class="job-info-value"><%= job.getDayCre() %></div>
                                 </div>
                             </div>
 
-                            <div class="info-item">
-                                <i class="fas fa-globe info-icon"></i>
-                                <div class="info-content">
-                                    <div class="info-label">Website công ty</div>
-                                    <div class="info-value">
+                            <div class="job-info-item">
+                                <i class="fas fa-globe job-info-icon"></i>
+                                <div class="job-info-content">
+                                    <div class="job-info-label">Website công ty</div>
+                                    <div class="job-info-value">
                                         <a href="<%= job.getEmployer().getUrlWebsite() %>" target="_blank">
                                             <%= job.getEmployer().getUrlWebsite() %>
                                         </a>
@@ -441,30 +439,24 @@
                                 </div>
                             </div>
 
-                            <div class="info-item">
-                                <i class="fas fa-users info-icon"></i>
-                                <div class="info-content">
-                                    <div class="info-label">Quy mô công ty</div>
-                                    <div class="info-value"><%= job.getEmployer().getCompanySize() %></div>
-                                </div>
-                            </div>
+                            
 
-                            <div class="info-item">
-                                <i class="fas fa-envelope info-icon"></i>
-                                <div class="info-content">
-                                    <div class="info-label">Email công ty</div>
-                                    <div class="info-value">
+                            <div class="job-info-item">
+                                <i class="fas fa-envelope job-info-icon"></i>
+                                <div class="job-info-content">
+                                    <div class="job-info-label">Email công ty</div>
+                                    <div class="job-info-value">
                                         <a href="mailto:<%= job.getEmployer().getEmail() %>"><%= job.getEmployer().getEmail() %></a>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="info-item">
-                                <i class="fas fa-eye info-icon"></i>
-                                <div class="info-content">
-                                    <div class="info-label">Trạng thái</div>
-                                    <div class="info-value">
-                                        <span class="status-badge <%= job.isVisible() ? "status-visible" : "status-hidden" %>">
+                            <div class="job-info-item">
+                                <i class="fas fa-eye job-info-icon"></i>
+                                <div class="job-info-content">
+                                    <div class="job-info-label">Trạng thái</div>
+                                    <div class="job-info-value">
+                                        <span class="job-status-badge <%= job.isVisible() ? "job-status-visible" : "job-status-hidden" %>">
                                             <%= job.isVisible() ? "Hiển thị" : "Ẩn" %>
                                         </span>
                                     </div>
@@ -476,66 +468,59 @@
                             <form method="post" action="manageCreatedJob">
                                 <input type="hidden" name="action" value="edit" />
                                 <input type="hidden" name="jobId" value="<%= job.getJobPost_ID() %>" />
-                                <button type="submit" class="btn btn-edit">
+                                <button type="submit" class="job-btn job-btn-edit">
                                     <i class="fas fa-edit"></i> Chỉnh sửa
                                 </button>
                             </form>
                             <form method="post" action="manageCreatedJob" onsubmit="return confirm('Bạn có chắc chắn muốn xóa tin này?');">
                                 <input type="hidden" name="action" value="delete" />
                                 <input type="hidden" name="jobId" value="<%= job.getJobPost_ID() %>" />
-                                <button type="submit" class="btn btn-delete">
+                                <button type="submit" class="job-btn job-btn-delete">
                                     <i class="fas fa-trash"></i> Xóa
                                 </button>
                             </form>
                         </div>
                     </div>
-                    <%
-                        }
-                    %>
                 </div>
-
-                <% 
-                    Integer currentPage = (Integer) request.getAttribute("currentPage");
-                    Integer totalPages = (Integer) request.getAttribute("totalPages");
-                    Integer pageSize = (Integer) session.getAttribute("pageSize");
-                    if (totalPages != null) {
+                <%
+                    }
                 %>
-                <div class="pagination-wrapper">
-                    <div class="pagination">
-                        <% for (int i = 1; i <= totalPages; i++) { %>
-                        <% if (i == currentPage) { %>
+            </div>
 
-                        <span class="job-current-page"><%= i %></span>
-
-                        <span class="current-page"><%= i %></span>
-
-                        <% } else { %>
-                        <a href="manageCreatedJob?page=<%= i %>"><%= i %></a>
-                        <% } %>
-                        <% } %>
-
-
-                        <div class="job-page-size-control">
-
-                            <div class="page-size-control">
-
-                                <span>Hiển thị:</span>
-                                <form action="manageCreatedJob" style="display: flex; align-items: center; gap: 8px;">
-                                    <input type="number" name="pageSize" value="<%=pageSize%>" min="1" max="20">
-                                    <button type="submit">OK</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <% } %>
-
+            <% 
+                Integer currentPage = (Integer) request.getAttribute("currentPage");
+                Integer totalPages = (Integer) request.getAttribute("totalPages");
+                Integer pageSize = (Integer) session.getAttribute("pageSize");
+                if (totalPages != null && totalPages > 1) {
+            %>
+            <div class="job-pagination-wrapper">
+                <div class="job-pagination">
+                    <% for (int i = 1; i <= totalPages; i++) { %>
+                    <% if (i == currentPage) { %>
+                    <span class="job-current-page"><%= i %></span>
                     <% } else { %>
-                    <div class="no-jobs">
-                        <i class="fas fa-briefcase"></i>
-                        <h3>Chưa có tin tuyển dụng</h3>
-                        <p>Không có tin tuyển dụng nào được tìm thấy. Hãy tạo tin tuyển dụng đầu tiên của bạn!</p>
-                    </div>
+                    <a href="manageCreatedJob?page=<%= i %>"><%= i %></a>
                     <% } %>
+                    <% } %>
+
+                    <div class="job-page-size-control">
+                        <span>Hiển thị:</span>
+                        <form action="manageCreatedJob" style="display: flex; align-items: center; gap: 8px;">
+                            <input type="number" name="pageSize" value="<%=pageSize%>" min="1" max="20">
+                            <button type="submit">OK</button>
+                        </form>
+                    </div>
                 </div>
-                </body>
-                </html>
+            </div>
+            <% } %>
+
+            <% } else { %>
+            <div class="job-no-jobs">
+                <i class="fas fa-briefcase"></i>
+                <h3>Chưa có tin tuyển dụng</h3>
+                <p>Không có tin tuyển dụng nào được tìm thấy. Hãy tạo tin tuyển dụng đầu tiên của bạn!</p>
+            </div>
+            <% } %>
+        </div>
+    </body>
+</html>
