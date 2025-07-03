@@ -1,3 +1,4 @@
+<%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -8,7 +9,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-        <link rel="stylesheet" href="<%= request.getContextPath() %>/css/FeedBackCSS.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/FeedBackCSS.css">
+
     </head>
     <body>
         <jsp:include page="/IconActionMenu.jsp" />
@@ -22,7 +24,7 @@
             <div class="feedback-desc">
                 Chúng tôi luôn lắng nghe và phản hổi cho bạn một cách sớm nhất 
             </div>
-            <form action="<%= request.getContextPath() %>/FeebBackAndSupport" method="post" enctype="multipart/form-data">
+            <form action="${pageContext.request.contextPath}/FeebBackAndSupport" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title" class="form-label">Tiêu đề</label>
                     <select name="titel" class="form-select" id="title" required>
@@ -74,13 +76,7 @@
                     <span class="small">Chăm sóc khách hàng của chúng tôi sẽ liên hệ với bạn sớm nhất và gửi phản hồi qua email </span>
                 </div>
             </form>
-            <% String statusSendFeedback = (String) request.getAttribute("statusReport");
-           if (statusSendFeedback != null && !statusSendFeedback.trim().isEmpty()) { %>
-            <div class="feedback-status-tab" id="feedbackStatusTab">
-                <i class="bi bi-info-circle-fill"></i>
-                <%= statusSendFeedback %>
-            </div>
-            <% } %>
+            
         </div>
         <script>
             window.addEventListener('DOMContentLoaded', function () {

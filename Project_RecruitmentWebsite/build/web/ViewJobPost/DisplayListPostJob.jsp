@@ -12,7 +12,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-        <link rel="stylesheet" href="../css/SaveJobPostcss.css"/>
+        <link rel="stylesheet" href="<%= request.getContextPath() %>/css/SaveJobPostcss.css"/>
         <style>
             body {
                 background: linear-gradient(135deg, #e3f2fd 0%, #fffde7 100%);
