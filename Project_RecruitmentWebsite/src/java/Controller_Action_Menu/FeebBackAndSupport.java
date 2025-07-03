@@ -87,7 +87,7 @@ public class FeebBackAndSupport extends HttpServlet {
             result = reportDAO.sendReportAndFeebBack(idUser, idRole, phoneSender, titel, content, urlforderSaveImageFeedBack, null);
 
             System.out.println(result == true ? "Gửi thành công " : "Fail cmnr");
-            statusReport = result == true ? "Người hỗ trợ của chúng tỗi sẽ liên hệ lại với bạn thông qua số điện thoại,xin quý khách để ý điện thoại  " : "Gửi Thất Bại";
+            statusReport = result == true ? "Gửi Ticket Thành Công" : "Gửi Thất Bại";
             request.setAttribute("statusReport", statusReport);
             request.getRequestDispatcher("ViewActionMenu/FeedbackAndReport.jsp").forward(request, response);
         } catch (Exception e) {
