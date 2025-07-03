@@ -1,1 +1,42 @@
-/Project_RecruitmentWebsite/dist/
+# Ignore build directories
+/build/
+/dist/
+/out/
+/nbbuild/
+/nbdist/
+/nbactions.xml
+/nb-configuration.xml
+
+# Ignore NetBeans specific files
+**/nbproject/private/
+/nbproject/private/
+/nbproject/Makefile-*.mk
+
+# Ignore compiled class files
+**/*.class
+**/*.jar
+**/*.war
+**/*.ear
+
+# Ignore generated files
+**/*.log
+**/*.tmp
+**/*.bak
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore IDE settings (optional)
+.idea/
+*.iml
+
+# Ignore Maven / Gradle if present
+target/
+.gradle/
+build/
+
+# Ignore other temporary files
+*.swp
+*~
