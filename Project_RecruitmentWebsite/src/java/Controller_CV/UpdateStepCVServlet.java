@@ -1,5 +1,6 @@
 package Controller_CV;
 
+import DAO.EmployerDAO;
 import DAO.UpdateStepDAO;
 import DAO.CVDAO;
 import Models.CV;
@@ -23,9 +24,12 @@ public class UpdateStepCVServlet extends HttpServlet {
         String jobPostIdRaw = request.getParameter("jobPostId");
 
         HttpSession session = request.getSession();
-        Integer employerId = (Integer) session.getAttribute("employerId");
+        EmployerDAO employerDAO = new EmployerDAO();
+        String username = (String) session.getAttribute("username");
+        
+        int employerId = employerDAO.getEmployerByName(username).getEmployerId();
 
-        if (employerId == null) {
+        if (username == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Bạn chưa đăng nhập.");
             return;
         }
