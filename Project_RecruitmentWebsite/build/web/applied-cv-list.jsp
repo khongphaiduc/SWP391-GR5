@@ -234,9 +234,6 @@
                         <h2>Danh sách CV đã ứng tuyển vào công ty</h2>
 
                         <!-- Display success or error messages -->
-                        <c:if test="${not empty message}">
-                            <div class="alert alert-success">${message}</div>
-                        </c:if>
                         <c:if test="${not empty error}">
                             <div class="alert alert-danger">${error}</div>
                         </c:if>
@@ -256,16 +253,19 @@
                                     <c:forEach var="cv" items="${appliedCVs}">
                                         <div class="col-md-4 col-sm-6 mb-4">
                                             <div class="cv-card">
-                                                <img src="img/avata.jpg" alt="CV Icon">
+                                                <img src="${pageContext.request.contextPath}/img/${cv.fileData}" 
+                                                   onerror="this.src='img/default-avatar.png'">  
                                                 <h4>${cv.fullName}</h4>
                                                 <p>${cv.email}</p>
                                                 <p>Vị trí: ${cv.position}</p>
                                                 <p>Kinh nghiệm: ${cv.numberExp} năm</p>
                                                 <p title="${cv.jobPost.title}">Ứng tuyển vào: ${cv.jobPost.title}</p>
                                                 <div class="button-container">
-                                                    <a href="view-cv-detail?cvId=${cv.cvId}" class="cv-action-link">Xem CV</a>
+                                                    <a href="view-cv-detail?cvId=${cv.cvId}&jobPostId=${cv.jobPost.jobPost_ID}" class="cv-action-link">Xem CV</a>
+
                                                     <form action="save-potential-cvs" method="post">
                                                         <input type="hidden" name="cvId" value="${cv.cvId}">
+                                                        <input type="hidden" name="jobPostId" value="${cv.jobPost.jobPost_ID}">
                                                         <button type="submit" class="cv-action-link">Lưu CV</button>
                                                     </form>
                                                 </div>

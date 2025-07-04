@@ -7,6 +7,8 @@
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="java.text.DecimalFormatSymbols" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 
 
 
@@ -479,22 +481,22 @@
 
 
         <div style="text-align: center;">
-        <!-- Nội dung căn giữa -->
-        <a href="adminOrder" style="
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: background-color 0.3s ease;"
-            onmouseover="this.style.backgroundColor='#0056b3'"
-            onmouseout="this.style.backgroundColor='#007bff'">
-            📦 View Orders
-        </a>
-    </div>
+            <!-- Nội dung căn giữa -->
+            <a href="adminOrder" style="
+               display: inline-block;
+               padding: 10px 20px;
+               background-color: #007bff;
+               color: white;
+               text-decoration: none;
+               border-radius: 8px;
+               font-weight: bold;
+               box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+               transition: background-color 0.3s ease;"
+               onmouseover="this.style.backgroundColor = '#0056b3'"
+               onmouseout="this.style.backgroundColor = '#007bff'">
+                📦 View Orders
+            </a>
+        </div>
 
         <!-- User Management Table Section -->
         <div class="container pb-5">
@@ -710,16 +712,39 @@
                                     <td>
                                         <%
                                             Models.Service s = (Models.Service) pageContext.getAttribute("service");
+                                            double price = s.getPrice();
+                                            double discount = 0;
+                                            String promoCode = null;
+
+                                            List<Models.Promotion> promos = (List<Models.Promotion>) request.getAttribute("promotions");
+                                            if (s.getPromotionId() != null && promos != null) {
+                                                for (Models.Promotion p : promos) {
+                                                    if (p.getPromotionId() == s.getPromotionId()) {
+                                                        discount = p.getDiscount();
+                                                        promoCode = p.getCode();
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                            double finalPrice = discount > 0 ? price * (1 - discount / 100.0) : price;
                                             DecimalFormatSymbols symbols = new DecimalFormatSymbols();
                                             symbols.setGroupingSeparator('.');
                                             DecimalFormat formatter = new DecimalFormat("#,###", symbols);
-                                            String formattedPrice = formatter.format(s.getPrice());
+                                            String formattedFinal = formatter.format(finalPrice);
+                                            String formattedOriginal = formatter.format(price);
                                         %>
-                                        <div class="d-flex align-items-center">
-                                            <span class="text-muted fw-bold me-2"></span>
-                                            <%= formattedPrice %> VNĐ
+
+                                        <div class="d-flex flex-column">
+                                            <% if (discount > 0) { %>
+                                            <span class="text-danger fw-bold"><%= formattedFinal %> VNĐ</span>
+                                            <small class="text-muted"><del><%= formattedOriginal %> VNĐ</del></small>
+                                            <% } else { %>
+                                            <span class="text-primary fw-bold"><%= formattedOriginal %> VNĐ</span>
+                                            <% } %>
                                         </div>
                                     </td>
+
 
                                     <td>
                                         <div class="d-flex flex-column">
@@ -768,12 +793,12 @@
                                                title="Edit Service">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                                <a class="action-btn btn-delete"
-                                                   href="delete-servicepackage?id=${service.serviceId}"
-                                                   onclick="return confirm('Are you sure you want to delete this service?');"
-                                                   title="Delete Service">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
+                                            <a class="action-btn btn-delete"
+                                               href="delete-servicepackage?id=${service.serviceId}"
+                                               onclick="return confirm('Are you sure you want to delete this service?');"
+                                               title="Delete Service">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
 
                                         </div>
                                     </td>
@@ -811,80 +836,221 @@
                 </div>
             </div>
 
-            <!-- Action Menu -->
-            <div class="floating-actions-v2">
-                <%
-                    if (session.getAttribute("username") != null && 
-                        session.getAttribute("role") != null && 
-                        session.getAttribute("role").equals("Admin")) {
-                %>
-                <div class="fab-item fab-heart" title="Admin">
-                    <a href="<%= request.getContextPath() %>/adminhome.jsp" target="_self" id="favorite-btn-v2" class="fab-btn">
-                        <i class="bi bi-gear-fill"></i>
-                        <c:if test="${username != null}">
-                            <span class="fab-badge" id="favorite-count-v2">${numberJobPost}</span>
-                        </c:if>
-                    </a>
-                    <span class="fab-hover-label">Admin</span>
+            <!-- ======================== Promotion Management Section ========================= -->
+            <div class="table-section fade-in-up mt-5">
+                <div class="table-header mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3><i class="fas fa-gift me-2"></i>Promotion Management</h3>
+                    </div>
                 </div>
-                <%
-                    }
-                %>
+
+                <!-- Message -->
+                <c:if test="${not empty promotionMessage}">
+                    <div class="alert alert-success">${promotionMessage}</div>
+                </c:if>
+                <c:if test="${not empty promotionError}">
+                    <div class="alert alert-danger">${promotionError}</div>
+                </c:if>
+
+                <!-- Form Add Promotion -->
+                <form method="post" action="list" class="row g-3 align-items-end mb-4">
+                    <input type="hidden" name="action" value="addPromotion" />
+                    <div class="col-md-3">
+                        <label class="form-label">Promotion Code</label>
+                        <input type="text" name="code" class="form-control" required />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Discount (%)</label>
+                        <input type="number" name="discount" step="0.01" class="form-control" required />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" name="dateStart" class="form-control" required />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">End Date</label>
+                        <input type="date" name="dateEnd" class="form-control" required />
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- TABLE: List Promotions -->
+                <div class="table-container">
+                    <table class="table modern-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Code</th>
+                                <th>Discount</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="promo" items="${promotions}">
+                                <tr>
+                                    <td>${promo.promotionId}</td>
+                                    <td>${promo.code}</td>
+                                    <td>${promo.discount}%</td>
+                                    <td>${promo.dateStart}</td>
+                                    <td>${promo.dateEnd}</td>
+                                    <td>${promo.dateCreated}</td>
+                                    <td>
+                                        <!-- UPDATE: Open modal -->
+                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#editPromoModal${promo.promotionId}">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+
+                                        <!-- DELETE: Form to separate servlet -->
+                                        <form method="post" action="${pageContext.request.contextPath}/delete-promotion"
+                                              style="display:inline;" onsubmit="return confirm('Xác nhận xoá khuyến mãi này?');">
+                                            <input type="hidden" name="promotionId" value="${promo.promotionId}" />
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            <c:if test="${empty promotions}">
+                                <tr><td colspan="7" class="text-center">No promotions available.</td></tr>
+                            </c:if>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- MODALS (Tách riêng) -->
+                <c:forEach var="promo" items="${promotions}">
+                    <div class="modal fade" id="editPromoModal${promo.promotionId}" tabindex="-1"
+                         aria-labelledby="editPromoLabel${promo.promotionId}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <form method="post" action="${pageContext.request.contextPath}/update-promotion" class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editPromoLabel${promo.promotionId}">Chỉnh sửa khuyến mãi</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                </div>
+                                <div class="modal-body row g-3">
+                                    <input type="hidden" name="promotionId" value="${promo.promotionId}" />
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Mã khuyến mãi</label>
+                                        <input type="text" name="code" class="form-control" value="${promo.code}" required />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Giảm giá (%)</label>
+                                        <input type="number" name="discount" class="form-control" value="${promo.discount}"
+                                               step="0.01" min="0" max="100" required />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Ngày bắt đầu</label>
+                                        <input type="date" name="dateStart" class="form-control"
+                                               value="${fn:substring(promo.dateStart, 0, 10)}" required />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Ngày kết thúc</label>
+                                        <input type="date" name="dateEnd" class="form-control"
+                                               value="${fn:substring(promo.dateEnd, 0, 10)}" required />
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-save me-1"></i> Cập nhật
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </c:forEach>
             </div>
         </div>
 
-        <!-- Scripts -->
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script>
-                                                       document.addEventListener('DOMContentLoaded', function () {
-                                                           // Animate stats on scroll
-                                                           const statsCards = document.querySelectorAll('.stats-card');
-                                                           const observer = new IntersectionObserver((entries) => {
-                                                               entries.forEach(entry => {
-                                                                   if (entry.isIntersecting) {
-                                                                       entry.target.style.animationDelay = Math.random() * 100 + 'ms';
-                                                                       entry.target.classList.add('fade-in-up');
-                                                                   }
-                                                               });
-                                                           });
 
-                                                           statsCards.forEach(card => {
-                                                               observer.observe(card);
-                                                           });
-
-                                                           // Enhanced delete confirmation for both tables
-                                                           document.querySelectorAll('.btn-delete').forEach(btn => {
-                                                               btn.addEventListener('click', function (e) {
-                                                                   e.preventDefault();
-                                                                   const name = this.closest('tr').querySelector('td:nth-child(2) .fw-bold')?.textContent || 'this item';
-                                                                   const isService = this.closest('.table-section').querySelector('h3').textContent.includes('Service');
-                                                                   const confirmMessage = isService
-                                                                           ? `Are you sure you want to delete the service "${name}"?\n\nThis action cannot be undone and will permanently remove all associated data.`
-                                                                           : `Are you sure you want to delete the account "${name}"?\n\nThis action cannot be undone and will permanently remove all associated data.`;
-                                                                   if (confirm(confirmMessage)) {
-                                                                       window.location.href = this.href;
-                                                                   }
-                                                               });
-                                                           });
-
-                                                           // Add tooltips for better UX
-                                                           const tooltipTriggerList = document.querySelectorAll('[title]');
-                                                           tooltipTriggerList.forEach(triggerEl => {
-                                                               new bootstrap.Tooltip(triggerEl);
-                                                           });
-                                                       });
-        </script>
-        <c:if test="${not empty message}">
-            <div id="toast-message" class="toast-msg ${messageType == 'success' ? 'toast-success' : 'toast-error'}">
-                ${message}
+        <!-- Action Menu -->
+        <div class="floating-actions-v2">
+            <%
+                if (session.getAttribute("username") != null && 
+                    session.getAttribute("role") != null && 
+                    session.getAttribute("role").equals("Admin")) {
+            %>
+            <div class="fab-item fab-heart" title="Admin">
+                <a href="<%= request.getContextPath() %>/adminhome.jsp" target="_self" id="favorite-btn-v2" class="fab-btn">
+                    <i class="bi bi-gear-fill"></i>
+                    <c:if test="${username != null}">
+                        <span class="fab-badge" id="favorite-count-v2">${numberJobPost}</span>
+                    </c:if>
+                </a>
+                <span class="fab-hover-label">Admin</span>
             </div>
-            <script>
-                setTimeout(function () {
-                    document.getElementById('toast-message').style.display = 'none';
-                }, 3000);
-            </script>
-            <%-- Xóa thông báo khỏi session sau khi hiển thị nếu bạn dùng session (ở đây dùng request.setAttribute nên không cần) --%>
-        </c:if>
+            <%
+                }
+            %>
+        </div>
+    </div>
 
-    </body>
+    <!-- Scripts -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+                                                  document.addEventListener('DOMContentLoaded', function () {
+                                                      // Animate stats on scroll
+                                                      const statsCards = document.querySelectorAll('.stats-card');
+                                                      const observer = new IntersectionObserver((entries) => {
+                                                          entries.forEach(entry => {
+                                                              if (entry.isIntersecting) {
+                                                                  entry.target.style.animationDelay = Math.random() * 100 + 'ms';
+                                                                  entry.target.classList.add('fade-in-up');
+                                                              }
+                                                          });
+                                                      });
+
+                                                      statsCards.forEach(card => {
+                                                          observer.observe(card);
+                                                      });
+
+                                                      // Enhanced delete confirmation for both tables
+                                                      document.querySelectorAll('.btn-delete').forEach(btn => {
+                                                          btn.addEventListener('click', function (e) {
+                                                              e.preventDefault();
+                                                              const name = this.closest('tr').querySelector('td:nth-child(2) .fw-bold')?.textContent || 'this item';
+                                                              const isService = this.closest('.table-section').querySelector('h3').textContent.includes('Service');
+                                                              const confirmMessage = isService
+                                                                      ? `Are you sure you want to delete the service "${name}"?\n\nThis action cannot be undone and will permanently remove all associated data.`
+                                                                      : `Are you sure you want to delete the account "${name}"?\n\nThis action cannot be undone and will permanently remove all associated data.`;
+                                                              if (confirm(confirmMessage)) {
+                                                                  window.location.href = this.href;
+                                                              }
+                                                          });
+                                                      });
+
+                                                      // Add tooltips for better UX
+                                                      const tooltipTriggerList = document.querySelectorAll('[title]');
+                                                      tooltipTriggerList.forEach(triggerEl => {
+                                                          new bootstrap.Tooltip(triggerEl);
+                                                      });
+                                                  });
+    </script>
+    <c:if test="${not empty message}">
+        <div id="toast-message" class="toast-msg ${messageType == 'success' ? 'toast-success' : 'toast-error'}">
+            ${message}
+        </div>
+        <script>
+            setTimeout(function () {
+                document.getElementById('toast-message').style.display = 'none';
+            }, 3000);
+        </script>
+        <%-- Xóa thông báo khỏi session sau khi hiển thị nếu bạn dùng session (ở đây dùng request.setAttribute nên không cần) --%>
+    </c:if>
+
+</body>
 </html>

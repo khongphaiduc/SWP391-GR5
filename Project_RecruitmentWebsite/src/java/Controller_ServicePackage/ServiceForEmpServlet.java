@@ -1,6 +1,8 @@
 package Controller_ServicePackage;
 
+import DAO.PromotionDAO;
 import DAO.ServiceDAO;
+import Models.Promotion;
 import Models.Service;
 import java.io.IOException;
 import java.util.List;
@@ -25,6 +27,10 @@ public class ServiceForEmpServlet extends HttpServlet {
         request.setAttribute("services", serviceList);
 
         // Forward tới trang JSP hiển thị dịch vụ dành cho Employer
+        PromotionDAO promoDao = new PromotionDAO();
+        List<Promotion> promotions = promoDao.getAllPromotions();
+        request.setAttribute("promotions", promotions);
+
         request.getRequestDispatcher("/page_service/servicePackageEmp.jsp").forward(request, response);
     }
 

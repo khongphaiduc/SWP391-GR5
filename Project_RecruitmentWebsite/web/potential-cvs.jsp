@@ -178,7 +178,7 @@
                 font-weight: 500;
                 padding: 6px 12px;
                 border-radius: 20px;
-                
+
             }
 
 
@@ -239,7 +239,8 @@
                                     <c:forEach var="cv" items="${potentialCVs}">
                                         <div class="col-md-4 col-sm-6 mb-4">
                                             <div class="cv-card">
-                                                <img src="img/avata.jpg" alt="CV Icon">
+                                                <img src="${pageContext.request.contextPath}/img/${cv.fileData}" 
+                                                      onerror="this.src='img/default-avatar.png'">
                                                 <h4>${cv.fullName}</h4>
                                                 <p>${cv.email}</p>
                                                 <p>Vị trí: ${cv.position}</p>
@@ -248,9 +249,10 @@
                                                 <span class="cv-step-badge">Trạng thái: ${cv.step}</span>
 
                                                 <div class="button-container">
-                                                    <a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-success">Xem</a>
+                                                    <a href="view-cv-detail?cvId=${cv.cvId}&jobPostId=${cv.jobPost.jobPost_ID}" class="btn btn-sm btn-success">Xem</a>
                                                     <form action="remove-potential-cv" method="post" style="display:inline;">
                                                         <input type="hidden" name="cvId" value="${cv.cvId}">
+                                                        <input type="hidden" name="jobPostId" value="${cv.jobPost.jobPost_ID}">
                                                         <button type="submit" class="btn btn-sm btn-danger">Xoá</button>
                                                     </form>
                                                 </div>
@@ -315,10 +317,9 @@
                         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
                         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+                        <%--<c:if test="${totalPages >= 1}">--%>
                         <div class="container mt-4">
                             <c:url var="baseUrl" value="potential-cvs" />
-
-
                             <ul class="pagination justify-content-center">
                                 <!-- Previous Page -->
                                 <c:url var="prevUrl" value="${baseUrl}">
@@ -368,6 +369,7 @@
                                 </li>
                             </ul>
                         </div>
+                        <%--</c:if>--%>
                     </div>
                 </div>
             </div>

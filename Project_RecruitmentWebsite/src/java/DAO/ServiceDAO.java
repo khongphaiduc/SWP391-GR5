@@ -86,7 +86,7 @@ public class ServiceDAO extends DBContext {
                     service.setPromotionId(promoId);
                 }
 
-                // ✅ Vì chỉ lấy Is_Visible = 1 nên mặc định set true
+                //  Vì chỉ lấy Is_Visible = 1 nên mặc định set true
                 service.setIsVisible(true);
 
                 list.add(service);

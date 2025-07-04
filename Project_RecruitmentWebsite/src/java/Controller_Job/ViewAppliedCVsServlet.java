@@ -13,7 +13,7 @@ import java.util.List;
 @WebServlet("/view-applied-cvs")
 public class ViewAppliedCVsServlet extends HttpServlet {
 
-    private static final int PAGE_SIZE =2; // Số CV mỗi trang
+    private static final int PAGE_SIZE =10; // Số CV mỗi trang
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

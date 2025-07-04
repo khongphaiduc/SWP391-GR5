@@ -304,13 +304,39 @@
                             </div>
                             <div class="card-body text-center">
                                 <%
-                                  Models.Service sObj = (Models.Service) pageContext.getAttribute("s");
-                                  java.text.DecimalFormatSymbols symbols = new java.text.DecimalFormatSymbols();
-                                  symbols.setGroupingSeparator('.');
-                                  java.text.DecimalFormat formatter = new java.text.DecimalFormat("#,###", symbols);
-                                  String formattedPrice = formatter.format(sObj.getPrice());
-                                %>
-                                <div class="card-price"><%= formattedPrice %> VNĐ</div>
+    Models.Service sObj = (Models.Service) pageContext.getAttribute("s");
+    java.text.DecimalFormatSymbols symbols = new java.text.DecimalFormatSymbols();
+    symbols.setGroupingSeparator('.');
+    java.text.DecimalFormat formatter = new java.text.DecimalFormat("#,###", symbols);
+
+    double price = sObj.getPrice();
+    double discount = 0;
+    String formattedOldPrice = formatter.format(price);
+    String formattedNewPrice = formattedOldPrice;
+
+    List<Models.Promotion> promotions = (List<Models.Promotion>) request.getAttribute("promotions");
+    if (sObj.getPromotionId() != null && promotions != null) {
+        for (Models.Promotion p : promotions) {
+            if (p.getPromotionId() == sObj.getPromotionId()) {
+                discount = p.getDiscount();
+                break;
+            }
+        }
+    }
+
+    if (discount > 0) {
+        double discounted = price * (1 - discount / 100.0);
+        formattedNewPrice = formatter.format(discounted);
+    }
+%>
+                                <div class="card-price">
+                                    <% if (discount > 0) { %>
+                                    <span class="text-success fw-bold"><%= formattedNewPrice %> VNĐ</span><br>
+                                    <small class="text-muted"><del><%= formattedOldPrice %> VNĐ</del></small>
+                                    <% } else { %>
+                                    <span class="text-primary fw-bold"><%= formattedOldPrice %> VNĐ</span>
+                                    <% } %>
+                                </div>
 
                                 <div class="card-subtext mb-3">* Giá trên chưa bao gồm VAT</div>
                                 <form action="${pageContext.request.contextPath}/ajaxServlet" method="post">
