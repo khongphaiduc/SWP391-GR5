@@ -169,7 +169,7 @@
                                 <p><i class="fas fa-calendar label-icon"></i><strong>Ngày tạo đơn:</strong> <fmt:formatDate value="${order.date}" pattern="dd-MM-yyyy HH:mm" /></p>
                                 <p><i class="fas fa-clock label-icon"></i><strong>Thời hạn dịch vụ:</strong> ${order.duration} ngày</p>
                                 <p><i class="fas fa-hourglass-end label-icon"></i><strong>Ngày hết hạn:</strong> <fmt:formatDate value="${order.expiredDate}" pattern="dd-MM-yyyy" /></p>
-                                <p><i class="fas fa-money-bill-wave label-icon"></i><strong>Số tiền:</strong> $<fmt:formatNumber value="${order.amount}" type="number" /></p>
+                                <p><i class="fas fa-money-bill-wave label-icon"></i><strong>Số tiền:</strong> <fmt:formatNumber value="${order.amount}" type="number" /></p>
                                 <p><i class="fas fa-credit-card label-icon"></i><strong>Thanh toán:</strong> ${order.payMethod}</p>
                             </div>
                             <div class="order-status">

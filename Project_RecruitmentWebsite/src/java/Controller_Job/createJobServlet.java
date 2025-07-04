@@ -84,7 +84,7 @@ public class createJobServlet extends HttpServlet {
 
                     request.getRequestDispatcher("jobPost_view/createJob.jsp").forward(request, response);
                 } else {
-                    request.getRequestDispatcher("jobPost_view/index.jsp").forward(request, response);
+                    request.getRequestDispatcher("/service-for-emp").forward(request, response);
 
                 }
             }

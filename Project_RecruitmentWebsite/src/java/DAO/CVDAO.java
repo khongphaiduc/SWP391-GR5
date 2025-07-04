@@ -221,7 +221,7 @@ public class CVDAO extends DBContext {
         String sql = "SELECT CV.CV_ID, CV.Candidate_ID, CV.Full_Name, CV.Address, CV.Email, "
                 + "CV.Position, CV.Number_exp, CV.Education, CV.Field, CV.Current_Salary, "
                 + "CV.Birthday, CV.Nationality, CV.Gender, CV.FileData, CV.MimeType, "
-                + "JP.JobPost_ID, JP.Title, JP.Position AS JP_Position, JP.Location "
+                + "JP.JobPost_ID, JP.Title, JP.Position AS JP_Position, JP.Location, A.Apply_ID "
                 + "FROM CV "
                 + "INNER JOIN Apply A ON CV.CV_ID = A.CV_ID "
                 + "INNER JOIN JobPost JP ON A.JobPost_ID = JP.JobPost_ID "
@@ -253,7 +253,7 @@ public class CVDAO extends DBContext {
 
                cv.setFileData(rs.getString("FileData"));
                 cv.setMimeType(rs.getString("MimeType"));
-
+                cv.setApply_ID(rs.getInt("Apply_ID"));
                 JobPost jobPost = new JobPost();
                 jobPost.setJobPost_ID(rs.getInt("JobPost_ID"));
                 jobPost.setTitle(rs.getString("Title"));

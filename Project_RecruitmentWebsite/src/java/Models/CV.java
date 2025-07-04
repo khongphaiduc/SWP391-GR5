@@ -28,6 +28,17 @@ public class CV {
     private String gender;
     String FileData;
     private String mimeType;
+    private int apply_ID;
+
+    public int getApply_ID() {
+        return apply_ID;
+    }
+
+    public void setApply_ID(int apply_ID) {
+        this.apply_ID = apply_ID;
+    }
+    
+            
 
     //thêm jobPost để lấy JobTitle
     private JobPost jobPost;

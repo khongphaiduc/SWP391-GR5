@@ -263,7 +263,7 @@
                                                 <p>Kinh nghiệm: ${cv.numberExp} năm</p>
                                                 <p title="${cv.jobPost.title}">Ứng tuyển vào: ${cv.jobPost.title}</p>
                                                 <div class="button-container">
-                                                    <a href="view-cv-detail?cvId=${cv.cvId}" class="cv-action-link">Xem CV</a>
+                                                    <a href="view-cv-detail?cvId=${cv.cvId}&applyId=${cv.apply_ID}" class="cv-action-link">Xem CV</a>
                                                     <form action="save-potential-cvs" method="post">
                                                         <input type="hidden" name="cvId" value="${cv.cvId}">
                                                         <button type="submit" class="cv-action-link">Lưu CV</button>

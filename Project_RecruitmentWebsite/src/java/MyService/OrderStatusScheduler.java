@@ -30,7 +30,7 @@ public class OrderStatusScheduler implements ServletContextListener {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, 0, 1, TimeUnit.MINUTES); 
+        }, 0, 1, TimeUnit.DAYS); 
     }
 
     @Override

@@ -12,13 +12,15 @@ import java.util.List;
 public class OrderDAO extends DBContext {
 
     public int insertOrder(Order o) throws SQLException {
-        String sql = "INSERT INTO Orders (Employer_ID, Service_ID, Amount, PayMethod, Status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Orders (Employer_ID, Service_ID, Amount,"
+                + " PayMethod, Status, Duration) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, o.getEmployerId());
             ps.setInt(2, o.getServiceId());
             ps.setDouble(3, o.getAmount());
             ps.setString(4, o.getPayMethod());
             ps.setString(5, o.getStatus());
+            ps.setInt(6, o.getDuration());
 
             int rows = ps.executeUpdate();
             if (rows > 0) {
@@ -37,7 +39,7 @@ public class OrderDAO extends DBContext {
     public List<Order> getOrdersByEmployerId(int employerId) throws SQLException {
         List<Order> list = new ArrayList<>();
         String sql = "SELECT o.Order_ID, o.Employer_ID, o.Service_ID, o.Amount, o.PayMethod, o.Status, o.Date, "
-                + "s.Service_Name, s.Duration "
+                + "s.Service_Name, o.Duration "
                 + "FROM Orders o "
                 + "JOIN Service s ON o.Service_ID = s.Service_ID "
                 + "WHERE o.Employer_ID = ?";
@@ -62,7 +64,7 @@ public class OrderDAO extends DBContext {
                     // Tính ngày hết hạn: Date + Duration
                     LocalDateTime orderDate = rs.getTimestamp("Date").toLocalDateTime();
                     LocalDateTime expiredDate = orderDate.plusDays(o.getDuration());
-                    o.setExpiredDate(Timestamp.valueOf(expiredDate)); 
+                    o.setExpiredDate(Timestamp.valueOf(expiredDate));
 
                     list.add(o);
 
@@ -142,7 +144,7 @@ public class OrderDAO extends DBContext {
                 + "WHERE Status = 'success' AND EXISTS ("
                 + "  SELECT 1 FROM Service "
                 + "  WHERE Service.Service_ID = Orders.Service_ID "
-                + "  AND DATEADD(DAY, Service.Duration, Orders.Date) <= GETDATE()"
+                + "  AND DATEADD(DAY, Orders.Duration, Orders.Date) <= GETDATE()"
                 + ")";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int rows = ps.executeUpdate();
@@ -162,7 +164,7 @@ public class OrderDAO extends DBContext {
             ps.setInt(2, serviceId);
 
             try (ResultSet rs = ps.executeQuery()) {
-                return rs.next(); // Có kết quả => đã tồn tại order phù hợp
+                return rs.next();
             }
 
         } catch (SQLException e) {
@@ -170,6 +172,15 @@ public class OrderDAO extends DBContext {
         }
 
         return false;
+    }
+
+    public boolean deleteOrderById(int orderId) throws SQLException {
+        String sql = "DELETE FROM Orders WHERE Order_ID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        }
     }
 
 }
