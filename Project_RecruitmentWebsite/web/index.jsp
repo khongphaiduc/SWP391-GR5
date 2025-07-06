@@ -211,8 +211,9 @@
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">For Employer</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="${pageContext.request.contextPath}/manageCreatedJob" class="dropdown-item">Quản lý tin tuyển</a> 
-
                                 <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
+                                <a href="${pageContext.request.contextPath}/service-for-emp" class="dropdown-item">Dịch Vụ</a>
+                                <a href="${pageContext.request.contextPath}/OrderHistory" class="dropdown-item">Lịch sử giao dịch</a>
                             </div>
                         </div>
                         <%}%>

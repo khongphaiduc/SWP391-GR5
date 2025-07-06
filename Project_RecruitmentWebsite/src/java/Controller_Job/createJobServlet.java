@@ -68,20 +68,25 @@ public class createJobServlet extends HttpServlet {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
+            OrderDAO orderDAO = new OrderDAO();
             EmployerDAO employerDAO = new EmployerDAO();
             if (employerDAO.getEmployerByName(username).getCompanyName() == null) {
                 request.setAttribute("errorMessage", "Bạn cần điền thông tin công ty trước khi đăng tuyển");
                 request.getRequestDispatcher("employerProfile").forward(request, response);
             } else {
+                if (orderDAO.hasSuccessfulOrderWithService(employerDAO.getEmployerByName(username).getEmployerId(), 1)) {
 
-                ArrayList<String> jobCategories = JobCategoryProvider.getJobCategories();
-                request.setAttribute("jobCategories", jobCategories);
+                    ArrayList<String> jobCategories = JobCategoryProvider.getJobCategories();
+                    request.setAttribute("jobCategories", jobCategories);
 
-                ArrayList<String> locations = LocationProvider.getLocations();
-                request.setAttribute("locations", locations);
+                    ArrayList<String> locations = LocationProvider.getLocations();
+                    request.setAttribute("locations", locations);
 
-                request.getRequestDispatcher("jobPost_view/createJob.jsp").forward(request, response);
+                    request.getRequestDispatcher("jobPost_view/createJob.jsp").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("/service-for-emp").forward(request, response);
 
+                }
             }
         }
     }

@@ -1,14 +1,14 @@
-
-/*
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-     * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package Controller_Dashboard;
 
 import DAO.CandidateDAO;
 import DAO.EmployerDAO;
+import DAO.OrderDAO;
+import DAO.ServiceDAO;
 import Models.Candidate;
 import Models.Employer;
+import Models.Order;
+import Models.Service;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,61 +19,24 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author Admin
- */
 @WebServlet(name = "ListServlet", urlPatterns = {"/list"})
 public class ListServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ListAccountServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ListAccountServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         EmployerDAO employerDAO = new EmployerDAO();
         CandidateDAO candidateDAO = new CandidateDAO();
+        ServiceDAO serviceDAO = new ServiceDAO(); // ✅ Thêm DAO cho dịch vụ
+
         int totalCan = candidateDAO.countCandidates();
         int totalEmp = employerDAO.countEmployers();
         int totalUser = totalCan + totalEmp;
         int page = 1;
         int recordsPerPage = 10;
 
-        String type = request.getParameter("type"); // Lấy loại user: employer | candidate
+        String type = request.getParameter("type"); // employer | candidate
         String pageParam = request.getParameter("page");
         if (pageParam != null) {
             try {
@@ -101,6 +64,10 @@ public class ListServlet extends HttpServlet {
             request.setAttribute("candidates", candidates);
         }
 
+        // ✅ Lấy danh sách tất cả dịch vụ
+        List<Service> serviceList = serviceDAO.getAllService();
+        request.setAttribute("serviceList", serviceList); // ✅ Gán vào request
+
         int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
         request.setAttribute("totalCan", totalCan);
         request.setAttribute("totalEmp", totalEmp);
@@ -108,31 +75,32 @@ public class ListServlet extends HttpServlet {
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("type", type);
+
+        OrderDAO dao = new OrderDAO();
+        List<Order> orders = dao.getAllOrdersWithEmployerAndService();
+        request.setAttribute("orders", orders);
+
         request.getRequestDispatcher("viewuser.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<html><head><title>ListServlet</title></head><body>");
+            out.println("<h1>This is ListServlet</h1>");
+            out.println("</body></html>");
+        }
+    }
+
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Servlet hiển thị danh sách người dùng và dịch vụ trong admin dashboard";
+    }
 }

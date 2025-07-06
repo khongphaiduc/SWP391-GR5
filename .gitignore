@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ignore build directories
 /build/
 /dist/
@@ -40,3 +41,61 @@ build/
 # Ignore other temporary files
 *.swp
 *~
+=======
+# ========== JAVA COMPILED FILES ==========
+*.class
+*.jar
+*.war
+*.ear
+
+# ========== BUILD OUTPUT ==========
+/build/
+/dist/
+/**/build/
+/**/dist/
+/Project_RecruitmentWebsite/build/
+/Project_RecruitmentWebsite/dist/
+
+# ========== IDE SETTINGS ==========
+# NetBeans
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# VSCode
+.vscode/
+
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========== OS-GENERATED FILES ==========
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# ========== LOG & TEMP ==========
+*.log
+*.tmp
+*.bak
+*.swp
+
+# ========== FILES YOU LIKELY DON’T WANT TO TRACK ==========
+*.class
+*.exe
+*.dll
+*.so
+*.out
+*.pyc
+*.pyo
+*.pdf
+
+# ========== USER-SPECIFIC FILES ==========
+*.user
+*.suo
+*.orig
+>>>>>>> 03161157868a58ac930e8eb7732f8862871ac797

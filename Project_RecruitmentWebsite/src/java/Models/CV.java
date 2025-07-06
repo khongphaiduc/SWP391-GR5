@@ -26,15 +26,46 @@ public class CV {
     private java.sql.Date birthday;
     private String nationality;
     private String gender;
-    InputStream FileData;
+    String FileData;
     private String mimeType;
-    
-    private JobPost jobPost;
-    public JobPost getJobPost() { return jobPost; }
-    public void setJobPost(JobPost jobPost) { this.jobPost = jobPost; }
-    
+    private int apply_ID;
 
-    public CV(int cvId, int candidateId, String fullName, String address, String email, String position, int numberExp, String education, String field, double currentSalary, Date birthday, String nationality, String gender, InputStream FileData, String mimeType) {
+    public int getApply_ID() {
+        return apply_ID;
+    }
+
+    public void setApply_ID(int apply_ID) {
+        this.apply_ID = apply_ID;
+    }
+    
+            
+
+    //thêm jobPost để lấy JobTitle
+    private JobPost jobPost;
+
+    public JobPost getJobPost() {
+        return jobPost;
+    }
+
+    public void setJobPost(JobPost jobPost) {
+        this.jobPost = jobPost;
+    }
+
+    //thêm step để lấy trạng thái 
+    private String step;
+
+    public String getStep() {
+        return step;
+    }
+
+    public void setStep(String step) {
+        this.step = step;
+    }
+
+    public CV(int cvId, int candidateId, String fullName, String address,
+            String email, String position, int numberExp, String education,
+            String field, double currentSalary, Date birthday,
+            String nationality, String gender, String FileData, String mimeType) {
         this.cvId = cvId;
         this.candidateId = candidateId;
         this.fullName = fullName;
@@ -50,19 +81,17 @@ public class CV {
         this.gender = gender;
         this.FileData = FileData;
         this.mimeType = mimeType;
-        
-    }
 
-    
+    }
 
     public CV() {
     }
 
-    public InputStream getFileData() {
+    public String getFileData() {
         return FileData;
     }
 
-    public void setFileData(InputStream FileData) {
+    public void setFileData(String FileData) {
         this.FileData = FileData;
     }
 

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class Order {
+
     private int orderId;
     private int employerId;
     private int serviceId;
@@ -12,9 +13,63 @@ public class Order {
     private Date date;
     private String status;
 
-    public Order(int aInt, int aInt0, int aInt1, double aDouble, String string, String string0, Timestamp timestamp) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    private String serviceName;
+    private int duration;
+    private Timestamp expiredDate;
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setExpiredDate(Timestamp expiredDate) {
+        this.expiredDate = expiredDate;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public Timestamp getExpiredDate() {
+        return expiredDate;
+    }
+
+    private Employer employer;
+    private Service service;
+
+    public Employer getEmployer() {
+        return employer;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
+
+    public Order(int orderId, int employerId, int serviceId, double amount, String payMethod, String status, Timestamp date) {
+    this.orderId = orderId;
+    this.employerId = employerId;
+    this.serviceId = serviceId;
+    this.amount = amount;
+    this.payMethod = payMethod;
+    this.status = status;
+    this.date = date;
+}
+
 
     public String getStatus() {
         return status;
@@ -23,10 +78,9 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    
 
-    public Order() {}
+    public Order() {
+    }
 
     public Order(int orderId, int employerId, int serviceId, double amount, String payMethod, Date date) {
         this.orderId = orderId;
@@ -89,6 +143,5 @@ public class Order {
     public String toString() {
         return "Order{" + "orderId=" + orderId + ", employerId=" + employerId + ", serviceId=" + serviceId + ", amount=" + amount + ", payMethod=" + payMethod + ", date=" + date + ", status=" + status + '}';
     }
-    
-    
+
 }

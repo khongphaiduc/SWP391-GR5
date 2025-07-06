@@ -591,7 +591,7 @@
                         for (Apply a : applies) {
                 %>
                 <div class="apply-card">
-                    <div class="apply-id">#<%= a.getApply_ID() %></div>
+                    
 
                     <div class="job-info">
                         <div class="job-title">
@@ -601,7 +601,7 @@
                         </div>
                         <div class="job-position"><%= a.getJobPosition() %></div>
                     </div>
-
+<div class="apply-id"><%= a.getLocation() %></div>
                     <div class="salary-info">
                         <%= a.getOfferMin() %> - <%= a.getOfferMax() %> triệu
                     </div>

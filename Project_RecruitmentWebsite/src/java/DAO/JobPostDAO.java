@@ -236,7 +236,7 @@ public class JobPostDAO extends DBContext {
 
         String sql = "SELECT jp.*, e.Employer_ID, e.EmployerName, e.Email, e.Password_hash, e.Company_Name, "
                 + "e.Description AS EmployerDesc, e.Location AS EmployerLocation, e.URL_Website, "
-                + "e.CompanySize, e.PhoneNumber, e.imgLogo "
+                + " e.PhoneNumber, e.imgLogo "
                 + "FROM JobPost jp "
                 + "JOIN Employer e ON jp.Employer_ID = e.Employer_ID "
                 + "ORDER BY jp.DayCreate DESC";
@@ -268,7 +268,6 @@ public class JobPostDAO extends DBContext {
                 emp.setDescription(rs.getString("EmployerDesc"));
                 emp.setLocation(rs.getString("EmployerLocation"));
                 emp.setUrlWebsite(rs.getString("URL_Website"));
-                emp.setCompanySize(rs.getString("CompanySize"));
                 emp.setPhoneNumber(rs.getString("PhoneNumber"));
 
                 emp.setImgLogo(rs.getString("imgLogo"));
@@ -285,7 +284,7 @@ public class JobPostDAO extends DBContext {
     public JobPost getJobPostWithEmployerById(int jobPostId) {
         String sql = "SELECT jp.*, e.Employer_ID, e.EmployerName, e.Email, e.Password_hash, e.Company_Name, "
                 + "e.Description AS EmployerDesc, e.Location AS EmployerLocation, e.URL_Website, "
-                + "e.CompanySize, e.PhoneNumber, e.imgLogo "
+                + " e.PhoneNumber, e.imgLogo "
                 + "FROM JobPost jp "
                 + "JOIN Employer e ON jp.Employer_ID = e.Employer_ID "
                 + "WHERE jp.JobPost_ID = ?";
@@ -318,7 +317,6 @@ public class JobPostDAO extends DBContext {
                 emp.setDescription(rs.getString("EmployerDesc"));
                 emp.setLocation(rs.getString("EmployerLocation"));
                 emp.setUrlWebsite(rs.getString("URL_Website"));
-                emp.setCompanySize(rs.getString("CompanySize"));
                 emp.setPhoneNumber(rs.getString("PhoneNumber"));
 
                  emp.setImgLogo(rs.getString("imgLogo"));
@@ -336,7 +334,7 @@ public class JobPostDAO extends DBContext {
     public List<JobPost> getJobPostWithEmployerByEmployerId(int employerId) {
         List<JobPost> jobList = new ArrayList<>();
 
-        String sql = "SELECT jp.*, e.Company_Name, e.email, e.URL_Website, e.companySize, e.imgLogo \n"
+        String sql = "SELECT jp.*, e.Company_Name, e.email, e.URL_Website,  e.imgLogo \n"
                 + "                FROM JobPost jp \n"
                 + "                JOIN Employer e ON jp.employer_id = e.employer_id \n"
                 + "                WHERE jp.employer_id = ?";
@@ -367,7 +365,6 @@ public class JobPostDAO extends DBContext {
                     employer.setCompanyName(rs.getString("Company_Name"));
                     employer.setEmail(rs.getString("email"));
                     employer.setUrlWebsite(rs.getString("URL_Website"));
-                    employer.setCompanySize(rs.getString("companySize"));
                      employer.setImgLogo(rs.getString("imgLogo"));
 
                     job.setEmployer(employer);
