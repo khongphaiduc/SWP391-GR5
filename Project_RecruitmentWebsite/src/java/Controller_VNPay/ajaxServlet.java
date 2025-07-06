@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller_VNPay;
 
 import DAO.EmployerDAO;
 import DAO.OrderDAO;
+import DAO.ServiceDAO;
 import Models.Order;
+import Models.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -34,34 +35,37 @@ import java.util.TimeZone;
  * @author PC
  */
 public class ajaxServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ajaxServlet</title>");  
+            out.println("<title>Servlet ajaxServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ajaxServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ajaxServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -69,7 +73,7 @@ public class ajaxServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
@@ -79,10 +83,11 @@ public class ajaxServlet extends HttpServlet {
         } else {
             request.getRequestDispatcher("order_view/payment.jsp").forward(request, response);
         }
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -99,23 +104,32 @@ public class ajaxServlet extends HttpServlet {
             return;
         } else {
             PrintWriter out = resp.getWriter();
-            
-            
+
+            int serviceId = Integer.parseInt(req.getParameter("serviceId"));
+
             String bankCode = req.getParameter("bankCode");
             double amountDouble = Double.parseDouble(req.getParameter("totalBill"));
 
+            ServiceDAO serviceDAO = new ServiceDAO();
+            Service service = serviceDAO.getServiceById(serviceId);
             OrderDAO orderDao = new OrderDAO();
+
             EmployerDAO employerDAO = new EmployerDAO();
-            int userId = employerDAO.getEmployerByName(username).getEmployerId() ;  
+            int userId = employerDAO.getEmployerByName(username).getEmployerId();
+
+//            if (orderDao.hasSuccessfulOrderWithService(userId, serviceId)) {
+//            }
 
             Order order = new Order();
             order.setEmployerId(userId);
             order.setAmount(amountDouble);
-            order.setServiceId(1); //hard code 
+            order.setServiceId(serviceId);
             order.setPayMethod("VNPAY");
             order.setDate(new Date());
+            order.setStatus("pending");
+            order.setDuration(service.getDuration());
 
-            out.print(order);
+            out.println(order);
             int orderId = -1;
             try {
                 orderId = orderDao.insertOrder(order);
@@ -123,9 +137,11 @@ public class ajaxServlet extends HttpServlet {
                 ex.printStackTrace();
             }
 
-
             // Các thông tin cấu hình VNPAY
-            String vnp_TxnRef = orderId + "";
+            String vnp_TxnRef = orderId + "_" + System.currentTimeMillis();
+
+            out.print(vnp_TxnRef);
+
             String vnp_IpAddr = Config.getIpAddress(req);
             long amount = (long) (amountDouble * 100);
 
@@ -191,14 +207,14 @@ public class ajaxServlet extends HttpServlet {
             queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
 
 //            resp.getWriter().println(vnp_SecureHash);
-
             String paymentUrl = Config.vnp_PayUrl + "?" + queryUrl;
             resp.sendRedirect(paymentUrl);
         }
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

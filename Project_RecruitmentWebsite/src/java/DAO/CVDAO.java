@@ -21,7 +21,7 @@ public class CVDAO extends DBContext {
     public boolean addCV(String fullName, String address, String email,
             String position, int numberExp, String education, String field,
             Double currentSalary, Date birthday, int candidateId,
-            String nationality, String gender, InputStream inputStream, String mimeType) {
+            String nationality, String gender, String inputStream, String mimeType) {
         try {
             String sql = "INSERT INTO CV (full_Name, address, email, position, number_Exp, education, field, current_Salary, birthday, nationality, gender, candidate_Id, FileData, MimeType) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -39,7 +39,7 @@ public class CVDAO extends DBContext {
             stmt.setString(10, nationality);
             stmt.setString(11, gender);
             stmt.setInt(12, candidateId);
-            stmt.setBlob(13, inputStream);
+            stmt.setString(13, inputStream);
             stmt.setString(14, mimeType);
             int row = stmt.executeUpdate();
             return row > 0;
@@ -76,10 +76,8 @@ public class CVDAO extends DBContext {
                 cv.setBirthday(rs.getDate("Birthday"));
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
-                Blob fileBlob = rs.getBlob("FileData");
-                if (fileBlob != null) {
-                    cv.setFileData(fileBlob.getBinaryStream());
-                }
+                cv.setFileData(rs.getString("FileData"));
+                
                 cvList.add(cv);
             }
 
@@ -119,10 +117,7 @@ public class CVDAO extends DBContext {
                 cv.setBirthday(rs.getDate("Birthday"));
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
-                Blob fileBlob = rs.getBlob("FileData");
-                if (fileBlob != null) {
-                    cv.setFileData(fileBlob.getBinaryStream());
-                }
+                cv.setFileData(rs.getString("FileData"));
                 cvList.add(cv);
             }
 
@@ -149,7 +144,7 @@ public class CVDAO extends DBContext {
     public boolean editCVById(int cvId, String fullName, String address, String email,
             String position, int numberExp, String education, String field,
             Double currentSalary, Date birthday, String nationality, String gender,
-            InputStream inputStream, String mimeType) {
+            String inputStream, String mimeType) {
         try {
             StringBuilder sql = new StringBuilder("UPDATE CV SET full_Name=?, address=?, email=?,"
                     + " position=?, number_Exp=?, education=?, field=?,"
@@ -177,7 +172,7 @@ public class CVDAO extends DBContext {
 
             int index = 12;
             if (inputStream != null) {
-                stmt.setBlob(index++, inputStream);
+                stmt.setString(index++, inputStream);
                 stmt.setString(index++, mimeType);
             }
 
@@ -221,19 +216,23 @@ public class CVDAO extends DBContext {
 
 // Code by mkhanh
 // hàm lấy CV được apply vào 1 công ty
-    public List<CV> getAppliedCVsByEmployer(int employerId) {
+    public List<CV> getAppliedCVsByEmployer(int employerId, int limit, int offset) {
         List<CV> cvList = new ArrayList<>();
         String sql = "SELECT CV.CV_ID, CV.Candidate_ID, CV.Full_Name, CV.Address, CV.Email, "
                 + "CV.Position, CV.Number_exp, CV.Education, CV.Field, CV.Current_Salary, "
                 + "CV.Birthday, CV.Nationality, CV.Gender, CV.FileData, CV.MimeType, "
-                + "JP.JobPost_ID, JP.Title, JP.Position AS JP_Position, JP.Location "
+                + "JP.JobPost_ID, JP.Title, JP.Position AS JP_Position, JP.Location, A.Apply_ID "
                 + "FROM CV "
                 + "INNER JOIN Apply A ON CV.CV_ID = A.CV_ID "
                 + "INNER JOIN JobPost JP ON A.JobPost_ID = JP.JobPost_ID "
-                + "WHERE JP.Employer_ID = ?";
+                + "WHERE JP.Employer_ID = ? "
+                + "ORDER BY CV.CV_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, employerId);
+            stmt.setInt(2, offset);  // OFFSET
+            stmt.setInt(3, limit);   // FETCH NEXT
+
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -252,28 +251,41 @@ public class CVDAO extends DBContext {
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
 
-                Blob blob = rs.getBlob("FileData");
-                if (blob != null) {
-                    cv.setFileData(blob.getBinaryStream());
-                }
+               cv.setFileData(rs.getString("FileData"));
                 cv.setMimeType(rs.getString("MimeType"));
-
-                // Tạo và gắn JobPost
+                cv.setApply_ID(rs.getInt("Apply_ID"));
                 JobPost jobPost = new JobPost();
                 jobPost.setJobPost_ID(rs.getInt("JobPost_ID"));
                 jobPost.setTitle(rs.getString("Title"));
                 jobPost.setPosition(rs.getString("JP_Position"));
                 jobPost.setLocation(rs.getString("Location"));
-
                 cv.setJobPost(jobPost);
 
                 cvList.add(cv);
             }
         } catch (Exception e) {
-            e.printStackTrace(); // Có thể thay bằng logger nếu có hệ thống log
+            e.printStackTrace();
         }
 
         return cvList;
+    }
+
+    //count CV applied 
+    public int countAppliedCVsByEmployer(int employerId) {
+        String sql = "SELECT COUNT(*) FROM CV "
+                + "INNER JOIN Apply A ON CV.CV_ID = A.CV_ID "
+                + "INNER JOIN JobPost JP ON A.JobPost_ID = JP.JobPost_ID "
+                + "WHERE JP.Employer_ID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, employerId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 //hàm search Cv for employer
@@ -330,7 +342,9 @@ public class CVDAO extends DBContext {
         return input;
     }
 
-    public List<CV> searchCVsForEmployer(int employerId, String address, Integer numberExp, String position, String keyword, String field) {
+    public List<CV> searchCVsForEmployer(int employerId, String address, Integer numberExp,
+            String position, String keyword, String field,
+            int limit, int offset) {
         List<CV> result = new ArrayList<>();
         List<Object> params = new ArrayList<>();
 
@@ -340,6 +354,7 @@ public class CVDAO extends DBContext {
         field = normalize(field);
         keyword = normalize(keyword);
 
+        // Bắt đầu xây dựng câu SQL
         StringBuilder sql = new StringBuilder(
                 "SELECT CV.CV_ID, CV.Candidate_ID, CV.Full_Name, CV.Address, CV.Email, "
                 + "CV.Position, CV.Number_exp, CV.Education, CV.Field, CV.Current_Salary, "
@@ -350,9 +365,17 @@ public class CVDAO extends DBContext {
                 + "INNER JOIN JobPost ON Apply.JobPost_ID = JobPost.JobPost_ID "
                 + "WHERE JobPost.Employer_ID = ?"
         );
+
+        // Thêm employerId vào param đầu tiên
         params.add(employerId);
 
+        // Gắn các điều kiện tìm kiếm nếu có
         buildSearchConditions(sql, params, address, numberExp, position, keyword, field);
+
+        // Thêm phân trang theo cú pháp SQL Server
+        sql.append(" ORDER BY CV.CV_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+        params.add(offset); // OFFSET
+        params.add(limit);  // FETCH NEXT
 
         try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
             for (int i = 0; i < params.size(); i++) {
@@ -376,10 +399,7 @@ public class CVDAO extends DBContext {
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
 
-                Blob blob = rs.getBlob("FileData");
-                if (blob != null) {
-                    cv.setFileData(blob.getBinaryStream());
-                }
+                cv.setFileData(rs.getString("FileData"));
 
                 cv.setMimeType(rs.getString("MimeType"));
 
@@ -403,6 +423,44 @@ public class CVDAO extends DBContext {
         return result;
     }
 
+    //count CV khi search
+    public int countSearchCVsForEmployer(int employerId, String address, Integer numberExp,
+            String position, String keyword, String field) {
+        List<Object> params = new ArrayList<>();
+
+        address = normalize(address);
+        position = normalize(position);
+        field = normalize(field);
+        keyword = normalize(keyword);
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT COUNT(*) FROM CV "
+                + "INNER JOIN Apply ON CV.CV_ID = Apply.CV_ID "
+                + "INNER JOIN JobPost ON Apply.JobPost_ID = JobPost.JobPost_ID "
+                + "WHERE JobPost.Employer_ID = ?"
+        );
+
+        params.add(employerId);
+        buildSearchConditions(sql, params, address, numberExp, position, keyword, field);
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                stmt.setObject(i + 1, params.get(i));
+            }
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    
+    
+    //method hiện thị CV thuộc JobPost
     // 1. Kiểm tra xem JobPost có thuộc về Employer hay không
     public boolean isJobPostOwnedByEmployer(int jobPostId, int employerId) {
         String sql = "SELECT 1 FROM JobPost WHERE JobPost_ID = ? AND Employer_ID = ?";
@@ -416,9 +474,22 @@ public class CVDAO extends DBContext {
         }
         return false;
     }
-
+    //đếm 
+    public int countCVsByJobPostId(int jobPostId) {
+    String sql = "SELECT COUNT(*) FROM Apply WHERE JobPost_ID = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setInt(1, jobPostId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return 0;
+}
     // 2. Lấy danh sách CV apply vào JobPost_ID
-    public List<CV> getCVsByJobPostId(int jobPostId) {
+    public List<CV> getCVsByJobPostId(int jobPostId, int limit, int offset) {
         List<CV> cvList = new ArrayList<>();
 
         String sql = "SELECT CV.CV_ID, CV.Candidate_ID, CV.Full_Name, CV.Address, CV.Email, "
@@ -428,10 +499,14 @@ public class CVDAO extends DBContext {
                 + "FROM Apply A "
                 + "INNER JOIN CV ON A.CV_ID = CV.CV_ID "
                 + "INNER JOIN JobPost JP ON A.JobPost_ID = JP.JobPost_ID "
-                + "WHERE A.JobPost_ID = ?";
+                + "WHERE A.JobPost_ID = ? "
+                + "ORDER BY CV.CV_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, jobPostId);
+            stmt.setInt(1, jobPostId); // WHERE A.JobPost_ID = ?
+            stmt.setInt(2, offset);     // OFFSET ?
+            stmt.setInt(3, limit);      // FETCH NEXT ?
+
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -450,13 +525,9 @@ public class CVDAO extends DBContext {
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
 
-                Blob blob = rs.getBlob("FileData");
-                if (blob != null) {
-                    cv.setFileData(blob.getBinaryStream());
-                }
+                cv.setFileData(rs.getString("FileData"));
                 cv.setMimeType(rs.getString("MimeType"));
 
-                // Gắn JobPost Title nếu cần sử dụng trong hiển thị
                 JobPost jobPost = new JobPost();
                 jobPost.setTitle(rs.getString("Title"));
                 cv.setJobPost(jobPost);
@@ -471,64 +542,52 @@ public class CVDAO extends DBContext {
     }
 
     // 3. Kết hợp: chỉ lấy CV nếu jobPost thuộc employer
-    public List<CV> getSecureCVsByJobPost(int jobPostId, int employerId) {
+    public List<CV> getSecureCVsByJobPost(int jobPostId, int employerId, int limit, int offset) {
         if (isJobPostOwnedByEmployer(jobPostId, employerId)) {
-            return getCVsByJobPostId(jobPostId);
+            return getCVsByJobPostId(jobPostId, limit, offset);
         } else {
             System.out.println("⚠ JobPost_ID " + jobPostId + " is not owned by Employer_ID " + employerId);
             return Collections.emptyList();
         }
     }
 
+    
+    
     public static void main(String[] args) {
         CVDAO dao = new CVDAO();
-        int employerId = 1;  // ví dụ employer đang đăng nhập có ID = 1
-        int jobPostId = 1;   // muốn lấy CV apply vào jobPost có ID = 1
 
-        List<CV> cvList = dao.getSecureCVsByJobPost(jobPostId, employerId);
+        int employerId = 1; // ID employer muốn test
+        int pageSize = 5;   // Số CV mỗi trang
+        int page = 1;       // Trang muốn test (bạn có thể thay đổi)
+
+        int offset = (page - 1) * pageSize;
+
+        // Lấy danh sách CV theo trang
+        List<CV> cvList = dao.getAppliedCVsByEmployer(employerId, pageSize, offset);
+
+        // Tổng số CV để kiểm tra tổng số trang
+        int total = dao.countAppliedCVsByEmployer(employerId);
+        int totalPages = (int) Math.ceil((double) total / pageSize);
+
+        // In ra kết quả
+        System.out.println("==> Đang ở trang " + page + "/" + totalPages);
+        System.out.println("==> Có tổng cộng " + total + " CV ứng tuyển");
 
         if (cvList.isEmpty()) {
-            System.out.println("⚠ Không có CV nào hoặc JobPost không thuộc employer.");
+            System.out.println("⚠ Không có CV nào trong trang này.");
         } else {
-            System.out.println("📄 Danh sách CV apply vào JobPost_ID = " + jobPostId + ":");
             for (CV cv : cvList) {
-                System.out.println("-----------------------------------");
+                System.out.println("--------------------------------------------------");
                 System.out.println("Họ tên: " + cv.getFullName());
                 System.out.println("Email: " + cv.getEmail());
                 System.out.println("Vị trí ứng tuyển: " + cv.getPosition());
                 System.out.println("Kinh nghiệm: " + cv.getNumberExp() + " năm");
-                System.out.println("Trình độ học vấn: " + cv.getEducation());
-                System.out.println("Quốc tịch: " + cv.getNationality());
-                JobPost jp = cv.getJobPost();
-                if (jp != null) {
-                    System.out.println("Tiêu đề: " + jp.getTitle());
-                }
-
+                System.out.println("Ứng tuyển vào: " + (cv.getJobPost() != null ? cv.getJobPost().getTitle() : "N/A"));
             }
-
         }
+    }
 
-//        int employerId = 1;
-//        List<CV> appliedCVs = dao.getAppliedCVsByEmployer(employerId);
-//
-//            // In ra danh sách CVs và thông tin jobpost tương ứng
-//            for (CV cv : appliedCVs) {
-//                System.out.println("----- CV -----");
-//                System.out.println("Tên ứng viên: " + cv.getFullName());
-//                System.out.println("Email: " + cv.getEmail());
-//                System.out.println("Vị trí ứng tuyển: " + cv.getPosition());
-//                System.out.println("Kinh nghiệm: " + cv.getNumberExp() + " năm");
-//
-//                JobPost jp = cv.getJobPost();
-//                if (jp != null) {
-//                    System.out.println("--- JobPost ---");
-//                    System.out.println("Tiêu đề: " + jp.getTitle());
-//                    System.out.println("Vị trí: " + jp.getPosition());
-//                    System.out.println("Địa điểm: " + jp.getLocation());
-//                }
-//                System.out.println();
-//            }
-        // Test case 1: Search by address only
+    // Test case 1: Search by address only
 //        System.out.println("🔍 Tìm kiếm theo địa chỉ 'HN':");
 //        List<CV> result1 = dao.searchCVsForEmployer(1, null, null, null, null);
 //        for (CV cv : result1) {
@@ -567,6 +626,4 @@ public class CVDAO extends DBContext {
 //                    + ", Ngành: " + cv.getField());
 //        }
 //        System.out.println("------------");
-    }
-
 }

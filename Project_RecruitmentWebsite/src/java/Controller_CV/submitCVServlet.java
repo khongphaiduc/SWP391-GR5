@@ -7,6 +7,7 @@ package Controller_CV;
 import DAO.CVDAO;
 import DAO.CandidateDAO;
 import Models.*;
+import MyService.ImageUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import java.io.File;
 import java.io.InputStream;
 import java.sql.Date;
 
@@ -96,17 +98,15 @@ public class submitCVServlet extends HttpServlet {
         int numberExp = Integer.parseInt(request.getParameter("numberExp"));
         String education = request.getParameter("education");
         String field = request.getParameter("field");
-        
+
         String salaryStr = request.getParameter("currentSalary");
-        salaryStr = salaryStr.replace(".", "").replace(",", ""); 
+        salaryStr = salaryStr.replace(".", "").replace(",", "");
 
         double currentSalary = Double.parseDouble(salaryStr);
 
         Date birthday = Date.valueOf(request.getParameter("birthday"));
         String nationality = request.getParameter("nationality");
         String gender = request.getParameter("gender");
-
-        
 
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
@@ -119,19 +119,25 @@ public class submitCVServlet extends HttpServlet {
         Part filePart = request.getPart("CVFile");
         InputStream inputStream = filePart.getInputStream();
         String mimeType = filePart.getContentType();
-        if (mimeType.startsWith("image/") && filePart.getSize() < 3000000) {
+        if (mimeType.startsWith("image/") && filePart.getSize() < 5000000) {
+
+            String buildPath = request.getServletContext().getRealPath("/");
+            File webFolder = new File(buildPath).getParentFile().getParentFile();
+            String uploadPath = webFolder.getAbsolutePath() + "/web/img/cvs";
+            String savedRelativePath = ImageUtil.saveImage(filePart, uploadPath, "cvs");
+
             boolean success = cvdao.addCV(fullName, address, email, position, numberExp, education,
-                    field, currentSalary, birthday, candidateId, nationality, gender, inputStream, mimeType);
+                    field, currentSalary, birthday, candidateId, nationality, gender, savedRelativePath, mimeType);
 
             if (success) {
-                request.setAttribute("message", "Lưu CV thành công");
+                request.setAttribute("successMessage", "Lưu CV thành công");
                 request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
             } else {
-                request.setAttribute("message", "Lưu CV thất bại");
+                request.setAttribute("errorMessage", "Lưu CV thất bại");
                 request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
             }
         } else {
-            request.setAttribute("message", "Bạn cần chọn file ảnh(.png, jpg) nhỏ hơn 1MB để đăng lên");
+            request.setAttribute("message", "Bạn cần chọn file ảnh(.png, jpg) nhỏ hơn 5MB để đăng lên");
             request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
         }
 

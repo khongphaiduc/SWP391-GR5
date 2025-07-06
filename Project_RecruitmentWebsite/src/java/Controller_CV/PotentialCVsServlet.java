@@ -14,6 +14,13 @@ import java.util.List;
 @WebServlet("/potential-cvs")
 public class PotentialCVsServlet extends HttpServlet {
 
+    private static final int PAGE_SIZE = 10;
+
+    private String normalize(String input) {
+        if (input == null) return null;
+        return input.trim().replaceAll("\\s+", " ");
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -22,16 +29,14 @@ public class PotentialCVsServlet extends HttpServlet {
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
 
-        // Kiểm tra đăng nhập và quyền truy cập
         if (username == null || !"Employer".equals(role)) {
-            request.getRequestDispatcher("log/login.jsp").forward(request, response);
+            response.sendRedirect("log/login.jsp");
             return;
         }
 
         try {
-            // Lấy Employer từ DB
-            EmployerDAO edao = new EmployerDAO();
-            Employer employer = edao.getEmployerByName(username);
+            EmployerDAO employerDAO = new EmployerDAO();
+            Employer employer = employerDAO.getEmployerByName(username);
             if (employer == null) {
                 request.setAttribute("error", "Không tìm thấy thông tin nhà tuyển dụng.");
                 request.getRequestDispatcher("/error.jsp").forward(request, response);
@@ -42,34 +47,63 @@ public class PotentialCVsServlet extends HttpServlet {
             session.setAttribute("employerId", employerId);
 
             // Phân trang
-            int page = 1;
-            int pageSize = 10;
-
+            int currentPage = 1;
             String pageParam = request.getParameter("page");
-            if (pageParam != null && !pageParam.isEmpty()) {
+            if (pageParam != null && pageParam.matches("\\d+")) {
+                currentPage = Integer.parseInt(pageParam);
+                if (currentPage < 1) currentPage = 1;
+            }
+            int offset = (currentPage - 1) * PAGE_SIZE;
+
+            // Nhận các tham số lọc
+            String keyword = normalize(request.getParameter("keyword"));
+            String address = normalize(request.getParameter("address"));
+            String position = normalize(request.getParameter("position"));
+            String field = normalize(request.getParameter("field"));
+            String expStr = request.getParameter("numberExp");
+            Integer numberExp = null;
+            if (expStr != null && !expStr.trim().isEmpty()) {
                 try {
-                    page = Integer.parseInt(pageParam);
-                } catch (NumberFormatException e) {
-                    page = 1;
-                }
+                    numberExp = Integer.parseInt(expStr.trim());
+                } catch (NumberFormatException ignored) {}
             }
 
-            // Lấy danh sách CV tiềm năng
             PotentialDAO dao = new PotentialDAO();
-            List<CV> potentialCVs = dao.getPotentialCVsByEmployerId(employerId, page, pageSize);
-            int totalCVs = dao.getTotalPotentialCVs(employerId);
-            int totalPages = (int) Math.ceil((double) totalCVs / pageSize);
+            List<CV> potentialCVs;
+            int totalCVs;
 
-            // Gửi dữ liệu sang JSP
+            // Kiểm tra xem có lọc không
+            boolean hasFilter = keyword != null || address != null || position != null || field != null || numberExp != null;
+
+            if (hasFilter) {
+                // Tìm kiếm trong danh sách CV TIỀM NĂNG
+                potentialCVs = dao.searchPotentialCVsForEmployer(employerId, address, numberExp, position, keyword, field, PAGE_SIZE, offset);
+                totalCVs = dao.countSearchPotentialCVsForEmployer(employerId, address, numberExp, position, keyword, field);
+            } else {
+                // Không lọc => lấy toàn bộ danh sách CV tiềm năng
+                potentialCVs = dao.getPotentialCVsByEmployerId(employerId, currentPage, PAGE_SIZE);
+                totalCVs = dao.getTotalPotentialCVs(employerId);
+            }
+
+            int totalPages = (int) Math.ceil((double) totalCVs / PAGE_SIZE);
+
+            // Gửi dữ liệu cho JSP
             request.setAttribute("potentialCVs", potentialCVs);
-            request.setAttribute("currentPage", page);
+            request.setAttribute("currentPage", currentPage);
             request.setAttribute("totalPages", totalPages);
+
+            // Preserve các tiêu chí lọc nếu có
+            request.setAttribute("keyword", keyword);
+            request.setAttribute("address", address);
+            request.setAttribute("position", position);
+            request.setAttribute("field", field);
+            request.setAttribute("numberExp", numberExp);
 
             request.getRequestDispatcher("/potential-cvs.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Đã xảy ra lỗi khi tải danh sách CV tiềm năng.");
+            request.setAttribute("error", "Lỗi xảy ra khi xử lý dữ liệu CV.");
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }

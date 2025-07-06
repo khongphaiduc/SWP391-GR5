@@ -18,12 +18,12 @@ public class DBContext {
 
         //    String url = "jdbc:sqlserver://DESKTOP-NQH197\\NGUYENQUANGHUYSV:1433;databaseName=swp_final8;";
 //            String url = "jdbc:sqlserver://LAPTOP-MK;databaseName=CV02";
+            String url = "jdbc:sqlserver://DESKTOP-NQH197\\NGUYENQUANGHUYSV:1433;databaseName=swp_final10;";
+//            String url = "jdbc:sqlserver://LAPTOP-MK;databaseName=CV02";
 
-         
-//            String user = System.getenv("user");
-//            String pass = System.getenv("pass");
-         //   String url = "jdbc:sqlserver://14.225.220.135;databaseName=GenZTimViec;";
-            String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=GenZTimViec19";
+//            String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=GenZTimViec9";
+//            String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=GenZTimViec14";
+
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);

@@ -6,6 +6,7 @@ import MyService.ImageUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -93,13 +94,25 @@ public class employerProfileServlet extends HttpServlet {
             if (filePart != null && filePart.getSize() > 0) {
                 String mimeType = filePart.getContentType();
                 if (mimeType != null && mimeType.startsWith("image/") && filePart.getSize() < 5000000) {
-                    String appPath = request.getServletContext().getRealPath("");
-                    String savedRelativePath = ImageUtil.saveImage(filePart, appPath, "employers");
+                   
+
+                    String buildPath = request.getServletContext().getRealPath("/");
+                    File webFolder = new File(buildPath).getParentFile().getParentFile();
+                    String uploadPath = webFolder.getAbsolutePath() + "/web/img/employers";
+
+                    Employer oldEmployer = employerDAO.getEmployerByName(username); 
+                    String oldImgPath = oldEmployer.getImgLogo(); 
+                    ImageUtil.deleteOldImage(uploadPath.replace("/employers", ""), oldImgPath);
+
+
+                    response.getWriter().print(uploadPath);
+                    String savedRelativePath = ImageUtil.saveImage(filePart, uploadPath, "employers");
+
                     updateSuccess = employerDAO.updateEmployer(
                             username, email, description, location,
                             website, companyName, savedRelativePath, phoneNumber, taxCode
                     );
-                    
+
                 } else {
                     request.setAttribute("errorMessage", "File không hợp lệ. Vui lòng chọn ảnh nhỏ hơn 5MB.");
                     doGet(request, response);
