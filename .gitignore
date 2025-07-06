@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # ========== JAVA COMPILED FILES ==========
 *.class
 *.jar
@@ -55,6 +54,3 @@ Icon?
 *.user
 *.suo
 *.orig
-=======
-"nbproject/private/" 
->>>>>>> 693a1228dbd1edafcb1b4dcef0e446c110375492
