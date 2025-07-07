@@ -183,4 +183,74 @@ public class OrderDAO extends DBContext {
         }
     }
 
+    public List<Order> getOrdersByMonthAndYear(Integer month, Integer year) {
+    List<Order> list = new ArrayList<>();
+    String sql = "SELECT o.Order_ID, o.Employer_ID, o.Service_ID, o.Amount, o.PayMethod, o.Status, o.Date, "
+            + "e.EmployerName, e.Company_Name, e.Email, e.PhoneNumber, e.Location, e.URL_Website, e.imgLogo, "
+            + "s.Service_Name, s.Price, s.Description, s.Duration "
+            + "FROM Orders o "
+            + "JOIN Employer e ON o.Employer_ID = e.Employer_ID "
+            + "JOIN Service s ON o.Service_ID = s.Service_ID "
+            + "WHERE 1=1";
+
+    if (month != null) {
+        sql += " AND MONTH(o.Date) = ?";
+    }
+    if (year != null) {
+        sql += " AND YEAR(o.Date) = ?";
+    }
+
+    sql += " ORDER BY o.Date DESC";
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        int index = 1;
+        if (month != null) {
+            ps.setInt(index++, month);
+        }
+        if (year != null) {
+            ps.setInt(index++, year);
+        }
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Order order = new Order();
+            order.setOrderId(rs.getInt("Order_ID"));
+            order.setEmployerId(rs.getInt("Employer_ID"));
+            order.setServiceId(rs.getInt("Service_ID"));
+            order.setAmount(rs.getDouble("Amount"));
+            order.setPayMethod(rs.getString("PayMethod"));
+            order.setStatus(rs.getString("Status"));
+            order.setDate(rs.getTimestamp("Date"));
+
+            // Set Employer
+            Employer emp = new Employer();
+            emp.setEmployerId(rs.getInt("Employer_ID"));
+            emp.setNameEmployer(rs.getString("EmployerName"));
+            emp.setCompanyName(rs.getString("Company_Name"));
+            emp.setEmail(rs.getString("Email"));
+            emp.setPhoneNumber(rs.getString("PhoneNumber"));
+            emp.setLocation(rs.getString("Location"));
+            emp.setUrlWebsite(rs.getString("URL_Website"));
+            emp.setImgLogo(rs.getString("imgLogo"));
+            order.setEmployer(emp);
+
+            // Set Service
+            Service service = new Service();
+            service.setServiceId(rs.getInt("Service_ID"));
+            service.setServiceName(rs.getString("Service_Name"));
+            service.setPrice(rs.getDouble("Price"));
+            service.setDescription(rs.getString("Description"));
+            service.setDuration(rs.getInt("Duration"));
+            order.setService(service);
+
+            list.add(order);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return list;
+}
+
+
 }
