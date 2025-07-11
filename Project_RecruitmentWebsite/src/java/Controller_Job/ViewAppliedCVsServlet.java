@@ -2,18 +2,23 @@ package Controller_Job;
 
 import DAO.CVDAO;
 import DAO.EmployerDAO;
+import DAO.FormDAO;
 import Models.CV;
 import Models.Employer;
+import Models.Form;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet("/view-applied-cvs")
 public class ViewAppliedCVsServlet extends HttpServlet {
 
-    private static final int PAGE_SIZE =2; // Số CV mỗi trang
+    private static final int PAGE_SIZE = 2; // Số CV mỗi trang
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,6 +40,14 @@ public class ViewAppliedCVsServlet extends HttpServlet {
         int employerId = employer.getEmployerId();
         //int employerId = 1;
         session.setAttribute("employerId", employerId);
+        FormDAO formDAO = new FormDAO();
+        List<Form> forms= new ArrayList<>();
+        try {
+            forms = formDAO.getFormsByEmployerId(employerId);
+        } catch (Exception ex) {
+            Logger.getLogger(ViewAppliedCVsServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.setAttribute("formList", forms);
 
         // Xử lý phân trang
         int page;

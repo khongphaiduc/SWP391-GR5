@@ -183,15 +183,28 @@
                                 <a href="job-detail.jsp" class="dropdown-item">Job Detail</a>
                             </div>
                         </div>
-                        <div class="nav-item dropdown">
+<!--                        <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="category.jsp" class="dropdown-item">Job Category</a>
                                 <a href="testimonial.jsp" class="dropdown-item">Testimonial</a>
                                 <a href="404.jsp" class="dropdown-item">404</a>
                             </div>
+                        </div>-->
+                         <%String role = (String) session.getAttribute("role");%>
+                        <%if("Employer".equals(role)){%>                      
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Form</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                
+                                <a href="${pageContext.request.contextPath}/form" class="dropdown-item">Tạo form câu hỏi</a>
+                                <a href="${pageContext.request.contextPath}/manageForm" class="dropdown-item">Quản lý form</a>
+                            
+                            </div>
                         </div>
-                        <%String role = (String) session.getAttribute("role");%>
+                        <%}%>
+                        
+                       
                         <%if("Candidate".equals(role)){%>
                         <div class="nav-item dropdown">
 
@@ -214,6 +227,8 @@
                                 <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
                                 <a href="${pageContext.request.contextPath}/service-for-emp" class="dropdown-item">Dịch Vụ</a>
                                 <a href="${pageContext.request.contextPath}/OrderHistory" class="dropdown-item">Lịch sử giao dịch</a>
+                                <a href="${pageContext.request.contextPath}/form" class="dropdown-item">Tạo form câu hỏi</a>
+                            
                             </div>
                         </div>
                         <%}%>

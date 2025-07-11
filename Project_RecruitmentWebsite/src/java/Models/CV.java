@@ -207,4 +207,10 @@ public class CV {
         this.gender = gender;
     }
 
+    @Override
+    public String toString() {
+        return "CV{" + "cvId=" + cvId + ", candidateId=" + candidateId + ", fullName=" + fullName + ", address=" + address + ", email=" + email + ", position=" + position + ", numberExp=" + numberExp + ", education=" + education + ", field=" + field + ", currentSalary=" + currentSalary + ", birthday=" + birthday + ", nationality=" + nationality + ", gender=" + gender + ", FileData=" + FileData + ", mimeType=" + mimeType + ", apply_ID=" + apply_ID + ", jobPost=" + jobPost + ", step=" + step + '}';
+    }
+    
+
 }
