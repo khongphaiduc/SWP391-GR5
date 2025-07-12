@@ -92,7 +92,18 @@
     <body>
         <jsp:include page="/navbar.jsp" />
         <br/>
+
+
         <form method="get" action="adminOrder" style="margin-bottom: 20px; text-align: right;">
+            <label for="serviceId">Dịch vụ:</label>
+            <select name="serviceId" id="serviceId" onchange="this.form.submit()">
+                <option value="">--</option>
+                <c:forEach var="s" items="${services}">
+                    <option value="${s.serviceId}" ${param.serviceId == s.serviceId ? 'selected' : ''}>
+                        ${s.serviceName}
+                    </option>
+                </c:forEach>
+            </select>
             <label for="month">Tháng:</label>
             <select name="month" id="month" onchange="this.form.submit()">
                 <option value="">--</option>
@@ -148,7 +159,6 @@
                                     <td class="status-${o.status}">${o.status}</td>
                                     <td><fmt:formatDate value="${o.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                                     <td class="actions">
-    <!--                                    <a href="viewOrderDetail?orderId=${o.orderId}" class="view-btn">Xem</a>-->
                                         <a href="deleteOrder?orderId=${o.orderId}" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa đơn này?')">Xóa</a>
                                     </td>
                                 </tr>

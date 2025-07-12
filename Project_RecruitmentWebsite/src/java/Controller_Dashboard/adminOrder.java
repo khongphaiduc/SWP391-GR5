@@ -5,7 +5,9 @@
 package Controller_Dashboard;
 
 import DAO.OrderDAO;
+import DAO.ServiceDAO;
 import Models.Order;
+import Models.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -68,14 +70,18 @@ public class adminOrder extends HttpServlet {
         } else {
             String monthParam = request.getParameter("month");
             String yearParam = request.getParameter("year");
+            String serviceIdStr = request.getParameter("serviceId");
 
             Integer month = (monthParam != null && !monthParam.isEmpty()) ? Integer.parseInt(monthParam) : null;
             Integer year = (yearParam != null && !yearParam.isEmpty()) ? Integer.parseInt(yearParam) : null;
+            Integer serviceId = (serviceIdStr != null && !serviceIdStr.isEmpty()) ? Integer.parseInt(serviceIdStr) : null;
 
             OrderDAO dao = new OrderDAO();
-List<Order> orders = dao.getOrdersByMonthAndYear(month, year);
+            List<Order> orders = dao.getOrdersByFilters(month, year, serviceId);
             request.setAttribute("orders", orders);
-
+            ServiceDAO serviceDAO = new ServiceDAO();
+            List<Service> services = serviceDAO.getAllService();
+            request.setAttribute("services", services);
             request.getRequestDispatcher("Admin_view/adminOrder.jsp").forward(request, response);
         }
     }
