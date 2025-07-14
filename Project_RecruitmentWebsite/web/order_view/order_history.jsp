@@ -78,8 +78,8 @@
                 color: #1c9c60;
                 font-size: 17px;
             }
-            
-             .job-pagination-wrapper {
+
+            .job-pagination-wrapper {
                 background: white;
                 padding: 20px;
                 border-radius: 8px;
@@ -174,7 +174,16 @@
                             </div>
                             <div class="order-status">
                                 <span class="status status-${order.status}">${order.status}</span>
+                                <form action="OrderHistory" method="post" style="margin-top: 10px;">
+                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                    <button type="submit" onclick="return confirm('Bạn có chắc muốn xoá đơn hàng này?')" 
+                                            style="background-color: #e53935; border: none; color: white; padding: 6px 12px;
+                                            border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 8px;">
+                                        Xoá
+                                    </button>
+                                </form>
                             </div>
+
                         </div>
                     </c:forEach>
                 </c:when>
@@ -208,6 +217,6 @@
                 </div>
             </div>
         </div>
- <% } %>
+        <% } %>
     </body>
 </html>
