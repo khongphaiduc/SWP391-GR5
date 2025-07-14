@@ -112,11 +112,11 @@
                             <input type="hidden" name="action" value="view"/>
                             <button type="submit" class="btn btn-preview">Xem trước</button>
                         </form>
-                        <form action="manageForm" method="post">
+<!--                        <form action="manageForm" method="post">
                             <input type="hidden" name="formId" value="<%= form.getFormId() %>"/>
                             <input type="hidden" name="action" value="Edit"/>
                             <button type="submit" class="btn btn-edit">Chỉnh sửa</button>
-                        </form>
+                        </form>-->
                         <form action="manageForm" method="post" onsubmit="return confirm('Bạn chắc chắn muốn xóa?')">
                             <input type="hidden" name="formId" value="<%= form.getFormId() %>"/>
                             <input type="hidden" name="action" value="Delete"/>

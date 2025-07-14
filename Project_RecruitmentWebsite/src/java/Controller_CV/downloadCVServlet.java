@@ -31,7 +31,7 @@ public class downloadCVServlet extends HttpServlet {
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "inline; filename=CV_" + cvId + ".pdf");
 
-        Document doc = new Document(PageSize.A4, 0, 0, 20, 20);
+        Document doc = new Document(PageSize.A4, 0, 0, 5, 5);
         OutputStream out = response.getOutputStream();
 
         try {
@@ -78,17 +78,51 @@ public class downloadCVServlet extends HttpServlet {
             }
 
             // Thông tin cá nhân
-            leftCell.addElement(new Paragraph("THÔNG TIN CÁ NHÂN", whiteBold));
-            leftCell.addElement(new Paragraph("Ngày sinh", whiteBold));
-            leftCell.addElement(new Paragraph(cv.getBirthday().toString(), whiteFont));
-            leftCell.addElement(new Paragraph("Giới tính", whiteBold));
-            leftCell.addElement(new Paragraph(cv.getGender(), whiteFont));
-            leftCell.addElement(new Paragraph("Quốc tịch", whiteBold));
-            leftCell.addElement(new Paragraph(cv.getNationality(), whiteFont));
-            leftCell.addElement(new Paragraph("Email", whiteBold));
-            leftCell.addElement(new Paragraph(cv.getEmail(), whiteFont));
-            leftCell.addElement(new Paragraph("Địa chỉ", whiteBold));
-            leftCell.addElement(new Paragraph(cv.getAddress(), whiteFont));
+            Paragraph p;
+
+            p = new Paragraph("THÔNG TIN CÁ NHÂN", whiteBold);
+            p.setSpacingAfter(10);
+            leftCell.addElement(p);
+
+            p = new Paragraph("Ngày sinh", whiteBold);
+            p.setSpacingAfter(2);
+            leftCell.addElement(p);
+
+            p = new Paragraph(cv.getBirthday().toString(), whiteFont);
+            p.setSpacingAfter(8);
+            leftCell.addElement(p);
+
+            p = new Paragraph("Giới tính", whiteBold);
+            p.setSpacingAfter(2);
+            leftCell.addElement(p);
+
+            p = new Paragraph(cv.getGender(), whiteFont);
+            p.setSpacingAfter(8);
+            leftCell.addElement(p);
+
+            p = new Paragraph("Quốc tịch", whiteBold);
+            p.setSpacingAfter(2);
+            leftCell.addElement(p);
+
+            p = new Paragraph(cv.getNationality(), whiteFont);
+            p.setSpacingAfter(8);
+            leftCell.addElement(p);
+
+            p = new Paragraph("Email", whiteBold);
+            p.setSpacingAfter(2);
+            leftCell.addElement(p);
+
+            p = new Paragraph(cv.getEmail(), whiteFont);
+            p.setSpacingAfter(8);
+            leftCell.addElement(p);
+
+            p = new Paragraph("Địa chỉ", whiteBold);
+            p.setSpacingAfter(2);
+            leftCell.addElement(p);
+
+            p = new Paragraph(cv.getAddress(), whiteFont);
+            p.setSpacingAfter(8);
+            leftCell.addElement(p);
 
             // === CỘT PHẢI - TRẮNG ===
             PdfPCell rightCell = new PdfPCell();

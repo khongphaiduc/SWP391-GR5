@@ -114,7 +114,8 @@ public class formServlet extends HttpServlet {
             }
 
             req.setAttribute("form", form);
-            req.getRequestDispatcher("form_view/preview_form.jsp").forward(req, resp);
+            req.setAttribute("succes", "Tạo form thành công");
+            req.getRequestDispatcher("form_view/form_creator.jsp").forward(req, resp);
         } catch (Exception e) {
             e.printStackTrace();
             resp.getWriter().println("Lỗi khi lưu form: " + e.getMessage());

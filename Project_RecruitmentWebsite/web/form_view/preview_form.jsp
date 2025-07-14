@@ -85,6 +85,7 @@
                 <label class="option"><input type="radio" name="<%= q.getQuestionText() %>"/> A</label>
                 <label class="option"><input type="radio" name="<%= q.getQuestionText() %>"/> B</label>
                 <label class="option"><input type="radio" name="<%= q.getQuestionText() %>"/> C</label>
+                <label class="option"><input type="radio" name="<%= q.getQuestionText() %>"/> D</label>
             <% } %>
         </div>
         <% } %>

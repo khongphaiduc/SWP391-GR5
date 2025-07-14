@@ -77,10 +77,12 @@ public class manageFormServlet extends HttpServlet {
                 List<Form> forms = formDAO.getFormsByEmployerId(employerDAO.getEmployerByName(username).getEmployerId());
 
                 req.setAttribute("forms", forms);
-                if (action.equals("choose")) {
-                    req.setAttribute("email", req.getParameter("email"));
-                    req.getRequestDispatcher("form_view/choose_form.jsp").forward(req, resp);
+                if (action != null) {
+                    if (action.equals("choose")) {
+                        req.setAttribute("email", req.getParameter("email"));
+                        req.getRequestDispatcher("form_view/choose_form.jsp").forward(req, resp);
 
+                    }
                 }
                 req.getRequestDispatcher("form_view/manage_forms.jsp").forward(req, resp);
             }
@@ -118,9 +120,10 @@ public class manageFormServlet extends HttpServlet {
             }
         } else if (action.equals("edit")) {
 
-        } else if (action.equals("delete")) {
+        } else if (action.equals("Delete")) {
             int formId = Integer.parseInt(request.getParameter("formId"));
             formDAO.deleteForm(formId);
+            response.sendRedirect(request.getContextPath() + "/manageForm");
         }
     }
 
