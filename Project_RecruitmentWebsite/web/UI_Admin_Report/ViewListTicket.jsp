@@ -312,11 +312,8 @@
                 <input type="submit" style="display:none">
             </form>
 
-
-
             <!-- thằng status-->
             <form  method="get" action="DisplayListReport">
-
                 <label for="filter-status">Trạng thái:</label>
                 <select id="filter-status" name="status" onchange="this.form.submit()">
                     <option value="">Tất cả</option>
@@ -334,7 +331,7 @@
             <table id="report-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>ID User</th>
                         <th>Vai trò</th>
                         <th>Phone</th>
                         <th>Tiêu đề</th>
@@ -353,7 +350,9 @@
                             <td>${s.phone}</td>
                             <td>${s.title}</td>
                             <td>${s.content}</td>
-                            <td><span class="date-cell">${s.dateSend}</span></td>
+                            <td><span class="date-cell">                                
+                                  <fmt:formatDate value="${s.dateSend}" pattern="dd/MM/yyyy"/>
+                                </span></td>
                             <td>
                                 <select class="status-select" data-idreport="${s.feedBackReportId}">
                                     <option value="pending" ${s.status eq 'pending' ? 'selected' :''} >Chờ xử lý</option>

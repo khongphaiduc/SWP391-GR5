@@ -1,7 +1,9 @@
 package Controller_Admin_Response_FeedBackAndShupport;
 
 import DAO.ReportDAO;
+import Models.Report;
 import MyService.ImageUtil;
+import MyService.MyEmail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -39,13 +41,18 @@ public class ViewDetail extends HttpServlet {
 
             String idReport = request.getParameter("idReport");
 
-            var viewDetail = reportDAO.viewDetail(idReport);
-
-            String pathImage = ImageUtil.getImageUrl(viewDetail.urlImage, "D:/");
-
-            request.setAttribute("pathImage", pathImage);
-            request.setAttribute("ElementViewDetail", viewDetail);
-
+            System.out.println("ID reprot là : " + idReport);
+            Report viewDetail = reportDAO.viewDetail(idReport);
+            String pathImage = reportDAO.viewDetail(idReport).urlImage;
+            String email = reportDAO.getEmailUerReport(viewDetail.id, viewDetail.role);
+            if (viewDetail != null) {
+                request.setAttribute("ViewDetailReprot", viewDetail);
+                request.setAttribute("pathImage", pathImage);
+                request.setAttribute("Email", email);
+                request.setAttribute("idReport", idReport);
+                request.setAttribute("StatusReport", viewDetail.status);
+            }
+           
             request.getRequestDispatcher("UI_Admin_Report/ResponseEmailToUser.jsp").forward(request, response);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -56,7 +63,33 @@ public class ViewDetail extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        try {
+
+            ReportDAO reportDAO = new ReportDAO();
+
+            String idReport = request.getParameter("idReport");
+
+            System.out.println("ID reprot là : " + idReport);
+            Report viewDetail = reportDAO.viewDetail(idReport);
+            String pathImage = reportDAO.viewDetail(idReport).urlImage;
+            String email = reportDAO.getEmailUerReport(viewDetail.id, viewDetail.role);
+            if (viewDetail != null) {
+                request.setAttribute("ViewDetailReprot", viewDetail);
+                request.setAttribute("pathImage", pathImage);
+                request.setAttribute("Email", email);
+                request.setAttribute("idReport", idReport);
+            }
+
+            String content = request.getParameter("content");
+            String emails = request.getParameter("emailuser");
+            MyEmail.sendEmail(emails, "Phản Hồi Báo Cao", content);
+             request.setAttribute("successSend", true);
+            request.getRequestDispatcher("UI_Admin_Report/ResponseEmailToUser.jsp").forward(request, response);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @Override

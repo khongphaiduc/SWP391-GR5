@@ -105,7 +105,7 @@
                         const reader = new FileReader();  // FileReader dùng để đọc nội dung ảnh và chuyển sang dạng base64
                         reader.onload = function (ev) {
                             previewImg.src = ev.target.result;
-                            previewImg.style.display = 'block';
+                            previewImg.style.display = 'block'; 
                             fileLabel.innerText = file.name;   // dùng để hiện tên mà ảnh user gửi lên UI
                         };
                         reader.readAsDataURL(file);
