@@ -400,41 +400,8 @@
     </head>
     <body>
         <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-            <div class="container">
-                <a href="index.jsp" class="navbar-brand d-flex align-items-center">
-                    <h1 class="m-0">GenZTimViec.VN</h1>
-                </a>
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto">
-                        <a href="index.jsp" class="nav-item nav-link">Home</a>
-                        <a href="about.jsp" class="nav-item nav-link">About</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
-                            <div class="dropdown-menu">
-                                <a href="job-list.jsp" class="dropdown-item">Job List</a>
-                                <a href="job-detail.jsp" class="dropdown-item">Job Detail</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu">
-                                <a href="category.jsp" class="dropdown-item">Job Category</a>
-                                <a href="testimonial.jsp" class="dropdown-item">Testimonial</a>
-                                <a href="404.jsp" class="dropdown-item">404</a>
-                            </div>
-                        </div>
-                        <a href="contact.jsp" class="nav-item nav-link">Contact</a>
-                    </div>
-                    <a href="#" class="btn btn-primary rounded-pill px-4 ms-3">
-                        Post A Job <i class="fa fa-arrow-right ms-2"></i>
-                    </a>
-                </div>
-            </div>
-        </nav>
+                <jsp:include page="/navbar.jsp" />
+
 
         <!-- Header Section -->
         <div class="admin-header">

@@ -1,217 +1,218 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>Tạo form</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f6f8;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 30px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #00b86b;
-            font-weight: 600;
-        }
-
-        textarea, select {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 15px;
-            resize: vertical;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 15px;
-        }
-
-        .question-block {
-            border: 1px solid #eee;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            background-color: #fafafa;
-            position: relative;
-        }
-
-        .btn {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-
-        .btn-green {
-            background-color: #00b86b;
-            color: white;
-        }
-
-        .btn-green:hover {
-            background-color: #009b5a;
-        }
-
-        .btn-red {
-            background-color: #ff4d4d;
-            color: white;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        .btn-red:hover {
-            background-color: #e60000;
-        }
-
-        .btn-back {
-            background-color: #6c757d;
-            color: white;
-            padding: 10px 18px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
-            transition: background-color 0.2s ease-in-out;
-            margin-left: 30px;
-        }
-
-        .btn-back:hover {
-            background-color: #5a6268;
-            color: white;
-            text-decoration: none;
-        }
-
-        .success-message {
-            color: #00b86b;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-    </style>
-
-    <script>
-        function addQuestion() {
-            const container = document.getElementById("questionContainer");
-
-            const html = document.createElement('div');
-            html.className = "question-block";
-            html.innerHTML = `
-                <textarea name="questionText" placeholder="Câu hỏi" required></textarea>
-                <select name="questionType" onchange="handleTypeChange(this)">
-                    <option value="text">Tự luận</option>
-                    <option value="choice">Trắc nghiệm</option>
-                </select>
-                <div class="answer-area">
-                    <textarea name="answer" placeholder="Đáp án đúng (nếu có)"></textarea>
-                </div>
-                <button type="button" class="btn btn-red" onclick="removeQuestion(this)">Xóa</button>
-            `;
-            container.appendChild(html);
-            updateDeleteButtons();
-        }
-
-        function removeQuestion(button) {
-            const container = document.getElementById("questionContainer");
-            if (container.children.length <= 1) {
-                alert("Phải có ít nhất 1 câu hỏi.");
-                return;
+    <head>
+        <title>Tạo form</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Poppins', sans-serif;
+                background-color: #f4f6f8;
+                margin: 0;
+                padding: 0;
             }
-            button.parentElement.remove();
-            updateDeleteButtons();
-        }
 
-        function updateDeleteButtons() {
-            const blocks = document.querySelectorAll(".question-block");
-            const showDelete = blocks.length > 1;
-            blocks.forEach(block => {
-                const deleteBtn = block.querySelector(".btn-red");
-                if (deleteBtn) {
-                    deleteBtn.style.display = showDelete ? 'inline-block' : 'none';
-                }
-            });
-        }
+            .container {
+                max-width: 800px;
+                margin: 50px auto;
+                background: #fff;
+                border-radius: 12px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                padding: 30px;
+            }
 
-        function handleTypeChange(select) {
-            const block = select.parentElement;
-            const answerArea = block.querySelector(".answer-area");
+            h1 {
+                text-align: center;
+                color: #00b86b;
+                font-weight: 600;
+            }
 
-            if (select.value === "choice") {
-                const timestamp = Date.now();
-                answerArea.innerHTML = `
-                    <div>
-                        <label><input type="radio" name="answer" value="A" required> A: </label><br/>
-                        <label><input type="radio" name="answer" value="B"> B: <br/>
-                        <label><input type="radio" name="answer" value="C"> C: <br/>
-                        <label><input type="radio" name="answer" value="D"> D: </label>
+            textarea, select {
+                width: 100%;
+                padding: 12px;
+                margin-top: 10px;
+                margin-bottom: 20px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-sizing: border-box;
+                font-size: 15px;
+                resize: vertical;
+            }
+
+            input[type="text"] {
+                width: 100%;
+                padding: 12px;
+                margin-top: 10px;
+                margin-bottom: 20px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-sizing: border-box;
+                font-size: 15px;
+            }
+
+            .question-block {
+                border: 1px solid #eee;
+                padding: 15px;
+                border-radius: 10px;
+                margin-bottom: 15px;
+                background-color: #fafafa;
+                position: relative;
+            }
+
+            .btn {
+                padding: 10px 18px;
+                border: none;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                margin-right: 10px;
+            }
+
+            .btn-green {
+                background-color: #00b86b;
+                color: white;
+            }
+
+            .btn-green:hover {
+                background-color: #009b5a;
+            }
+
+            .btn-red {
+                background-color: #ff4d4d;
+                color: white;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+
+            .btn-red:hover {
+                background-color: #e60000;
+            }
+
+            .btn-back {
+                background-color: #6c757d;
+                color: white;
+                padding: 10px 18px;
+                border: none;
+                border-radius: 8px;
+                font-weight: 600;
+                text-decoration: none;
+                display: inline-block;
+                margin-top: 10px;
+                transition: background-color 0.2s ease-in-out;
+                margin-left: 30px;
+            }
+
+            .btn-back:hover {
+                background-color: #5a6268;
+                color: white;
+                text-decoration: none;
+            }
+
+            .success-message {
+                color: #00b86b;
+                font-weight: bold;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+        </style>
+
+        <script>
+            function addQuestion() {
+                const container = document.getElementById("questionContainer");
+
+                const html = document.createElement('div');
+                html.className = "question-block";
+                html.innerHTML = `
+                    <textarea name="questionText" placeholder="Câu hỏi" required></textarea>
+                    <select name="questionType" onchange="handleTypeChange(this)">
+                        <option value="text">Tự luận</option>
+                        <option value="choice">Trắc nghiệm</option>
+                    </select>
+                    <div class="answer-area">
+                        <textarea name="answer" placeholder="Đáp án đúng (nếu có)"></textarea>
                     </div>
+                    <button type="button" class="btn btn-red" onclick="removeQuestion(this)">Xóa</button>
                 `;
-            } else {
-                answerArea.innerHTML = `<textarea name="answer" placeholder="Đáp án đúng (nếu có)"></textarea>`;
+                container.appendChild(html);
+                updateDeleteButtons();
             }
-        }
-<!--<input type="text" name="optionD" required>-->
-        window.onload = function () {
-            updateDeleteButtons();
-        }
-    </script>
-</head>
-<body>
-<a href="index.jsp" class="btn btn-back">← Quay lại Trang chủ</a>
 
-<div class="container">
-    <h1>Tạo Form câu hỏi</h1>
+            function removeQuestion(button) {
+                const container = document.getElementById("questionContainer");
+                if (container.children.length <= 1) {
+                    alert("Phải có ít nhất 1 câu hỏi.");
+                    return;
+                }
+                button.parentElement.remove();
+                updateDeleteButtons();
+            }
 
-    <%-- Hiển thị thông báo khi tạo thành công --%>
-    <c:if test="${not empty success}">
-        <div class="success-message">${success}</div>
-    </c:if>
+            function updateDeleteButtons() {
+                const blocks = document.querySelectorAll(".question-block");
+                const showDelete = blocks.length > 1;
+                blocks.forEach(block => {
+                    const deleteBtn = block.querySelector(".btn-red");
+                    if (deleteBtn) {
+                        deleteBtn.style.display = showDelete ? 'inline-block' : 'none';
+                    }
+                });
+            }
 
-    <form action="form" method="post">
-        <input type="text" name="formTitle" placeholder="Tiêu đề form" required />
-        <div id="questionContainer">
-            <div class="question-block">
-                <textarea name="questionText" placeholder="Câu hỏi" required></textarea>
-                <select name="questionType" onchange="handleTypeChange(this)">
-                    <option value="text">Tự luận</option>
-                    <option value="choice">Trắc nghiệm</option>
-                </select>
-                <div class="answer-area">
-                    <textarea name="answer" placeholder="Đáp án đúng (nếu có)"></textarea>
+            function handleTypeChange(select) {
+                const block = select.parentElement;
+                const answerArea = block.querySelector(".answer-area");
+
+                if (select.value === "choice") {
+                    const timestamp = Date.now();
+                    answerArea.innerHTML = `
+                        <div style="display: flex; gap: 20px;">
+                        <label><input type="radio" name="answer" value="A" required> A</label>
+                        <label><input type="radio" name="answer" value="B"> B</label>
+                        <label><input type="radio" name="answer" value="C"> C</label>
+                        <label><input type="radio" name="answer" value="D"> D</label>
+                        </div>
+
+                    `;
+                } else {
+                    answerArea.innerHTML = `<textarea name="answer" placeholder="Đáp án đúng (nếu có)"></textarea>`;
+                }
+            }
+    <!--<input type="text" name="optionD" required>-->
+            window.onload = function () {
+                updateDeleteButtons();
+            }
+        </script>
+    </head>
+    <body>
+        <a href="index.jsp" class="btn btn-back">← Quay lại Trang chủ</a>
+
+        <div class="container">
+            <h1>Tạo Form câu hỏi</h1>
+
+            <%-- Hiển thị thông báo khi tạo thành công --%>
+            <c:if test="${not empty success}">
+                <div class="success-message">${success}</div>
+            </c:if>
+
+            <form action="form" method="post">
+                <input type="text" name="formTitle" placeholder="Tiêu đề form" required />
+                <div id="questionContainer">
+                    <div class="question-block">
+                        <textarea name="questionText" placeholder="Câu hỏi" required></textarea>
+                        <select name="questionType" onchange="handleTypeChange(this)">
+                            <option value="text">Tự luận</option>
+                            <option value="choice">Trắc nghiệm</option>
+                        </select>
+                        <div class="answer-area">
+                            <textarea name="answer" placeholder="Đáp án đúng (nếu có)"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-red" onclick="removeQuestion(this)">Xóa</button>
+                    </div>
                 </div>
-                <button type="button" class="btn btn-red" onclick="removeQuestion(this)">Xóa</button>
-            </div>
+                <button type="button" class="btn btn-green" onclick="addQuestion()">+ Thêm câu hỏi</button>
+                <button type="submit" class="btn btn-green">Lưu</button>
+            </form>
         </div>
-        <button type="button" class="btn btn-green" onclick="addQuestion()">+ Thêm câu hỏi</button>
-        <button type="submit" class="btn btn-green">Lưu</button>
-    </form>
-</div>
-</body>
+    </body>
 </html>

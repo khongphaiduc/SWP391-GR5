@@ -6,6 +6,8 @@ package Controller_Form;
 
 import DAO.CVDAO;
 import DAO.CandidateDAO;
+import DAO.EmployerDAO;
+import DAO.FormDAO;
 import DAO.QuestionDAO;
 import Models.CV;
 import Models.Candidate;
@@ -99,6 +101,8 @@ public class submitFormServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int formId = Integer.parseInt(req.getParameter("formId"));
+        FormDAO formDAO = new FormDAO();
+        EmployerDAO employerDAO = new EmployerDAO();
         int total = Integer.parseInt(req.getParameter("total"));
         int score = 0;
 
@@ -116,8 +120,10 @@ public class submitFormServlet extends HttpServlet {
 
             req.setAttribute("score", score);
             req.setAttribute("total", total);
-            req.getRequestDispatcher("result.jsp").forward(req, resp);
-
+//            req.getRequestDispatcher("result.jsp").forward(req, resp);
+            String email = employerDAO.getEmployerById(formDAO.getFormsById(formId).getEmployerId()).getEmail();
+             String url ="http://localhost:9999/Project_RecruitmentWebsite/answerForm?score="+score+"?total="+total;
+                MyService.MyEmail.sendEmail(email, "Bạn có câu trả lời cho form", url);
         } catch (Exception e) {
             e.printStackTrace();
             resp.getWriter().println("Lỗi khi chấm điểm: " + e.getMessage());

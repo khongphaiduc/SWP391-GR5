@@ -102,6 +102,14 @@
         <servlet-name>sendFormServlet</servlet-name>
         <servlet-class>Controller_Form.sendFormServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>downloadOrder</servlet-name>
+        <servlet-class>Controller_Order.downloadOrder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>answerFormServlet</servlet-name>
+        <servlet-class>Controller_Form.answerFormServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -201,6 +209,14 @@
     <servlet-mapping>
         <servlet-name>sendFormServlet</servlet-name>
         <url-pattern>/sendForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadOrder</servlet-name>
+        <url-pattern>/downloadOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>answerFormServlet</servlet-name>
+        <url-pattern>/answerForm</url-pattern>
     </servlet-mapping>
     <error-page>
         <error-code>404</error-code>

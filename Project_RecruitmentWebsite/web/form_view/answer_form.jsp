@@ -80,7 +80,7 @@
     <body>
         <div class="container">
             <h2>Trả lời Biểu mẫu</h2>
-            <form action="submitAnswer" method="post">
+            <form action="submitForm" method="post">
                 <input type="hidden" name="formId" value="<%= formId %>" />
                 <%
                     int index = 0;
@@ -94,6 +94,7 @@
                     <label class="option"><input type="radio" name="answer<%= index %>" value="A" /> A</label>
                     <label class="option"><input type="radio" name="answer<%= index %>" value="B" /> B</label>
                     <label class="option"><input type="radio" name="answer<%= index %>" value="C" /> C</label>
+                    <label class="option"><input type="radio" name="answer<%= index %>" value="D" /> D</label>
                         <% } %>
                 </div>
                 <%
