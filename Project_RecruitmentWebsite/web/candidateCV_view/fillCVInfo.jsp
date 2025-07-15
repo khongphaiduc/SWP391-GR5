@@ -14,6 +14,8 @@
 <!DOCTYPE html>
 <html lang="vi">
     <head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <meta charset="UTF-8">
         <jsp:include page="/navbar.jsp" />
         <title><%= isEdit ? "Chỉnh sửa CV" : "Tạo mới CV" %></title>
