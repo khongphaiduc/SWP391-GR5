@@ -1,4 +1,4 @@
-
+# === NetBeans build files ===
 /build/
 /dist/
 /nbbuild/
@@ -6,32 +6,41 @@
 /nbactions.xml
 /nb-configuration.xml
 
-
+# === NetBeans private config ===
 /nbproject/private/
 /nbproject/Makefile-*.mk
 
-
+# === Compiled bytecode & packages ===
 **/*.class
-**/*.jar
 **/*.war
 **/*.ear
 
+# === Ignore all .jar files globally...
+**/*.jar
 
+# === ...BUT keep the JARs inside allowedlib/
+!allowedlib/
+!allowedlib/**/*.jar
+
+# === Logs, temp, swap ===
 *.log
 *.tmp
 *.bak
 *.swp
 
-
+# === OS-specific files ===
 .DS_Store
 Thumbs.db
 desktop.ini
 
-
+# === IntelliJ IDEA project files (just in case)
 *.iml
 .idea/
 *.ipr
 *.iws
 
+# === Library folders (ignore lib but not allowedlib)
+lib/
 
-/lib/
+# === Optional: Ignore .env or local config if needed
+#.env
