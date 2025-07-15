@@ -83,7 +83,7 @@ public class ReportDAO extends DBContext {
                     + "  WHERE s1.FeedbackReport_ID = ?";
 
             PreparedStatement push = connection.prepareStatement(query);
-            push.setString(1,idFeedBackReportID);
+            push.setString(1, idFeedBackReportID);
             ResultSet rs = push.executeQuery();
 
             while (rs.next()) {
@@ -102,8 +102,6 @@ public class ReportDAO extends DBContext {
         }
         return null;
     }
-    
-    
 
     // search
     public List<Report> search(String date, String phone, String status) {
@@ -164,10 +162,39 @@ public class ReportDAO extends DBContext {
         return list;
     }
 
+    public String getEmailUerReport(String idUser, String role) {
+
+        try {
+            String query;
+            if (role.equals("Candidate")) {
+                query = "SELECT [Candidate_ID],\n"
+                        + "      [Email]\n"
+                        + "  FROM [dbo].[Candidate] s1\n"
+                        + " Where s1.Candidate_ID=?";
+            } else {
+                query = "SELECT [Employer_ID]\n"
+                        + "      ,[Email]\n"
+                        + "\n"
+                        + "  FROM [dbo].[Employer] s1\n"
+                        + "  Where s1.Employer_ID=?";
+            }
+
+            PreparedStatement push = connection.prepareStatement(query);
+            push.setString(1, idUser);
+            ResultSet rs = push.executeQuery();
+              while(rs.next()){
+                  return rs.getString("Email");
+              }
+        } catch (Exception e) {
+        }
+        return new String();
+    }
+
     public static void main(String[] args) {
         ReportDAO s = new ReportDAO();
 //        s.search(null, null, "resolved").forEach(t -> System.out.println(t));
         //  System.out.println(s.setNewStatusReport("resolved", "1"));
-        System.out.println(s.viewDetail("6"));
+        System.out.println(s.viewDetail("42"));
+        System.out.println(s.getEmailUerReport("31", "Candidate"));
     }
 }

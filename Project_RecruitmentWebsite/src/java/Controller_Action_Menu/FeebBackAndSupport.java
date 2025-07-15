@@ -16,6 +16,7 @@ import jakarta.servlet.http.Part;
 import DAO.*;
 import jakarta.servlet.annotation.MultipartConfig;
 import MyService.*;
+import java.io.File;
 
 @WebServlet(name = "FeebBackAndSupport", urlPatterns = {"/FeebBackAndSupport"})
 @MultipartConfig( //@MultipartConfig trong Java Servlet được sử dụng để cấu hình việc xử lý dữ liệu gửi lên từ form có enctype là multipart/form-data
@@ -83,7 +84,12 @@ public class FeebBackAndSupport extends HttpServlet {
             SupportUserDAO reportDAO = new SupportUserDAO();
 
             // sửa 
-            String urlforderSaveImageFeedBack = ImageUtil.saveImage(imageFIle, "D:/", "FeedbackAndSuopport");   // lưu ảnh 
+
+                String buildPath = request.getServletContext().getRealPath("/");
+                File webFolder = new File(buildPath).getParentFile().getParentFile();
+                String uploadPath = webFolder.getAbsolutePath() + "/web/img/Report";
+            
+            String urlforderSaveImageFeedBack = ImageUtil.saveImage(imageFIle, uploadPath, "Report");   // lưu ảnh 
             result = reportDAO.sendReportAndFeebBack(idUser, idRole, phoneSender, titel, content, urlforderSaveImageFeedBack, null);
 
             System.out.println(result == true ? "Gửi thành công " : "Fail cmnr");
