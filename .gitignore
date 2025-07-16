@@ -44,3 +44,4 @@ lib/
 
 # === Optional: Ignore .env or local config if needed
 #.env
+"Project_RecruitmentWebsite/build/" 
