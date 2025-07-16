@@ -6,7 +6,9 @@ package Controller_VNPay;
 
 import DAO.EmployerDAO;
 import DAO.OrderDAO;
+import DAO.ServiceDAO;
 import Models.Order;
+import Models.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -102,22 +104,30 @@ public class ajaxServlet extends HttpServlet {
             return;
         } else {
             PrintWriter out = resp.getWriter();
-            
+
             int serviceId = Integer.parseInt(req.getParameter("serviceId"));
+
             String bankCode = req.getParameter("bankCode");
             double amountDouble = Double.parseDouble(req.getParameter("totalBill"));
 
+            ServiceDAO serviceDAO = new ServiceDAO();
+            Service service = serviceDAO.getServiceById(serviceId);
             OrderDAO orderDao = new OrderDAO();
+
             EmployerDAO employerDAO = new EmployerDAO();
             int userId = employerDAO.getEmployerByName(username).getEmployerId();
+
+//            if (orderDao.hasSuccessfulOrderWithService(userId, serviceId)) {
+//            }
 
             Order order = new Order();
             order.setEmployerId(userId);
             order.setAmount(amountDouble);
-            order.setServiceId(serviceId); //hard code 
+            order.setServiceId(serviceId);
             order.setPayMethod("VNPAY");
             order.setDate(new Date());
             order.setStatus("pending");
+            order.setDuration(service.getDuration());
 
             out.println(order);
             int orderId = -1;
@@ -128,7 +138,7 @@ public class ajaxServlet extends HttpServlet {
             }
 
             // Các thông tin cấu hình VNPAY
-            String vnp_TxnRef = orderId + "_" + System.currentTimeMillis(); 
+            String vnp_TxnRef = orderId + "_" + System.currentTimeMillis();
 
             out.print(vnp_TxnRef);
 

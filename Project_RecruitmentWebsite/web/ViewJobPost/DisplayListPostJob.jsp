@@ -12,7 +12,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-        <link rel="stylesheet" href="../css/SaveJobPostcss.css"/>
+        <link rel="stylesheet" href="<%= request.getContextPath() %>/css/SaveJobPostcss.css"/>
         <style>
             body {
                 background: linear-gradient(135deg, #e3f2fd 0%, #fffde7 100%);
@@ -855,134 +855,7 @@
 
 
             <!-- End hiển thị job -->
-            <!--            hiển thị Action Menu-->
-            <div class="floating-actions-v2">
-                <div class="fab-item fab-heart" title="Việc làm yêu thích">
-                    <a href="<%= request.getContextPath() %>/DisplayListJobPostSaveOfCandidate" target="_self" id="favorite-btn-v2" class="fab-btn" >
-                        <i class="bi bi-heart-fill"></i>
-                        <c:if test="${username!=null}">
-                            <span class="fab-badge" id="favorite-count-v2"> ${numberJobPost}</span>
-                        </c:if>
-
-                    </a>
-                    <span class="fab-hover-label">Danh sách việc làm đã lưu</span>
-                </div>
-                <div class="fab-item" title="Góp ý">
-                    <a  href="<%= request.getContextPath() %>/ViewActionMenu/Feedback.jsp" target="_self" class="fab-btn">
-                        <i class="bi bi-chat-dots"></i>
-                    </a>
-                    <span class="fab-hover-label">Góp ý GenZTimViec</span>
-                </div>
-                <div class="fab-item" title="Hỗ trợ" style="z-index:10000;">
-                    <button class="fab-btn" id="openSupportPanel" type="button">
-                        <i class="bi bi-headset"></i>
-                    </button>
-                    <span class="fab-hover-label">Hỗ trợ</span>
-                </div>
-
-                <div class="support-popup" id="supportPopup" style="display:none;">
-                    <div class="support-popup-header d-flex align-items-center justify-content-between" style="background: #15c564; color:#fff; padding: 18px 18px 13px 18px; border-radius: 12px 12px 0 0;">
-                        <div>
-                            <div style="font-size:1.18rem; font-weight:700;">Trung tâm hỗ trợ </div>
-                            <div class="d-flex align-items-center mt-2">
-                                <img src="https://genk.mediacdn.vn/thumb_w/640/139269124445442048/2024/6/1/photo-1-17168606131071257137350-1717278776106716631383.jpg" alt="avatar" class="rounded-circle" style="width:38px; height:38px; object-fit:cover; margin-right:10px;">
-                                <div>
-                                    <div style="font-weight:600;">Sơn Tùng MTP</div>
-                                    <div style="font-size:0.97rem;">GenZTimViec thường phản hồi trong vòng 24h</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="support-popup-body">
-                        <a class="support-popup-link" href="#" target="_blank">
-                            <i class="bi bi-question-circle"></i> Các câu hỏi thường gặp
-                        </a>
-                        <a class="support-popup-link" href="SupportUser" target="_blank">
-                            <i class="bi bi-envelope-paper"></i> Yêu cầu hỗ trợ
-                        </a>
-                        <a class="support-popup-link" href="#" id="contactButton">
-                            <i class="bi bi-telephone"></i> Liên hệ GenZTimViec
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!--                       Sub Action Menu -->
-
-            <!-- hiển thị thong tin liên hệ -->
-            <div id="contactModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4);">
-                <div style="background:#fff; border-radius:10px; max-width:600px; margin:100px auto; padding:24px 16px 16px 16px; position:relative; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
-                    <div style="text-align:center;">
-                        <div style="color:#24963F; font-weight:600; font-size:20px; margin-bottom:8px;">Liên hệ</div>
-                        <div style="font-weight:500; color:#222; margin-bottom:8px;">
-                            GenZTimViec cam kết sẽ xử lý các vấn đề của bạn trong vòng tối đa 24h.
-                        </div>
-                        <div style="margin-bottom:8px;">
-                            Tổng đài: <span style="color:#24963F; font-weight:600;">99999 nhé các ngài </span>
-                            <span style="color:#24963F;">(Giờ hành chính)</span>
-                        </div>
-                        <div style="margin-bottom:8px;">
-                            Trong trường hợp không liên lạc được, vui lòng gửi hỗ trợ tới email: <br>
-                            <a href="mailto:hotro@genztimviec.vn" style="color:#24963F; font-weight:600;">hotro@genztimviec.vn</a>
-                        </div>
-                        <div style="margin-bottom:16px;">
-                            Xin cảm ơn!
-                        </div>
-                        <button id="closeModalBtn" style="padding: 8px 24px; border:none; background:#E4E6EB; border-radius:6px; font-size:16px; cursor:pointer;">Đóng lại</button>
-                    </div>
-                </div>
-            </div>
-
-
-            <script>
-                const supportBtn = document.getElementById("openSupportPanel");
-                const supportPopup = document.getElementById("supportPopup");
-                const closeBtn = document.getElementById("closeSupportPanel");
-
-                supportBtn.onclick = function (e) {
-                    // Toggle panel
-                    if (supportPopup.style.display === "block") {
-                        supportPopup.style.display = "none";
-                    } else {
-                        supportPopup.style.display = "block";
-                    }
-                };
-
-                // Đóng popup khi bấm nút X
-                closeBtn.onclick = function () {
-                    supportPopup.style.display = "none";
-                };
-
-                // Đóng popup khi click ra ngoài panel
-                document.addEventListener('mousedown', function (e) {
-                    if (
-                            supportPopup.style.display === "block" &&
-                            !supportPopup.contains(e.target) &&
-                            !supportBtn.contains(e.target)
-                            ) {
-                        supportPopup.style.display = "none";
-                    }
-                });
-            </script>
-
-
-            <script>
-// Show modal on click
-                document.getElementById('contactButton').onclick = function (e) {
-                    e.preventDefault();
-                    document.getElementById('contactModal').style.display = 'block';
-                };
-// Hide modal on close
-                document.getElementById('closeModalBtn').onclick = function () {
-                    document.getElementById('contactModal').style.display = 'none';
-                };
-// Optional: hide modal when clicking outside the modal box
-                document.getElementById('contactModal').onclick = function (event) {
-                    if (event.target === this) {
-                        this.style.display = 'none';
-                    }
-                };
-            </script>
+            <jsp:include page="/IconActionMenu.jsp" />
             <!--                    End Action Menu-->
 
         </div>
@@ -990,27 +863,27 @@
         <!-- Bootstrap 5 JS (for modal/tooltips if needed) -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    const quotes = [
-                        "Cơ hội luôn ở đó – bạn chỉ cần một nơi để bắt đầu hành trình.",
-                        "Chúng tôi không đưa bạn việc làm, chúng tôi trao bạn tương lai.",
-                        "Công việc không chỉ là nguồn sống, mà là nơi ta viết nên câu chuyện cuộc đời.",
-                        "Đừng tìm việc chỉ để làm, hãy tìm việc để sống đúng với giá trị của mình.",
-                        "Sơn Tùng-MTP :  Muốn ngồi một vị trí không ai ngồi được thì bạn phải chịu cảm giác mà không ai chịu được    .",
-                        "Thành công không chờ ai, nhưng luôn mở cửa cho người biết tìm đúng lối đi.",
-                        "Không chỉ là tìm việc, mà là tìm thấy chính mình trong sự nghiệp mơ ước"
-                    ];
-                    let idx = 0;
-                    const quoteElem = document.getElementById('quote-rotate');
-                    setInterval(() => {
-                        quoteElem.style.opacity = 0;
-                        setTimeout(() => {
-                            idx = (idx + 1) % quotes.length;
-                            quoteElem.textContent = quotes[idx];
-                            quoteElem.style.opacity = 1;
-                        }, 500);
-                    }, 5000);
-                });
+                            document.addEventListener("DOMContentLoaded", function () {
+                                const quotes = [
+                                    "Cơ hội luôn ở đó – bạn chỉ cần một nơi để bắt đầu hành trình.",
+                                    "Chúng tôi không đưa bạn việc làm, chúng tôi trao bạn tương lai.",
+                                    "Công việc không chỉ là nguồn sống, mà là nơi ta viết nên câu chuyện cuộc đời.",
+                                    "Đừng tìm việc chỉ để làm, hãy tìm việc để sống đúng với giá trị của mình.",
+                                    "Sơn Tùng-MTP :  Muốn ngồi một vị trí không ai ngồi được thì bạn phải chịu cảm giác mà không ai chịu được    .",
+                                    "Thành công không chờ ai, nhưng luôn mở cửa cho người biết tìm đúng lối đi.",
+                                    "Không chỉ là tìm việc, mà là tìm thấy chính mình trong sự nghiệp mơ ước"
+                                ];
+                                let idx = 0;
+                                const quoteElem = document.getElementById('quote-rotate');
+                                setInterval(() => {
+                                    quoteElem.style.opacity = 0;
+                                    setTimeout(() => {
+                                        idx = (idx + 1) % quotes.length;
+                                        quoteElem.textContent = quotes[idx];
+                                        quoteElem.style.opacity = 1;
+                                    }, 500);
+                                }, 5000);
+                            });
         </script>
 
 
@@ -1068,9 +941,9 @@
                     e.preventDefault();
 
                     const jobPostId = this.getAttribute("data-id");   // lấy id
-                    console.log(" ID:", jobPostId);
+             
 
-                    fetch(`SaveJobPost?idJobPost=` + jobPostId, {     // dcm bug lon fix mãi mới xong
+                    fetch(`SaveJobPost?idJobPost=` + jobPostId, {// dcm bug lon fix mãi mới xong
                         method: "GET"
                     })
                             .then(response => {

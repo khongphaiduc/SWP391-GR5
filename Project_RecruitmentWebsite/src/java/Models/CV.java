@@ -28,6 +28,17 @@ public class CV {
     private String gender;
     String FileData;
     private String mimeType;
+    private int apply_ID;
+
+    public int getApply_ID() {
+        return apply_ID;
+    }
+
+    public void setApply_ID(int apply_ID) {
+        this.apply_ID = apply_ID;
+    }
+    
+            
 
     //thêm jobPost để lấy JobTitle
     private JobPost jobPost;
@@ -195,5 +206,11 @@ public class CV {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
+    @Override
+    public String toString() {
+        return "CV{" + "cvId=" + cvId + ", candidateId=" + candidateId + ", fullName=" + fullName + ", address=" + address + ", email=" + email + ", position=" + position + ", numberExp=" + numberExp + ", education=" + education + ", field=" + field + ", currentSalary=" + currentSalary + ", birthday=" + birthday + ", nationality=" + nationality + ", gender=" + gender + ", FileData=" + FileData + ", mimeType=" + mimeType + ", apply_ID=" + apply_ID + ", jobPost=" + jobPost + ", step=" + step + '}';
+    }
+    
 
 }

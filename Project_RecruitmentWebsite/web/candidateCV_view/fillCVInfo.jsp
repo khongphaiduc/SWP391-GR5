@@ -14,6 +14,8 @@
 <!DOCTYPE html>
 <html lang="vi">
     <head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <meta charset="UTF-8">
         <jsp:include page="/navbar.jsp" />
         <title><%= isEdit ? "Chỉnh sửa CV" : "Tạo mới CV" %></title>
@@ -223,8 +225,8 @@
 
                     <div class="form-section">
                         <div class="section-title">MỨC LƯƠNG HIỆN TẠI</div>
-                        <label for="currentSalary">Mức lương hiện tại (VND)</label>
-                        <input type="number" id="currentSalary" name="currentSalary" min="0" step="1000"
+                        <label for="currentSalary">Mức lương hiện tại (triệu VND)</label>
+                        <input type="number" id="currentSalary" name="currentSalary" min="0"
                                value="<%= isEdit && cv != null ? cv.getCurrentSalary() : "" %>" required>
                     </div>
 

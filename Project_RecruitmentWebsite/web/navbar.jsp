@@ -27,7 +27,31 @@
 <link href="css/style.css" rel="stylesheet">
 
 
+<%String role = (String) session.getAttribute("role");%>
 
+<%if("Admin".equals(role)){%>
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+
+    <a href="index.jsp" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+        <h1 class="m-0 text-primary">GenZTimViec.VN</h1>
+    </a>
+    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+            <a href="list" class="nav-item nav-link active">Trang chủ admin</a>
+            <a href="adminOrder" class="nav-item nav-link" >Quản lý đơn</a>
+            <a href="adminService" class="nav-item nav-link" >Quản lý dịch vụ</a>
+            <a href="adminPromotion" class="nav-item nav-link">Quản lý khuyến mại</a>
+           
+
+
+        </div>
+    </div>
+</nav>
+<%}else{%>
+<!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
 
     <a href="index.jsp" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
@@ -47,15 +71,9 @@
                     <a href="job-detail.jsp" class="dropdown-item">Job Detail</a>
                 </div>
             </div>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                <div class="dropdown-menu rounded-0 m-0">
-                    <a href="category.jsp" class="dropdown-item">Job Category</a>
-                    <a href="testimonial.jsp" class="dropdown-item">Testimonial</a>
-                    <a href="404.jsp" class="dropdown-item">404</a>
-                </div>
-            </div>
-            <%String role = (String) session.getAttribute("role");%>
+
+
+
             <%if("Candidate".equals(role)){%>
             <div class="nav-item dropdown">
 
@@ -76,9 +94,10 @@
                 <div class="dropdown-menu rounded-0 m-0">
                     <a href="${pageContext.request.contextPath}/manageCreatedJob" class="dropdown-item">Quản lý tin tuyển</a> 
                     <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
-                    <a href="${pageContext.request.contextPath}/potential-cvs" class="dropdown-item">CV Tiềm Năng </a>
+                    <a href="${pageContext.request.contextPath}/potential-cvs" class="dropdown-item">Cv tiềm năng</a> 
                     <a href="${pageContext.request.contextPath}/service-for-emp" class="dropdown-item">Dịch Vụ</a>
                     <a href="${pageContext.request.contextPath}/OrderHistory" class="dropdown-item">Lịch sử giao dịch</a>
+
                 </div>
             </div>
             <%}%>
@@ -88,6 +107,8 @@
         <a href="${pageContext.request.contextPath}/createJob" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Đăng tin tuyển dụng<i class="fa fa-arrow-right ms-3"></i></a>
     </div>
 </nav>
+<%}%>
+<!-- Navbar End -->
 
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

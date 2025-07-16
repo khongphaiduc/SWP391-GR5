@@ -263,11 +263,20 @@
                                                 <div class="button-container">
                                                     <a href="view-cv-detail?cvId=${cv.cvId}&jobPostId=${cv.jobPost.jobPost_ID}" class="cv-action-link">Xem CV</a>
 
+
                                                     <form action="save-potential-cvs" method="post">
                                                         <input type="hidden" name="cvId" value="${cv.cvId}">
                                                         <input type="hidden" name="jobPostId" value="${cv.jobPost.jobPost_ID}">
                                                         <button type="submit" class="cv-action-link">Lưu CV</button>
+
                                                     </form>
+                                                    <form action="manageForm" method="get">
+
+                                                        <input type="hidden" name="email" value="${cv.email}"/>
+                                                        <input type="hidden" name="action" value="choose"/>
+                                                        <button type="submit" class="cv-action-link">Gửi form</button>
+                                                    </form>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -315,6 +324,7 @@
                                                     </td>
                                                 </tr>
                                             </c:forEach>
+
                                         </c:when>
                                         <c:otherwise>
                                             <tr>
@@ -322,6 +332,7 @@
                                             </tr>
                                         </c:otherwise>
                                     </c:choose>
+
                                 </tbody>
                             </table>
                         </div>
@@ -330,61 +341,61 @@
                         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
                         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-                       <%-- <c:if test="${totalPages > 1}">--%>
-                            <div class="container mt-4">
-                                <c:url var="baseUrl" value="${not empty keyword or not empty address or not empty numberExp or not empty position or not empty field 
-                                                              ? 'SearchCVsServlet' : 'view-applied-cvs'}" />
+                        <%-- <c:if test="${totalPages > 1}">--%>
+                        <div class="container mt-4">
+                            <c:url var="baseUrl" value="${not empty keyword or not empty address or not empty numberExp or not empty position or not empty field 
+                                                          ? 'SearchCVsServlet' : 'view-applied-cvs'}" />
 
-                                <ul class="pagination justify-content-center">
-                                    <!-- Previous Page -->
-                                    <c:url var="prevUrl" value="${baseUrl}">
-                                        <c:param name="page" value="${currentPage - 1}" />
+                            <ul class="pagination justify-content-center">
+                                <!-- Previous Page -->
+                                <c:url var="prevUrl" value="${baseUrl}">
+                                    <c:param name="page" value="${currentPage - 1}" />
+                                    <c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}" /></c:if>
+                                    <c:if test="${not empty address}"><c:param name="address" value="${address}" /></c:if>
+                                    <c:if test="${not empty numberExp}"><c:param name="numberExp" value="${numberExp}" /></c:if>
+                                    <c:if test="${not empty position}"><c:param name="position" value="${position}" /></c:if>
+                                    <c:if test="${not empty field}"><c:param name="field" value="${field}" /></c:if>
+                                </c:url>
+                                <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                    <a class="page-link" href="${prevUrl}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+
+
+                                <!-- Page Numbers -->
+                                <c:forEach var="i" begin="1" end="${totalPages}">
+                                    <c:url var="pageUrl" value="${baseUrl}">
+                                        <c:param name="page" value="${i}" />
                                         <c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}" /></c:if>
                                         <c:if test="${not empty address}"><c:param name="address" value="${address}" /></c:if>
                                         <c:if test="${not empty numberExp}"><c:param name="numberExp" value="${numberExp}" /></c:if>
                                         <c:if test="${not empty position}"><c:param name="position" value="${position}" /></c:if>
                                         <c:if test="${not empty field}"><c:param name="field" value="${field}" /></c:if>
                                     </c:url>
-                                    <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                                        <a class="page-link" href="${prevUrl}" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
+                                    <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                        <a class="page-link" href="${pageUrl}">${i}</a>
                                     </li>
+                                </c:forEach>
 
 
-                                    <!-- Page Numbers -->
-                                    <c:forEach var="i" begin="1" end="${totalPages}">
-                                        <c:url var="pageUrl" value="${baseUrl}">
-                                            <c:param name="page" value="${i}" />
-                                            <c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}" /></c:if>
-                                            <c:if test="${not empty address}"><c:param name="address" value="${address}" /></c:if>
-                                            <c:if test="${not empty numberExp}"><c:param name="numberExp" value="${numberExp}" /></c:if>
-                                            <c:if test="${not empty position}"><c:param name="position" value="${position}" /></c:if>
-                                            <c:if test="${not empty field}"><c:param name="field" value="${field}" /></c:if>
-                                        </c:url>
-                                        <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="${pageUrl}">${i}</a>
-                                        </li>
-                                    </c:forEach>
-
-
-                                    <!-- Next Page -->
-                                    <c:url var="nextUrl" value="${baseUrl}">
-                                        <c:param name="page" value="${currentPage + 1}" />
-                                        <c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}" /></c:if>
-                                        <c:if test="${not empty address}"><c:param name="address" value="${address}" /></c:if>
-                                        <c:if test="${not empty numberExp}"><c:param name="numberExp" value="${numberExp}" /></c:if>
-                                        <c:if test="${not empty position}"><c:param name="position" value="${position}" /></c:if>
-                                        <c:if test="${not empty field}"><c:param name="field" value="${field}" /></c:if>
-                                    </c:url>
-                                    <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                                        <a class="page-link" href="${nextUrl}" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                      <%--</c:if>--%>
+                                <!-- Next Page -->
+                                <c:url var="nextUrl" value="${baseUrl}">
+                                    <c:param name="page" value="${currentPage + 1}" />
+                                    <c:if test="${not empty keyword}"><c:param name="keyword" value="${keyword}" /></c:if>
+                                    <c:if test="${not empty address}"><c:param name="address" value="${address}" /></c:if>
+                                    <c:if test="${not empty numberExp}"><c:param name="numberExp" value="${numberExp}" /></c:if>
+                                    <c:if test="${not empty position}"><c:param name="position" value="${position}" /></c:if>
+                                    <c:if test="${not empty field}"><c:param name="field" value="${field}" /></c:if>
+                                </c:url>
+                                <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                    <a class="page-link" href="${nextUrl}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <%--</c:if>--%>
                     </div>
                 </div>
             </div>

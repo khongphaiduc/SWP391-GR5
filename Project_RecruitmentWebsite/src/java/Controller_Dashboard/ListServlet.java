@@ -84,9 +84,7 @@ public class ListServlet extends HttpServlet {
         List<Order> orders = dao.getAllOrdersWithEmployerAndService();
         request.setAttribute("orders", orders);
 
-                PromotionDAO promotionDAO = new PromotionDAO();
-        List<Promotion> promotions = promotionDAO.getAllPromotions();
-        request.setAttribute("promotions", promotions);
+               
         
         request.getRequestDispatcher("viewuser.jsp").forward(request, response);
 

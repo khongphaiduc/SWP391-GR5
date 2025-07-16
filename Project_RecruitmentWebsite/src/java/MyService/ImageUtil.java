@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ImageUtil {
+
     public static String saveImage(Part part, String fullUploadPath, String subFolder) throws IOException {
         String fileName = extractFileName(part);
         if (fileName == null || fileName.isEmpty()) {
@@ -15,9 +16,10 @@ public class ImageUtil {
         }
 
         String savedFileName = System.currentTimeMillis() + "_" + fileName;
+
         File uploadDir = new File(fullUploadPath);
         if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
+            uploadDir.mkdirs();                                 
         }
 
         part.write(new File(uploadDir, savedFileName).getAbsolutePath());
@@ -36,7 +38,7 @@ public class ImageUtil {
         String contentDisp = part.getHeader("content-disposition");
         for (String s : contentDisp.split(";")) {
             if (s.trim().startsWith("filename")) {
-                return s.substring(s.indexOf('=') + 2, s.length() - 1); // Bỏ dấu "
+                return s.substring(s.indexOf('=') + 2, s.length() - 1); 
             }
         }
         return null;
@@ -50,6 +52,12 @@ public class ImageUtil {
             oldFile.delete(); 
         }
     }
+
+    public static String getImageUrl(String urlImage, String d) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+
 
     
 }

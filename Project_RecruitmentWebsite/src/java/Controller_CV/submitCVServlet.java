@@ -119,7 +119,7 @@ public class submitCVServlet extends HttpServlet {
         Part filePart = request.getPart("CVFile");
         InputStream inputStream = filePart.getInputStream();
         String mimeType = filePart.getContentType();
-        if (mimeType.startsWith("image/") && filePart.getSize() < 3000000) {
+        if (mimeType.startsWith("image/") && filePart.getSize() < 5000000) {
 
             String buildPath = request.getServletContext().getRealPath("/");
             File webFolder = new File(buildPath).getParentFile().getParentFile();
@@ -137,7 +137,7 @@ public class submitCVServlet extends HttpServlet {
                 request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
             }
         } else {
-            request.setAttribute("message", "Bạn cần chọn file ảnh(.png, jpg) nhỏ hơn 1MB để đăng lên");
+            request.setAttribute("message", "Bạn cần chọn file ảnh(.png, jpg) nhỏ hơn 5MB để đăng lên");
             request.getRequestDispatcher("candidateCV_view/fillCVInfo.jsp").forward(request, response);
         }
 

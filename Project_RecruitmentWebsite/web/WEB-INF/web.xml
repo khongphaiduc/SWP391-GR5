@@ -82,6 +82,42 @@
         <servlet-name>OrderHistoryServlet</servlet-name>
         <servlet-class>Controller_Order.OrderHistoryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>deleteOrder</servlet-name>
+        <servlet-class>Controller_Order.deleteOrder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>formServlet</servlet-name>
+        <servlet-class>Controller_Form.formServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>submitFormServlet</servlet-name>
+        <servlet-class>Controller_Form.submitFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>manageFormServlet</servlet-name>
+        <servlet-class>Controller_Form.manageFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sendFormServlet</servlet-name>
+        <servlet-class>Controller_Form.sendFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadOrder</servlet-name>
+        <servlet-class>Controller_Order.downloadOrder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>answerFormServlet</servlet-name>
+        <servlet-class>Controller_Form.answerFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>adminService</servlet-name>
+        <servlet-class>Controller_Dashboard.adminService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>adminPromotion</servlet-name>
+        <servlet-class>Controller_Dashboard.adminPromotion</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -161,6 +197,42 @@
     <servlet-mapping>
         <servlet-name>OrderHistoryServlet</servlet-name>
         <url-pattern>/OrderHistory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteOrder</servlet-name>
+        <url-pattern>/deleteOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>formServlet</servlet-name>
+        <url-pattern>/form</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>submitFormServlet</servlet-name>
+        <url-pattern>/submitForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>manageFormServlet</servlet-name>
+        <url-pattern>/manageForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sendFormServlet</servlet-name>
+        <url-pattern>/sendForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadOrder</servlet-name>
+        <url-pattern>/downloadOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>answerFormServlet</servlet-name>
+        <url-pattern>/answerForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminService</servlet-name>
+        <url-pattern>/adminService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminPromotion</servlet-name>
+        <url-pattern>/adminPromotion</url-pattern>
     </servlet-mapping>
     <error-page>
         <error-code>404</error-code>

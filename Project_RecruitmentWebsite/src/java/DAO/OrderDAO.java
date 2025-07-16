@@ -12,13 +12,15 @@ import java.util.List;
 public class OrderDAO extends DBContext {
 
     public int insertOrder(Order o) throws SQLException {
-        String sql = "INSERT INTO Orders (Employer_ID, Service_ID, Amount, PayMethod, Status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Orders (Employer_ID, Service_ID, Amount,"
+                + " PayMethod, Status, Duration) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, o.getEmployerId());
             ps.setInt(2, o.getServiceId());
             ps.setDouble(3, o.getAmount());
             ps.setString(4, o.getPayMethod());
             ps.setString(5, o.getStatus());
+            ps.setInt(6, o.getDuration());
 
             int rows = ps.executeUpdate();
             if (rows > 0) {
@@ -37,7 +39,7 @@ public class OrderDAO extends DBContext {
     public List<Order> getOrdersByEmployerId(int employerId) throws SQLException {
         List<Order> list = new ArrayList<>();
         String sql = "SELECT o.Order_ID, o.Employer_ID, o.Service_ID, o.Amount, o.PayMethod, o.Status, o.Date, "
-                + "s.Service_Name, s.Duration "
+                + "s.Service_Name, o.Duration "
                 + "FROM Orders o "
                 + "JOIN Service s ON o.Service_ID = s.Service_ID "
                 + "WHERE o.Employer_ID = ?";
@@ -62,7 +64,7 @@ public class OrderDAO extends DBContext {
                     // Tính ngày hết hạn: Date + Duration
                     LocalDateTime orderDate = rs.getTimestamp("Date").toLocalDateTime();
                     LocalDateTime expiredDate = orderDate.plusDays(o.getDuration());
-                    o.setExpiredDate(Timestamp.valueOf(expiredDate)); 
+                    o.setExpiredDate(Timestamp.valueOf(expiredDate));
 
                     list.add(o);
 
@@ -142,7 +144,7 @@ public class OrderDAO extends DBContext {
                 + "WHERE Status = 'success' AND EXISTS ("
                 + "  SELECT 1 FROM Service "
                 + "  WHERE Service.Service_ID = Orders.Service_ID "
-                + "  AND DATEADD(DAY, Service.Duration, Orders.Date) <= GETDATE()"
+                + "  AND DATEADD(DAY, Orders.Duration, Orders.Date) <= GETDATE()"
                 + ")";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int rows = ps.executeUpdate();
@@ -162,7 +164,7 @@ public class OrderDAO extends DBContext {
             ps.setInt(2, serviceId);
 
             try (ResultSet rs = ps.executeQuery()) {
-                return rs.next(); // Có kết quả => đã tồn tại order phù hợp
+                return rs.next();
             }
 
         } catch (SQLException e) {
@@ -170,6 +172,137 @@ public class OrderDAO extends DBContext {
         }
 
         return false;
+    }
+
+    public boolean deleteOrderById(int orderId) throws SQLException {
+        String sql = "DELETE FROM Orders WHERE Order_ID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        }
+    }
+
+    public List<Order> getOrdersByFilters(Integer month, Integer year, Integer serviceId) {
+        List<Order> list = new ArrayList<>();
+
+        String sql = "SELECT o.*, e.EmployerName, e.Company_Name, e.Email, e.PhoneNumber, "
+                + "s.Service_Name, s.Price, s.Duration "
+                + "FROM Orders o "
+                + "JOIN Employer e ON o.Employer_ID = e.Employer_ID "
+                + "JOIN Service s ON o.Service_ID = s.Service_ID "
+                + "WHERE 1=1";
+
+        if (month != null) {
+            sql += " AND MONTH(o.Date) = ?";
+        }
+        if (year != null) {
+            sql += " AND YEAR(o.Date) = ?";
+        }
+        if (serviceId != null) {
+            sql += " AND o.Service_ID = ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            int index = 1;
+            if (month != null) {
+                ps.setInt(index++, month);
+            }
+            if (year != null) {
+                ps.setInt(index++, year);
+            }
+            if (serviceId != null) {
+                ps.setInt(index++, serviceId);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Order order = new Order();
+                order.setOrderId(rs.getInt("Order_ID"));
+                order.setEmployerId(rs.getInt("Employer_ID"));
+                order.setServiceId(rs.getInt("Service_ID"));
+                order.setAmount(rs.getDouble("Amount"));
+                order.setPayMethod(rs.getString("PayMethod"));
+                order.setStatus(rs.getString("Status"));
+                order.setDate(rs.getTimestamp("Date"));
+
+                // Employer
+                Employer emp = new Employer();
+                emp.setEmployerId(rs.getInt("Employer_ID"));
+                emp.setNameEmployer(rs.getString("EmployerName"));
+                emp.setCompanyName(rs.getString("Company_Name"));
+                emp.setEmail(rs.getString("Email"));
+                emp.setPhoneNumber(rs.getString("PhoneNumber"));
+                order.setEmployer(emp);
+
+                // Service
+                Service s = new Service();
+                s.setServiceId(rs.getInt("Service_ID"));
+                s.setServiceName(rs.getString("Service_Name"));
+                s.setPrice(rs.getDouble("Price"));
+                s.setDuration(rs.getInt("Duration"));
+                order.setService(s);
+
+                list.add(order);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public Order getOrderById(int orderId) {
+        Order order = null;
+        String sql = "SELECT o.Order_ID, o.Employer_ID, o.Service_ID, o.Amount, o.PayMethod, o.Status, o.Date, "
+                + "e.EmployerName, e.Company_Name, e.Email, e.PhoneNumber, e.Location, e.URL_Website, e.imgLogo, "
+                + "s.Service_Name, s.Price, s.Description, s.Duration "
+                + "FROM Orders o "
+                + "JOIN Employer e ON o.Employer_ID = e.Employer_ID "
+                + "JOIN Service s ON o.Service_ID = s.Service_ID "
+                + "WHERE o.Order_ID = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    order = new Order();
+                    order.setOrderId(rs.getInt("Order_ID"));
+                    order.setEmployerId(rs.getInt("Employer_ID"));
+                    order.setServiceId(rs.getInt("Service_ID"));
+                    order.setAmount(rs.getDouble("Amount"));
+                    order.setPayMethod(rs.getString("PayMethod"));
+                    order.setStatus(rs.getString("Status"));
+                    order.setDate(rs.getTimestamp("Date"));
+
+                    // Set Employer
+                    Employer emp = new Employer();
+                    emp.setEmployerId(rs.getInt("Employer_ID"));
+                    emp.setNameEmployer(rs.getString("EmployerName"));
+                    emp.setCompanyName(rs.getString("Company_Name"));
+                    emp.setEmail(rs.getString("Email"));
+                    emp.setPhoneNumber(rs.getString("PhoneNumber"));
+                    emp.setLocation(rs.getString("Location"));
+                    emp.setUrlWebsite(rs.getString("URL_Website"));
+                    emp.setImgLogo(rs.getString("imgLogo"));
+                    order.setEmployer(emp);
+
+                    // Set Service
+                    Service service = new Service();
+                    service.setServiceId(rs.getInt("Service_ID"));
+                    service.setServiceName(rs.getString("Service_Name"));
+                    service.setPrice(rs.getDouble("Price"));
+                    service.setDescription(rs.getString("Description"));
+                    service.setDuration(rs.getInt("Duration"));
+                    order.setService(service);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return order;
     }
 
 }

@@ -83,7 +83,6 @@ public class OrderHistoryServlet extends HttpServlet {
             }
 
             //paging
-            
             String pageParam = request.getParameter("page");
             int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
             int pageSize = 5;
@@ -109,7 +108,7 @@ public class OrderHistoryServlet extends HttpServlet {
 
             request.setAttribute("currentPage", page);
             request.setAttribute("totalPages", totalPages);
-            
+
             request.setAttribute("orders", paginatedList);
             request.getRequestDispatcher("order_view/order_history.jsp").forward(request, response);
         }
@@ -127,7 +126,15 @@ public class OrderHistoryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        OrderDAO orderDAO = new OrderDAO();
+        try {
+            orderDAO.deleteOrderById(Integer.parseInt(request.getParameter("orderId")));
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderHistoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        response.sendRedirect(request.getContextPath() + "/OrderHistory");
+
     }
 
     /**

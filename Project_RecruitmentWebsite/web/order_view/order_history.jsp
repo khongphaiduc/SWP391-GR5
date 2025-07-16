@@ -78,8 +78,8 @@
                 color: #1c9c60;
                 font-size: 17px;
             }
-            
-             .job-pagination-wrapper {
+
+            .job-pagination-wrapper {
                 background: white;
                 padding: 20px;
                 border-radius: 8px;
@@ -169,12 +169,21 @@
                                 <p><i class="fas fa-calendar label-icon"></i><strong>Ngày tạo đơn:</strong> <fmt:formatDate value="${order.date}" pattern="dd-MM-yyyy HH:mm" /></p>
                                 <p><i class="fas fa-clock label-icon"></i><strong>Thời hạn dịch vụ:</strong> ${order.duration} ngày</p>
                                 <p><i class="fas fa-hourglass-end label-icon"></i><strong>Ngày hết hạn:</strong> <fmt:formatDate value="${order.expiredDate}" pattern="dd-MM-yyyy" /></p>
-                                <p><i class="fas fa-money-bill-wave label-icon"></i><strong>Số tiền:</strong> $<fmt:formatNumber value="${order.amount}" type="number" /></p>
+                                <p><i class="fas fa-money-bill-wave label-icon"></i><strong>Số tiền:</strong> <fmt:formatNumber value="${order.amount}" type="number" /></p>
                                 <p><i class="fas fa-credit-card label-icon"></i><strong>Thanh toán:</strong> ${order.payMethod}</p>
                             </div>
                             <div class="order-status">
                                 <span class="status status-${order.status}">${order.status}</span>
+                                <form action="OrderHistory" method="post" style="margin-top: 10px;">
+                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                    <button type="submit" onclick="return confirm('Bạn có chắc muốn xoá đơn hàng này?')" 
+                                            style="background-color: #e53935; border: none; color: white; padding: 6px 12px;
+                                            border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 8px;">
+                                        Xoá
+                                    </button>
+                                </form>
                             </div>
+
                         </div>
                     </c:forEach>
                 </c:when>
@@ -195,19 +204,19 @@
                 <% if (i == currentPage) { %>
                 <span class="job-current-page"><%= i %></span>
                 <% } else { %>
-                <a href="manageCreatedJob?page=<%= i %>"><%= i %></a>
+                <a href="OrderHistory?page=<%= i %>"><%= i %></a>
                 <% } %>
                 <% } %>
 
                 <div class="job-page-size-control">
                     <span>Hiển thị:</span>
-                    <form action="manageCreatedJob" style="display: flex; align-items: center; gap: 8px;">
+                    <form action="OrderHistory" style="display: flex; align-items: center; gap: 8px;">
                         <input type="number" name="pageSize" value="<%=pageSize%>" min="1" max="20">
                         <button type="submit">OK</button>
                     </form>
                 </div>
             </div>
         </div>
- <% } %>
+        <% } %>
     </body>
 </html>
