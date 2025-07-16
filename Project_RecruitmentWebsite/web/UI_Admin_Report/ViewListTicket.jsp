@@ -102,7 +102,6 @@
             tr:hover td {
                 background: var(--table-row-hover);
             }
-            /* Cột ID nhỏ */
             th:first-child, td:first-child {
                 width: 60px;
                 min-width: 50px;
@@ -112,7 +111,6 @@
                 font-weight: 700;
                 font-size: 1em;
             }
-            /* Cột Vai trò nhỏ */
             th:nth-child(2), td:nth-child(2) {
                 width: 90px;
                 min-width: 65px;
@@ -121,7 +119,6 @@
                 padding-right: 6px;
                 font-size: 1em;
             }
-            /* Trạng thái dạng select */
             .status-select {
                 min-width: 135px;
                 padding: 6px 10px 6px 10px;
@@ -159,7 +156,6 @@
             td:not(:last-child), th:not(:last-child) {
                 border-right: 1.5px solid var(--table-border);
             }
-            /* Ngày gửi đẹp hơn */
             .date-cell {
                 min-width: 110px;
                 white-space: nowrap;
@@ -174,18 +170,16 @@
                 font-weight: 600;
                 font-size: 0.98em;
             }
-            /* Cột nội dung được tự động xuống dòng nếu dài */
             td:nth-child(5) {
                 white-space: normal;
                 word-break: break-word;
                 max-width: 380px;
             }
-            /* Màu nền cho từng trạng thái toàn hàng */
             .tr-reviewed td, .tr-reviewed {
-                background: #ffff00 !important;   /* vàng nhạt */
+                background: #ffff00 !important;
             }
             .tr-resolved td, .tr-resolved {
-                background: #00cc00 !important;   /* xanh nhạt */
+                background: #00cc00 !important;
             }
             @media (max-width: 1300px) {
                 .table-container, .filter-bar {
@@ -252,30 +246,14 @@
                     color: var(--primary);
                     font-weight: 600;
                 }
-                td:nth-of-type(1):before {
-                    content: "ID";
-                }
-                td:nth-of-type(2):before {
-                    content: "Vai trò";
-                }
-                td:nth-of-type(3):before {
-                    content: "Phone";
-                }
-                td:nth-of-type(4):before {
-                    content: "Tiêu đề";
-                }
-                td:nth-of-type(5):before {
-                    content: "Nội dung";
-                }
-                td:nth-of-type(6):before {
-                    content: "Ngày gửi";
-                }
-                td:nth-of-type(7):before {
-                    content: "Trạng thái";
-                }
-                td:nth-of-type(8):before {
-                    content: "Chi tiết";
-                }
+                td:nth-of-type(1):before { content: "ID"; }
+                td:nth-of-type(2):before { content: "Vai trò"; }
+                td:nth-of-type(3):before { content: "Phone"; }
+                td:nth-of-type(4):before { content: "Tiêu đề"; }
+                td:nth-of-type(5):before { content: "Nội dung"; }
+                td:nth-of-type(6):before { content: "Ngày gửi"; }
+                td:nth-of-type(7):before { content: "Trạng thái"; }
+                td:nth-of-type(8):before { content: "Chi tiết"; }
                 td:nth-child(5) {
                     max-width: 100vw;
                 }
@@ -290,30 +268,52 @@
                     background: #e8f5e9 !important;
                 }
             }
+            /* Phân trang */
+            .pagination {
+                display: flex;
+                list-style: none;
+                padding: 0;
+                justify-content: center;
+                margin-top: 24px;
+            }
+            .pagination .page-item {
+                margin: 0 2px;
+            }
+            .pagination .page-link {
+                color: var(--primary);
+                background: #fff;
+                border: 1.2px solid var(--primary);
+                padding: 7px 13px;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: background 0.18s, color 0.18s;
+            }
+            .pagination .page-item.active .page-link,
+            .pagination .page-link:hover {
+                background: var(--primary);
+                color: #fff;
+            }
         </style>
     </head>
     <body>
+      
         <div class="filter-bar">
-            <!--             thằng data-->
+            <h1 style="margin-right: 400px">Danh sách Report </h1>
             <form method="get" action="DisplayListReport">
-
                 <label for="filter-date">Ngày gửi:</label>
-                <input type="date" id="filter-date"     name="date" max="2999-12-31"  onchange="this.form.submit()">
-                <input type="hidden" name="phone"  value="${sessionScope.phone}" />
+                <input type="date" id="filter-date" name="date" max="2999-12-31" value="${sessionScope.date}" onchange="this.form.submit()">
+                <input type="hidden" name="phone" value="${sessionScope.phone}" />
                 <input type="hidden" name="status" value="${sessionScope.status}" />
             </form>
-
-            <!--                   thằng  phone-->
             <form method="get" action="DisplayListReport">
                 <label for="filter-phone">Số điện thoại:</label>
-                <input type="text" id="filter-phone" value="${sessionScope.phone}" name="phone" placeholder="Nhập SĐT..." >
-                <input type="hidden" name="date"  value="${sessionScope.date}" />
+                <input type="text" id="filter-phone" value="${sessionScope.phone}" name="phone" placeholder="Nhập SĐT...">
+                <input type="hidden" name="date" value="${sessionScope.date}" />
                 <input type="hidden" name="status" value="${sessionScope.status}" />
                 <input type="submit" style="display:none">
             </form>
-
-            <!-- thằng status-->
-            <form  method="get" action="DisplayListReport">
+            <form method="get" action="DisplayListReport">
                 <label for="filter-status">Trạng thái:</label>
                 <select id="filter-status" name="status" onchange="this.form.submit()">
                     <option value="">Tất cả</option>
@@ -321,12 +321,10 @@
                     <option value="reviewed" ${sessionScope.status eq 'reviewed' ? 'selected' : ''}>Reviewed</option>
                     <option value="resolved" ${sessionScope.status eq 'resolved' ? 'selected' : ''}>Resolved</option>
                 </select>
-                <input type="hidden" name="phone"  value="${sessionScope.phone}" />
+                <input type="hidden" name="phone" value="${sessionScope.phone}" />
                 <input type="hidden" name="date" value="${sessionScope.date}" />
             </form>
         </div>
-
-
         <div class="table-container">
             <table id="report-table">
                 <thead>
@@ -342,7 +340,6 @@
                     </tr>
                 </thead>
                 <tbody>
-
                     <c:forEach var="s" items="${listReport}">
                         <tr>
                             <td>${s.id}</td>
@@ -350,34 +347,55 @@
                             <td>${s.phone}</td>
                             <td>${s.title}</td>
                             <td>${s.content}</td>
-                            <td><span class="date-cell">                                
-                                  <fmt:formatDate value="${s.dateSend}" pattern="dd/MM/yyyy"/>
+                            <td><span class="date-cell">
+                                <fmt:formatDate value="${s.dateSend}" pattern="dd/MM/yyyy"/>
                                 </span></td>
                             <td>
                                 <select class="status-select" data-idreport="${s.feedBackReportId}">
                                     <option value="pending" ${s.status eq 'pending' ? 'selected' :''} >Chờ xử lý</option>
-                                    <option value="reviewed"   ${s.status eq'reviewed' ? 'selected' :''}>Đang xử lý</option>
-                                    <option value="resolved"  ${s.status eq'resolved' ? 'selected' :''} >Hoành Thành</option>
+                                    <option value="reviewed" ${s.status eq 'reviewed' ? 'selected' :''}>Đang xử lý</option>
+                                    <option value="resolved" ${s.status eq 'resolved' ? 'selected' :''}>Hoàn Thành</option>
                                 </select>
                             </td>
-                            <td><a  href="ViewDetail?idReport=${s.feedBackReportId}" target="_blank" class="detail-btn" >Xem</a></td>
+                            <td><a href="ViewDetail?idReport=${s.feedBackReportId}" target="_blank" class="detail-btn">Xem</a></td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
         </div>
-        <!-- Modal -->
         <div id="modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:10;background:rgba(0,0,0,0.20);">
             <div style="background:#fff;border-radius:14px;max-width:460px;margin:7% auto 0;padding:36px 34px;box-shadow:0 8px 40px #388e3c22;position:relative;">
                 <div id="modal-content" style="color:var(--primary);text-align:center;font-size:1.13em;"></div>
                 <button onclick="closeModal()" style="margin-top:30px;padding:10px 36px;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:1.05em;">Đóng</button>
             </div>
         </div>
-
+        <div class="d-flex justify-content-center mt-4">
+            <nav>
+                <ul class="pagination">
+                    <c:if test="${currentPage > 1}">
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="DisplayListReport?page=${currentPage - 1}&date=${sessionScope.date}&phone=${sessionScope.phone}&status=${sessionScope.status}">&laquo; Trước</a>
+                        </li>
+                    </c:if>
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                        <li class="page-item ${i == currentPage ? 'active' : ''}">
+                            <a class="page-link"
+                               href="DisplayListReport?page=${i}&date=${sessionScope.date}&phone=${sessionScope.phone}&status=${sessionScope.status}"> ${i} </a>
+                        </li>
+                    </c:forEach>
+                    <c:if test="${currentPage < totalPages}">
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="DisplayListReport?page=${currentPage + 1}&date=${sessionScope.date}&phone=${sessionScope.phone}&status=${sessionScope.status}">Sau &raquo;</a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
+        </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 const statusSelects = document.querySelectorAll('.status-select');
-
                 function updateRowBg(select) {
                     const tr = select.closest('tr');
                     tr.classList.remove("tr-reviewed", "tr-resolved");
@@ -386,32 +404,25 @@
                     } else if (select.value === "resolved") {
                         tr.classList.add("tr-resolved");
                     }
-                    // Nếu pending thì giữ mặc định
                 }
-
                 statusSelects.forEach(select => {
-                    // Cập nhật màu nền khi load trang
                     updateRowBg(select);
-
                     select.addEventListener('change', function () {
-                        const idReport = this.getAttribute("data-idreport"); // id của report
-                        const newStatus = this.value; // trạng thái được chọn
+                        const idReport = this.getAttribute("data-idreport");
+                        const newStatus = this.value;
                         updateRowBg(this);
-
-                        fetch("/Project_RecruitmentWebsite/setStatus?idReport=" + idReport + "&newStatus=" + newStatus)
-                                .then(response => {
-                                    if (response.ok) {
-                                        alert("Cập nhật trạng thái thành công");
-                                        console.log('cập nhật trạng thái thành công')
-                                    } else {
-                                        alert("Cập nhật trạng thái thất bại");
-                                    }
-                                })
-                                .catch(error => console.error("Lỗi kết nối:", error));
+                        fetch("setStatus?idReport=" + idReport + "&newStatus=" + newStatus)
+                            .then(response => {
+                                if (response.ok) {
+                                    alert("Cập nhật trạng thái thành công");
+                                } else {
+                                    alert("Cập nhật trạng thái thất bại");
+                                }
+                            })
+                            .catch(error => console.error("Lỗi kết nối:", error));
                     });
                 });
             });
-
         </script>
     </body>
 </html>
