@@ -29,20 +29,21 @@ public class ApplyDAO extends DBContext {
             e.printStackTrace();
         }
     }
+
     //khanh
     public Apply getApplyByCvId(int cvId) {
-    String sql = "SELECT * FROM Apply WHERE CV_ID = ?";
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, cvId);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return extractApply(rs);
+        String sql = "SELECT * FROM Apply WHERE CV_ID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, cvId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return extractApply(rs);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return null;
     }
-    return null;
-}
 
     public Apply getApplyByID(int applyID) {
         String sql = "SELECT * FROM Apply WHERE Apply_ID = ?";
@@ -264,6 +265,26 @@ public class ApplyDAO extends DBContext {
         }
 
         return list;
+    }
+
+    public Apply getApplyByCvIdAndJobPostId(int cvId, int jobPostId) {
+        String sql = "SELECT * FROM Apply WHERE CV_ID = ? AND JobPost_ID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, cvId);
+            ps.setInt(2, jobPostId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Apply apply = new Apply();
+                apply.setApply_ID(rs.getInt("Apply_ID"));
+                apply.setCV_ID(rs.getInt("CV_ID"));
+                apply.setJobPost_ID(rs.getInt("JobPost_ID"));
+                apply.setStep(rs.getString("Step"));
+                return apply;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -17,8 +17,7 @@ public class PotentialCVsServlet extends HttpServlet {
     private static final int PAGE_SIZE = 10;
 
     private String normalize(String input) {
-        if (input == null) return null;
-        return input.trim().replaceAll("\\s+", " ");
+        return (input == null) ? null : input.trim().replaceAll("\\s+", " ");
     }
 
     @Override
@@ -46,6 +45,17 @@ public class PotentialCVsServlet extends HttpServlet {
             int employerId = employer.getEmployerId();
             session.setAttribute("employerId", employerId);
 
+            // Lấy JobPostID từ query string
+//            String jobPostIdParam = request.getParameter("jobPostId");
+//            int jobPostId = 0;
+//            if (jobPostIdParam != null && jobPostIdParam.matches("\\d+")) {
+//                jobPostId = Integer.parseInt(jobPostIdParam);
+//            } else {
+//                request.setAttribute("error", "Thiếu hoặc sai JobPost ID.");
+//                request.getRequestDispatcher("/error.jsp").forward(request, response);
+//                return;
+//            }
+
             // Phân trang
             int currentPage = 1;
             String pageParam = request.getParameter("page");
@@ -55,7 +65,7 @@ public class PotentialCVsServlet extends HttpServlet {
             }
             int offset = (currentPage - 1) * PAGE_SIZE;
 
-            // Nhận các tham số lọc
+            // Lọc
             String keyword = normalize(request.getParameter("keyword"));
             String address = normalize(request.getParameter("address"));
             String position = normalize(request.getParameter("position"));
@@ -65,22 +75,31 @@ public class PotentialCVsServlet extends HttpServlet {
             if (expStr != null && !expStr.trim().isEmpty()) {
                 try {
                     numberExp = Integer.parseInt(expStr.trim());
-                } catch (NumberFormatException ignored) {}
+                } catch (NumberFormatException ignored) {
+                }
             }
 
             PotentialDAO dao = new PotentialDAO();
             List<CV> potentialCVs;
             int totalCVs;
 
-            // Kiểm tra xem có lọc không
-            boolean hasFilter = keyword != null || address != null || position != null || field != null || numberExp != null;
+            boolean hasFilter =
+                    (keyword != null && !keyword.trim().isEmpty())
+                            || (address != null && !address.trim().isEmpty())
+                            || (position != null && !position.trim().isEmpty())
+                            || (field != null && !field.trim().isEmpty())
+                            || (numberExp != null);
 
             if (hasFilter) {
-                // Tìm kiếm trong danh sách CV TIỀM NĂNG
-                potentialCVs = dao.searchPotentialCVsForEmployer(employerId, address, numberExp, position, keyword, field, PAGE_SIZE, offset);
-                totalCVs = dao.countSearchPotentialCVsForEmployer(employerId, address, numberExp, position, keyword, field);
+                // Tìm kiếm có điều kiện
+                potentialCVs = dao.searchPotentialCVsForEmployer(
+                        employerId, address, numberExp, position, keyword, field, PAGE_SIZE, offset
+                );
+                totalCVs = dao.countSearchPotentialCVsForEmployer(
+                        employerId, address, numberExp, position, keyword, field
+                );
             } else {
-                // Không lọc => lấy toàn bộ danh sách CV tiềm năng
+                // Không có điều kiện lọc
                 potentialCVs = dao.getPotentialCVsByEmployerId(employerId, currentPage, PAGE_SIZE);
                 totalCVs = dao.getTotalPotentialCVs(employerId);
             }
@@ -91,8 +110,9 @@ public class PotentialCVsServlet extends HttpServlet {
             request.setAttribute("potentialCVs", potentialCVs);
             request.setAttribute("currentPage", currentPage);
             request.setAttribute("totalPages", totalPages);
+            //request.setAttribute("jobPostId", jobPostId);
 
-            // Preserve các tiêu chí lọc nếu có
+            // Preserve filter
             request.setAttribute("keyword", keyword);
             request.setAttribute("address", address);
             request.setAttribute("position", position);
@@ -108,3 +128,4 @@ public class PotentialCVsServlet extends HttpServlet {
         }
     }
 }
+

@@ -104,6 +104,13 @@
                     </option>
                 </c:forEach>
             </select>
+            <label for="year">Năm:</label>
+            <select name="year" id="year" onchange="this.form.submit()">
+                <option value="">--</option>
+                <c:forEach var="y" begin="2022" end="2025">
+                    <option value="${y}" ${param.year == y ? 'selected' : ''}>${y}</option>
+                </c:forEach>
+            </select>
             <label for="month">Tháng:</label>
             <select name="month" id="month" onchange="this.form.submit()">
                 <option value="">--</option>
@@ -112,13 +119,7 @@
                 </c:forEach>
             </select>
 
-            <label for="year">Năm:</label>
-            <select name="year" id="year" onchange="this.form.submit()">
-                <option value="">--</option>
-                <c:forEach var="y" begin="2022" end="2025">
-                    <option value="${y}" ${param.year == y ? 'selected' : ''}>${y}</option>
-                </c:forEach>
-            </select>
+            
         </form>
 
         <div class="container">
@@ -127,6 +128,16 @@
             <c:choose>
                 <c:when test="${not empty orders}">
                     <table>
+                        <c:set var="total" value="0" />
+                           <c:forEach var="o" items="${orders}">
+                                <c:set var="total" value="${total + o.amount}" />
+                            </c:forEach>
+                           <tr class="total-row">
+                                <td colspan="8" style="text-align: right;">Tổng cộng:</td>
+                                <td colspan="5" style="text-align: left;">
+                                    <fmt:formatNumber value="${total}" type="number" groupingUsed="true"/> VNĐ
+                                </td>
+                            </tr>
                         <thead>
                             <tr>
                                 <th>Mã đơn</th>
@@ -144,7 +155,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:set var="total" value="0" />
+                            
                             <c:forEach var="o" items="${orders}">
                                 <tr>
                                     <td>${o.orderId}</td>
@@ -159,10 +170,10 @@
                                     <td class="status-${o.status}">${o.status}</td>
                                     <td><fmt:formatDate value="${o.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                                     <td class="actions">
-                                        <a href="deleteOrder?orderId=${o.orderId}" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa đơn này?')">Xóa</a>
+                                        <a style="color:red" href="deleteOrder?orderId=${o.orderId}" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa đơn này?')">Xóa</a>
+                                        <a href="downloadOrder?orderId=${o.orderId}" class="delete-btn" target="_blank" >Xem</a>
                                     </td>
                                 </tr>
-                                <c:set var="total" value="${total + o.amount}" />
                             </c:forEach>
                             <tr class="total-row">
                                 <td colspan="8" style="text-align: right;">Tổng cộng:</td>

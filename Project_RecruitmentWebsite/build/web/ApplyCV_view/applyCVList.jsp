@@ -1,0 +1,535 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.*, Models.*" %>
+
+<html>
+    <head>
+        <jsp:include page="/navbar.jsp" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quản lý CV - TopCV Style</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                background-color: #f4f4f4; /* Changed to match CV creation page */
+                min-height: 100vh;
+                padding: 0;
+            }
+
+            .cv-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+                padding-top: 70px; /* Adjust for sticky navbar height */
+            }
+
+            .cv-header-section {
+                text-align: center;
+                margin: 40px 0;
+                color: #2e4f4f; /* Changed to dark green for consistency */
+            }
+
+            .cv-header-section h1 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin-bottom: 10px;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                text-transform: uppercase; /* Uppercase for consistency */
+            }
+
+            .cv-header-section p {
+                font-size: 1.1rem;
+                opacity: 0.9;
+                font-weight: 300;
+            }
+
+            .cv-list-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                gap: 24px;
+                margin-bottom: 40px;
+            }
+
+            .cv-item-card {
+                background: white;
+                border-radius: 16px;
+                box-shadow: 0 4px 16px rgba(46, 79, 79, 0.08); /* Adjusted shadow color */
+                overflow: hidden;
+                transition: all 0.3s ease;
+                border: 1px solid rgba(46, 79, 79, 0.1); /* Changed border color */
+            }
+
+            .cv-item-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 8px 32px rgba(46, 79, 79, 0.15);
+                border-color: rgba(46, 79, 79, 0.2);
+            }
+
+            .cv-item-header {
+                background: linear-gradient(135deg, #2e4f4f 0%, #1a3c3c 100%); /* Dark green gradient */
+                padding: 20px;
+                color: white;
+                position: relative;
+            }
+
+            .cv-item-header::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, #2e4f4f, #1a3c3c); /* Consistent gradient */
+            }
+
+            .cv-item-preview {
+                width: 80px;
+                height: 100px;
+                border-radius: 8px;
+                overflow: hidden;
+                border: 3px solid rgba(255,255,255,0.3);
+                float: right;
+                margin-left: 20px;
+            }
+
+            .cv-item-preview img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .cv-item-title {
+                font-size: 1.4rem;
+                font-weight: 600;
+                margin-bottom: 8px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                text-transform: uppercase; /* Uppercase for consistency */
+            }
+
+            .cv-item-position {
+                font-size: 1rem;
+                opacity: 0.9;
+                font-weight: 400;
+            }
+
+            .cv-item-body {
+                padding: 24px;
+            }
+
+            .cv-info-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+                margin-bottom: 24px;
+            }
+
+            .cv-info-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px;
+                background: #f8f9fa;
+                border-radius: 8px;
+                border-left: 4px solid #2e4f4f; /* Changed to dark green */
+            }
+
+            .cv-info-icon {
+                width: 36px;
+                height: 36px;
+                background: linear-gradient(135deg, #2e4f4f, #1a3c3c); /* Dark green gradient */
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 14px;
+                flex-shrink: 0;
+            }
+
+            .cv-info-content {
+                flex: 1;
+            }
+
+            .cv-info-label {
+                font-size: 0.75rem;
+                color: #666;
+                text-transform: uppercase;
+                font-weight: 500;
+                letter-spacing: 0.5px;
+                margin-bottom: 2px;
+            }
+
+            .cv-info-value {
+                font-size: 0.9rem;
+                color: #333;
+                font-weight: 500;
+            }
+
+            .cv-item-actions {
+                display: flex;
+                gap: 12px;
+                padding-top: 20px;
+                border-top: 1px solid #eee;
+            }
+
+            .cv-item-actions form {
+                flex: 1;
+                margin: 0;
+            }
+
+            .cv-btn {
+                width: 100%;
+                padding: 12px 16px;
+                border-radius: 8px;
+                font-weight: 600;
+                text-decoration: none;
+                text-align: center;
+                transition: all 0.3s ease;
+                font-size: 0.9rem;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+                box-sizing: border-box;
+            }
+
+            .cv-btn-view {
+                background: linear-gradient(135deg, #2e4f4f, #1a3c3c); /* Dark green gradient */
+                color: white;
+            }
+
+            .cv-btn-view:hover {
+                background: linear-gradient(135deg, #1a3c3c, #143333);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(46, 79, 79, 0.3);
+            }
+
+            .cv-btn-edit {
+                background: linear-gradient(135deg, #2e4f4f, #1a3c3c); /* Consistent with view */
+                color: white;
+            }
+
+            .cv-btn-edit:hover {
+                background: linear-gradient(135deg, #1a3c3c, #143333);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(46, 79, 79, 0.3);
+            }
+
+            .cv-btn-delete {
+                background: linear-gradient(135deg, #ff6b6b, #e53e3e); /* Kept red for delete */
+                color: white;
+            }
+
+            .cv-btn-delete:hover {
+                background: linear-gradient(135deg, #ff5252, #d32f2f);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+            }
+
+            .cv-no-results {
+                text-align: center;
+                background: white;
+                padding: 60px 40px;
+                border-radius: 16px;
+                box-shadow: 0 4px 16px rgba(46, 79, 79, 0.08);
+                border: 1px solid rgba(46, 79, 79, 0.1);
+            }
+
+            .cv-no-results i {
+                font-size: 4rem;
+                color: #2e4f4f; /* Changed to dark green */
+                margin-bottom: 20px;
+                display: block;
+            }
+
+            .cv-no-results h3 {
+                font-size: 1.5rem;
+                color: #333;
+                margin-bottom: 10px;
+                font-weight: 600;
+                text-transform: uppercase; /* Uppercase for consistency */
+            }
+
+            .cv-no-results p {
+                color: #666;
+                font-size: 1rem;
+            }
+
+            .cv-pagination-wrapper {
+                background: white;
+                padding: 24px;
+                border-radius: 16px;
+                box-shadow: 0 4px 16px rgba(46, 79, 79, 0.08);
+                margin-top: 30px;
+                border: 1px solid rgba(46, 79, 79, 0.1);
+            }
+
+            .cv-pagination {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+
+            .cv-pagination a, .cv-pagination span {
+                padding: 10px 16px;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                min-width: 44px;
+                text-align: center;
+            }
+
+            .cv-pagination a {
+                background: #f8f9fa;
+                color: #333;
+                border: 1px solid #e9ecef;
+            }
+
+            .cv-pagination a:hover {
+                background: #2e4f4f; /* Dark green */
+                color: white;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(46, 79, 79, 0.2);
+            }
+
+            .cv-pagination .cv-current-page {
+                background: linear-gradient(135deg, #2e4f4f, #1a3c3c);
+                color: white;
+                box-shadow: 0 4px 12px rgba(46, 79, 79, 0.3);
+            }
+
+            .cv-page-size-control {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-left: 20px;
+                padding-left: 20px;
+                border-left: 2px solid #e9ecef;
+            }
+
+            .cv-page-size-control input {
+                width: 60px;
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                text-align: center;
+                font-weight: 500;
+            }
+
+            .cv-page-size-control button {
+                padding: 8px 16px;
+                background: linear-gradient(135deg, #2e4f4f, #1a3c3c); /* Dark green gradient */
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .cv-page-size-control button:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(46, 79, 79, 0.3);
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+                .cv-container {
+                    padding: 0 15px;
+                }
+
+                .cv-header-section h1 {
+                    font-size: 2rem;
+                }
+
+                .cv-list-grid {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }
+
+                .cv-info-grid {
+                    grid-template-columns: 1fr;
+                    gap: 12px;
+                }
+
+                .cv-item-actions {
+                    flex-direction: column;
+                }
+
+                .cv-btn {
+                    padding: 14px 16px;
+                }
+
+                .cv-pagination {
+                    flex-direction: column;
+                    gap: 16px;
+                }
+
+                .cv-page-size-control {
+                    margin-left: 0;
+                    padding-left: 0;
+                    border-left: none;
+                    border-top: 2px solid #e9ecef;
+                    padding-top: 16px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .cv-item-header {
+                    padding: 16px;
+                }
+
+                .cv-item-preview {
+                    width: 60px;
+                    height: 75px;
+                    float: none;
+                    margin: 0 auto 12px;
+                }
+
+                .cv-item-title {
+                    font-size: 1.2rem;
+                    text-align: center;
+                }
+
+                .cv-item-position {
+                    text-align: center;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="cv-container">
+            <div class="cv-header-section">
+                <h1><i class="fas fa-file-alt"></i> DANH SÁCH CV</h1>
+                <p>Danh sách tất cả CV ứng tuyển</p>
+            </div>
+
+            <%
+                List<CV> cvList = (List<CV>) request.getAttribute("cvList");
+                if (cvList != null && !cvList.isEmpty()) {
+            %>
+            <div class="cv-list-grid">
+                <%
+                    for (CV cv : cvList) {
+                %>
+                <div class="cv-item-card">
+                    <div class="cv-item-header">
+                        <div class="cv-item-preview">
+                            <img src="<%= request.getContextPath() + "/img/" + cv.getFileData() %>" alt="CV Preview" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgODAgMTAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZjhmOWZhIi8+CjxwYXRoIGQ9Ik00MCA1MEwyNSA2MEw1NSA2MFoiIGZpbGw9IiNkZGQiLz4KPHN2Zz4K'">
+                        </div>
+                        <div class="cv-item-title">
+                            <i class="fas fa-user"></i>
+                            <%= cv.getFullName() %>
+                        </div>
+                        <div class="cv-item-position">
+                            <%= cv.getPosition() %>
+                        </div>
+                    </div>
+                    <div class="cv-item-body">
+                        <div class="cv-info-grid">
+                            <div class="cv-info-item">
+                                <div class="cv-info-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="cv-info-content">
+                                    <div class="cv-info-label">Kinh nghiệm</div>
+                                    <div class="cv-info-value"><%= cv.getNumberExp() %> năm</div>
+                                </div>
+                            </div>
+                            <div class="cv-info-item">
+                                <div class="cv-info-icon">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                <div class="cv-info-content">
+                                    <div class="cv-info-label">Lương hiện tại</div>
+                                    <div class="cv-info-value"><%= cv.getCurrentSalary() %></div>
+                                </div>
+                            </div>
+                            <div class="cv-info-item">
+                                <div class="cv-info-icon">
+                                    <i class="fas fa-birthday-cake"></i>
+                                </div>
+                                <div class="cv-info-content">
+                                    <div class="cv-info-label">Ngày sinh</div>
+                                    <div class="cv-info-value"><%= cv.getBirthday() %></div>
+                                </div>
+                            </div>
+                            <div class="cv-info-item">
+                                <div class="cv-info-icon">
+                                    <i class="fas fa-venus-mars"></i>
+                                </div>
+                                <div class="cv-info-content">
+                                    <div class="cv-info-label">Giới tính</div>
+                                    <div class="cv-info-value"><%= cv.getGender() %></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cv-item-actions">
+                            <form method="post" action="apply" style="flex: 1; margin: 0;" onsubmit="return confirm('Bạn có chắc chắn muốn dùng CV này để ứng tuyển không?');">
+                                 <input type="hidden" name="jobId" value="<%= request.getParameter("jobId") %>" />
+                                <input type="hidden" name="cvId" value="<%= cv.getCvId() %>" />
+                                <button type="submit" class="cv-btn cv-btn-view">
+                                    <i class="fas fa-check-circle"></i> Dùng CV này
+                                </button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+                <%
+                    }
+                %>
+            </div>
+
+            <% 
+                Integer currentPage = (Integer) request.getAttribute("currentPage");
+                Integer totalPages = (Integer) request.getAttribute("totalPages");
+                Integer pageSize = (Integer) session.getAttribute("pageSize");
+                if (totalPages != null && totalPages > 1) {
+            %>
+            <div class="cv-pagination-wrapper">
+                <div class="cv-pagination">
+                    <% for (int i = 1; i <= totalPages; i++) { %>
+                    <% if (i == currentPage) { %>
+                    <span class="cv-current-page"><%= i %></span>
+                    <% } else { %>
+                    <a href="manageCreatedCV?page=<%= i %>"><%= i %></a>
+                    <% } %>
+                    <% } %>
+
+                    <div class="cv-page-size-control">
+                        <span>Hiển thị:</span>
+                        <form action="manageCreatedCV" style="display: flex; align-items: center; gap: 8px;">
+                            <input type="number" name="pageSize" value="<%=pageSize%>" min="1" max="20">
+                            <button type="submit">OK</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+            <% } else { %>
+            <div class="cv-no-results">
+                <i class="fas fa-file-alt"></i>
+                <h3>CHƯA CÓ CV NÀO</h3>
+                <p>Bạn chưa tạo CV nào. Hãy tạo CV đầu tiên của mình ngay bây giờ!</p>
+            </div>
+            <% } %>
+        </div>
+    </body>
+</html>
