@@ -144,4 +144,8 @@ public class Order {
         return "Order{" + "orderId=" + orderId + ", employerId=" + employerId + ", serviceId=" + serviceId + ", amount=" + amount + ", payMethod=" + payMethod + ", date=" + date + ", status=" + status + '}';
     }
 
+    public String getEmployerName() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

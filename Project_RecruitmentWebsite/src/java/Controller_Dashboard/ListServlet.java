@@ -3,10 +3,12 @@ package Controller_Dashboard;
 import DAO.CandidateDAO;
 import DAO.EmployerDAO;
 import DAO.OrderDAO;
+import DAO.PromotionDAO;
 import DAO.ServiceDAO;
 import Models.Candidate;
 import Models.Employer;
 import Models.Order;
+import Models.Promotion;
 import Models.Service;
 
 import java.io.IOException;
@@ -16,7 +18,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet(name = "ListServlet", urlPatterns = {"/list"})
@@ -28,7 +32,7 @@ public class ListServlet extends HttpServlet {
 
         EmployerDAO employerDAO = new EmployerDAO();
         CandidateDAO candidateDAO = new CandidateDAO();
-        ServiceDAO serviceDAO = new ServiceDAO(); // ✅ Thêm DAO cho dịch vụ
+        ServiceDAO serviceDAO = new ServiceDAO(); // Thêm DAO cho dịch vụ
 
         int totalCan = candidateDAO.countCandidates();
         int totalEmp = employerDAO.countEmployers();
@@ -64,9 +68,9 @@ public class ListServlet extends HttpServlet {
             request.setAttribute("candidates", candidates);
         }
 
-        // ✅ Lấy danh sách tất cả dịch vụ
+        // Lấy danh sách tất cả dịch vụ
         List<Service> serviceList = serviceDAO.getAllService();
-        request.setAttribute("serviceList", serviceList); // ✅ Gán vào request
+        request.setAttribute("serviceList", serviceList); // Gán vào request
 
         int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
         request.setAttribute("totalCan", totalCan);
@@ -80,13 +84,72 @@ public class ListServlet extends HttpServlet {
         List<Order> orders = dao.getAllOrdersWithEmployerAndService();
         request.setAttribute("orders", orders);
 
+               
+        
         request.getRequestDispatcher("viewuser.jsp").forward(request, response);
+
+
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        String action = request.getParameter("action");
+
+        if ("toggleVisibility".equals(action)) {
+            try {
+                int serviceId = Integer.parseInt(request.getParameter("serviceId"));
+                boolean visible = Boolean.parseBoolean(request.getParameter("visible"));
+
+                ServiceDAO dao = new ServiceDAO();
+                boolean updated = dao.updateServiceVisibility(serviceId, visible);
+
+                if (updated) {
+                    request.setAttribute("message", "Cập nhật trạng thái hiển thị thành công.");
+                } else {
+                    request.setAttribute("message", "Không thể cập nhật trạng thái.");
+                }
+            } catch (Exception e) {
+                request.setAttribute("message", "Lỗi cập nhật trạng thái: " + e.getMessage());
+            }
+        }
+        //  Thêm mới khuyến mãi
+        if ("addPromotion".equals(action)) {
+            try {
+                String code = request.getParameter("code");
+                double discount = Double.parseDouble(request.getParameter("discount"));
+                String dateStartStr = request.getParameter("dateStart");
+                String dateEndStr = request.getParameter("dateEnd");
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date dateStart = sdf.parse(dateStartStr);
+                Date dateEnd = sdf.parse(dateEndStr);
+
+                Promotion promo = new Promotion();
+                promo.setCode(code);
+                promo.setDiscount(discount);
+                promo.setDateStart(dateStart);
+                promo.setDateEnd(dateEnd);
+
+                PromotionDAO promotionDAO = new PromotionDAO();
+                boolean added = promotionDAO.addPromotion(promo);
+
+                if (added) {
+                    request.setAttribute("promotionMessage", "✅ Thêm khuyến mãi thành công.");
+                } else {
+                    request.setAttribute("promotionError", "❌ Mã khuyến mãi đã tồn tại hoặc lỗi DB.");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("promotionError", "❌ Lỗi dữ liệu: " + e.getMessage());
+            }
+        }
+
+        // Sau khi xử lý xong vẫn forward về lại danh sách như doGet()
+        doGet(request, response);
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

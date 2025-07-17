@@ -1,0 +1,498 @@
+ .cv-pagination-wrapper {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(46, 79, 79, 0.08);
+            margin-top: 30px;
+            border: 1px solid rgba(46, 79, 79, 0.1);
+        }
+
+        .cv-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .cv-pagination a, .cv-pagination span {
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 44px;
+            text-align: center;
+        }
+
+        .cv-pagination a {
+            background: #f8f9fa;
+            color: #333;
+            border: 1px solid #e9ecef;
+        }
+
+        .cv-pagination a:hover {
+            background: #2e4f4f; /* Dark green */
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 79, 79, 0.2);
+        }
+
+        .cv-pagination .cv-current-page {
+            background: linear-gradient(135deg, #2e4f4f, #1a3c3c);
+            color: white;
+            box-shadow: 0 4px 12px rgba(46, 79, 79, 0.3);
+        }
+
+        .cv-page-size-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 2px solid #e9ecef;
+        }
+
+        .cv-page-size-control input {
+            width: 60px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .cv-page-size-control button {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #2e4f4f, #1a3c3c); /* Dark green gradient */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cv-page-size-control button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(46, 79, 79, 0.3);
+        }
+.admin-add-form {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.admin-add-form h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: #333;
+}
+
+.admin-add-form .form-group {
+    margin-bottom: 20px;
+}
+
+.admin-add-form label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+.admin-add-form input[type="text"],
+.admin-add-form input[type="password"] {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s;
+}
+
+.admin-add-form input:focus {
+    border-color: #0d6efd;
+    outline: none;
+}
+
+.admin-add-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #0d6efd;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.admin-add-form button:hover {
+    background-color: #0b5ed7;
+}
+
+            :root {
+                --primary-color: #16a34a;
+                --secondary-color: #f8fafc;
+                --accent-color: #22c55e;
+                --success-color: #10b981;
+                --warning-color: #f59e0b;
+                --danger-color: #ef4444;
+                --text-primary: #1f2937;
+                --text-secondary: #6b7280;
+                --border-color: #e5e7eb;
+                --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+                --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+                --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Inter', sans-serif;
+                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                color: var(--text-primary);
+                line-height: 1.6;
+            }
+
+            /* Navigation Styling */
+            .navbar {
+                background: rgba(255, 255, 255, 0.95) !important;
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid var(--border-color);
+                box-shadow: var(--shadow-sm);
+            }
+
+            .navbar-brand h1 {
+                background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                font-weight: 700;
+            }
+
+            .nav-link {
+                font-weight: 500;
+                color: var(--text-primary) !important;
+                transition: all 0.3s ease;
+            }
+
+            .nav-link:hover {
+                color: var(--primary-color) !important;
+                transform: translateY(-1px);
+            }
+
+            /* Header Section */
+            .admin-header {
+                background: linear-gradient(135deg, var(--primary-color) 0%, #22c55e 100%);
+                color: white;
+                padding: 3rem 0;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .admin-header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+                opacity: 0.3;
+            }
+
+            .admin-header .container {
+                position: relative;
+                z-index: 1;
+            }
+
+            .admin-header h1 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+            }
+
+            .admin-header p {
+                font-size: 1.1rem;
+                opacity: 0.9;
+            }
+
+            /* Stats Cards */
+            .stats-section {
+                margin-top: -2rem;
+                margin-bottom: 3rem;
+                position: relative;
+                z-index: 2;
+            }
+
+            .stats-card {
+                background: white;
+                border-radius: 16px;
+                padding: 1.5rem;
+                box-shadow: var(--shadow-md);
+                border: 1px solid var(--border-color);
+                transition: all 0.3s ease;
+                height: 100%;
+            }
+
+            .stats-card:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--shadow-lg);
+            }
+
+            .stats-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .stats-icon.primary {
+                background: linear-gradient(135deg, var(--primary-color), #22c55e);
+                color: white;
+            }
+            .stats-icon.success {
+                background: linear-gradient(135deg, var(--success-color), #059669);
+                color: white;
+            }
+            .stats-icon.warning {
+                background: linear-gradient(135deg, var(--warning-color), #d97706);
+                color: white;
+            }
+            .stats-icon.info {
+                background: linear-gradient(135deg, var(--accent-color), #0891b2);
+                color: white;
+            }
+
+            .stats-number {
+                font-size: 2rem;
+                font-weight: 700;
+                color: var(--text-primary);
+            }
+
+            .stats-label {
+                color: var(--text-secondary);
+                font-weight: 500;
+            }
+
+            /* Table Section */
+            .table-section {
+                background: white;
+                border-radius: 16px;
+                box-shadow: var(--shadow-md);
+                border: 1px solid var(--border-color);
+                overflow: hidden;
+                margin-bottom: 2rem;
+            }
+
+            .table-header {
+                background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .table-header h3 {
+                margin: 0;
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .modern-table {
+                margin: 0;
+                font-size: 0.95rem;
+            }
+
+            .modern-table thead th {
+                background: var(--secondary-color);
+                color: var(--text-primary);
+                font-weight: 600;
+                padding: 1rem;
+                border: none;
+                text-transform: uppercase;
+                font-size: 0.8rem;
+                letter-spacing: 0.05em;
+            }
+
+            .modern-table tbody tr {
+                transition: all 0.2s ease;
+                border-bottom: 1px solid #f3f4f6;
+            }
+
+            .modern-table tbody tr:hover {
+                background: rgba(79, 70, 229, 0.05);
+                transform: scale(1.01);
+            }
+
+            .modern-table tbody td {
+                padding: 1rem;
+                vertical-align: middle;
+                border: none;
+            }
+
+            /* Role Badges */
+            .role-badge {
+                padding: 0.375rem 0.75rem;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.025em;
+            }
+
+            .role-admin {
+                background: linear-gradient(135deg, #fef3c7, #fbbf24);
+                color: #92400e;
+            }
+
+            .role-user {
+                background: linear-gradient(135deg, #dbeafe, #3b82f6);
+                color: #1e40af;
+            }
+
+            .role-manager {
+                background: linear-gradient(135deg, #d1fae5, #10b981);
+                color: #065f46;
+            }
+
+            /* Action Buttons */
+            .action-buttons {
+                display: flex;
+                gap: 0.5rem;
+                justify-content: center;
+            }
+
+            .action-btn {
+                width: 36px;
+                height: 36px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.875rem;
+                transition: all 0.3s ease;
+                border: none;
+                text-decoration: none;
+            }
+
+            .action-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-md);
+            }
+
+            .btn-view {
+                background: linear-gradient(135deg, var(--accent-color), #22c55e);
+                color: white;
+            }
+
+            .btn-edit {
+                background: linear-gradient(135deg, var(--warning-color), #d97706);
+                color: white;
+            }
+
+            .btn-delete {
+                background: linear-gradient(135deg, var(--danger-color), #dc2626);
+                color: white;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .admin-header h1 {
+                    font-size: 2rem;
+                }
+
+                .stats-section {
+                    margin-top: -1rem;
+                }
+
+                .action-buttons {
+                    flex-direction: column;
+                    gap: 0.25rem;
+                }
+
+                .action-btn {
+                    width: 32px;
+                    height: 32px;
+                }
+            }
+
+            /* Loading Animation */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .fade-in-up {
+                animation: fadeInUp 0.6s ease-out;
+            }
+
+            /* Custom Scrollbar */
+            .table-container::-webkit-scrollbar {
+                height: 8px;
+            }
+
+            .table-container::-webkit-scrollbar-track {
+                background: #f1f5f9;
+                border-radius: 4px;
+            }
+
+            .table-container::-webkit-scrollbar-thumb {
+                background: var(--primary-color);
+                border-radius: 4px;
+            }
+
+            .table-container::-webkit-scrollbar-thumb:hover {
+                background: #3730a3;
+            }
+            /*css message*/
+            .toast-msg {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 8px;
+                font-size: 0.95rem;
+                font-weight: 500;
+                z-index: 9999;
+                color: white;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                animation: fadeSlide 0.4s ease-in-out;
+            }
+            .toast-success {
+                background-color: #16a34a; /* green */
+            }
+            .toast-error {
+                background-color: #dc2626; /* red */
+            }
+            @keyframes fadeSlide {
+                from {
+                    opacity: 0;
+                    transform: translateX(50px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+

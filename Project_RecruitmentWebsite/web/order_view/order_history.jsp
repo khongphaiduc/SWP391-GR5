@@ -204,13 +204,13 @@
                 <% if (i == currentPage) { %>
                 <span class="job-current-page"><%= i %></span>
                 <% } else { %>
-                <a href="manageCreatedJob?page=<%= i %>"><%= i %></a>
+                <a href="OrderHistory?page=<%= i %>"><%= i %></a>
                 <% } %>
                 <% } %>
 
                 <div class="job-page-size-control">
                     <span>Hiển thị:</span>
-                    <form action="manageCreatedJob" style="display: flex; align-items: center; gap: 8px;">
+                    <form action="OrderHistory" style="display: flex; align-items: center; gap: 8px;">
                         <input type="number" name="pageSize" value="<%=pageSize%>" min="1" max="20">
                         <button type="submit">OK</button>
                     </form>

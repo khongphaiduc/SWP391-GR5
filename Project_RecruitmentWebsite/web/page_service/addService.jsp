@@ -65,7 +65,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="duration" class="form-label">Thời lượng (Tháng)</label>
+                <label for="duration" class="form-label">Thời lượng (Ngày)</label>
                 <input type="number" min="1" class="form-control" id="duration" name="duration" required>
             </div>
 
@@ -75,7 +75,7 @@
             </div>
 
             <div class="d-flex justify-content-between">
-                <a href="<c:url value='/list?type=service'/>" class="btn btn-secondary">Quay lại</a>
+                <a href="${pageContext.request.contextPath}/adminService" class="btn btn-secondary">Quay lại</a>
                 <button type="submit" class="btn btn-success">Tạo Gói Dịch Vụ</button>
             </div>
         </form>

@@ -45,12 +45,56 @@ public class ServiceDAO extends DBContext {
                     service.setPromotionId(promoId);
                 }
 
+                service.setIsVisible(rs.getBoolean("Is_Visible"));
                 list.add(service);
 
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return list;
+    }
+
+    //for employer
+    public List<Service> getVisibleServicesForEmployer() {
+        List<Service> list = new ArrayList<>();
+        String sql = "SELECT * FROM Service WHERE Is_Visible = 1";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Service service = new Service();
+                service.setServiceId(rs.getInt("Service_ID"));
+                service.setServiceName(rs.getString("Service_Name"));
+                service.setPrice(rs.getDouble("Price"));
+
+                String desc = rs.getString("Description");
+                service.setDescription(desc);
+
+                // Tách mô tả bằng dấu ; hoặc xuống dòng
+                if (desc != null && !desc.trim().isEmpty()) {
+                    List<String> descList = Arrays.asList(desc.split("[;\n]"));
+                    service.setDescriptionList(descList);
+                }
+
+                service.setDuration(rs.getInt("Duration"));
+
+                int promoId = rs.getInt("Promotion_ID");
+                if (rs.wasNull()) {
+                    service.setPromotionId(null);
+                } else {
+                    service.setPromotionId(promoId);
+                }
+
+                //  Vì chỉ lấy Is_Visible = 1 nên mặc định set true
+                service.setIsVisible(true);
+
+                list.add(service);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return list;
     }
 
@@ -234,6 +278,34 @@ public class ServiceDAO extends DBContext {
             e.printStackTrace();
         }
 
+        return false;
+    }
+
+    //
+    public boolean updateServiceVisibility(int serviceId, boolean visible) {
+        String sql = "UPDATE Service SET Is_Visible = ? WHERE Service_ID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setBoolean(1, visible);
+            ps.setInt(2, serviceId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    //
+    public boolean getVisibilityByServiceId(int serviceId) {
+        String sql = "SELECT Is_Visible FROM Service WHERE Service_ID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, serviceId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean("Is_Visible");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

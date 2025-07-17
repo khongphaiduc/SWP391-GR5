@@ -118,6 +118,7 @@ public class CVDAO extends DBContext {
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
                 cv.setFileData(rs.getString("FileData"));
+                //cv.setMimeType(rs.getString("MimeType"));//thêm
                 cvList.add(cv);
             }
 
