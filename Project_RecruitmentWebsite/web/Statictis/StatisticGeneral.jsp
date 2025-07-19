@@ -82,7 +82,7 @@
                 <label for="yearSelect">Chọn năm: </label>
                 <select id="yearSelect" name="year" class="year-select" onchange="this.form.submit()">
                     <c:forEach var="y" begin="2023" end="2030">
-                        <option value="${y}" <c:if test="${y == param.year || (empty param.year && y == maxYear)}">selected</c:if>>                                                           
+                        <option value="${y}" <c:if test="${y == param.year || (empty param.year && y == 2025)}">selected</c:if>>                                                           
                                 ${y} 
                         </option>
                     </c:forEach>
