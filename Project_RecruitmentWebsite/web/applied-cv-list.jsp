@@ -232,7 +232,12 @@
                 <div class="col-md-9">
                     <div class="main-content">
                         <h2>Danh sách CV đã ứng tuyển vào công ty</h2>
-
+                        <form action="DownloadCVZipServlet" method="get">
+                            <c:forEach var="cv" items="${appliedCVs}">
+                                <input type="hidden" name="cvId" value="${cv.cvId}" />
+                            </c:forEach>
+                            <button type="submit" class="btn btn-primary">Tải tất cả CV (ZIP)</button>
+                        </form>
                         <!-- Display success or error messages -->
                         <c:if test="${not empty error}">
                             <div class="alert alert-danger">${error}</div>
@@ -245,6 +250,8 @@
                                 <button class="btn btn-outline-secondary" onclick="showView('list')">List</button>
                             </div>
                         </div>
+                        
+
 
                         <!-- Grid View -->
                         <div class="row cv-grid" id="cvGrid">
@@ -254,7 +261,7 @@
                                         <div class="col-md-4 col-sm-6 mb-4">
                                             <div class="cv-card">
                                                 <img src="${pageContext.request.contextPath}/img/${cv.fileData}" 
-                                                   onerror="this.src='img/default-avatar.png'">  
+                                                     onerror="this.src='img/default-avatar.png'">  
                                                 <h4>${cv.fullName}</h4>
                                                 <p>${cv.email}</p>
                                                 <p>Vị trí: ${cv.position}</p>

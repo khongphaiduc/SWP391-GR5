@@ -59,31 +59,53 @@ public class adminOrder extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
+    
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
+
         if (username == null || !"Admin".equals(role)) {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
-        } else {
-            String monthParam = request.getParameter("month");
-            String yearParam = request.getParameter("year");
-            String serviceIdStr = request.getParameter("serviceId");
-
-            Integer month = (monthParam != null && !monthParam.isEmpty()) ? Integer.parseInt(monthParam) : null;
-            Integer year = (yearParam != null && !yearParam.isEmpty()) ? Integer.parseInt(yearParam) : null;
-            Integer serviceId = (serviceIdStr != null && !serviceIdStr.isEmpty()) ? Integer.parseInt(serviceIdStr) : null;
-
-            OrderDAO dao = new OrderDAO();
-            List<Order> orders = dao.getOrdersByFilters(month, year, serviceId);
-            request.setAttribute("orders", orders);
-            ServiceDAO serviceDAO = new ServiceDAO();
-            List<Service> services = serviceDAO.getAllService();
-            request.setAttribute("services", services);
-            request.getRequestDispatcher("Admin_view/adminOrder.jsp").forward(request, response);
         }
+
+        String serviceIdStr = request.getParameter("serviceId");
+        String fromDateStr = request.getParameter("fromDate");
+        String toDateStr = request.getParameter("toDate");
+
+        Integer serviceId = null;
+        if (serviceIdStr != null && !serviceIdStr.isEmpty()) {
+            try {
+                serviceId = Integer.parseInt(serviceIdStr);
+            } catch (NumberFormatException e) {
+                // bỏ qua hoặc log
+            }
+        }
+
+        java.sql.Date fromDate = null;
+        java.sql.Date toDate = null;
+        try {
+            if (fromDateStr != null && !fromDateStr.isEmpty()) {
+                fromDate = java.sql.Date.valueOf(fromDateStr);
+            }
+            if (toDateStr != null && !toDateStr.isEmpty()) {
+                toDate = java.sql.Date.valueOf(toDateStr);
+            }
+        } catch (IllegalArgumentException e) {
+            // log lỗi hoặc bỏ qua
+        }
+
+        OrderDAO dao = new OrderDAO();
+        List<Order> orders = dao.getOrdersByFilters(fromDate, toDate, serviceId);
+        request.setAttribute("orders", orders);
+
+        ServiceDAO serviceDAO = new ServiceDAO();
+        List<Service> services = serviceDAO.getAllService();
+        request.setAttribute("services", services);
+
+        request.getRequestDispatcher("Admin_view/adminOrder.jsp").forward(request, response);
     }
 
     /**

@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html lang="vi">
     <head>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <meta charset="UTF-8">
         <jsp:include page="/navbar.jsp" />
@@ -198,8 +198,11 @@
                     <div class="form-section">
                         <div class="section-title">MỤC TIÊU NGHỀ NGHIỆP</div>
                         <label for="position">Vị trí mong muốn</label>
-                        <input type="text" id="position" name="position"
-                               value="<%= isEdit && cv != null && cv.getPosition() != null ? cv.getPosition() : "" %>" required>
+                        <textarea id="position" name="position" required
+                                  oninput="autoResize(this)"
+                                  style="overflow:hidden; resize:none; width:100%;"
+                                  ><%= isEdit && cv != null && cv.getPosition() != null ? cv.getPosition() : "" %></textarea>
+
                     </div>
 
                     <div class="form-section">
@@ -212,15 +215,21 @@
                     <div class="form-section">
                         <div class="section-title">HỌC VẤN</div>
                         <label for="education">Trình độ học vấn</label>
-                        <input type="text" id="education" name="education"
-                               value="<%= isEdit && cv != null && cv.getEducation() != null ? cv.getEducation() : "" %>" required>
+                        <textarea id="education" name="education" required
+                                  oninput="autoResize(this)"
+                                  style="overflow:hidden; resize:none; width:100%;"
+                                  rows="1"><%= isEdit && cv != null && cv.getEducation() != null ? cv.getEducation() : "" %></textarea>
+
                     </div>
 
                     <div class="form-section">
                         <div class="section-title">KỸ NĂNG</div>
                         <label for="field">Lĩnh vực chuyên môn</label>
-                        <input type="text" id="field" name="field"
-                               value="<%= isEdit && cv != null && cv.getField() != null ? cv.getField() : "" %>" required>
+                        <textarea id="field" name="field" required
+                                  oninput="autoResize(this)"
+                                  style="overflow:hidden; resize:none; width:100%;"
+                                  rows="1"><%= isEdit && cv != null && cv.getField() != null ? cv.getField() : "" %></textarea>
+
                     </div>
 
                     <div class="form-section">
@@ -235,8 +244,8 @@
             </div>
         </form>
         <%@ include file="footer.jsp" %>
-        
-        
+
+
         <%
         String successMessage = (String) request.getAttribute("successMessage");
         String errorMessage = (String) request.getAttribute("errorMessage");
@@ -257,6 +266,14 @@
                 confirmButtonText: 'OK'
             });
             <% } %>
+
+
+            function autoResize(textarea) {
+                textarea.style.height = 'auto'; // Reset height
+                textarea.style.height = textarea.scrollHeight + 'px'; // Set new height
+            }
+
+
         </script>
     </body>
 </html>
