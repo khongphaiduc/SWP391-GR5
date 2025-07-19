@@ -72,12 +72,38 @@ public class OrderHistoryServlet extends HttpServlet {
             request.getRequestDispatcher("log/login.jsp").forward(request, response);
             return;
         } else {
+            String serviceIdStr = request.getParameter("serviceId");
+            String fromDateStr = request.getParameter("fromDate");
+            String toDateStr = request.getParameter("toDate");
+
+            Integer serviceId = null;
+            if (serviceIdStr != null && !serviceIdStr.isEmpty()) {
+                try {
+                    serviceId = Integer.parseInt(serviceIdStr);
+                } catch (NumberFormatException e) {
+                    // bỏ qua hoặc log
+                }
+            }
+
+            java.sql.Date fromDate = null;
+            java.sql.Date toDate = null;
+            try {
+                if (fromDateStr != null && !fromDateStr.isEmpty()) {
+                    fromDate = java.sql.Date.valueOf(fromDateStr);
+                }
+                if (toDateStr != null && !toDateStr.isEmpty()) {
+                    toDate = java.sql.Date.valueOf(toDateStr);
+                }
+            } catch (IllegalArgumentException e) {
+                // log lỗi hoặc bỏ qua
+            }
+            List<Order> orders = new ArrayList<>();
+            OrderDAO dao = new OrderDAO();
+          
             EmployerDAO employerDAO = new EmployerDAO();
             int employerId = employerDAO.getEmployerByName(username).getEmployerId();
-            OrderDAO dao = new OrderDAO();
-            List<Order> orders = new ArrayList<>();
             try {
-                orders = dao.getOrdersByEmployerId(employerId);
+                orders = dao.getOrdersByFiltersEmp(fromDate, toDate, serviceId, employerId);
             } catch (SQLException ex) {
                 Logger.getLogger(OrderHistoryServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

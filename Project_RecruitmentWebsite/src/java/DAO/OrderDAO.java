@@ -183,7 +183,7 @@ public class OrderDAO extends DBContext {
         }
     }
 
-    public List<Order> getOrdersByFilters(Integer month, Integer year, Integer serviceId) {
+    public List<Order> getOrdersByFilters(Date fromDate, Date toDate, Integer serviceId) {
         List<Order> list = new ArrayList<>();
 
         String sql = "SELECT o.*, e.EmployerName, e.Company_Name, e.Email, e.PhoneNumber, "
@@ -193,24 +193,24 @@ public class OrderDAO extends DBContext {
                 + "JOIN Service s ON o.Service_ID = s.Service_ID "
                 + "WHERE 1=1";
 
-        if (month != null) {
-            sql += " AND MONTH(o.Date) = ?";
+        if (fromDate != null) {
+            sql += " AND o.Date >= ?";
         }
-        if (year != null) {
-            sql += " AND YEAR(o.Date) = ?";
+        if (toDate != null) {
+            sql += " AND o.Date <= ?";
         }
         if (serviceId != null) {
             sql += " AND o.Service_ID = ?";
         }
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-
             int index = 1;
-            if (month != null) {
-                ps.setInt(index++, month);
+
+            if (fromDate != null) {
+                ps.setDate(index++, new java.sql.Date(fromDate.getTime()));
             }
-            if (year != null) {
-                ps.setInt(index++, year);
+            if (toDate != null) {
+                ps.setDate(index++, new java.sql.Date(toDate.getTime()));
             }
             if (serviceId != null) {
                 ps.setInt(index++, serviceId);
@@ -250,6 +250,65 @@ public class OrderDAO extends DBContext {
             e.printStackTrace();
         }
 
+        return list;
+    }
+
+    public List<Order> getOrdersByFiltersEmp(Date fromDate, Date toDate, Integer serviceId, int employerId) throws SQLException {
+        List<Order> list = new ArrayList<>();
+        String sql = "SELECT o.Order_ID, o.Employer_ID, o.Service_ID, o.Amount, o.PayMethod, o.Status, o.Date, "
+                + "s.Service_Name, o.Duration "
+                + "FROM Orders o "
+                + "JOIN Service s ON o.Service_ID = s.Service_ID "
+                + "WHERE o.Employer_ID = ?";
+
+        if (fromDate != null) {
+            sql += " AND o.Date >= ?";
+        }
+        if (toDate != null) {
+            sql += " AND o.Date <= ?";
+        }
+        if (serviceId != null) {
+            sql += " AND o.Service_ID = ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            ps.setInt(index++, employerId);
+
+            if (fromDate != null) {
+                ps.setDate(index++, new java.sql.Date(fromDate.getTime()));
+            }
+            if (toDate != null) {
+                ps.setDate(index++, new java.sql.Date(toDate.getTime()));
+            }
+            if (serviceId != null) {
+                ps.setInt(index++, serviceId);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Order o = new Order(
+                            rs.getInt("Order_ID"),
+                            rs.getInt("Employer_ID"),
+                            rs.getInt("Service_ID"),
+                            rs.getDouble("Amount"),
+                            rs.getString("PayMethod"),
+                            rs.getString("Status"),
+                            rs.getTimestamp("Date")
+                    );
+
+                    o.setServiceName(rs.getString("Service_Name"));
+                    o.setDuration(rs.getInt("Duration"));
+
+                    // Tính ngày hết hạn: Date + Duration
+                    LocalDateTime orderDate = rs.getTimestamp("Date").toLocalDateTime();
+                    LocalDateTime expiredDate = orderDate.plusDays(o.getDuration());
+                    o.setExpiredDate(Timestamp.valueOf(expiredDate));
+
+                    list.add(o);
+                }
+            }
+        }
         return list;
     }
 

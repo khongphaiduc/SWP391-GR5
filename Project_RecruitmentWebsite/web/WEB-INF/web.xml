@@ -118,6 +118,14 @@
         <servlet-name>adminPromotion</servlet-name>
         <servlet-class>Controller_Dashboard.adminPromotion</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>adminOrderSummaryServlet</servlet-name>
+        <servlet-class>Controller_Dashboard.adminOrderSummaryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DownloadCVZipServlet</servlet-name>
+        <servlet-class>Controller_Apply.DownloadCVZipServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -233,6 +241,14 @@
     <servlet-mapping>
         <servlet-name>adminPromotion</servlet-name>
         <url-pattern>/adminPromotion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminOrderSummaryServlet</servlet-name>
+        <url-pattern>/adminOrderSummary</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DownloadCVZipServlet</servlet-name>
+        <url-pattern>/DownloadCVZipServlet</url-pattern>
     </servlet-mapping>
     <error-page>
         <error-code>404</error-code>

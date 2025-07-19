@@ -95,85 +95,57 @@
 
 
         <form method="get" action="adminOrder" style="margin-bottom: 20px; text-align: right;">
-            <label for="serviceId">Dịch vụ:</label>
-            <select name="serviceId" id="serviceId" onchange="this.form.submit()">
-                <option value="">--</option>
-                <c:forEach var="s" items="${services}">
-                    <option value="${s.serviceId}" ${param.serviceId == s.serviceId ? 'selected' : ''}>
-                        ${s.serviceName}
-                    </option>
-                </c:forEach>
-            </select>
-            <label for="year">Năm:</label>
-            <select name="year" id="year" onchange="this.form.submit()">
-                <option value="">--</option>
-                <c:forEach var="y" begin="2022" end="2025">
-                    <option value="${y}" ${param.year == y ? 'selected' : ''}>${y}</option>
-                </c:forEach>
-            </select>
-            <label for="month">Tháng:</label>
-            <select name="month" id="month" onchange="this.form.submit()">
-                <option value="">--</option>
-                <c:forEach var="i" begin="1" end="12">
-                    <option value="${i}" ${param.month == i ? 'selected' : ''}>${i}</option>
-                </c:forEach>
-            </select>
 
-            
-        </form>
+            <form method="get" action="adminOrder" style="margin-bottom: 20px; text-align: right;">
+                <label for="serviceId">Dịch vụ:</label>
+                <select name="serviceId" id="serviceId" onchange="this.form.submit()">
+                    <option value="">--</option>
+                    <c:forEach var="s" items="${services}">
+                        <option value="${s.serviceId}" ${param.serviceId == s.serviceId ? 'selected' : ''}>
+                            ${s.serviceName}
+                        </option>
+                    </c:forEach>
+                </select>
 
-        <div class="container">
-            <h2>Lịch sử đơn hàng</h2>
+                <%
+    java.time.LocalDate today = java.time.LocalDate.now();
+    java.time.LocalDate oneMonthAgo = today.minusMonths(1);
 
-            <c:choose>
-                <c:when test="${not empty orders}">
-                    <table>
-                        <c:set var="total" value="0" />
-                           <c:forEach var="o" items="${orders}">
-                                <c:set var="total" value="${total + o.amount}" />
-                            </c:forEach>
-                           <tr class="total-row">
-                                <td colspan="8" style="text-align: right;">Tổng cộng:</td>
-                                <td colspan="5" style="text-align: left;">
-                                    <fmt:formatNumber value="${total}" type="number" groupingUsed="true"/> VNĐ
-                                </td>
-                            </tr>
-                        <thead>
-                            <tr>
-                                <th>Mã đơn</th>
-                                <th>Nhà tuyển dụng</th>
-                                <th>Công ty</th>
-                                <th>Email</th>
-                                <th>Số điện thoại</th>
-                                <th>Dịch vụ</th>
-                                <th>Thời hạn</th>
-                                <th>Thanh toán</th>
-                                <th>Phương thức</th>
-                                <th>Trạng thái</th>
-                                <th>Ngày đặt</th>
-                                <th>Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
+    String fromDateParam = request.getParameter("fromDate");
+    String toDateParam = request.getParameter("toDate");
+
+    String fromDate = (fromDateParam == null || fromDateParam.isEmpty())
+                      ? oneMonthAgo.toString()
+                      : fromDateParam;
+
+    String toDate = (toDateParam == null || toDateParam.isEmpty())
+                    ? today.toString()
+                    : toDateParam;
+                %>
+
+                <label for="fromDate">Từ ngày:</label>
+                <input type="date" name="fromDate" id="fromDate"
+                       value="<%= fromDate %>" onchange="this.form.submit()" />
+
+                <label for="toDate">Đến ngày:</label>
+                <input type="date" name="toDate" id="toDate"
+                       value="<%= toDate %>" onchange="this.form.submit()" />
+
+            </form>
+
+
+
+
+
+            <div class="container">
+                <h2>Lịch sử đơn hàng</h2>
+
+                <c:choose>
+                    <c:when test="${not empty orders}">
+                        <table>
+                            <c:set var="total" value="0" />
                             <c:forEach var="o" items="${orders}">
-                                <tr>
-                                    <td>${o.orderId}</td>
-                                    <td>${o.employer.nameEmployer}</td>
-                                    <td>${o.employer.companyName}</td>
-                                    <td>${o.employer.email}</td>
-                                    <td>${o.employer.phoneNumber}</td>
-                                    <td>${o.service.serviceName}</td>
-                                    <td>${o.service.duration} ngày</td>
-                                    <td><fmt:formatNumber value="${o.amount}" type="number" groupingUsed="true"/> VNĐ</td>
-                                    <td>${o.payMethod}</td>
-                                    <td class="status-${o.status}">${o.status}</td>
-                                    <td><fmt:formatDate value="${o.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                                    <td class="actions">
-                                        <a style="color:red" href="deleteOrder?orderId=${o.orderId}" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa đơn này?')">Xóa</a>
-                                        <a href="downloadOrder?orderId=${o.orderId}" class="delete-btn" target="_blank" >Xem</a>
-                                    </td>
-                                </tr>
+                                <c:set var="total" value="${total + o.amount}" />
                             </c:forEach>
                             <tr class="total-row">
                                 <td colspan="8" style="text-align: right;">Tổng cộng:</td>
@@ -181,13 +153,56 @@
                                     <fmt:formatNumber value="${total}" type="number" groupingUsed="true"/> VNĐ
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
-                </c:when>
-                <c:otherwise>
-                    <p style="text-align: center; font-size: 1.2em; color: gray;">Bạn chưa có đơn hàng nào.</p>
-                </c:otherwise>
-            </c:choose>
-        </div>
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Nhà tuyển dụng</th>
+                                    <th>Công ty</th>
+                                    <th>Email</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Dịch vụ</th>
+                                    <th>Thời hạn</th>
+                                    <th>Thanh toán</th>
+                                    <th>Phương thức</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <c:forEach var="o" items="${orders}">
+                                    <tr>
+                                        <td>${o.orderId}</td>
+                                        <td>${o.employer.nameEmployer}</td>
+                                        <td>${o.employer.companyName}</td>
+                                        <td>${o.employer.email}</td>
+                                        <td>${o.employer.phoneNumber}</td>
+                                        <td>${o.service.serviceName}</td>
+                                        <td>${o.service.duration} ngày</td>
+                                        <td><fmt:formatNumber value="${o.amount}" type="number" groupingUsed="true"/> VNĐ</td>
+                                        <td>${o.payMethod}</td>
+                                        <td class="status-${o.status}">${o.status}</td>
+                                        <td><fmt:formatDate value="${o.date}" pattern=" dd-MM-yyyy HH:mm:ss "/></td>
+                                        <td class="actions">
+                                            <a style="color:red" href="deleteOrder?orderId=${o.orderId}" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa đơn này?')">Xóa</a>
+                                            <a href="downloadOrder?orderId=${o.orderId}" class="delete-btn" target="_blank" >Xem</a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                <tr class="total-row">
+                                    <td colspan="8" style="text-align: right;">Tổng cộng:</td>
+                                    <td colspan="5" style="text-align: left;">
+                                        <fmt:formatNumber value="${total}" type="number" groupingUsed="true"/> VNĐ
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <p style="text-align: center; font-size: 1.2em; color: gray;">Bạn chưa có đơn hàng nào.</p>
+                    </c:otherwise>
+                </c:choose>
+            </div>
     </body>
 </html>

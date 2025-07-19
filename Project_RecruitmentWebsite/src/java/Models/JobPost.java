@@ -22,6 +22,17 @@ public class JobPost {
     private byte[] imgLogo;
     private int saveIdJobPost;
     private Employer employer;
+    private int cvCount; // New field
+
+    public int getCvCount() {
+        return cvCount;
+    }
+
+    public void setCvCount(int cvCount) {
+        this.cvCount = cvCount;
+    }
+    
+    
 
     public Employer getEmployer() {
         return employer;

@@ -77,8 +77,13 @@ public class manageCreatedJobServlet extends HttpServlet {
 
             JobPostDAO jobPostDAO = new JobPostDAO();
             List<JobPost> jobList = jobPostDAO.getJobPostWithEmployerByEmployerId(employerId);
+            CVDAO cvDAO = new CVDAO(); 
+            for (JobPost job : jobList) {
+                int cvCount = cvDAO.countCVsByJobPostId(job.getJobPost_ID());
+                job.setCvCount(cvCount);
+            }
 
-            
+            //paging
             String pageParam = request.getParameter("page");
             int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
             int pageSize = 5;

@@ -43,15 +43,7 @@
 
 
                     </div>
-                    <div class="d-flex gap-2">
-                        <!-- Search Bar -->
-                        <form method="get" action="search" class="search-bar">
-                            <input type="text" name="search" placeholder="Search by service name..." 
-                                   value="${param.search}">
-                            <i class="fas fa-search"></i>
-                            <input type="hidden" name="page" value="${currentServicePage}">
-                        </form>
-                    </div>
+                    
                 </div>
             </div>
 
@@ -170,12 +162,12 @@
                                            title="Edit Service">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a class="action-btn btn-delete"
+<!--                                        <a class="action-btn btn-delete"
                                            href="${pageContext.request.contextPath}/delete-servicepackage?id=${service.serviceId}"
                                            onclick="return confirm('Are you sure you want to delete this service?');"
                                            title="Delete Service">
                                             <i class="fas fa-trash-alt"></i>
-                                        </a>
+                                        </a>-->
 
                                     </div>
                                 </td>

@@ -68,9 +68,14 @@ public class ViewAppliedCVsServlet extends HttpServlet {
         List<CV> appliedCVs = cvdao.getAppliedCVsByEmployer(employerId, PAGE_SIZE, offset);
 
         // (Tuỳ chọn) Tổng số bản ghi để tính số trang
-        int totalCVs = cvdao.countAppliedCVsByEmployer(employerId); // bạn cần viết hàm này
+        int totalCVs = cvdao.countAppliedCVsByEmployer(employerId); 
         int totalPages = (int) Math.ceil((double) totalCVs / PAGE_SIZE);
 
+        if(request.getParameter("jobPostId")!=null){
+            int jobPostId = Integer.parseInt(request.getParameter("jobPostId"));
+            appliedCVs=cvdao.getCVsByJobPostId(jobPostId, PAGE_SIZE, offset);
+            
+        }
         // Gửi dữ liệu đến JSP
         request.setAttribute("appliedCVs", appliedCVs);
         request.setAttribute("currentPage", page);
