@@ -312,7 +312,7 @@
                     </div>
                     <div class="form-group">
                         <label for="salesType" class="form-label">Mã Số Thuế</label>
-                        <input type="text" id="salesType" name="codeTax" class="form-control" value="${codeTax}" placeholder="Nhập mã hoặc loại">
+                        <input type="text" id="salesType" name="codeTax" class="form-control" value="${codeTax}" placeholder="Nhập mã số thuế">
                     </div>
                     <div class="filter-actions">
                         <input type="submit" class="btn-search-custom" value="Tìm Kiếm">
@@ -342,7 +342,7 @@
                                 <td>
                                     <div class="action-btns">
                                         <button class="btn btn-outline-success btn-sm">
-                                <a target="_blank" href="HistoryFinancial?dateStart=${dateStart}&dateEnd=${dateEnd}&idemployer=${s.employerId}" class="ri-eye-line"></a>Lịch sử
+                                <a target="_blank" href="HistoryFinancial?dateStart=${dateStart}&dateEnd=${dateEnd}&idemployer=${s.employerId}" class="ri-eye-line">Lịch sử</a>
                                         </button>
                                     </div>
                                 </td>
