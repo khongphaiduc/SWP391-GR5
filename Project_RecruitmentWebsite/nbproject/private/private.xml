@@ -3,19 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/navbar.jsp</file>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/Admin_view/adminService.jsp</file>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/Admin_view/adminOrder.jsp</file>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/EncodePassword.java</file>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/adminOrder.java</file>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/ListServlet.java</file>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/order_view/order_history.jsp</file>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Order/OrderHistoryServlet.java</file>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/OrderDAO.java</file>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/viewuser.jsp</file>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/SearchServlet.java</file>
-            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/Statictis/StatisticGeneral.jsp</file>
+            <file>file:/E:/Project%20SWP%20Version%201/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
         </group>
     </open-files>
 </project-private>

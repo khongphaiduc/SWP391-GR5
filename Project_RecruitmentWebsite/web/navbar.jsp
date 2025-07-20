@@ -30,7 +30,7 @@
 <%String role = (String) session.getAttribute("role");%>
 
 <%if("Admin".equals(role)){%>
-    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
 
     <a href="index.jsp" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
         <h1 class="m-0 text-primary">GenZTimViec.VN</h1>
@@ -41,12 +41,12 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
             <a href="list" class="nav-item nav-link active">Trang chủ admin</a>
-            <a href="StatictisData" class="nav-item nav-link" >Thống kê</a>
+            <a href="StatictisData" class="nav-item nav-link" >Thống kê Tổng Quan</a>
+            <a href="TableFinancial" class="nav-item nav-link" >Báo Cáo Dịch Vụ</a>
             <a href="adminOrder" class="nav-item nav-link" >Quản lý đơn</a>
             <a href="adminService" class="nav-item nav-link" >Quản lý dịch vụ</a>
             <a href="adminPromotion" class="nav-item nav-link">Quản lý khuyến mại</a>
-           
-
+            <a href="DisplayListReport" class="nav-item nav-link">Quản lý report</a>
 
         </div>
     </div>
@@ -73,8 +73,6 @@
                 </div>
             </div>
 
-
-
             <%if("Candidate".equals(role)){%>
             <div class="nav-item dropdown">
 
@@ -86,7 +84,6 @@
 
                 </div>
             </div>
-
 
 
             <%}else if("Employer".equals(role)){%>                      
