@@ -1,11 +1,34 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="Models.JobPost" %>
+<%@ page import="java.util.List" %>
+
 
 <!DOCTYPE html>
 <html lang="vi">
+    <%
+        boolean isEdit = request.getAttribute("isEdit") != null && (boolean) request.getAttribute("isEdit");
+        JobPost job = isEdit ? (JobPost) request.getAttribute("job") : null;
+
+        String title = isEdit && job != null ? job.getTitle() : "";
+        String description = isEdit && job != null ? job.getDescription() : "";
+        String category = isEdit && job != null ? job.getCategory() : "";
+        String position = isEdit && job != null ? job.getPosition() : "";
+        String location = isEdit && job != null ? job.getLocation() : "";
+        double offerMin = isEdit && job != null ? job.getOffer_Min() : 0;
+        double offerMax = isEdit && job != null ? job.getOffer_Max() : 0;
+        int numberExp = isEdit && job != null ? job.getNumber_exp() : 0;
+        String typeJob = isEdit && job != null ? job.getTypeJob() : "";
+        boolean visible = isEdit && job != null && job.isVisible();
+        int jobId = isEdit && job != null ? job.getJobPost_ID() : -1;
+
+        List<String> jobCategories = (List<String>) request.getAttribute("jobCategories");
+        List<String> locations = (List<String>) request.getAttribute("locations");
+    %>
     <head>
         <meta charset="UTF-8">
-        <title>Đăng tin tuyển dụng</title>
+        <title><%= isEdit ? "Chỉnh sửa tin tuyển dụng" : "Đăng tin tuyển dụng" %></title>
+
         <!-- Select2 CSS -->
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -208,88 +231,90 @@
             });
         </script>
     </head>
+
+
     <body>
         <jsp:include page="/navbar.jsp" />
-        <div class="container">
-            <div class="form-title">Đăng tin tuyển dụng</div>
-            <% String message = (String) request.getAttribute("message");
+        <br/>
+        <h2 style="text-align: center;"><%= isEdit ? "Chỉnh sửa tin tuyển dụng" : "Đăng tin tuyển dụng mới" %></h2>
+
+        <% String message = (String) request.getAttribute("message");
         if (message != null) { %>
-            <div class="message-box"><%= message %></div>
-            <% } %>
-            <form action="createJob" method="post">
+        <div class="message-box"><%= message %></div>
+        <% } %>
+        <div class="container">
+
+            <form action="<%= isEdit ? "updateJobPost" : "createJob" %>" method="post">
+                <% if (isEdit) { %>
+                <input type="hidden" name="jobId" value="<%= jobId %>">
+                <% } %>
                 <div class="form-grid">
                     <!-- Left Column -->
                     <div class="form-column">
-                        <label>Tiêu đề công việc</label>
-                        <input type="text" name="title" placeholder="Nhập tiêu đề" required>
+                        <label for="title">Tiêu đề:</label>
+                        <input type="text" name="title" id="title" placeholder="Nhập tiêu đề" required value="<%= title %>">
 
-                        <label>Mô tả công việc</label>
-                        <textarea name="description" rows="3" placeholder="Nhập mô tả" required></textarea>
+                        <label for="description">Mô tả:</label>
+                        <textarea name="description" id="description" rows="3" required><%= description %></textarea>
 
-                        <label>Danh mục</label>
+                        <label for="jobCategory">Danh mục nghề:</label>
                         <select id="jobCategory" name="category" required>
                             <option value="">-- Chọn ngành nghề --</option>
-                            <%
-                                ArrayList<String> jobCategories = (ArrayList<String>) request.getAttribute("jobCategories");
-                                if (jobCategories != null) {
-                                    for (String category : jobCategories) {
-                            %>
-                            <option value="<%= category %>"><%= category %></option>
-                            <%
-                                    }
-                                }
-                            %>
+                            <% if (jobCategories != null) {
+                                for (String cat : jobCategories) {
+                                    boolean selected = cat.equals(category); %>
+                            <option value="<%= cat %>" <%= selected ? "selected" : "" %>><%= cat %></option>
+                            <%  }
+            } %>
                         </select>
 
-                        <label>Vị trí</label>
-                        <input type="text" name="position" placeholder="Nhập vị trí" required>
+                        <label for="position">Vị trí:</label>
+                        <input type="text" name="position" id="position" placeholder="VD: Thực tập sinh Backend" required value="<%= position %>">
 
-                        <label>Địa điểm</label>
+                        <label for="location">Địa điểm:</label>
                         <select id="location" name="location" required>
                             <option value="">-- Chọn địa điểm --</option>
-                            <%
-                                ArrayList<String> locations = (ArrayList<String>) request.getAttribute("locations");
-                                if (locations != null) {
-                                    for (String location : locations) {
-                            %>
-                            <option value="<%= location %>"><%= location %></option>
-                            <%
-                                    }
-                                }
-                            %>
+                            <% if (locations != null) {
+                                for (String loc : locations) {
+                                    boolean selected = loc.equals(location); %>
+                            <option value="<%= loc %>" <%= selected ? "selected" : "" %>><%= loc %></option>
+                            <%  }
+            } %>
                         </select>
                     </div>
 
-                    <!-- Right Column -->
                     <div class="form-column">
-                        <label>Lương tối thiểu (triệu VNĐ)</label>
-                        <input type="text" name="offerMin" step="1" min="0" placeholder="Nhập lương tối thiểu" required oninput="formatCurrencyInput(this)">
+                        <label for="offerMin">Lương tối thiểu (triệu VND):</label>
+                        <input type="text" name="offerMin" id="offerMin" required oninput="formatCurrencyInput(this)" value="<%= offerMin > 0 ? String.format("%,d", offerMin) : "" %>">
 
-                        <label>Lương tối đa (triệu VNĐ)</label>
-                        <input type="text" name="offerMax" step="1" min="0" placeholder="Nhập lương tối đa" required oninput="formatCurrencyInput(this)">
+                        <label for="offerMax">Lương tối đa (triệu VND):</label>
+                        <input type="text" name="offerMax" id="offerMax" required oninput="formatCurrencyInput(this)" value="<%= offerMax > 0 ? String.format("%,d", offerMax) : "" %>">
 
-                        <label>Số năm kinh nghiệm yêu cầu</label>
-                        <input type="number" name="numberExp" min="0" placeholder="Nhập số năm kinh nghiệm" required>
+                        <label for="numberExp">Số năm kinh nghiệm:</label>
+                        <input type="text" name="numberExp" id="numberExp" placeholder="VD: 2" required value="<%= numberExp > 0 ? numberExp : "" %>">
 
-                        <label>Loại hình công việc</label>
-                        <select name="typeJob" required>
-                            <option value="Full time">Full time</option>
-                            <option value="Part time">Part time</option>
-                            <option value="Internship">Internship</option>
-                            <option value="Freelance">Freelance</option>
-                            <option value="Remote">Remote</option>
+                        <label for="typeJob">Loại công việc:</label>
+                        <select id="typeJob" name="typeJob" required>
+                            <%
+                                String[] types = {"Full time", "Part time", "Internship", "Freelance", "Remote"};
+                                for (String t : types) {
+                            %>
+                            <option value="<%= t %>" <%= t.equals(typeJob) ? "selected" : "" %>><%= t %></option>
+                            <% } %>
                         </select>
 
-                        <label>Hiển thị tin tuyển dụng?</label>
-                        <select name="visible">
-                            <option value="1">Có</option>
-                            <option value="0">Không</option>
+                        <label for="visible">Hiển thị tin:</label>
+                        <select id="visible" name="visible">
+                            <option value="1" <%= visible ? "selected" : "" %>>Có</option>
+                            <option value="0" <%= !visible ? "selected" : "" %>>Không</option>
                         </select>
 
-                        <input type="submit" value="Đăng tuyển">
+                        <input type="submit" value="<%= isEdit ? "Cập nhật tin" : "Đăng tuyển" %>">
                     </div>
                 </div>
+
             </form>
         </div>
     </body>
+
 </html>

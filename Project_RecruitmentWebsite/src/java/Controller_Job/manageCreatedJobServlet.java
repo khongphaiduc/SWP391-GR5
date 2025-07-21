@@ -77,7 +77,7 @@ public class manageCreatedJobServlet extends HttpServlet {
 
             JobPostDAO jobPostDAO = new JobPostDAO();
             List<JobPost> jobList = jobPostDAO.getJobPostWithEmployerByEmployerId(employerId);
-            CVDAO cvDAO = new CVDAO(); 
+            CVDAO cvDAO = new CVDAO();
             for (JobPost job : jobList) {
                 int cvCount = cvDAO.countCVsByJobPostId(job.getJobPost_ID());
                 job.setCvCount(cvCount);
@@ -141,7 +141,7 @@ public class manageCreatedJobServlet extends HttpServlet {
 
                 ArrayList<String> locations = LocationProvider.getLocations();
                 request.setAttribute("locations", locations);
-
+                request.setAttribute("isEdit", true);
                 request.getRequestDispatcher("jobPost_view/editJob.jsp").forward(request, response);
 
                 break;
