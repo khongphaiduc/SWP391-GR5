@@ -69,7 +69,7 @@ public class StatictisDAO extends DBContext {
         try {
             String query = " select Sum(s1.Amount) as Total\n"
                     + " from  [dbo].[Orders]s1\n"
-                    + " where Month(s1.Date) = ? and Year(s1.Date)=?";
+                    + " where s1.Status = 'done'and Month(s1.Date) = ? and Year(s1.Date)=?";
             PreparedStatement push = connection.prepareStatement(query);
             push.setInt(1, Month);
             push.setInt(2, Year);
@@ -106,7 +106,7 @@ public class StatictisDAO extends DBContext {
         try {
             String query = "  select count(s1.JobPost_ID) as Total \n"
                     + "  from [dbo].[JobPost] s1\n"
-                    + "  where Month (s1.DayCreate) = ? and Year(s1.DayCreate)=?";
+                    + "  where  Month (s1.DayCreate) = ? and Year(s1.DayCreate)=?";
             PreparedStatement push = connection.prepareStatement(query);
             push.setInt(1, Month);
             push.setInt(2, Year);

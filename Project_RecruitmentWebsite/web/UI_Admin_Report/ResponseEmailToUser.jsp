@@ -286,7 +286,7 @@
                         <div>
                             <label>Ngày gửi:</label>
                             <span id="report-date">
-                                <fmt:formatDate value="${ViewDetailReprot.dateSend}" pattern="dd/MM/yyyy"/>
+                                <fmt:formatDate value="${ViewDetailReprot.dateSend}" pattern="MM/dd/yyyy"/>
                             </span>
                         </div>                 
                     </div>

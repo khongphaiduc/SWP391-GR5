@@ -46,3 +46,4 @@ lib/
 #.env
 "Project_RecruitmentWebsite/build/" 
 /Project_RecruitmentWebsite/build/
+/Project_RecruitmentWebsite/dist/

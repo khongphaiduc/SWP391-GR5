@@ -126,6 +126,10 @@
         <servlet-name>DownloadCVZipServlet</servlet-name>
         <servlet-class>Controller_Apply.DownloadCVZipServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>notificationServlet</servlet-name>
+        <servlet-class>Controller_Dashboard.notificationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -249,6 +253,10 @@
     <servlet-mapping>
         <servlet-name>DownloadCVZipServlet</servlet-name>
         <url-pattern>/DownloadCVZipServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>notificationServlet</servlet-name>
+        <url-pattern>/notificationServlet</url-pattern>
     </servlet-mapping>
     <error-page>
         <error-code>404</error-code>

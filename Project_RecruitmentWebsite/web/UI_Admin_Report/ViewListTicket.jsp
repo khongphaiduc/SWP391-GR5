@@ -7,6 +7,7 @@
         <meta charset="UTF-8">
         <title>Danh sách Report - Giao diện Gọn Gàng & Căn Giữa</title>
         <link href="https://fonts.googleapis.com/css?family=Quicksand:400,600&display=swap" rel="stylesheet">
+         <jsp:include page="/navbar.jsp" />
         <style>
             :root {
                 --primary: #43a047;
@@ -295,11 +296,12 @@
                 color: #fff;
             }
         </style>
-    </head>
-    <body>
       
-        <div class="filter-bar">
-            <h1 style="margin-right: 400px">Danh sách Report </h1>
+    </head>
+    
+    <body>
+       
+        <div class="filter-bar" style="margin-top: 20px">
             <form method="get" action="DisplayListReport">
                 <label for="filter-date">Ngày gửi:</label>
                 <input type="date" id="filter-date" name="date" max="2999-12-31" value="${sessionScope.date}" onchange="this.form.submit()">
@@ -348,7 +350,7 @@
                             <td>${s.title}</td>
                             <td>${s.content}</td>
                             <td><span class="date-cell">
-                                <fmt:formatDate value="${s.dateSend}" pattern="dd/MM/yyyy"/>
+                                <fmt:formatDate value="${s.dateSend}" pattern="MM/dd/yyyy"/>
                                 </span></td>
                             <td>
                                 <select class="status-select" data-idreport="${s.feedBackReportId}">
@@ -393,6 +395,7 @@
                 </ul>
             </nav>
         </div>
+            
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 const statusSelects = document.querySelectorAll('.status-select');
