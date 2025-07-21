@@ -98,13 +98,15 @@
             <%
             JobPost job = (JobPost) request.getAttribute("jobPost");
             %>
-
+            <%
+                               Employer emp = job.getEmployer();
+            %>
             <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
                 <div class="container">
                     <div class="row gy-5 gx-4">
                         <div class="col-lg-8">
                             <div class="d-flex align-items-center mb-5">
-                                <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-2.jpg" alt="" style="width: 80px; height: 80px;">
+                                <img class="flex-shrink-0 img-fluid border rounded" src="<%= request.getContextPath() + "/img/" + emp.getImgLogo() %>" alt="" style="width: 80px; height: 80px;">
                                 <div class="text-start ps-4">
                                     <h3 class="mb-3"><%=job.getTitle()%></h3>
                                     <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i><%=job.getLocation()%></span>
@@ -130,7 +132,7 @@
                                 <div class="d-grid gap-3">
                                     <a href="${pageContext.request.contextPath}/submitCV" class="btn btn-outline-primary w-100">Tạo CV mới trên web</a>
 
-                                   
+
 
                                     <form action="apply" method="post">
                                         <%
@@ -164,20 +166,17 @@
                                 <p><i class="fa fa-angle-right text-primary me-2"></i>Lương: $<%=job.getOffer_Min()%>-$<%=job.getOffer_Max()%></p>
                                 <p><i class="fa fa-angle-right text-primary me-2"></i>Vị trí công việc: <%=job.getPosition()%></p>
                             </div>
-                            <%
-                                Employer emp = job.getEmployer();
-                            %>
+
                             <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
                                 <h4 class="mb-4">Company Detail</h4>
                                 <p><strong>Company:</strong> <%= emp.getCompanyName() %></p>
                                 <p><strong>Location:</strong> <%= emp.getLocation() %></p>
                                 <p><strong>Website:</strong> <a href="<%= emp.getUrlWebsite() %>" target="_blank"><%= emp.getUrlWebsite() %></a></p>
-                                <p><strong>Size:</strong> <%= emp.getCompanySize() %></p>
                                 <p><strong>Description:</strong> <%= emp.getDescription() %></p>
                                 <p><strong>Phone:</strong> <%= emp.getPhoneNumber() %></p>
                                 <p><strong>Email:</strong> <a href="mailto:<%= emp.getEmail() %>"><%= emp.getEmail() %></a></p>
 
-                      
+
                             </div>
                         </div>
                     </div>
