@@ -20,7 +20,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
         <!-- Remix Icon CDN -->
         <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-         <jsp:include page="/navbar.jsp" />
+        <jsp:include page="/navbar.jsp" />
         <style>
             body {
                 font-family: 'Inter', Arial, sans-serif;
@@ -290,12 +290,11 @@
             }
         </style>
     </head>
-    
+
     <body>
-         
+
         <div class="header-bar text-center">
             <h3><i class="ri-shopping-bag-3-line me-2"></i>Bảng kê danh sách khách hàng GenZTimViec.vn</h3>
-            
         </div>
 
         <div class="container mb-4">
@@ -321,6 +320,14 @@
                 </form>
             </div>
 
+            <!-- Tổng cộng nằm trên bảng -->
+            <div class="d-flex justify-content-end mb-2">
+                <div class="px-4 py-2 rounded bg-white border" style="font-weight:700; color:#249a5d; font-size:1.12rem;">
+                    Tổng cộng: 
+                    <fmt:formatNumber value="${TotalTable}" type="currency" currencySymbol="₫" groupingUsed="true" />
+                </div>
+            </div>
+
             <!-- Sales Table -->
             <div class="table-responsive">
                 <table class="table table-bordered align-middle">
@@ -329,6 +336,7 @@
                             <th style="width:40px;">STT</th>
                             <th>Tên Công Ty</th>                      
                             <th style="width:200px;">Tổng Số Tiền</th>
+                            <th style="width:200px;">Số lượng dịch vụ</th>
                             <th style="width:170px;">Chi Tiết</th>
                         </tr>
                     </thead>
@@ -337,24 +345,18 @@
                             <tr>
                                 <td>${s.no}</td>
                                 <td>${s.name}</td>
-                                 
                                 <td><fmt:formatNumber value="${s.total}" type="currency" currencySymbol="₫" groupingUsed="true" /></td>
+                                <td>${s.numberService}</td>
                                 <td>
                                     <div class="action-btns">
                                         <button class="btn btn-outline-success btn-sm">
-                                <a target="_blank" href="HistoryFinancial?dateStart=${dateStart}&dateEnd=${dateEnd}&idemployer=${s.employerId}" class="ri-eye-line">Lịch sử</a>
+                                            <a target="_blank" href="HistoryFinancial?dateStart=${dateStart}&dateEnd=${dateEnd}&idemployer=${s.employerId}" class="ri-eye-line">Lịch sử</a>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
                         </c:forEach>
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="2" class="text-end">Tổng cộng:</th>
-                            <td><fmt:formatNumber value="${TotalTable}" type="currency" currencySymbol="₫" groupingUsed="true" /></td>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
@@ -370,20 +372,20 @@
                 var toast = document.getElementById('exportToast');
                 var msgSpan = document.getElementById('exportToastMsg');
                 var icon = toast.querySelector('i');
-                if(success){
+                if (success) {
                     toast.classList.remove('error');
                     icon.className = "ri-checkbox-circle-line";
                     msgSpan.textContent = msg || "Xuất Excel thành công";
-                }else{
+                } else {
                     toast.classList.add('error');
                     icon.className = "ri-close-circle-line";
                     msgSpan.textContent = msg || "Xuất Excel thất bại, vui lòng thử lại sau";
                 }
                 toast.style.display = "flex";
-                setTimeout(function(){
+                setTimeout(function () {
                     toast.classList.add('show');
                 }, 30);
-                setTimeout(function(){
+                setTimeout(function () {
                     toast.classList.remove('show', 'error');
                     toast.style.display = "none";
                 }, 2200);
@@ -392,14 +394,14 @@
             var exprot = document.getElementById('exportfile');
             exprot.addEventListener('click', function () {
                 fetch("/Project_RecruitmentWebsite/ExportExcelFinancial")
-                    .then(response => {
-                        if(response.status === 200){
-                            window.location.href = "/Project_RecruitmentWebsite/ExportExcelFinancial";
-                            showExportToast(true, "Xuất Excel thành công");
-                        }else{
-                            showExportToast(false, "Xuất Excel thất bại, vui lòng thử lại sau");
-                        }
-                    });
+                        .then(response => {
+                            if (response.status === 200) {
+                                window.location.href = "/Project_RecruitmentWebsite/ExportExcelFinancial";
+                                showExportToast(true, "Xuất Excel thành công");
+                            } else {
+                                showExportToast(false, "Xuất Excel thất bại, vui lòng thử lại sau");
+                            }
+                        });
             });
         </script>
     </body>

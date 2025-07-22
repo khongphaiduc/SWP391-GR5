@@ -38,7 +38,7 @@ public class HistoryFinancial extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            HttpSession session  = request.getSession();
+            HttpSession session = request.getSession();
             String dateStart = request.getParameter("dateStart");
             String dateEnd = request.getParameter("dateEnd");
             String idempoyer = request.getParameter("idemployer");
@@ -51,13 +51,13 @@ public class HistoryFinancial extends HttpServlet {
             List<FinancialMode> list = new ArrayList();
             FinancialDAO financialDAO = new FinancialDAO();
             list = financialDAO.GetFinancialHistoty(dateStart, dateEnd, id);
-            String CompanyName  = list.get(0).companyName;
-             request.setAttribute("CompanyName", CompanyName);
+            String CompanyName = list.get(0).companyName;
+            request.setAttribute("CompanyName", CompanyName);
             session.setAttribute("ListHistory", list);
 
             request.getRequestDispatcher("TableReportFinancial/DetailFinancial.jsp").forward(request, response);
         } catch (Exception e) {
-          
+
             request.getRequestDispatcher("TableReportFinancial/DetailFinancial.jsp").forward(request, response);
         }
 

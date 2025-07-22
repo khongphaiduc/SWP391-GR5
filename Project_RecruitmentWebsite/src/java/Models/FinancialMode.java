@@ -9,40 +9,75 @@ package Models;
  * @author Admin
  */
 public class FinancialMode {
-    
-     public int employerId ;
-     public int  no ; 
-     public String name  ;
-     public double total ;
 
-     
-     public String nameService;
+    public int employerId;
+    public int no;
+    public String name;
+    public double total;
+    public int numberService;
+
+    public String nameService;
     public double amount;
     public String payMethod;
     public String date;
     public String companyName;
-     
-    public FinancialMode(String nameService, double amount, String payMethod, String date,String companyName ) {
+    public String during;
+    
+    public FinancialMode(String nameService, double amount, String payMethod, String date, String companyName,String during) {
         this.nameService = nameService;
         this.amount = amount;
         this.payMethod = payMethod;
         this.date = date;
-        this.companyName=companyName;
+        this.companyName = companyName;
+        this.during = during;
     }
 
-    public FinancialMode(int no, String name, double total,int employer) {
+    public int getNumberService() {
+        return numberService;
+    }
+
+    public void setNumberService(int numberService) {
+        this.numberService = numberService;
+    }
+
+    public FinancialMode(int no, String name, double total, int employer, int numberService) {
         this.no = no;
         this.name = name;
         this.total = total;
-         this.employerId=employer;
+        this.employerId = employer;
+        this.numberService = numberService;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public int getEmployerId() {
+        return employerId;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setEmployerId(int employerId) {
+        this.employerId = employerId;
+    }
+
+    public int getNo() {
+        return no;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public String getNameService() {
@@ -77,49 +112,26 @@ public class FinancialMode {
         this.date = date;
     }
 
-    public int getNo() {
-        return no;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setNo(int no) {
-        this.no = no;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public String getName() {
-        return name;
+    public String getDuring() {
+        return during;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
-    public int getEmployerId() {
-        return employerId;
-    }
-
-    public void setEmployerId(int employerId) {
-        this.employerId = employerId;
+    public void setDuring(String during) {
+        this.during = during;
     }
 
     @Override
     public String toString() {
-        return "FinancialMode{" + "employerId=" + employerId + ", no=" + no + ", name=" + name + ", total=" + total + ", nameService=" + nameService + ", amount=" + amount + ", payMethod=" + payMethod + ", date=" + date + '}';
+        return "FinancialMode{" + "employerId=" + employerId + ", no=" + no + ", name=" + name + ", total=" + total + ", numberService=" + numberService + ", nameService=" + nameService + ", amount=" + amount + ", payMethod=" + payMethod + ", date=" + date + ", companyName=" + companyName + ", during=" + during + '}';
     }
 
-   
-
-  
-
- 
-     
-     
-     
+    
 }
