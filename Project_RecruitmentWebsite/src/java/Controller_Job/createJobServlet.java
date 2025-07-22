@@ -74,7 +74,7 @@ public class createJobServlet extends HttpServlet {
                 request.setAttribute("errorMessage", "Bạn cần điền thông tin công ty trước khi đăng tuyển");
                 request.getRequestDispatcher("employerProfile").forward(request, response);
             } else {
-                if (orderDAO.hasSuccessfulOrderWithService(employerDAO.getEmployerByName(username).getEmployerId(), 1)) {
+                if (orderDAO.hasSuccessfulOrderWithService(employerDAO.getEmployerByName(username).getEmployerId())) {
 
                     ArrayList<String> jobCategories = JobCategoryProvider.getJobCategories();
                     request.setAttribute("jobCategories", jobCategories);

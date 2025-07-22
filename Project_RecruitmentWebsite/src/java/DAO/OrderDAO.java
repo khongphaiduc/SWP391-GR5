@@ -154,14 +154,13 @@ public class OrderDAO extends DBContext {
         }
     }
 
-    public boolean hasSuccessfulOrderWithService(int employerId, int serviceId) {
+    public boolean hasSuccessfulOrderWithService(int employerId) {
         String sql = "SELECT 1 FROM Orders WHERE Employer_ID = ? "
-                + "AND Service_ID = ? AND Status = 'success'";
+                + " AND Status = 'success'";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, employerId);
-            ps.setInt(2, serviceId);
 
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();

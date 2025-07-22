@@ -15,7 +15,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -59,7 +63,7 @@ public class adminOrder extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -71,6 +75,12 @@ public class adminOrder extends HttpServlet {
             return;
         }
 
+        String idempoyer = request.getParameter("idemployer");
+
+        int id = 0;
+        if (idempoyer != null) {
+            id = Integer.parseInt(idempoyer);
+        }
         String serviceIdStr = request.getParameter("serviceId");
         String fromDateStr = request.getParameter("fromDate");
         String toDateStr = request.getParameter("toDate");
@@ -98,7 +108,12 @@ public class adminOrder extends HttpServlet {
         }
 
         OrderDAO dao = new OrderDAO();
-        List<Order> orders = dao.getOrdersByFilters(fromDate, toDate, serviceId);
+        List<Order> orders=new ArrayList<>();
+        try {
+            orders = dao.getOrdersByFiltersEmp(fromDate, toDate, serviceId, id);
+        } catch (SQLException ex) {
+            Logger.getLogger(adminOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
         request.setAttribute("orders", orders);
 
         ServiceDAO serviceDAO = new ServiceDAO();

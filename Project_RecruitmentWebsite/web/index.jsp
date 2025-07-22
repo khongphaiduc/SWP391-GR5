@@ -230,7 +230,7 @@
             <!-- Navbar End -->
             <marquee behavior="scroll" direction="left" scrollamount="5" style="background: white; color: #721c24; padding: 10px; font-weight: bold;">
                 <c:forEach var="n" items="${sessionScope.notifications}">
-                    ${n.title} - ${n.content} &nbsp;&nbsp;&nbsp;&nbsp;
+                     ${n.content} &nbsp;&nbsp;&nbsp;&nbsp;
                 </c:forEach>
             </marquee>
 

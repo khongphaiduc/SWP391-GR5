@@ -8,6 +8,7 @@
 
 <%@ page import="java.util.*, Models.Notification" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
 <%
@@ -230,7 +231,7 @@
                             <td>${n.title}</td>
                             <td>${n.content}</td>
                             <td>${n.roleTarget}</td>
-                            <td>${n.createdAt}</td>
+                            <td><fmt:formatDate value="${n.createdAt}" pattern="dd/MM/yyyy" /></td>
                             <td>
                                 <!-- SỬA -->
                                 <form action="notificationServlet" method="get" style="display:inline;">
