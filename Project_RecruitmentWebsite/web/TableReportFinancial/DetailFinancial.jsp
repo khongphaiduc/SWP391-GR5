@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -75,7 +76,10 @@
     <body>
         <div class="container py-5">
             <h2 class="mb-4 text-center">Lịch sử giao dịch của công ty  ${CompanyName}</h2>
-
+            <div class="mt-4 text-center">
+                <button id="exportfile" class="btn btn-green">Export Excel</button>
+            </div>
+            <br>
             <div class="table-responsive table-history">
                 <table class="table table-bordered table-striped table-hover align-middle mb-0">
                     <thead>
@@ -84,7 +88,8 @@
                             <th>Dịch Vụ</th>
                             <th>Giá Tiền</th>
                             <th>Phương Thức Thanh Toán</th>
-                            <th>Ngày Mua</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Ngày kết thúc</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,14 +100,13 @@
                                 <td><fmt:formatNumber value="${s.amount}" type="currency" currencySymbol="₫" groupingUsed="true" /></td>
                                 <td>${s.payMethod}</td>
                                 <td>${s.date}</td>
+                                <td>${s.during}</td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
             </div>
-            <div class="mt-4 text-center">
-                <button id="exportfile" class="btn btn-green">Export Excel</button>
-            </div>
+
         </div>
         <!-- Bootstrap JS CDN (optional) -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

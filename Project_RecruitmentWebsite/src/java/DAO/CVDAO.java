@@ -77,7 +77,7 @@ public class CVDAO extends DBContext {
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
                 cv.setFileData(rs.getString("FileData"));
-                
+
                 cvList.add(cv);
             }
 
@@ -252,7 +252,7 @@ public class CVDAO extends DBContext {
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
 
-               cv.setFileData(rs.getString("FileData"));
+                cv.setFileData(rs.getString("FileData"));
                 cv.setMimeType(rs.getString("MimeType"));
                 cv.setApply_ID(rs.getInt("Apply_ID"));
                 JobPost jobPost = new JobPost();
@@ -459,8 +459,6 @@ public class CVDAO extends DBContext {
         return 0;
     }
 
-    
-    
     //method hiện thị CV thuộc JobPost
     // 1. Kiểm tra xem JobPost có thuộc về Employer hay không
     public boolean isJobPostOwnedByEmployer(int jobPostId, int employerId) {
@@ -475,20 +473,22 @@ public class CVDAO extends DBContext {
         }
         return false;
     }
+
     //đếm 
     public int countCVsByJobPostId(int jobPostId) {
-    String sql = "SELECT COUNT(*) FROM Apply WHERE JobPost_ID = ?";
-    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-        stmt.setInt(1, jobPostId);
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1);
+        String sql = "SELECT COUNT(*) FROM Apply WHERE JobPost_ID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, jobPostId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return 0;
     }
-    return 0;
-}
+
     // 2. Lấy danh sách CV apply vào JobPost_ID
     public List<CV> getCVsByJobPostId(int jobPostId, int limit, int offset) {
         List<CV> cvList = new ArrayList<>();
@@ -496,7 +496,7 @@ public class CVDAO extends DBContext {
         String sql = "SELECT CV.CV_ID, CV.Candidate_ID, CV.Full_Name, CV.Address, CV.Email, "
                 + "CV.Position, CV.Number_exp, CV.Education, CV.Field, CV.Current_Salary, "
                 + "CV.Birthday, CV.Nationality, CV.Gender, CV.FileData, CV.MimeType, "
-                + "JP.Title "
+                + "JP.JobPost_ID, JP.Title " // 👈 thêm JobPost_ID
                 + "FROM Apply A "
                 + "INNER JOIN CV ON A.CV_ID = CV.CV_ID "
                 + "INNER JOIN JobPost JP ON A.JobPost_ID = JP.JobPost_ID "
@@ -504,9 +504,9 @@ public class CVDAO extends DBContext {
                 + "ORDER BY CV.CV_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, jobPostId); // WHERE A.JobPost_ID = ?
-            stmt.setInt(2, offset);     // OFFSET ?
-            stmt.setInt(3, limit);      // FETCH NEXT ?
+            stmt.setInt(1, jobPostId);
+            stmt.setInt(2, offset);
+            stmt.setInt(3, limit);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -525,11 +525,12 @@ public class CVDAO extends DBContext {
                 cv.setBirthday(rs.getDate("Birthday"));
                 cv.setNationality(rs.getString("Nationality"));
                 cv.setGender(rs.getString("Gender"));
-
                 cv.setFileData(rs.getString("FileData"));
                 cv.setMimeType(rs.getString("MimeType"));
 
+                // 👇 Gán cả JobPost_ID lẫn Title
                 JobPost jobPost = new JobPost();
+                jobPost.setJobPost_ID(rs.getInt("JobPost_ID")); // 👈 Bị thiếu dòng này
                 jobPost.setTitle(rs.getString("Title"));
                 cv.setJobPost(jobPost);
 
@@ -552,8 +553,6 @@ public class CVDAO extends DBContext {
         }
     }
 
-    
-    
     public static void main(String[] args) {
         CVDAO dao = new CVDAO();
 

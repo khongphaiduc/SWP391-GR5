@@ -182,7 +182,7 @@ public class OrderDAO extends DBContext {
         }
     }
 
-    public List<Order> getOrdersByFilters(Date fromDate, Date toDate, Integer serviceId) {
+    public List<Order> getOrdersByFilters(Date fromDate, Date toDate, Integer serviceId, Integer employerId) {
         List<Order> list = new ArrayList<>();
 
         String sql = "SELECT o.*, e.EmployerName, e.Company_Name, e.Email, e.PhoneNumber, "
@@ -201,6 +201,9 @@ public class OrderDAO extends DBContext {
         if (serviceId != null) {
             sql += " AND o.Service_ID = ?";
         }
+        if (employerId != null) {
+            sql += " AND o.Employer_ID = ?";
+        }
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int index = 1;
@@ -213,6 +216,9 @@ public class OrderDAO extends DBContext {
             }
             if (serviceId != null) {
                 ps.setInt(index++, serviceId);
+            }
+            if (employerId != null) {
+                ps.setInt(index++, employerId);
             }
 
             ResultSet rs = ps.executeQuery();

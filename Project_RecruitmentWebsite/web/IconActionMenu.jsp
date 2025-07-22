@@ -40,15 +40,6 @@
                 session.getAttribute("role") != null && 
                 session.getAttribute("role").equals("Admin")) {
             %>
-            <div class="fab-item fab-heart" title="Admin Dashboard">
-                <a href="<%= request.getContextPath() %>/adminhome.jsp" target="_self" id="favorite-btn-v2" class="fab-btn">
-                    <i class="bi bi-gear-fill"></i>
-                    <c:if test="${username != null}">
-                        <span class="fab-badge" id="favorite-count-v2">${numberJobPost}</span>
-                    </c:if>
-                </a>
-                <span class="fab-hover-label">Admin</span>
-            </div>
             <%
                 }
             %>

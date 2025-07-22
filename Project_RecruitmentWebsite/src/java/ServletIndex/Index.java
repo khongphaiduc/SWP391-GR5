@@ -1,6 +1,7 @@
 package ServletIndex;
 
 import DAO.SaveJobPostOfCandidate;
+import DAO.SearchAnDisplayJob;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -35,25 +36,18 @@ public class Index extends HttpServlet {
             throws ServletException, IOException {
 
         try {
+            SearchAnDisplayJob o = new SearchAnDisplayJob();
 
-            // -------------------------------------------------------
-            HttpSession session = request.getSession();
-            SaveJobPostOfCandidate saveJob = new SaveJobPostOfCandidate();
-            int numberJobPost = 0;
-            String user = (String) session.getAttribute("username");
-
-            // kiểm tra xem đăng nhập chưa và lấy số lượng post đã lưu 
-            if (user != null) {
-                String IdUser = saveJob.getCandidateIDByName(user);
-                numberJobPost = saveJob.getNumberJobPostSavedByCandidate(IdUser);
-            }
-
-            session.setAttribute("numberJobPost", numberJobPost);    // số lượng jobpost của thằng user
-            // -------------------------------------------------------
+            var list = o.getListJobPost();
+             
+             list.sort((a, b) -> a.getDayCre().compareTo(b.getDayCre()));
+           var sublist =   list.subList(0, 5);
+            request.setAttribute("ListHome", sublist);
+             
             request.getRequestDispatcher("index.jsp").forward(request, response);
 
         } catch (Exception e) {
-          
+            System.out.println(e.getMessage() );
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
 
@@ -62,9 +56,7 @@ public class Index extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-           
-        
+
     }
 
     @Override

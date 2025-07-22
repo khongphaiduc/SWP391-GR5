@@ -108,18 +108,16 @@ public class adminOrder extends HttpServlet {
         }
 
         OrderDAO dao = new OrderDAO();
-        List<Order> orders=new ArrayList<>();
-        try {
-            orders = dao.getOrdersByFiltersEmp(fromDate, toDate, serviceId, id);
-        } catch (SQLException ex) {
-            Logger.getLogger(adminOrder.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        List<Order> orders = new ArrayList<>();
+        orders = dao.getOrdersByFilters(fromDate, toDate, serviceId, id);
+
         request.setAttribute("orders", orders);
+        session.setAttribute("orders", orders);
 
         ServiceDAO serviceDAO = new ServiceDAO();
         List<Service> services = serviceDAO.getAllService();
         request.setAttribute("services", services);
-
+        request.setAttribute("CompanyName", orders.get(0).getEmployer().getCompanyName());
         request.getRequestDispatcher("Admin_view/adminOrder.jsp").forward(request, response);
     }
 

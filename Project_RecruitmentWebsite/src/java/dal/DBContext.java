@@ -20,6 +20,7 @@ public class DBContext {
 //              String url = "jdbc:sqlserver://LAPTOP-MK;databaseName=CV07";
 
             String url = "jdbc:sqlserver://DESKTOP-NQH197\\NGUYENQUANGHUYSV:1433;databaseName=swp_final;";
+
 //            String url = "jdbc:sqlserver://LAPTOP-MK;databaseName=CV02";
 
 
