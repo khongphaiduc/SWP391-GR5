@@ -81,7 +81,7 @@ public class createJobServlet extends HttpServlet {
 
                     ArrayList<String> locations = LocationProvider.getLocations();
                     request.setAttribute("locations", locations);
-
+                    request.setAttribute("isEdit", false);
                     request.getRequestDispatcher("jobPost_view/createJob.jsp").forward(request, response);
                 } else {
                     request.getRequestDispatcher("/service-for-emp").forward(request, response);

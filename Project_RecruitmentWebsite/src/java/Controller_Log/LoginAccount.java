@@ -2,8 +2,10 @@
 package Controller_Log;
 
 import DAO.IsAdminDAO;
+import DAO.NotificationDAO;
 import DAO.RegisterCandidateUser;
 import DAO.RegisterEmployerUser;
+import Models.Notification;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 @WebServlet(name = "LoginAccount", urlPatterns = {"/LoginAccount"})
 public class LoginAccount extends HttpServlet {
@@ -62,6 +65,9 @@ public class LoginAccount extends HttpServlet {
                     session.setAttribute("username", nameAccount);   // lưu account name 
                     session.setAttribute("role", "Candidate");       // lưu role 
                     session.setAttribute("idUser", idCandidate);     // lưu id
+                    NotificationDAO ndao = new NotificationDAO();
+                    List<Notification> notiList = ndao.getNotificationsForRole("Candidate");
+                    session.setAttribute("notifications", notiList);
                     response.sendRedirect("Index");
                 } else {
                     status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";
@@ -78,6 +84,9 @@ public class LoginAccount extends HttpServlet {
                     session.setAttribute("username", nameAccount);
                     session.setAttribute("idUser", idEmployer);
                     session.setAttribute("role", "Employer");
+                    NotificationDAO ndao = new NotificationDAO();
+                    List<Notification> notiList = ndao.getNotificationsForRole("Employer");
+                    session.setAttribute("notifications", notiList);
                     response.sendRedirect("Index");
                 } else {
                     status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";

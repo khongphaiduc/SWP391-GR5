@@ -183,18 +183,18 @@
                                 <a href="job-detail.jsp" class="dropdown-item">Job Detail</a>
                             </div>
                         </div>
-<!--                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="category.jsp" class="dropdown-item">Job Category</a>
-                                <a href="testimonial.jsp" class="dropdown-item">Testimonial</a>
-                                <a href="404.jsp" class="dropdown-item">404</a>
-                            </div>
-                        </div>-->
-                         <%String role = (String) session.getAttribute("role");%>
-                       
-                        
-                       
+                        <!--                        <div class="nav-item dropdown">
+                                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                                    <div class="dropdown-menu rounded-0 m-0">
+                                                        <a href="category.jsp" class="dropdown-item">Job Category</a>
+                                                        <a href="testimonial.jsp" class="dropdown-item">Testimonial</a>
+                                                        <a href="404.jsp" class="dropdown-item">404</a>
+                                                    </div>
+                                                </div>-->
+                        <%String role = (String) session.getAttribute("role");%>
+
+
+
                         <%if("Candidate".equals(role)){%>
                         <div class="nav-item dropdown">
 
@@ -217,7 +217,7 @@
                                 <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
                                 <a href="${pageContext.request.contextPath}/service-for-emp" class="dropdown-item">Dịch Vụ</a>
                                 <a href="${pageContext.request.contextPath}/OrderHistory" class="dropdown-item">Lịch sử giao dịch</a>
-                            
+
                             </div>
                         </div>
                         <%}%>
@@ -228,11 +228,16 @@
                 </div>
             </nav>
             <!-- Navbar End -->
-
+            <marquee behavior="scroll" direction="left" scrollamount="5" style="background: white; color: #721c24; padding: 10px; font-weight: bold;">
+                <c:forEach var="n" items="${sessionScope.notifications}">
+                    ${n.title} - ${n.content} &nbsp;&nbsp;&nbsp;&nbsp;
+                </c:forEach>
+            </marquee>
 
 
             <div style="background: #01513B; padding-bottom: 36px;">
                 <div style="max-width:1200px; margin: 0 auto; padding: 0 20px;">
+
                     <!-- Title Section -->
                     <div style="padding-top: 24px; text-align: center;">
                         <div style="font-size: 2rem; font-weight: 700; color: #06DC74;">
@@ -242,6 +247,7 @@
                             Tiếp cận <span style="color:#FFD600;font-weight:bold;">40,000+</span> tin tuyển dụng việc làm mỗi ngày từ hàng nghìn doanh nghiệp uy tín tại Việt Nam
                         </div>
                     </div>
+
 
                     <!-- Search Section -->
                     <!-- Thanh tìm kiếm Dùng thẻ <select> cho "Danh mục Nghề" và "Địa điểm" - Height ngắn như yêu cầu -->

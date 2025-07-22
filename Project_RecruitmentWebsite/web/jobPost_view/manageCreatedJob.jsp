@@ -302,9 +302,10 @@
                     %>
                     <tr>
                         <td class="job-title">
-                            <a href="${pageContext.request.contextPath}/view-applied-cvs?jobPostId=<%= job.getJobPost_ID() %>">
+                            <a href="<%=request.getContextPath()%>/detailJob?postId=<%= job.getJobPost_ID() %>">
                                 <%= job.getTitle() %>
                             </a>
+                            
                         </td>
                         <td><%= job.getPosition() %></td>
                         <td><%= job.getEmployer().getCompanyName() %></td>

@@ -2,10 +2,8 @@ package Controller_Job;
 
 import DAO.CVDAO;
 import DAO.EmployerDAO;
-import DAO.FormDAO;
 import Models.CV;
 import Models.Employer;
-import Models.Form;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -41,14 +39,8 @@ public class ViewAppliedCVsServlet extends HttpServlet {
         int employerId = employer.getEmployerId();
         //int employerId = 1;
         session.setAttribute("employerId", employerId);
-        FormDAO formDAO = new FormDAO();
-        List<Form> forms= new ArrayList<>();
-        try {
-            forms = formDAO.getFormsByEmployerId(employerId);
-        } catch (Exception ex) {
-            Logger.getLogger(ViewAppliedCVsServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("formList", forms);
+        
+        
 
         // Xử lý phân trang
         int page;
