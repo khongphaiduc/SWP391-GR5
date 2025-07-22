@@ -274,7 +274,7 @@
                                                     <form action="save-potential-cvs" method="post">
                                                         <input type="hidden" name="cvId" value="${cv.cvId}">
                                                         <input type="hidden" name="jobPostId" value="${cv.jobPost.jobPost_ID}">
-                                                        <button type="submit" class="cv-action-link">Lưu CV</button>
+                                                        <button type="submit" class="cv-action-link">Lưu CV tiềm năng</button>
 
                                                     </form>
                                                     <form action="manageForm" method="get">
@@ -326,7 +326,7 @@
                                                         <a href="view-cv-detail?cvId=${cv.cvId}" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
                                                         <form action="save-potential-cvs" method="post" style="display:inline;">
                                                             <input type="hidden" name="cvId" value="${cv.cvId}">
-                                                            <button type="submit" class="btn btn-sm btn-outline-primary">Lưu CV</button>
+                                                            <button type="submit" class="btn btn-sm btn-outline-primary">Lưu CV tiềm năng</button>
                                                         </form>
                                                     </td>
                                                 </tr>

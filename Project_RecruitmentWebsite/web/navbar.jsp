@@ -43,7 +43,6 @@
             <a href="list" class="nav-item nav-link active">Trang chủ admin</a>
             <a href="StatictisData" class="nav-item nav-link" >Thống kê Tổng Quan</a>
             <a href="TableFinancial" class="nav-item nav-link" >Báo Cáo Dịch Vụ</a>
-            <a href="adminOrder" class="nav-item nav-link" >Quản lý đơn</a>
             <a href="adminService" class="nav-item nav-link" >Dịch vụ</a>
             <a href="adminPromotion" class="nav-item nav-link">Khuyến mại</a>
             <a href="notificationServlet" class="nav-item nav-link">Thông báo</a>

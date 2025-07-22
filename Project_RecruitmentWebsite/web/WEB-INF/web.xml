@@ -130,6 +130,10 @@
         <servlet-name>notificationServlet</servlet-name>
         <servlet-class>Controller_Dashboard.notificationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ExportOrderHistory</servlet-name>
+        <servlet-class>Controller_TableFinancial.ExportOrderHistory</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>manageCreatedCVServlet</servlet-name>
         <url-pattern>/manageCreatedCV</url-pattern>
@@ -257,6 +261,10 @@
     <servlet-mapping>
         <servlet-name>notificationServlet</servlet-name>
         <url-pattern>/notificationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExportOrderHistory</servlet-name>
+        <url-pattern>/ExportOrderHistory</url-pattern>
     </servlet-mapping>
     <error-page>
         <error-code>404</error-code>

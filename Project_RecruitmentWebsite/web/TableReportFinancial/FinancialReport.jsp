@@ -350,7 +350,7 @@
                                 <td>
                                     <div class="action-btns">
                                         <button class="btn btn-outline-success btn-sm">
-                                            <a target="_blank" href="HistoryFinancial?dateStart=${dateStart}&dateEnd=${dateEnd}&idemployer=${s.employerId}" class="ri-eye-line">Lịch sử</a>
+                                            <a target="_blank" href="adminOrder?idemployer=${s.employerId}" class="ri-eye-line">Lịch sử</a>
                                         </button>
                                     </div>
                                 </td>

@@ -76,7 +76,10 @@
     <body>
         <div class="container py-5">
             <h2 class="mb-4 text-center">Lịch sử giao dịch của công ty  ${CompanyName}</h2>
-
+            <div class="mt-4 text-center">
+                <button id="exportfile" class="btn btn-green">Export Excel</button>
+            </div>
+            <br>
             <div class="table-responsive table-history">
                 <table class="table table-bordered table-striped table-hover align-middle mb-0">
                     <thead>
@@ -103,9 +106,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="mt-4 text-center">
-                <button id="exportfile" class="btn btn-green">Export Excel</button>
-            </div>
+
         </div>
         <!-- Bootstrap JS CDN (optional) -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

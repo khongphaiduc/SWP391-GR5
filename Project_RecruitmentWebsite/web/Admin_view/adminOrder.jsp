@@ -47,56 +47,75 @@
                 font-weight: bold;
             }
 
+            .btn-green {
+                background-color: #43a047; /* xanh lá cây đậm */
+                color: #fff;
+                border: none;
+                border-radius: 25px; /* bo tròn góc */
+                padding: 10px 20px;
+                font-weight: 500;
+                font-size: 1rem;
+                box-shadow: 0 4px 10px rgba(0, 128, 0, 0.2);
+                transition: background-color 0.3s ease;
+                cursor: pointer;
+            }
+            .btn-green:hover {
+                background-color: #388e3c; /* màu hover đậm hơn */
+            }
 
 
             /*        .status-success {
                         color: green;
                         font-weight: bold;
                     }
-            
-                    .status-pending {
-                        color: orange;
-                        font-weight: bold;
-                    }
-            
-                    .status-expired {
-                        color: red;
-                        font-weight: bold;
-                    }
-            
-                    .actions a {
-                        margin: 0 5px;
-                        padding: 6px 12px;
-                        border-radius: 5px;
-                        text-decoration: none;
-                        font-weight: bold;
-                        font-size: 0.9em;
-                    }
-            
-                    .view-btn {
-                        background-color: #42a5f5;
-                        color: white;
-                    }
-            
-                    .delete-btn {
-                        background-color: #e53935;
-                        color: white;
-                    }
-            
-                    .total-row {
-                        font-weight: bold;
-                        background-color: #e8f5e9;
-                    }*/
+
+.status-pending {
+    color: orange;
+    font-weight: bold;
+}
+
+.status-expired {
+    color: red;
+    font-weight: bold;
+}
+
+.actions a {
+    margin: 0 5px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.view-btn {
+    background-color: #42a5f5;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #e53935;
+    color: white;
+}
+
+.total-row {
+    font-weight: bold;
+    background-color: #e8f5e9;
+}*/
         </style>
     </head>
     <body>
         <jsp:include page="/navbar.jsp" />
         <br/>
+        <div class="mt-4 text-center">
+            <button id="exportfile" class="btn btn-green">Export Excel</button>
+        </div>
 
+        <form method="get" action="adminOrder" style="margin-bottom: 20px;
+              text-align: right;">
 
-        <form method="get" action="adminOrder" style="margin-bottom: 20px; text-align: right;">
-
-            <form method="get" action="adminOrder" style="margin-bottom: 20px; text-align: right;">
+            <form method="get" action="adminOrder" style="margin-bottom: 20px;
+                  text-align: right;">
                 <label for="serviceId">Dịch vụ:</label>
                 <select name="serviceId" id="serviceId" onchange="this.form.submit()">
                     <option value="">--</option>
@@ -138,7 +157,7 @@
 
 
             <div class="container">
-                <h2>Lịch sử đơn hàng</h2>
+                <h2>Lịch sử giao dịch của công ty ${CompanyName}</h2>
 
                 <c:choose>
                     <c:when test="${not empty orders}">
@@ -200,9 +219,27 @@
                         </table>
                     </c:when>
                     <c:otherwise>
-                        <p style="text-align: center; font-size: 1.2em; color: gray;">Bạn chưa có đơn hàng nào.</p>
+                        <p style="text-align: center;
+                           font-size: 1.2em;
+                           color: gray;">Bạn chưa có đơn hàng nào.</p>
                     </c:otherwise>
                 </c:choose>
             </div>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+            <script>
+                                                document.getElementById('exportfile').addEventListener('click', function () {
+                                                    fetch("/Project_RecruitmentWebsite/ExportOrderHistory")
+                                                            .then(response => {
+                                                                if (response.status === 200) {
+                                                                    window.location.href = "/Project_RecruitmentWebsite/ExportOrderHistory";
+                                                                } else {
+                                                                    alert("Xuất Excel thất bại");
+                                                                }
+                                                            });
+                                                });
+            </script>
+
     </body>
 </html>

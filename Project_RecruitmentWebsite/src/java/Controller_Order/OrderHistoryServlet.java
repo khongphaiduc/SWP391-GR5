@@ -84,6 +84,7 @@ public class OrderHistoryServlet extends HttpServlet {
                     // bỏ qua hoặc log
                 }
             }
+            
 
             java.sql.Date fromDate = null;
             java.sql.Date toDate = null;

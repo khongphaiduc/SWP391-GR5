@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/EncodePassword.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/adminOrder.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_TableFinancial/ExportExcelFinancial.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/ListServlet.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/TableReportFinancial/DetailFinancial.jsp</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/adminPromotion.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Order.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/TableReportFinancial/FinancialReport.jsp</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Job/ViewAppliedCVsServlet.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/viewuser.jsp</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/SearchServlet.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_TableFinancial/ExportOrderHistory.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/adminhome.jsp</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_TableFinancial/ExportExcelHistory.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/navbar.jsp</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/dal/DBContext.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/Admin_view/adminOrder.jsp</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/Admin_view/adminPromotion.jsp</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/applied-cv-list.jsp</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/OrderDAO.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_CV/SavePotentialCVsServlet.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_TableFinancial/HistoryFinancial.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/jobPost_view/manageCreatedJob.jsp</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_TableFinancial/TableFinancial.java</file>
+            <file>file:/D:/Test%20Merge/SWP391-GR5/Project_RecruitmentWebsite/web/Statictis/StatisticGeneral.jsp</file>
+        </group>
+    </open-files>
+</project-private>
