@@ -127,6 +127,7 @@
                 </select>
 
                 <%
+                    String idemployer = request.getParameter("idemployer");
     java.time.LocalDate today = java.time.LocalDate.now();
     java.time.LocalDate oneMonthAgo = today.minusMonths(1);
 
@@ -141,6 +142,7 @@
                     ? today.toString()
                     : toDateParam;
                 %>
+                <input type="hidden" name="idemployer" value="<%=idemployer%>">
 
                 <label for="fromDate">Từ ngày:</label>
                 <input type="date" name="fromDate" id="fromDate"
