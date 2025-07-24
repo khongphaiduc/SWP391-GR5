@@ -22,7 +22,7 @@ public class FinancialDAO extends DBContext {
             String query = "SELECT s2.Company_Name, SUM(s1.Amount) AS Total , s2.Employer_ID, count(s1.Service_ID) as Number\n"
                     + "FROM [dbo].[Orders] s1\n"
                     + "JOIN [dbo].[Employer] s2 ON s1.Employer_ID = s2.Employer_ID\n"
-                    + "WHERE (? IS NULL OR s1.Date >= ?)\n"
+                    + "WHERE  (? IS NULL OR s1.Date >= ?)\n"
                     + "AND (? IS NULL OR s1.Date <= DATEADD(day, 1, ?))\n"
                     + "AND (? IS NULL OR s2.TaxCode LIKE ?)\n"
                     + "GROUP BY s2.Employer_ID, s2.Company_Name";

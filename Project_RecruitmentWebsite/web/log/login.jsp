@@ -32,7 +32,7 @@
                 <form id="signupForm" action="${pageContext.request.contextPath}/RegisterAccount" method="post" autocomplete="off">
                     <h1>Tạo tài khoản</h1>
                     <div class="input-row">
-                        <input type="text" placeholder="Tên người dùng" name="username"   value="${username}" required />
+                        <input type="text" placeholder="Tên Đăng Nhặp" name="username"   value="${username}" required />
                     </div>
                     <div class="input-row">
                         <input type="email" placeholder="Email"  name="email" value="${email}" required />

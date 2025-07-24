@@ -31,7 +31,7 @@ public class getListSaveJobPost extends DBContext {
                         rs.getString("Description"),
                         rs.getDate("date_cr"),
                         rs.getInt("JobPost_ID"),
-                        rs.getBytes("imgLogo"),
+                        rs.getString("imgLogo"),
                         rs.getInt("SavedJob_ID")
                 ));
             }

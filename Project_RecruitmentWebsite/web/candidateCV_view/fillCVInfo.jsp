@@ -152,8 +152,7 @@
                     <div class="form-section">
                         <label for="birthday">Ngày sinh</label>
                         <input type="date" id="birthday" name="birthday"
-                               min="<%= minDate %>" max="<%= maxDate %>"
-                               value="<%= isEdit && cv != null && cv.getBirthday() != null ? cv.getBirthday() : (candidate != null && candidate.getBirthday() != null ? candidate.getBirthday().toString() : "") %>" required>
+                               required>
                     </div>
                     <div class="form-section">
                         <label for="gender">Giới tính</label>
@@ -209,7 +208,7 @@
                         <div class="section-title">KINH NGHIỆM LÀM VIỆC</div>
                         <label for="numberExp">Số năm kinh nghiệm</label>
                         <input type="number" id="numberExp" name="numberExp" min="0" max="65"
-                               value="<%= isEdit && cv != null ? cv.getNumberExp() : "" %>" required>
+                                required>
                     </div>
 
                     <div class="form-section">
@@ -236,7 +235,7 @@
                         <div class="section-title">MỨC LƯƠNG HIỆN TẠI</div>
                         <label for="currentSalary">Mức lương hiện tại (triệu VND)</label>
                         <input type="number" id="currentSalary" name="currentSalary" min="0"
-                               value="<%= isEdit && cv != null ? cv.getCurrentSalary() : "" %>" required>
+                                required>
                     </div>
 
                     <button type="submit" class="submit-btn"><%= isEdit ? "Lưu thay đổi" : "Lưu CV" %></button>

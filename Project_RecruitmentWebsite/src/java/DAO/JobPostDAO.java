@@ -168,7 +168,9 @@ public class JobPostDAO extends DBContext {
 
     public List<JobPost> getJobPostByPage(int offset, int recordsPerPage) {
         List<JobPost> list = new ArrayList<>();
-        String sql = "SELECT * FROM JobPost ORDER BY JobPost_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String sql = "SELECT JobPost.*, Employer.imgLogo as img"
+                + " FROM JobPost join Employer on JobPost.Employer_ID = Employer.Employer_ID"
+                + " ORDER BY JobPost_ID  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, offset);
             ps.setInt(2, recordsPerPage);
@@ -189,6 +191,7 @@ public class JobPostDAO extends DBContext {
                 job.setDayCre(rs.getDate("DayCreate"));
                 job.setEmployer_ID(rs.getInt("Employer_ID"));
                 job.setCategory(rs.getString("Category"));
+                job.setImgLogo(rs.getString("img"));
                 list.add(job);
             }
         } catch (SQLException e) {
