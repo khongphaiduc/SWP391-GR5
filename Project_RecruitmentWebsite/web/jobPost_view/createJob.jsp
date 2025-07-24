@@ -279,7 +279,7 @@
                                     boolean selected = loc.equals(location); %>
                             <option value="<%= loc %>" <%= selected ? "selected" : "" %>><%= loc %></option>
                             <%  }
-            } %>
+                                } %>
                         </select>
                     </div>
 

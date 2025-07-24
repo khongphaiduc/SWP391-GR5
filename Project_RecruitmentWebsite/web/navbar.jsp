@@ -63,13 +63,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
-            <a href="index.jsp" class="nav-item nav-link active">Home</a>
-            <a href="about.jsp" class="nav-item nav-link" target="_blank" title="...">About</a>
+            <a href="index.jsp" class="nav-item nav-link active">TRANG CHỦ</a>
+            <a href="about.jsp" class="nav-item nav-link" target="_blank" title="...">CHI TIẾT</a>
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">VIỆC LÀM</a>
                 <div class="dropdown-menu rounded-0 m-0">
-                    <a href="getListJobPost" class="dropdown-item">Job List</a>
-                    <a href="job-detail.jsp" class="dropdown-item">Job Detail</a>
+                    <a href="searchListJobPost" class="dropdown-item">Danh sách việc làm</a>
                 </div>
             </div>
 

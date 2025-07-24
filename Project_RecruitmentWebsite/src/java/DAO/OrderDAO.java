@@ -202,7 +202,7 @@ public class OrderDAO extends DBContext {
         if (employerId != null) {
             sql += " AND o.Employer_ID = ?";
         }
-
+        sql += " AND (o.Status = 'success' OR o.Status = 'expired')";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int index = 1;
 

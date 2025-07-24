@@ -19,7 +19,7 @@ public class JobPost {
     private String company;
     private int employer_ID;
     private String typeJob;
-    private byte[] imgLogo;
+    private String imgLogo;
     private int saveIdJobPost;
     private Employer employer;
     private int cvCount; // New field
@@ -64,7 +64,7 @@ public class JobPost {
     }
 
     //Contructor của List JobPostSave
-    public JobPost(String title, String company, String location, String description, Date dayCre, int jobPost_ID, byte[] imgLogo, int saveIdJobPost) {
+    public JobPost(String title, String company, String location, String description, Date dayCre, int jobPost_ID, String imgLogo, int saveIdJobPost) {
         this.title = title;
         this.company = company;
         this.location = location;
@@ -75,7 +75,7 @@ public class JobPost {
         this.saveIdJobPost = saveIdJobPost;
     }
 
-    public void setImgLogo(byte[] imgLogo) {
+    public void setImgLogo(String imgLogo) {
         this.imgLogo = imgLogo;
     }
 
@@ -83,7 +83,7 @@ public class JobPost {
         this.saveIdJobPost = saveIdJobPost;
     }
 
-    public byte[] getImgLogo() {
+    public String getImgLogo() {
         return imgLogo;
     }
 

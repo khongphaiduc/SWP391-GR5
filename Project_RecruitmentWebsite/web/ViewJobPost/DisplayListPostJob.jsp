@@ -569,6 +569,7 @@
         <!--    End Action Menu-->
     </head>
     <body>
+        <jsp:include page="/navbar.jsp" />
         <div class="container py-4">
             <!-- Chèn chỗ này -->
             <div class="w-100 d-flex align-items-center justify-content-center" 
@@ -764,7 +765,7 @@
             <c:forEach var="s" items="${ListJobPost}">
                 <div class="col-12">
                     <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
-                        <img src="../img/carousel-1.jpg" alt="ABC Corp Logo" class="company-logo">
+                        <img src="${pageContext.request.contextPath}/img/${s.imgLogo}" alt="ABC Corp Logo" class="company-logo">
                         <div class="flex-grow-1">
                             <a href="${pageContext.request.contextPath}/detailJob?postId=${s.jobPost_ID}" class="job-title">${s.title}</a>
                             <div class="company-name"> <i class="bi bi-building"></i> ${s.compapy}  </div>

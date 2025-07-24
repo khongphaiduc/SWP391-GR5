@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, Models.*" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
     <head>
         <meta charset="UTF-8">
@@ -291,6 +293,7 @@
                         <th>Công ty</th>
                         <th>Địa điểm</th>
                         <th>Mức lương</th>
+                        <th>Ngày đăng</th>
                         <th>Trạng thái</th>
                         <th>Tổng CV</th>
                         <th>Hành động</th>
@@ -305,12 +308,13 @@
                             <a href="<%=request.getContextPath()%>/detailJob?postId=<%= job.getJobPost_ID() %>">
                                 <%= job.getTitle() %>
                             </a>
-                            
+
                         </td>
                         <td><%= job.getPosition() %></td>
                         <td><%= job.getEmployer().getCompanyName() %></td>
                         <td><%= job.getLocation() %></td>
                         <td><%= job.getOffer_Min() %> - <%= job.getOffer_Max() %></td>
+                        <td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(job.getDayCre()) %></td>
                         <td>
                             <span class="job-status-badge <%= job.isVisible() ? "job-status-visible" : "job-status-hidden" %>">
                                 <%= job.isVisible() ? "Hiển thị" : "Ẩn" %>
@@ -336,10 +340,10 @@
                                 <form method="get" action="view-applied-cvs">
                                     <input type="hidden" name="jobPostId" value="<%= job.getJobPost_ID() %>" />
                                     <button type="submit" class="job-btn job-btn-edit">
-                                          Chi tiết các CV 
+                                        Chi tiết các CV 
                                     </button>
                                 </form>
-                                
+
                             </div>
                         </td>
                     </tr>

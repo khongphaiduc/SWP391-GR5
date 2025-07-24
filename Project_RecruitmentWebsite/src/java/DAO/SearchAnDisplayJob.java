@@ -60,9 +60,7 @@ public class SearchAnDisplayJob extends DBContext {
 
         return null;
     }
-
-    // đã test
-    public List<JobPost> BuildTest(String salary, String location, String category, String number, String typeJob, String companyName) {
+ public List<JobPost> BuildTest(String salary, String location, String category, String number, String typeJob, String companyName) {
     
         if (salary == null) {
             salary = "0";
@@ -96,7 +94,7 @@ public class SearchAnDisplayJob extends DBContext {
         try {
             String query = "SELECT [JobPost_ID], s1.[Employer_ID], [Title], s1.[Description],\n"
                     + "       [Category], [Position], s1.[Location], [Offer_Min], [Offer_Max],\n"
-                    + "       [Number_exp], [Visible], [TypeJob], [DayCreate], s2.Company_Name\n"
+                    + "       [Number_exp], [Visible], [TypeJob], [DayCreate], s2.Company_Name, s2.imgLogo\n"
                     + "FROM [dbo].[JobPost] s1\n"
                     + "JOIN [dbo].[Employer] s2 ON s1.Employer_ID = s2.Employer_ID\n"
                     + "WHERE (s1.Offer_Min >= ?) AND (s1.Offer_Max <= ?)\n"
@@ -104,7 +102,8 @@ public class SearchAnDisplayJob extends DBContext {
                     + "  AND (? IS NULL OR s1.Category like ?)\n"
                     + "  AND (? IS NULL OR s1.Number_exp like ?)\n"
                     + "  AND (? IS NULL OR s1.TypeJob like ?) \n"
-                    + "  AND (? IS NULL OR Title like ?)";
+                    + "  AND (? IS NULL OR Title like ?)"
+                    + "Order by DayCreate desc";
             
             PreparedStatement push = connection.prepareStatement(query);
             push.setString(1, min);
@@ -127,7 +126,7 @@ public class SearchAnDisplayJob extends DBContext {
             ResultSet rs = push.executeQuery();
 
             while (rs.next()) {
-                list.add(new JobPost(
+                JobPost jb = new JobPost(
                         rs.getInt("JobPost_ID"),
                         rs.getString("Title"),
                         rs.getString("Description"),
@@ -140,7 +139,9 @@ public class SearchAnDisplayJob extends DBContext {
                         rs.getBoolean("Visible"),
                         rs.getString("TypeJob"),
                         rs.getDate("DayCreate"),
-                        rs.getString("Company_Name")));
+                        rs.getString("Company_Name"));
+                jb.setImgLogo(rs.getString("imgLogo"));
+                list.add(jb);
             }
             return list;
 
@@ -150,6 +151,8 @@ public class SearchAnDisplayJob extends DBContext {
 
         return new ArrayList<>();  // Trả list rỗng 
     }
+    
+    
 
     public static void main(String[] args) {
         SearchAnDisplayJob o = new SearchAnDisplayJob();

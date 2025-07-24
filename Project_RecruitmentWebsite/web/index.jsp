@@ -179,7 +179,7 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Việc Làm</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="searchListJobPost" class="dropdown-item">Danh Sác Việc Làm</a>
+                                <a href="searchListJobPost" class="dropdown-item">Danh Sách Việc Làm</a>
                           
                             </div>
                         </div>
