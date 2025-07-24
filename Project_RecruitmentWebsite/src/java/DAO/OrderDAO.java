@@ -140,12 +140,10 @@ public class OrderDAO extends DBContext {
     }
 
     public void updateExpiredOrdersBasedOnDuration() {
-        String sql = "UPDATE Orders SET Status = 'expired' "
-                + "WHERE Status = 'success' AND EXISTS ("
-                + "  SELECT 1 FROM Service "
-                + "  WHERE Service.Service_ID = Orders.Service_ID "
-                + "  AND DATEADD(DAY, Orders.Duration, Orders.Date) <= GETDATE()"
-                + ")";
+        String sql = "UPDATE Orders "
+                + "SET Status = 'expired' "
+                + "WHERE Status = 'success' "
+                + "AND DATEADD(DAY, Duration, Date) <= GETDATE()";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int rows = ps.executeUpdate();
             System.out.println("Updated " + rows + " expired orders based on duration.");

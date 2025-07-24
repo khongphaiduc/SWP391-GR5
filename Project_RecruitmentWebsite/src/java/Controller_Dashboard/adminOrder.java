@@ -4,6 +4,7 @@
  */
 package Controller_Dashboard;
 
+import DAO.EmployerDAO;
 import DAO.OrderDAO;
 import DAO.ServiceDAO;
 import Models.Order;
@@ -76,6 +77,8 @@ public class adminOrder extends HttpServlet {
         }
 
         String idempoyer = request.getParameter("idemployer");
+        request.setAttribute("idemployer", idempoyer);
+        EmployerDAO employerDAO = new EmployerDAO();
 
         int id = 0;
         if (idempoyer != null) {
@@ -117,7 +120,7 @@ public class adminOrder extends HttpServlet {
         ServiceDAO serviceDAO = new ServiceDAO();
         List<Service> services = serviceDAO.getAllService();
         request.setAttribute("services", services);
-        request.setAttribute("CompanyName", orders.get(0).getEmployer().getCompanyName());
+        request.setAttribute("CompanyName", employerDAO.getEmployerById(id).getCompanyName());
         request.getRequestDispatcher("Admin_view/adminOrder.jsp").forward(request, response);
     }
 
