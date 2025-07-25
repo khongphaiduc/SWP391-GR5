@@ -42,7 +42,8 @@ public class OrderDAO extends DBContext {
                 + "s.Service_Name, o.Duration "
                 + "FROM Orders o "
                 + "JOIN Service s ON o.Service_ID = s.Service_ID "
-                + "WHERE o.Employer_ID = ?";
+                + "WHERE o.Employer_ID = ?"
+                + " Order by o.Date DESC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, employerId);
@@ -274,6 +275,7 @@ public class OrderDAO extends DBContext {
             sql += " AND o.Service_ID = ?";
         }
 
+        sql+= " Order by o.Date DESC";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int index = 1;
             ps.setInt(index++, employerId);

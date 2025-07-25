@@ -94,8 +94,8 @@ public class UpdateServiceServlet extends HttpServlet {
             request.setAttribute("message", success ? "Cập nhật thành công!" : "Cập nhật thất bại!");
             request.setAttribute("messageType", success ? "success" : "error");
 
-            request.getRequestDispatcher("/page_service/updateService.jsp").forward(request, response);
-
+            response.sendRedirect(request.getContextPath() + "/adminService");
+            
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("message", "Lỗi khi cập nhật: " + e.getMessage());

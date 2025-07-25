@@ -7,10 +7,12 @@
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Job/manageCreatedJobServlet.java</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/WebSocket_Chat_User/ChatWithUser.jsp</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/OrderDAO.java</file>
+            <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/notificationServlet.java</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/adminOrder.java</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Log/RegisterWithGoogle.java</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/log/login.jsp</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Action_Menu/DisplayListJobPostSaveOfCandidate.java</file>
+            <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_CV/manageCreatedCVServlet.java</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/applied-cv-list.jsp</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/RegisterEmployerUser.java</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_CV/UpdateStepCVServlet.java</file>
@@ -35,6 +37,9 @@
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/potential-cvs.jsp</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/navbar.jsp</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Order/OrderHistoryServlet.java</file>
+            <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/ServiceDAO.java</file>
+            <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/page_service/updateService.jsp</file>
+            <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/page_service/addService.jsp</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/JobPostDAO.java</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Dashboard/adminService.java</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Job/ViewAppliedCVsServlet.java</file>
@@ -42,6 +47,7 @@
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/log/EmployerInfo.jsp</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_CV/SavePotentialCVsServlet.java</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/ViewActionMenu/DisplayListJobPostSaveByCandidate.jsp</file>
+            <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/MyService/Paging.java</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Controller_Job/createJobServlet.java</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/Admin_view/adminPromotion.jsp</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/StatictisDAO.java</file>
@@ -58,6 +64,7 @@
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/JobPost.java</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/web/jobPost_view/manageCreatedJob.jsp</file>
             <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/DAO/SearchAnDisplayJob.java</file>
+            <file>file:/D:/New%20folder%20(2)/SWP391-GR5/Project_RecruitmentWebsite/src/java/Models/Service.java</file>
         </group>
     </open-files>
 </project-private>

@@ -69,10 +69,10 @@
                 <input type="number" min="1" class="form-control" id="duration" name="duration" required>
             </div>
 
-            <div class="mb-3">
+<!--            <div class="mb-3">
                 <label for="promotionId" class="form-label">Mã khuyến mãi (nếu có)</label>
                 <input type="number" min="1" class="form-control" id="promotionId" name="promotionId">
-            </div>
+            </div>-->
 
             <div class="d-flex justify-content-between">
                 <a href="${pageContext.request.contextPath}/adminService" class="btn btn-secondary">Quay lại</a>
