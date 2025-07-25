@@ -358,14 +358,14 @@
                     Đăng Xuất
                 </a>
 
-                     <a href="<%= request.getContextPath() %>/index.jsp" class="sidebar-btn">
-<!--                <button class="sidebar-btn" onclick="navigateToHome()">-->
+                <a href="<%= request.getContextPath() %>/Index" class="sidebar-btn">
+                    <!--                <button class="sidebar-btn" onclick="navigateToHome()">-->
                     <svg class="btn-icon" viewBox="0 0 20 20">
                     <path fill="#666" d="M10 3.293l7 7V18a1 1 0 0 1-1 1h-4v-5H8v5H4a1 1 0 0 1-1-1v-7.707l7-7zm-7.707 8.707a1 1 0 0 1 0-1.414l8-8a1 1 0 0 1 1.414 0l8 8a1 1 0 0 1-1.414 1.414L17 11.414V18a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6.586l-1.293 1.293a1 1 0 0 1-1.414-1.414z"/>
                     </svg>
                     Trang chủ
-<!--                </button>-->
-                     </a>
+                    <!--                </button>-->
+                </a>
             </div>
         </div>
 
@@ -426,6 +426,21 @@
                 </form>
             </div>
         </div>
+        <script>
+            function validateTaxCode(taxCode) {
+                const pattern = /^(?:\d{10}|\d{10}-\d{3})$/;
+                return pattern.test(taxCode);
+            }
+
+            document.getElementById('companyTaxCodeInput').addEventListener('input', function () {
+                const value = this.value.trim();
+                if (!validateTaxCode(value)) {
+                    this.setCustomValidity("Mã số thuế không hợp lệ. Phải gồm 10 số hoặc 10 số + dấu '-' + 3 số.");
+                } else {
+                    this.setCustomValidity("");
+                }
+            });
+        </script>
 
         <script>
             function openEditModal() {

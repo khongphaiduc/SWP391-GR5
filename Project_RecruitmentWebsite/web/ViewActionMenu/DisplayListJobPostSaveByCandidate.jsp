@@ -14,39 +14,10 @@
     </head>
     <body>
 
-        <header class="main-header shadow-sm">
-            <nav class="navbar navbar-expand-lg py-3">
-                <div class="container">
-                    <a class="navbar-brand d-flex align-items-center" href="#">
-                        <span class="brand-icon rounded-circle me-2 d-flex align-items-center justify-content-center">
-                            <i class="bi bi-briefcase-fill"></i>
-                        </span>
-                        <span class="fw-bold brand-title">GenZTimViec</span>
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-                            aria-controls="navbarContent" aria-expanded="false" aria-label="Menu">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarContent">
 
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Project_RecruitmentWebsite/Index"><i class="bi bi-house-door"></i> Trang chủ</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="searchListJobPost"><i class="bi bi-briefcase"></i> Việc làm</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}/log/profile.jsp"><i class="bi bi-person-circle"></i> Tài khoản</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
         <!-- Header End -->
 
+        <%@ include file="navbar.jsp" %>
 
         <div class="container py-5">
 
@@ -58,20 +29,15 @@
                 <!-- Hiện thị list  -->
 
 
-
-
-
             </div>
             <!--                   hiển thị thông tin nếu list rỗng -->
-            
-            
-            
+
             <div id="status" style="display:none">
                 <h3 style="display: flex;justify-content: center ;color: #14b866">Bạn Chưa Lưu JobPost Nào !</h3>
                 <img src="./img/memeEmty.png" width="300" height="700" style="border-radius: 100px"/>              
             </div>
-               
-           
+
+
 
             <jsp:include page="/IconActionMenu.jsp" />
 
@@ -118,7 +84,7 @@
                                         if (indexToRemove !== -1) {
                                             listJobPost.splice(indexToRemove, 1);
                                             renderListPost(); // Gọi lại để cập nhật giao diện
-                                          
+
                                         }
                                     } else {
                                         alert("Xóa thất bại");
@@ -150,7 +116,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="job-logo-wrap me-3">
-                                        <img src="./img/logpmtp.png" alt="MTP" class="job-logo">  
+                    <img src="./img/` + s.imgLogo + `" alt="Logo công ty" class="job-logo">
                                     </div>
                                     <div>
                                         <div class="cv-title">` + s.title + `
@@ -172,7 +138,9 @@
                                     <span class="badge bg-light text-success"><i class="bi bi-fire text-danger"></i> Hot Job</span>
                                 </div>
                                 <div>
-                                    <a href="#" class="btn btn-gradient me-2 btn-sm"><i class="bi bi-eye"></i> Xem chi tiết</a>
+                                <a href="/Project_RecruitmentWebsite/detailJob?postId=` + s.jobPost_ID + `" class="btn btn-gradient me-2 btn-sm">
+                                <i class="bi bi-eye"></i> Xem chi tiết
+                                </a>
                                     <a href="#" data-idsavejobpost="` + s.saveIdJobPost + `" class="btn btn-outline-danger btn-sm userRemove">
                                         <i class="bi bi-bookmark-x"> Xóa</i>
                                     </a>
@@ -183,25 +151,25 @@
                 });
                 areDisplayJob.innerHTML = html;
                 attachDeleteEvents();
-                
+
                 const  thongbao = document.getElementById('status');
-                
-                if(listJobPost.length==0){
-                    thongbao.style.display='block';
-                }else{
-                    thongbao.style.display='none';
+
+                if (listJobPost.length == 0) {
+                    thongbao.style.display = 'block';
+                } else {
+                    thongbao.style.display = 'none';
                 }
-                
+
             }
 
-         
+
             renderListPost();
-            
-            
-          
-            
-            
-            
+
+
+
+
+
+
         </script>
 
 

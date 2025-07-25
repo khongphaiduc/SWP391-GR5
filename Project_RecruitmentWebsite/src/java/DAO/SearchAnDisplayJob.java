@@ -60,9 +60,7 @@ public class SearchAnDisplayJob extends DBContext {
 
         return null;
     }
-
-    // đã test
-    public List<JobPost> BuildTest(String salary, String location, String category, String number, String typeJob, String companyName) {
+ public List<JobPost> BuildTest(String salary, String location, String category, String number, String typeJob, String companyName) {
     
         if (salary == null) {
             salary = "0";
@@ -104,7 +102,9 @@ public class SearchAnDisplayJob extends DBContext {
                     + "  AND (? IS NULL OR s1.Category like ?)\n"
                     + "  AND (? IS NULL OR s1.Number_exp like ?)\n"
                     + "  AND (? IS NULL OR s1.TypeJob like ?) \n"
-                    + "  AND (? IS NULL OR Title like ?)";
+                    + "  AND (? IS NULL OR Title like ?)"
+                    + "  AND(Visible = 1)"
+                    + "Order by DayCreate desc";
             
             PreparedStatement push = connection.prepareStatement(query);
             push.setString(1, min);
@@ -152,6 +152,8 @@ public class SearchAnDisplayJob extends DBContext {
 
         return new ArrayList<>();  // Trả list rỗng 
     }
+    
+    
 
     public static void main(String[] args) {
         SearchAnDisplayJob o = new SearchAnDisplayJob();

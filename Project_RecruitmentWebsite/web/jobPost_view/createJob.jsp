@@ -279,7 +279,7 @@
                                     boolean selected = loc.equals(location); %>
                             <option value="<%= loc %>" <%= selected ? "selected" : "" %>><%= loc %></option>
                             <%  }
-            } %>
+                                } %>
                         </select>
                     </div>
 
@@ -305,7 +305,7 @@
 
                         <label for="visible">Hiển thị tin:</label>
                         <select id="visible" name="visible">
-                            <option value="1" <%= visible ? "selected" : "" %>>Có</option>
+                            <option value="1" <%= visible ? "selected" : "selected" %>>Có</option>
                             <option value="0" <%= !visible ? "selected" : "" %>>Không</option>
                         </select>
 

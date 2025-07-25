@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -66,7 +67,7 @@
 
                 <div class="mb-3">
                     <label for="price" class="form-label">Giá (VNĐ)</label>
-                    <input type="number" step="0.01" min="0" class="form-control" id="price" name="price" value="${service.price}" required>
+                    <input type="number" step="1" min="0" class="form-control" id="price" name="price" value="${service.price}" required>
                 </div>
 
                 <div class="mb-3">
@@ -80,10 +81,10 @@
                     <input type="number" min="1" class="form-control" id="duration" name="duration" value="${service.duration}" required>
                 </div>
 
-                <div class="mb-3">
+<!--                <div class="mb-3">
                     <label for="promotionId" class="form-label">Mã khuyến mãi (nếu có)</label>
                     <input type="number" min="1" class="form-control" id="promotionId" name="promotionId" value="${service.promotionId}">
-                </div>
+                </div>-->
 
                 <div class="d-flex justify-content-between">
                     <a href="${pageContext.request.contextPath}/adminService" class="btn btn-secondary">Quay lại</a>

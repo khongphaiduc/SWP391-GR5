@@ -168,7 +168,7 @@
                                     <td>
                                         <form action="OrderHistory" method="post" onsubmit="return confirm('Bạn có chắc muốn xoá đơn hàng này?')">
                                             <input type="hidden" name="orderId" value="${order.orderId}" />
-                                            <button type="submit" class="delete-button">Xoá</button>
+                                            <button type="submit" class="delete-button">Hủy</button>
                                         </form>
                                     </td>
                                 </tr>

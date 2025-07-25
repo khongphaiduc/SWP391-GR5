@@ -229,67 +229,8 @@
         </style>
     </head>
     <body>
-
-        <!-- Navbar trực tiếp -->
-        <% String role = (String) session.getAttribute("role"); %>
-
-        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-            <a href="${pageContext.request.contextPath}/index.jsp" class="navbar-brand d-flex align-items-center px-4">
-                <h1 class="m-0">GenZTimViec.<span style="color:#00b67a">VN</span></h1>
-            </a>
-            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto px-4 d-flex gap-3">
-                    <a href="${pageContext.request.contextPath}/index.jsp" class="nav-item nav-link active">HOME</a>
-                    <a href="about.jsp" class="nav-item nav-link">ABOUT</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">JOBS</a>
-                        <div class="dropdown-menu">
-                            <a href="job-list.jsp" class="dropdown-item">Job List</a>
-                            <a href="job-detail.jsp" class="dropdown-item">Job Detail</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">PAGES</a>
-                        <div class="dropdown-menu">
-                            <a href="category.jsp" class="dropdown-item">Job Category</a>
-                            <a href="testimonial.jsp" class="dropdown-item">Testimonial</a>
-                            <a href="404.jsp" class="dropdown-item">404</a>
-                        </div>
-                    </div>
-
-                    <% if ("Candidate".equals(role)) { %>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Quản lý CV</a>
-                        <div class="dropdown-menu">
-                            <a href="${pageContext.request.contextPath}/submitCV" class="dropdown-item">Tạo CV</a>
-                            <a href="${pageContext.request.contextPath}/manageCreatedCV" class="dropdown-item">Quản lý CV đã tạo</a>
-                            <a href="${pageContext.request.contextPath}/CandidateApplyList" class="dropdown-item">Đơn tuyển</a>
-                        </div>
-                    </div>
-                    <% } else if ("Employer".equals(role)) { %>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">FOR EMPLOYER</a>
-                        <div class="dropdown-menu">
-                            <a href="${pageContext.request.contextPath}/manageCreatedJob" class="dropdown-item">Quản lý tin tuyển</a>
-                            <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a>
-                            <a href="${pageContext.request.contextPath}/potential-cvs" class="dropdown-item">CV Tiềm Năng</a>
-                            <a href="${pageContext.request.contextPath}/service-for-emp" class="dropdown-item">Dịch Vụ</a>
-                        </div>
-                    </div>
-                    <% } %>
-
-                    <a href="contact.jsp" class="nav-item nav-link">CONTACT</a>
-                </div>
-
-                <a href="${pageContext.request.contextPath}/createJob"
-                   class="btn btn-primary rounded-0 px-lg-5 py-lg-14 d-none d-lg-block btn-navbar">
-                    Đăng tin tuyển dụng <i class="fa fa-arrow-right ms-2"></i>
-                </a>
-            </div>
-        </nav>
+     
+    <jsp:include page="/navbar.jsp" />
 
         <div class="container job-section">
             <h2 class="text-center fw-bold">Gói dịch vụ</h2>
