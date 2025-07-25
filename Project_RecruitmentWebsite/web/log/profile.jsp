@@ -509,7 +509,7 @@
             }
 
             function navigateToHome() {
-                window.location.href = "/Project_RecruitmentWebsite/index.jsp";
+                window.location.href = "/Project_RecruitmentWebsite/Index";
             }
 
             function navigateToJobs() {

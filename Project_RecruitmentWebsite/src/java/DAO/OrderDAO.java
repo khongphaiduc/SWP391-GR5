@@ -172,7 +172,7 @@ public class OrderDAO extends DBContext {
     }
 
     public boolean deleteOrderById(int orderId) throws SQLException {
-        String sql = "DELETE FROM Orders WHERE Order_ID = ?";
+        String sql = "Update Orders Set Status='expired' WHERE Order_ID = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, orderId);
             int rows = ps.executeUpdate();

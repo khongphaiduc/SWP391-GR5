@@ -77,6 +77,7 @@ public class manageCreatedCVServlet extends HttpServlet {
             List<CV> cvList = cvdao.getCVByCandidate(candidateId);
 
             //paging
+            
             String pageParam = request.getParameter("page");
             int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
             // Set pagesize

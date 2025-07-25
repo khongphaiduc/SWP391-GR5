@@ -16,6 +16,7 @@ public class JobPost {
     private boolean visible;
     private String category;
     private Date dayCre;
+    private Date dayExpir;
     private String company;
     private int employer_ID;
     private String typeJob;
@@ -30,6 +31,14 @@ public class JobPost {
 
     public void setCvCount(int cvCount) {
         this.cvCount = cvCount;
+    }
+
+    public Date getDayExpir() {
+        return dayExpir;
+    }
+
+    public void setDayExpir(Date dayExpir) {
+        this.dayExpir = dayExpir;
     }
     
     

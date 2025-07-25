@@ -4,6 +4,7 @@
  */
 package MyService;
 
+import DAO.JobPostDAO;
 import DAO.OrderDAO;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -27,10 +28,13 @@ public class OrderStatusScheduler implements ServletContextListener {
             try {
                 OrderDAO dao = new OrderDAO();
                 dao.updateExpiredOrdersBasedOnDuration();
+                
+                JobPostDAO jobPostDAO = new JobPostDAO();
+                jobPostDAO.updateExpiredJobPostBasedOnDuration();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, 0, 1, TimeUnit.HOURS); 
+        }, 0, 1, TimeUnit.DAYS); 
     }
 
     @Override

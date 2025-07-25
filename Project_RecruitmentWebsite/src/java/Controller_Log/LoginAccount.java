@@ -102,7 +102,7 @@ public class LoginAccount extends HttpServlet {
                     session.setAttribute("username", nameAccount);
                     session.setAttribute("role", "Admin");
 
-                    response.sendRedirect("list"); // sua tu index.jsp chay thang sang ListServlet(se chay den admin dashboard) voi url /list
+                    response.sendRedirect("StatictisData"); 
 
                 } else {
                     status = "Tài Khoản hoặc Mật khẩu của bạn không chính xác";

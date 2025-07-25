@@ -242,9 +242,9 @@
                         <c:if test="${not empty error}">
                             <div class="alert alert-danger">${error}</div>
                         </c:if>
-
+                            <br>
                         <div class="results-info">
-                            <span>Số lượng: <strong>${fn:length(appliedCVs)}</strong> CV</span>
+<!--                            <span>Số lượng: <strong>${fn:length(appliedCVs)}</strong> CV</span>-->
                             <div class="view-options">
                                 <button class="btn btn-outline-secondary active" onclick="showView('grid')">Grid</button>
                                 <button class="btn btn-outline-secondary" onclick="showView('list')">List</button>
@@ -261,7 +261,7 @@
                                         <div class="col-md-4 col-sm-6 mb-4">
                                             <div class="cv-card">
                                                 <img src="${pageContext.request.contextPath}/img/${cv.fileData}" 
-                                                     onerror="this.src='img/default-avatar.png'">  
+                                                     onerror="this.src='img/Profile1.png'">  
                                                 <h4>${cv.fullName}</h4>
                                                 <p>${cv.email}</p>
                                                 <p>Vị trí: ${cv.position}</p>
@@ -277,12 +277,7 @@
                                                         <button type="submit" class="cv-action-link">Lưu CV tiềm năng</button>
 
                                                     </form>
-                                                    <form action="manageForm" method="get">
-
-                                                        <input type="hidden" name="email" value="${cv.email}"/>
-                                                        <input type="hidden" name="action" value="choose"/>
-                                                        <button type="submit" class="cv-action-link">Gửi form</button>
-                                                    </form>
+                                                    
 
                                                 </div>
                                             </div>

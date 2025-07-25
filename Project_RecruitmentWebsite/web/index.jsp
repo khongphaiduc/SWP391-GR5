@@ -166,7 +166,7 @@
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
 
-                <a href="index.jsp" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+                <a href="Index" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
                     <h1 class="m-0 text-primary">GenZTimViec.VN</h1>
                 </a>
                 <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -180,7 +180,7 @@
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Việc Làm</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="searchListJobPost" class="dropdown-item">Danh Sách Việc Làm</a>
-                          
+
                             </div>
                         </div>
                         <!--                        <div class="nav-item dropdown">
@@ -215,6 +215,7 @@
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="${pageContext.request.contextPath}/manageCreatedJob" class="dropdown-item">Quản lý tin tuyển</a> 
                                 <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
+                                <a href="${pageContext.request.contextPath}/potential-cvs" class="dropdown-item">Cv tiềm năng</a> 
                                 <a href="${pageContext.request.contextPath}/service-for-emp" class="dropdown-item">Dịch Vụ</a>
                                 <a href="${pageContext.request.contextPath}/OrderHistory" class="dropdown-item">Lịch sử giao dịch</a>
 
@@ -230,7 +231,7 @@
             <!-- Navbar End -->
             <marquee behavior="scroll" direction="left" scrollamount="5" style="background: white; color: #721c24; padding: 10px; font-weight: bold;">
                 <c:forEach var="n" items="${sessionScope.notifications}">
-                     ${n.content} &nbsp;&nbsp;&nbsp;&nbsp;
+                    ${n.content} &nbsp;&nbsp;&nbsp;&nbsp;
                 </c:forEach>
             </marquee>
 
@@ -371,7 +372,7 @@
                             <div id="tab-1" class="tab-pane fade show p-0 active">
 
                                 <c:forEach var="s" items="${ListHome}">
-                                    
+
                                     <div class="job-item p-4 mb-4">
                                         <div class="row g-4">
                                             <div class="col-sm-12 col-md-8 d-flex align-items-center">
@@ -392,10 +393,10 @@
                                             </div>
                                         </div>
                                     </div> 
-                                    
+
                                 </c:forEach>
-                                
-                             
+
+
                                 <a style="border-radius: 20px" class="btn btn-primary py-3 px-5" href="getListJobPost">Xem Thêm</a>
 
                             </div>

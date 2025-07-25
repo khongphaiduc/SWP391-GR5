@@ -32,7 +32,7 @@
 <%if("Admin".equals(role)){%>
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
 
-    <a href="index.jsp" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+    <a href="Index" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
         <h1 class="m-0 text-primary">GenZTimViec.VN</h1>
     </a>
     <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -40,13 +40,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
-            <a href="list" class="nav-item nav-link active">Trang chủ admin</a>
+            <a href="list" class="nav-item nav-link active">Tạo tài khoản quản lý</a>
             <a href="StatictisData" class="nav-item nav-link" >Thống kê Tổng Quan</a>
-            <a href="TableFinancial" class="nav-item nav-link" >Báo Cáo Dịch Vụ</a>
+            <a href="TableFinancial" class="nav-item nav-link" >Báo Cáo</a>
             <a href="adminService" class="nav-item nav-link" >Dịch vụ</a>
-            <a href="adminPromotion" class="nav-item nav-link">Khuyến mại</a>
+<!--            <a href="adminPromotion" class="nav-item nav-link">Khuyến mại</a>-->
             <a href="notificationServlet" class="nav-item nav-link">Thông báo</a>
-            <a href="DisplayListReport" class="nav-item nav-link">Quản lý report</a>
+            <a href="DisplayListReport" class="nav-item nav-link">Quản lý feedback</a>
 
         </div>
     </div>
@@ -55,7 +55,7 @@
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
 
-    <a href="index.jsp" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+    <a href="Index" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
         <h1 class="m-0 text-primary">GenZTimViec.VN</h1>
     </a>
     <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -90,7 +90,7 @@
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">For Employer</a>
                 <div class="dropdown-menu rounded-0 m-0">
                     <a href="${pageContext.request.contextPath}/manageCreatedJob" class="dropdown-item">Quản lý tin tuyển</a> 
-                    <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> 
+<!--                    <a href="${pageContext.request.contextPath}/view-applied-cvs" class="dropdown-item">Quản lý CV</a> -->
                     <a href="${pageContext.request.contextPath}/potential-cvs" class="dropdown-item">Cv tiềm năng</a> 
                     <a href="${pageContext.request.contextPath}/service-for-emp" class="dropdown-item">Dịch Vụ</a>
                     <a href="${pageContext.request.contextPath}/OrderHistory" class="dropdown-item">Lịch sử giao dịch</a>

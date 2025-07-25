@@ -16,8 +16,7 @@ import java.util.logging.Logger;
 @WebServlet("/view-applied-cvs")
 public class ViewAppliedCVsServlet extends HttpServlet {
 
-    private static final int PAGE_SIZE =10; // Số CV mỗi trang
-
+    private static final int PAGE_SIZE = 10; // Số CV mỗi trang
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -39,8 +38,6 @@ public class ViewAppliedCVsServlet extends HttpServlet {
         int employerId = employer.getEmployerId();
         //int employerId = 1;
         session.setAttribute("employerId", employerId);
-        
-        
 
         // Xử lý phân trang
         int page;
@@ -55,19 +52,24 @@ public class ViewAppliedCVsServlet extends HttpServlet {
 
         int offset = (page - 1) * PAGE_SIZE;
 
+        int jobPostId = 0;
+        if (session.getAttribute("jpId") == null) {
+            if (request.getParameter("jobPostId") != null) {
+                jobPostId = Integer.parseInt(request.getParameter("jobPostId"));
+                session.setAttribute("jpId", jobPostId);
+            }
+        }else{
+            jobPostId=(int)session.getAttribute("jpId");
+        }
+
         // Lấy danh sách CV phân trang
         CVDAO cvdao = new CVDAO();
-        List<CV> appliedCVs = cvdao.getAppliedCVsByEmployer(employerId, PAGE_SIZE, offset);
+        List<CV> appliedCVs = cvdao.getCVsByJobPostId(jobPostId, PAGE_SIZE, offset);
 
         // (Tuỳ chọn) Tổng số bản ghi để tính số trang
-        int totalCVs = cvdao.countAppliedCVsByEmployer(employerId); 
+        int totalCVs = cvdao.countAppliedCVsByEmployer(employerId);
         int totalPages = (int) Math.ceil((double) totalCVs / PAGE_SIZE);
 
-        if(request.getParameter("jobPostId")!=null){
-            int jobPostId = Integer.parseInt(request.getParameter("jobPostId"));
-            appliedCVs=cvdao.getCVsByJobPostId(jobPostId, PAGE_SIZE, offset);
-            
-        }
         // Gửi dữ liệu đến JSP
         request.setAttribute("appliedCVs", appliedCVs);
         request.setAttribute("currentPage", page);

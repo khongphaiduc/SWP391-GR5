@@ -733,7 +733,7 @@
                 <!-- Từ khoá -->
                 <form action="searchListJobPost" method="get" class="filter-group flex-grow-1 d-flex align-items-end" style="gap:10px;">
                     <div style="flex:2;">
-                        <label for="keyword" class="form-label"> <i class="bi bi-search"></i> Tìm Theo Tên Công Ty</label>
+                        <label for="keyword" class="form-label"> <i class="bi bi-search"></i> Tìm Theo Tên Tin Tuyển</label>
                         <input type="text" class="form-control" id="keyword" name="searchKey" value="${keySearch}" placeholder="Nhập từ khoá và Enter">
                     </div>
                     <input type="hidden" name="location" value="${sessionScope.location}" />
@@ -765,7 +765,7 @@
             <c:forEach var="s" items="${ListJobPost}">
                 <div class="col-12">
                     <div class="job-card d-flex align-items-start flex-wrap flex-md-nowrap">
-                        <img src="${pageContext.request.contextPath}/img/${s.imgLogo}" alt="ABC Corp Logo" class="company-logo">
+                        <img src="${pageContext.request.contextPath}/img/${s.imgLogo}"  onerror="this.src='img/logistics-icon-png-4.png'" class="company-logo">
                         <div class="flex-grow-1">
                             <a href="${pageContext.request.contextPath}/detailJob?postId=${s.jobPost_ID}" class="job-title">${s.title}</a>
                             <div class="company-name"> <i class="bi bi-building"></i> ${s.compapy}  </div>

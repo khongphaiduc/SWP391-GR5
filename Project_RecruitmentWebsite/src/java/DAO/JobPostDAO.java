@@ -43,10 +43,26 @@ public class JobPostDAO extends DBContext {
         return jobPosts;
     }
 
+    public int getLatestDurationByEmployer(int employerId) {
+        String sql = "SELECT TOP 1 Duration FROM Orders "
+                + "WHERE Employer_ID = ? AND Status = 'success' "
+                + "ORDER BY Date DESC";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, employerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Duration");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 30;
+    }
+
     public boolean addJobPost(JobPost job) {
         String sql = "INSERT INTO JobPost (Employer_ID, Title, Description, Category, Position, Location, "
-                + "Offer_Min, Offer_Max, Number_exp, Visible, TypeJob) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "Offer_Min, Offer_Max, Number_exp, Visible, TypeJob, DayExpir) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, job.getEmployer_ID());
@@ -61,12 +77,15 @@ public class JobPostDAO extends DBContext {
             stmt.setBoolean(10, job.isVisible());
             stmt.setString(11, job.getTypeJob());
 
+            int duration = getLatestDurationByEmployer(job.getEmployer_ID());
+            Timestamp dayExpir = new Timestamp(System.currentTimeMillis() + (long) duration * 24 * 60 * 60 * 1000);
+            stmt.setTimestamp(12, dayExpir);
+
             int rows = stmt.executeUpdate();
             return rows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
@@ -319,7 +338,7 @@ public class JobPostDAO extends DBContext {
                 emp.setUrlWebsite(rs.getString("URL_Website"));
                 emp.setPhoneNumber(rs.getString("PhoneNumber"));
 
-                 emp.setImgLogo(rs.getString("imgLogo"));
+                emp.setImgLogo(rs.getString("imgLogo"));
 
                 job.setEmployer(emp);
                 return job;
@@ -335,9 +354,10 @@ public class JobPostDAO extends DBContext {
         List<JobPost> jobList = new ArrayList<>();
 
         String sql = "SELECT jp.*, e.Company_Name, e.email, e.URL_Website,  e.imgLogo \n"
-                + "                FROM JobPost jp \n"
-                + "                JOIN Employer e ON jp.employer_id = e.employer_id \n"
-                + "                WHERE jp.employer_id = ?";
+                + "FROM JobPost jp \n"
+                + "JOIN Employer e ON jp.employer_id = e.employer_id \n"
+                + "WHERE jp.employer_id = ?"
+                + " Order by jp.DayCreate DESC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -359,13 +379,14 @@ public class JobPostDAO extends DBContext {
                     job.setVisible(rs.getBoolean("Visible"));
                     job.setTypeJob(rs.getString("TypeJob"));
                     job.setDayCre(rs.getDate("DayCreate"));
+                    job.setDayExpir(rs.getDate("DayExpir"));
 
                     Employer employer = new Employer();
                     employer.setEmployerId(employerId);
                     employer.setCompanyName(rs.getString("Company_Name"));
                     employer.setEmail(rs.getString("email"));
                     employer.setUrlWebsite(rs.getString("URL_Website"));
-                     employer.setImgLogo(rs.getString("imgLogo"));
+                    employer.setImgLogo(rs.getString("imgLogo"));
 
                     job.setEmployer(employer);
                     jobList.add(job);
@@ -377,6 +398,18 @@ public class JobPostDAO extends DBContext {
         }
 
         return jobList;
+    }
+    public void updateExpiredJobPostBasedOnDuration() {
+        String sql = "UPDATE JobPost "
+                + "SET Visible = 0 "
+                + "WHERE  "
+                + "DayExpir <= GETDATE()";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int rows = ps.executeUpdate();
+            System.out.println("Updated " + rows + " expired jobpost based on duration.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

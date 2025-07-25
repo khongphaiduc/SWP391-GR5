@@ -103,6 +103,7 @@ public class SearchAnDisplayJob extends DBContext {
                     + "  AND (? IS NULL OR s1.Number_exp like ?)\n"
                     + "  AND (? IS NULL OR s1.TypeJob like ?) \n"
                     + "  AND (? IS NULL OR Title like ?)"
+                    + "  AND(Visible = 1)"
                     + "Order by DayCreate desc";
             
             PreparedStatement push = connection.prepareStatement(query);
