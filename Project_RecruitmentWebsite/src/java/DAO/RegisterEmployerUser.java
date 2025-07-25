@@ -102,7 +102,7 @@ public class RegisterEmployerUser extends DBContext {
             MyEmail mymail = new MyEmail();
 
             // gửi mail cho client thông báo là thành công
-            mymail.sendEmail(mail, "Đăng Ký Tài Khoản  Thành Công ", " Chào mừng bạn đến với GenZTimViec.Vn ");
+            mymail.sendEmail(mail, "Register Account Successfully ", " Welcome to GenZTimViec.Vn ");
             return row != 0;
         } catch (SQLException s) {
             System.out.println("Lỗi SQL: " + s.getMessage());

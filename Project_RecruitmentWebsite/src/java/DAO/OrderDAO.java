@@ -42,7 +42,8 @@ public class OrderDAO extends DBContext {
                 + "s.Service_Name, o.Duration "
                 + "FROM Orders o "
                 + "JOIN Service s ON o.Service_ID = s.Service_ID "
-                + "WHERE o.Employer_ID = ?";
+                + "WHERE o.Employer_ID = ?"
+                + " Order by o.Date DESC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, employerId);
@@ -172,7 +173,7 @@ public class OrderDAO extends DBContext {
     }
 
     public boolean deleteOrderById(int orderId) throws SQLException {
-        String sql = "DELETE FROM Orders WHERE Order_ID = ?";
+        String sql = "Update Orders Set Status='expired' WHERE Order_ID = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, orderId);
             int rows = ps.executeUpdate();
@@ -202,7 +203,7 @@ public class OrderDAO extends DBContext {
         if (employerId != null) {
             sql += " AND o.Employer_ID = ?";
         }
-
+        sql += " AND (o.Status = 'success' OR o.Status = 'expired')";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int index = 1;
 
@@ -274,6 +275,7 @@ public class OrderDAO extends DBContext {
             sql += " AND o.Service_ID = ?";
         }
 
+        sql+= " Order by o.Date DESC";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int index = 1;
             ps.setInt(index++, employerId);

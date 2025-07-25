@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 @WebServlet(name = "LogWithGoogle", urlPatterns = {"/LogWithGoogle"})
 public class LogWithGoogle extends HttpServlet {
@@ -57,12 +58,18 @@ public class LogWithGoogle extends HttpServlet {
                 session.setAttribute("username", candidate.getNamAcountByEmailofCandidate(infoUser.getEmail()));  // lấy tên đang nhập của mail
                 session.setAttribute("idUser", candidate.getIDbyAccountNameCandidate(candidate.getNamAcountByEmailofCandidate(infoUser.getEmail())));
                 session.setAttribute("infoUser", infoUser);
+                NotificationDAO ndao = new NotificationDAO();
+                List<Notification> notiList = ndao.getNotificationsForRole("Candidate");
+                session.setAttribute("notifications", notiList);
                 response.sendRedirect("Index");
             } else if (employer.isEmaiEmployerUser(infoUser.getEmail())) {
                 session.setAttribute("role", "Employer");
                 session.setAttribute("username", employer.getNamAcountByEmailofEmployer(infoUser.getEmail()));
                 session.setAttribute("idUser", candidate.getIDbyAccountNameCandidate(employer.getNamAcountByEmailofEmployer(infoUser.getEmail())));
                 session.setAttribute("infoUser", infoUser);
+                NotificationDAO ndao = new NotificationDAO();
+                List<Notification> notiList = ndao.getNotificationsForRole("Employer");
+                session.setAttribute("notifications", notiList);
                 response.sendRedirect("Index");
             } else {
                 session.setAttribute("infoUser", infoUser);    // lưu thằng vừa đăng  bằng gg vào session 

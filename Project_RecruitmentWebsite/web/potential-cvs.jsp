@@ -240,7 +240,7 @@
                                         <div class="col-md-4 col-sm-6 mb-4">
                                             <div class="cv-card">
                                                 <img src="${pageContext.request.contextPath}/img/${cv.fileData}" 
-                                                      onerror="this.src='img/default-avatar.png'">
+                                                      onerror="this.src='img/Profile1.png'">
                                                 <h4>${cv.fullName}</h4>
                                                 <p>${cv.email}</p>
                                                 <p>Vị trí: ${cv.position}</p>

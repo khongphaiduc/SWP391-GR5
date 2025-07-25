@@ -37,13 +37,13 @@ public class ServiceDAO extends DBContext {
                 }
                 service.setDuration(rs.getInt("Duration"));
 
-                int promoId = rs.getInt("Promotion_ID");
-                // Nếu Promotion_ID là NULL, getInt trả về 0. Phải kiểm tra isNull
-                if (rs.wasNull()) {
-                    service.setPromotionId(null);
-                } else {
-                    service.setPromotionId(promoId);
-                }
+//                int promoId = rs.getInt("Promotion_ID");
+//                // Nếu Promotion_ID là NULL, getInt trả về 0. Phải kiểm tra isNull
+//                if (rs.wasNull()) {
+//                    service.setPromotionId(null);
+//                } else {
+//                    service.setPromotionId(promoId);
+//                }
 
                 service.setIsVisible(rs.getBoolean("Is_Visible"));
                 list.add(service);
@@ -79,12 +79,12 @@ public class ServiceDAO extends DBContext {
 
                 service.setDuration(rs.getInt("Duration"));
 
-                int promoId = rs.getInt("Promotion_ID");
-                if (rs.wasNull()) {
-                    service.setPromotionId(null);
-                } else {
-                    service.setPromotionId(promoId);
-                }
+//                int promoId = rs.getInt("Promotion_ID");
+//                if (rs.wasNull()) {
+//                    service.setPromotionId(null);
+//                } else {
+//                    service.setPromotionId(promoId);
+//                }
 
                 //  Vì chỉ lấy Is_Visible = 1 nên mặc định set true
                 service.setIsVisible(true);
@@ -99,7 +99,7 @@ public class ServiceDAO extends DBContext {
     }
 
     public boolean insertService(Service service) {
-        String sql = "INSERT INTO Service (Service_Name, Price, Description, Duration, Promotion_ID) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Service (Service_Name, Price, Description, Duration) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             // Nếu descriptionList có giá trị, gộp lại thành 1 chuỗi mô tả duy nhất (cách nhau bằng ;)
             if (service.getDescription() == null && service.getDescriptionList() != null) {
@@ -111,11 +111,11 @@ public class ServiceDAO extends DBContext {
             ps.setString(3, service.getDescription());
             ps.setInt(4, service.getDuration());
 
-            if (service.getPromotionId() != null) {
-                ps.setInt(5, service.getPromotionId());
-            } else {
-                ps.setNull(5, java.sql.Types.INTEGER);
-            }
+//            if (service.getPromotionId() != null) {
+//                ps.setInt(5, service.getPromotionId());
+//            } else {
+//                ps.setNull(5, java.sql.Types.INTEGER);
+//            }
 
             int result = ps.executeUpdate();
             return result > 0;
@@ -133,7 +133,7 @@ public class ServiceDAO extends DBContext {
      * @return true nếu cập nhật thành công, false nếu thất bại
      */
     public boolean updateService(Service service) {
-        String sql = "UPDATE Service SET Service_Name = ?, Price = ?, Description = ?, Duration = ?, Promotion_ID = ? WHERE Service_ID = ?";
+        String sql = "UPDATE Service SET Service_Name = ?, Price = ?, Description = ?, Duration = ? WHERE Service_ID = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             // Nếu descriptionList có giá trị, gộp lại thành 1 chuỗi mô tả duy nhất (cách nhau bằng ;)
             if (service.getDescription() == null && service.getDescriptionList() != null) {
@@ -144,13 +144,13 @@ public class ServiceDAO extends DBContext {
             ps.setString(3, service.getDescription());
             ps.setInt(4, service.getDuration());
 
-            if (service.getPromotionId() != null) {
-                ps.setInt(5, service.getPromotionId());
-            } else {
-                ps.setNull(5, java.sql.Types.INTEGER);
-            }
+//            if (service.getPromotionId() != null) {
+//                ps.setInt(5, service.getPromotionId());
+//            } else {
+//                ps.setNull(5, java.sql.Types.INTEGER);
+//            }
 
-            ps.setInt(6, service.getServiceId());
+            ps.setInt(5, service.getServiceId());
 
             int updated = ps.executeUpdate();
             return updated > 0;
@@ -203,12 +203,12 @@ public class ServiceDAO extends DBContext {
                 service.setDescription(rs.getString("Description"));
                 service.setDuration(rs.getInt("Duration"));
 
-                int promoId = rs.getInt("Promotion_ID");
-                if (rs.wasNull()) {
-                    service.setPromotionId(null);
-                } else {
-                    service.setPromotionId(promoId);
-                }
+//                int promoId = rs.getInt("Promotion_ID");
+//                if (rs.wasNull()) {
+//                    service.setPromotionId(null);
+//                } else {
+//                    service.setPromotionId(promoId);
+//                }
 
                 services.add(service);
             }
@@ -233,8 +233,8 @@ public class ServiceDAO extends DBContext {
                 s.setDescription(rs.getString("Description"));
                 s.setDuration(rs.getInt("Duration"));
 
-                int promoId = rs.getInt("Promotion_ID");
-                s.setPromotionId(rs.wasNull() ? null : promoId);
+//                int promoId = rs.getInt("Promotion_ID");
+//                s.setPromotionId(rs.wasNull() ? null : promoId);
 
                 return s;
             }
@@ -252,21 +252,22 @@ public class ServiceDAO extends DBContext {
      * @return true nếu đã tồn tại, false nếu chưa
      */
     public boolean isServiceExists(Service service) {
-        String sql = "SELECT COUNT(*) FROM Service WHERE Service_Name = ? AND Price = ? AND Description = ? AND Duration = ? AND (Promotion_ID = ? OR (Promotion_ID IS NULL AND ? IS NULL))";
+        String sql = "SELECT COUNT(*) FROM Service WHERE Service_Name = ? AND Price = ? AND Description = ? AND Duration = ? ";
 
+//        AND (Promotion_ID = ? OR (Promotion_ID IS NULL AND ? IS NULL))
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, service.getServiceName());
             ps.setDouble(2, service.getPrice());
             ps.setString(3, service.getDescription());
             ps.setInt(4, service.getDuration());
 
-            if (service.getPromotionId() != null) {
-                ps.setInt(5, service.getPromotionId());
-                ps.setInt(6, service.getPromotionId()); // để so sánh vế IS NULL
-            } else {
-                ps.setNull(5, java.sql.Types.INTEGER);
-                ps.setNull(6, java.sql.Types.INTEGER);
-            }
+//            if (service.getPromotionId() != null) {
+//                ps.setInt(5, service.getPromotionId());
+//                ps.setInt(6, service.getPromotionId()); // để so sánh vế IS NULL
+//            } else {
+//                ps.setNull(5, java.sql.Types.INTEGER);
+//                ps.setNull(6, java.sql.Types.INTEGER);
+//            }
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {

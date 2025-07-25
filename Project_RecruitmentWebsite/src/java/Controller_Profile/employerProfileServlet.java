@@ -3,6 +3,7 @@ package Controller_Profile;
 import DAO.EmployerDAO;
 import Models.Employer;
 import MyService.ImageUtil;
+import MyService.LocationProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.*;
@@ -10,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 @MultipartConfig
 public class employerProfileServlet extends HttpServlet {
@@ -31,6 +33,8 @@ public class employerProfileServlet extends HttpServlet {
             Employer employer = employerDAO.getEmployerByName(username);
 
             if (employer != null) {
+                ArrayList<String> locations = LocationProvider.getLocations();
+                request.setAttribute("locations", locations);
                 request.setAttribute("employer", employer);
                 request.getRequestDispatcher("log/EmployerInfo.jsp").forward(request, response);
             } else {
@@ -94,16 +98,14 @@ public class employerProfileServlet extends HttpServlet {
             if (filePart != null && filePart.getSize() > 0) {
                 String mimeType = filePart.getContentType();
                 if (mimeType != null && mimeType.startsWith("image/") && filePart.getSize() < 5000000) {
-                   
 
                     String buildPath = request.getServletContext().getRealPath("/");
                     File webFolder = new File(buildPath).getParentFile().getParentFile();
                     String uploadPath = webFolder.getAbsolutePath() + "/web/img/employers";
 
-                    Employer oldEmployer = employerDAO.getEmployerByName(username); 
-                    String oldImgPath = oldEmployer.getImgLogo(); 
+                    Employer oldEmployer = employerDAO.getEmployerByName(username);
+                    String oldImgPath = oldEmployer.getImgLogo();
                     ImageUtil.deleteOldImage(uploadPath.replace("/employers", ""), oldImgPath);
-
 
                     response.getWriter().print(uploadPath);
                     String savedRelativePath = ImageUtil.saveImage(filePart, uploadPath, "employers");

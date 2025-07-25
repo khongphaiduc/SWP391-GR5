@@ -206,7 +206,7 @@
                                         <td class="status-${o.status}">${o.status}</td>
                                         <td><fmt:formatDate value="${o.date}" pattern=" dd-MM-yyyy HH:mm:ss "/></td>
                                         <td class="actions">
-                                            <a style="color:red" href="deleteOrder?orderId=${o.orderId}" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa đơn này?')">Xóa</a>
+<!--                                            <a style="color:red" href="deleteOrder?orderId=${o.orderId}" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa đơn này?')">Xóa</a>-->
                                             <a href="downloadOrder?orderId=${o.orderId}" class="delete-btn" target="_blank" >Xem</a>
                                         </td>
                                     </tr>

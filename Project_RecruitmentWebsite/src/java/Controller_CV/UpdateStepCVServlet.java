@@ -57,11 +57,11 @@ public class UpdateStepCVServlet extends HttpServlet {
 
                     if (cv != null && cv.getEmail() != null) {
                         String toEmail = cv.getEmail();
-                        String subject = "Thư mời phỏng vấn từ công ty";
-                        String body = "Chào bạn " + cv.getFullName() + ",\n\n"
-                                + "CV của bạn đã được chọn để mời phỏng vấn.\n"
-                                + "Vui lòng truy cập hệ thống hoặc liên hệ lại để xác nhận thời gian.\n\n"
-                                + "Trân trọng,\n";
+                        String subject = "Invite to interview ";
+                        String body = "Hello " + cv.getFullName() + ",\n\n"
+                                + "Your CV has been accept to be interviewed.\n"
+                                + "Please check on the system for more detail.\n\n"
+                                + "Thank you,\n";
                                 
                         MyEmail.sendEmail(toEmail, subject, body);
                     }
